@@ -1,0 +1,40 @@
+# conformance golden for bubbles/text_area/placeholder: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|Write something
+2|~
+3|~
+4|
+5|
+6|
+styles:
+1:1-1 reverse
+1:2-15 fg=8
+2:1-1 fg=8
+3:1-1 fg=8
+== typed
+alt_screen: off  cursor: hidden  modes: -
+1|x
+2|~
+3|~
+4|
+5|
+6|
+styles:
+1:2-2 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+== placeholder_again
+alt_screen: off  cursor: hidden  modes: -
+1|Write something
+2|~
+3|~
+4|
+5|
+6|
+styles:
+1:1-1 reverse
+1:2-15 fg=8
+2:1-1 fg=8
+3:1-1 fg=8

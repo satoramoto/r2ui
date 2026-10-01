@@ -1,0 +1,839 @@
+{
+  "table.basic": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.to_s": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).to_s",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.empty": {
+    "code": "Lipgloss::Table.new.render",
+    "results": {
+      "*": ""
+    }
+  },
+  "table.empty_to_s": {
+    "code": "Lipgloss::Table.new.to_s",
+    "results": {
+      "*": ""
+    }
+  },
+  "table.headers_only": {
+    "code": "Lipgloss::Table.new.headers([\"A\", \"B\", \"C\"]).render",
+    "results": {
+      "*": "╭─┬─┬─╮\n│A│B│C│\n├─┼─┼─┤\n╰─┴─┴─╯"
+    }
+  },
+  "table.rows_only": {
+    "code": "Lipgloss::Table.new.rows([[\"1\", \"2\"], [\"3\", \"4\"]]).render",
+    "results": {
+      "*": "╭─┬─╮\n│1│2│\n│3│4│\n╰─┴─╯"
+    }
+  },
+  "table.single_cell": {
+    "code": "Lipgloss::Table.new.rows([[\"x\"]]).render",
+    "results": {
+      "*": "╭─╮\n│x│\n╰─╯"
+    }
+  },
+  "table.row_appends": {
+    "code": "Lipgloss::Table.new.headers([\"A\", \"B\"]).row([\"1\", \"2\"]).row([\"3\", \"4\"]).render",
+    "results": {
+      "*": "╭─┬─╮\n│A│B│\n├─┼─┤\n│1│2│\n│3│4│\n╰─┴─╯"
+    }
+  },
+  "table.rows_then_row": {
+    "code": "Lipgloss::Table.new.rows([[\"1\", \"2\"]]).row([\"3\", \"4\"]).render",
+    "results": {
+      "*": "╭─┬─╮\n│1│2│\n│3│4│\n╰─┴─╯"
+    }
+  },
+  "table.rows_twice": {
+    "code": "Lipgloss::Table.new.rows([[\"1\"]]).rows([[\"2\"]]).render",
+    "results": {
+      "*": "╭─╮\n│1│\n│2│\n╰─╯"
+    }
+  },
+  "table.headers_twice": {
+    "code": "Lipgloss::Table.new.headers([\"A\"]).headers([\"B\", \"C\"]).rows([[\"1\", \"2\"]]).render",
+    "results": {
+      "*": "╭─┬─╮\n│B│C│\n├─┼─┤\n│1│2│\n╰─┴─╯"
+    }
+  },
+  "table.ragged_rows": {
+    "code": "Lipgloss::Table.new.headers([\"A\", \"B\", \"C\"]).rows([[\"1\"], [\"2\", \"3\", \"4\"], [\"5\", \"6\"]]).render",
+    "results": {
+      "*": "╭─┬─┬─╮\n│A│B│C│\n├─┼─┼─┤\n│1│ │ │\n│2│3│4│\n│5│6│ │\n╰─┴─┴─╯"
+    }
+  },
+  "table.more_cells_than_headers": {
+    "code": "Lipgloss::Table.new.headers([\"A\"]).rows([[\"1\", \"2\", \"3\"]]).render",
+    "results": {
+      "*": "╭─┬─┬─╮\n│A│ │ │\n├─┼─┼─┤\n│1│2│3│\n╰─┴─┴─╯"
+    }
+  },
+  "table.empty_cells": {
+    "code": "Lipgloss::Table.new.headers([\"\", \"B\"]).rows([[\"\", \"\"], [\"x\", \"\"]]).render",
+    "results": {
+      "*": "╭─┬─╮\n│ │B│\n├─┼─┤\n│ │ │\n│x│ │\n╰─┴─╯"
+    }
+  },
+  "table.empty_row": {
+    "code": "Lipgloss::Table.new.headers([\"A\", \"B\"]).row([]).render",
+    "results": {
+      "*": "╭─┬─╮\n│A│B│\n├─┼─┤\n││   \n╰─┴─╯"
+    }
+  },
+  "table.multiline_cells": {
+    "code": "Lipgloss::Table.new.headers([\"A\", \"B\"]).rows([[\"line1\\nline2\", \"x\"], [\"y\", \"a\\nb\\nc\"]]).render",
+    "results": {
+      "*": "╭─────┬─╮\n│A    │B│\n├─────┼─┤\n│line1│x│\n│line2│ │\n│y    │a│\n│     │b│\n│     │c│\n╰─────┴─╯"
+    }
+  },
+  "table.wide_content": {
+    "code": "Lipgloss::Table.new.headers([\"名前\", \"言語\"]).rows([[\"日本語\", \"😀\"], [\"한글\", \"ok\"]]).render",
+    "results": {
+      "*": "╭──────┬────╮\n│名前  │言語│\n├──────┼────┤\n│日本語│😀  │\n│한글  │ok  │\n╰──────┴────╯"
+    }
+  },
+  "table.ansi_content": {
+    "code": "Lipgloss::Table.new.headers([\"A\"]).rows([[\"\\e[31mred\\e[0m\"], [\"plain\"]]).render",
+    "results": {
+      "*": "╭─────╮\n│A    │\n├─────┤\n│\u001b[31mred\u001b[0m  │\n│plain│\n╰─────╯"
+    }
+  },
+  "table.styled_cells": {
+    "code": "Lipgloss::Table.new.rows([[Lipgloss::Style.new.bold(true).render(\"b\"), \"x\"]]).render",
+    "results": {
+      "true_color": "╭─┬─╮\n│\u001b[1mb\u001b[0m│x│\n╰─┴─╯",
+      "ansi256": "╭─┬─╮\n│\u001b[1mb\u001b[0m│x│\n╰─┴─╯",
+      "ansi": "╭─┬─╮\n│\u001b[1mb\u001b[0m│x│\n╰─┴─╯",
+      "ascii": "╭─┬─╮\n│b│x│\n╰─┴─╯",
+      "true_color_light": "╭─┬─╮\n│\u001b[1mb\u001b[0m│x│\n╰─┴─╯"
+    }
+  },
+  "table.long_rows": {
+    "code": "Lipgloss::Table.new.headers([\"#\", \"Item\"]).rows((1..12).map { |i| [i.to_s, \"item #{i}\"] }).render",
+    "results": {
+      "*": "╭──┬───────╮\n│# │Item   │\n├──┼───────┤\n│1 │item 1 │\n│2 │item 2 │\n│3 │item 3 │\n│4 │item 4 │\n│5 │item 5 │\n│6 │item 6 │\n│7 │item 7 │\n│8 │item 8 │\n│9 │item 9 │\n│10│item 10│\n│11│item 11│\n│12│item 12│\n╰──┴───────╯"
+    }
+  },
+  "table.non_string_cells": {
+    "code": "Lipgloss::Table.new.rows([[1, 2]]).render",
+    "results": {
+      "*": ""
+    }
+  },
+  "table.non_string_headers": {
+    "code": "Lipgloss::Table.new.headers([:a, :b]).rows([[\"1\", \"2\"]]).render",
+    "results": {
+      "*": "╭─┬─╮\n│a│b│\n├─┼─┤\n│1│2│\n╰─┴─╯"
+    }
+  },
+  "table.nil_cell": {
+    "code": "Lipgloss::Table.new.rows([[\"a\", nil]]).render",
+    "results": {
+      "*": "╭─┬╮\n│a││\n╰─┴╯"
+    }
+  },
+  "table.headers_not_array": {
+    "code": "Lipgloss::Table.new.headers(\"A\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Array)"
+      }
+    }
+  },
+  "table.row_not_array": {
+    "code": "Lipgloss::Table.new.row(\"A\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Array)"
+      }
+    }
+  },
+  "table.rows_not_array": {
+    "code": "Lipgloss::Table.new.rows(\"A\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Array)"
+      }
+    }
+  },
+  "table.rows_flat": {
+    "code": "Lipgloss::Table.new.rows([\"a\", \"b\"]).render",
+    "results": {
+      "*": ""
+    }
+  },
+  "table.new_with_args": {
+    "code": "Lipgloss::Table.new(1)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 1, expected 0)"
+      }
+    }
+  },
+  "table.immutable": {
+    "code": "t = Lipgloss::Table.new.headers([\"A\"]); t.row([\"1\"]); t.render",
+    "results": {
+      "*": "╭─╮\n│A│\n├─┤\n│1│\n╰─╯"
+    }
+  },
+  "table.class_of_chain": {
+    "code": "Lipgloss::Table.new.headers([\"A\"]).class.name",
+    "results": {
+      "*": "Lipgloss::Table"
+    }
+  },
+  "table.border_normal": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:normal).render",
+    "results": {
+      "*": "┌─────┬────┐\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n└─────┴────┘"
+    }
+  },
+  "table.border_rounded": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:rounded).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_thick": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:thick).render",
+    "results": {
+      "*": "┏━━━━━┳━━━━┓\n┃Name ┃Lang┃\n┣━━━━━╋━━━━┫\n┃Alice┃Ruby┃\n┃Bob  ┃Go  ┃\n┃Carol┃Rust┃\n┗━━━━━┻━━━━┛"
+    }
+  },
+  "table.border_double": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:double).render",
+    "results": {
+      "*": "╔═════╦════╗\n║Name ║Lang║\n╠═════╬════╣\n║Alice║Ruby║\n║Bob  ║Go  ║\n║Carol║Rust║\n╚═════╩════╝"
+    }
+  },
+  "table.border_hidden": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:hidden).render",
+    "results": {
+      "*": "            \n Name  Lang \n            \n Alice Ruby \n Bob   Go   \n Carol Rust \n            "
+    }
+  },
+  "table.border_block": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:block).render",
+    "results": {
+      "*": "████████████\n█Name █Lang█\n████████████\n█Alice█Ruby█\n█Bob  █Go  █\n█Carol█Rust█\n████████████"
+    }
+  },
+  "table.border_outer_half_block": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:outer_half_block).render",
+    "results": {
+      "*": "▛▀▀▀▀▀▀▀▀▀▜ \n▌Name ▌Lang▐\n▀▀▀▀▀▀▀▀▀   \n▌Alice▌Ruby▐\n▌Bob  ▌Go  ▐\n▌Carol▌Rust▐\n▙▄▄▄▄▄▄▄▄▄▟ "
+    }
+  },
+  "table.border_inner_half_block": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:inner_half_block).render",
+    "results": {
+      "*": "▗▄▄▄▄▄▄▄▄▄▖ \n▐Name ▐Lang▌\n▄▄▄▄▄▄▄▄▄   \n▐Alice▐Ruby▌\n▐Bob  ▐Go  ▌\n▐Carol▐Rust▌\n▝▀▀▀▀▀▀▀▀▀▘ "
+    }
+  },
+  "table.border_ascii": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:ascii).render",
+    "results": {
+      "*": "+-----+----+\n|Name |Lang|\n+-----+----+\n|Alice|Ruby|\n|Bob  |Go  |\n|Carol|Rust|\n+-----+----+"
+    }
+  },
+  "table.border_markdown": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:markdown).render",
+    "results": {
+      "*": "|-----|----|\n|Name |Lang|\n|-----|----|\n|Alice|Ruby|\n|Bob  |Go  |\n|Carol|Rust|\n|-----|----|"
+    }
+  },
+  "table.border_unknown": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:nope).render",
+    "results": {
+      "*": "┌─────┬────┐\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n└─────┴────┘"
+    }
+  },
+  "table.border_string": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(\"double\").render",
+    "results": {
+      "*": "┌─────┬────┐\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n└─────┴────┘"
+    }
+  },
+  "table.border_constant": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(Lipgloss::THICK_BORDER).render",
+    "results": {
+      "*": "┏━━━━━┳━━━━┓\n┃Name ┃Lang┃\n┣━━━━━╋━━━━┫\n┃Alice┃Ruby┃\n┃Bob  ┃Go  ┃\n┃Carol┃Rust┃\n┗━━━━━┻━━━━┛"
+    }
+  },
+  "table.border_top_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_top(false).render",
+    "results": {
+      "*": "│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_top_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_top(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_bottom_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_bottom(false).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│"
+    }
+  },
+  "table.border_bottom_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_bottom(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_left_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_left(false).render",
+    "results": {
+      "*": "─────┬────╮\nName │Lang│\n─────┼────┤\nAlice│Ruby│\nBob  │Go  │\nCarol│Rust│\n─────┴────╯"
+    }
+  },
+  "table.border_left_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_left(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_right_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_right(false).render",
+    "results": {
+      "*": "╭─────┬────\n│Name │Lang\n├─────┼────\n│Alice│Ruby\n│Bob  │Go  \n│Carol│Rust\n╰─────┴────"
+    }
+  },
+  "table.border_right_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_right(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_header_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_header(false).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_header_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_header(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_column_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_column(false).render",
+    "results": {
+      "*": "╭─────────╮\n│Name Lang│\n├─────────┤\n│AliceRuby│\n│Bob  Go  │\n│CarolRust│\n╰─────────╯"
+    }
+  },
+  "table.border_column_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_column(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_row_false": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_row(false).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_row_true": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_row(true).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n├─────┼────┤\n│Bob  │Go  │\n├─────┼────┤\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.border_row_markdown": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:markdown).border_row(true).render",
+    "results": {
+      "*": "|-----|----|\n|Name |Lang|\n|-----|----|\n|Alice|Ruby|\n|-----|----|\n|Bob  |Go  |\n|-----|----|\n|Carol|Rust|\n|-----|----|"
+    }
+  },
+  "table.no_outer": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_top(false).border_bottom(false).border_left(false).border_right(false).render",
+    "results": {
+      "*": "Name │Lang\n─────┼────\nAlice│Ruby\nBob  │Go  \nCarol│Rust"
+    }
+  },
+  "table.no_borders": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_top(false).border_bottom(false).border_left(false).border_right(false).border_header(false).border_column(false).render",
+    "results": {
+      "*": "Name Lang\nAliceRuby\nBob  Go  \nCarolRust"
+    }
+  },
+  "table.markdown_no_outer": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:markdown).border_top(false).border_bottom(false).render",
+    "results": {
+      "*": "|Name |Lang|\n|-----|----|\n|Alice|Ruby|\n|Bob  |Go  |\n|Carol|Rust|"
+    }
+  },
+  "table.border_style": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_style(Lipgloss::Style.new.foreground(\"#ff00ff\")).render",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;255m╭\u001b[0m\u001b[38;2;255;0;255m─────\u001b[0m\u001b[38;2;255;0;255m┬\u001b[0m\u001b[38;2;255;0;255m────\u001b[0m\u001b[38;2;255;0;255m╮\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mName \u001b[38;2;255;0;255m│\u001b[0mLang\u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m├\u001b[0m\u001b[38;2;255;0;255m─────\u001b[0m\u001b[38;2;255;0;255m┼\u001b[0m\u001b[38;2;255;0;255m────\u001b[0m\u001b[38;2;255;0;255m┤\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mAlice\u001b[38;2;255;0;255m│\u001b[0mRuby\u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mBob  \u001b[38;2;255;0;255m│\u001b[0mGo  \u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mCarol\u001b[38;2;255;0;255m│\u001b[0mRust\u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m╰\u001b[0m\u001b[38;2;255;0;255m─────\u001b[0m\u001b[38;2;255;0;255m┴\u001b[0m\u001b[38;2;255;0;255m────\u001b[0m\u001b[38;2;255;0;255m╯\u001b[0m",
+      "ansi256": "\u001b[38;5;201m╭\u001b[0m\u001b[38;5;201m─────\u001b[0m\u001b[38;5;201m┬\u001b[0m\u001b[38;5;201m────\u001b[0m\u001b[38;5;201m╮\u001b[0m\n\u001b[38;5;201m│\u001b[0mName \u001b[38;5;201m│\u001b[0mLang\u001b[38;5;201m│\u001b[0m\n\u001b[38;5;201m├\u001b[0m\u001b[38;5;201m─────\u001b[0m\u001b[38;5;201m┼\u001b[0m\u001b[38;5;201m────\u001b[0m\u001b[38;5;201m┤\u001b[0m\n\u001b[38;5;201m│\u001b[0mAlice\u001b[38;5;201m│\u001b[0mRuby\u001b[38;5;201m│\u001b[0m\n\u001b[38;5;201m│\u001b[0mBob  \u001b[38;5;201m│\u001b[0mGo  \u001b[38;5;201m│\u001b[0m\n\u001b[38;5;201m│\u001b[0mCarol\u001b[38;5;201m│\u001b[0mRust\u001b[38;5;201m│\u001b[0m\n\u001b[38;5;201m╰\u001b[0m\u001b[38;5;201m─────\u001b[0m\u001b[38;5;201m┴\u001b[0m\u001b[38;5;201m────\u001b[0m\u001b[38;5;201m╯\u001b[0m",
+      "ansi": "\u001b[95m╭\u001b[0m\u001b[95m─────\u001b[0m\u001b[95m┬\u001b[0m\u001b[95m────\u001b[0m\u001b[95m╮\u001b[0m\n\u001b[95m│\u001b[0mName \u001b[95m│\u001b[0mLang\u001b[95m│\u001b[0m\n\u001b[95m├\u001b[0m\u001b[95m─────\u001b[0m\u001b[95m┼\u001b[0m\u001b[95m────\u001b[0m\u001b[95m┤\u001b[0m\n\u001b[95m│\u001b[0mAlice\u001b[95m│\u001b[0mRuby\u001b[95m│\u001b[0m\n\u001b[95m│\u001b[0mBob  \u001b[95m│\u001b[0mGo  \u001b[95m│\u001b[0m\n\u001b[95m│\u001b[0mCarol\u001b[95m│\u001b[0mRust\u001b[95m│\u001b[0m\n\u001b[95m╰\u001b[0m\u001b[95m─────\u001b[0m\u001b[95m┴\u001b[0m\u001b[95m────\u001b[0m\u001b[95m╯\u001b[0m",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "\u001b[38;2;255;0;255m╭\u001b[0m\u001b[38;2;255;0;255m─────\u001b[0m\u001b[38;2;255;0;255m┬\u001b[0m\u001b[38;2;255;0;255m────\u001b[0m\u001b[38;2;255;0;255m╮\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mName \u001b[38;2;255;0;255m│\u001b[0mLang\u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m├\u001b[0m\u001b[38;2;255;0;255m─────\u001b[0m\u001b[38;2;255;0;255m┼\u001b[0m\u001b[38;2;255;0;255m────\u001b[0m\u001b[38;2;255;0;255m┤\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mAlice\u001b[38;2;255;0;255m│\u001b[0mRuby\u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mBob  \u001b[38;2;255;0;255m│\u001b[0mGo  \u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m│\u001b[0mCarol\u001b[38;2;255;0;255m│\u001b[0mRust\u001b[38;2;255;0;255m│\u001b[0m\n\u001b[38;2;255;0;255m╰\u001b[0m\u001b[38;2;255;0;255m─────\u001b[0m\u001b[38;2;255;0;255m┴\u001b[0m\u001b[38;2;255;0;255m────\u001b[0m\u001b[38;2;255;0;255m╯\u001b[0m"
+    }
+  },
+  "table.border_style_bg": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border_style(Lipgloss::Style.new.foreground(\"1\").background(\"4\")).render",
+    "results": {
+      "true_color": "\u001b[31;44m╭\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┬\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╮\u001b[0m\n\u001b[31;44m│\u001b[0mName \u001b[31;44m│\u001b[0mLang\u001b[31;44m│\u001b[0m\n\u001b[31;44m├\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┼\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m┤\u001b[0m\n\u001b[31;44m│\u001b[0mAlice\u001b[31;44m│\u001b[0mRuby\u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mBob  \u001b[31;44m│\u001b[0mGo  \u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mCarol\u001b[31;44m│\u001b[0mRust\u001b[31;44m│\u001b[0m\n\u001b[31;44m╰\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┴\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╯\u001b[0m",
+      "ansi256": "\u001b[31;44m╭\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┬\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╮\u001b[0m\n\u001b[31;44m│\u001b[0mName \u001b[31;44m│\u001b[0mLang\u001b[31;44m│\u001b[0m\n\u001b[31;44m├\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┼\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m┤\u001b[0m\n\u001b[31;44m│\u001b[0mAlice\u001b[31;44m│\u001b[0mRuby\u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mBob  \u001b[31;44m│\u001b[0mGo  \u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mCarol\u001b[31;44m│\u001b[0mRust\u001b[31;44m│\u001b[0m\n\u001b[31;44m╰\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┴\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╯\u001b[0m",
+      "ansi": "\u001b[31;44m╭\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┬\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╮\u001b[0m\n\u001b[31;44m│\u001b[0mName \u001b[31;44m│\u001b[0mLang\u001b[31;44m│\u001b[0m\n\u001b[31;44m├\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┼\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m┤\u001b[0m\n\u001b[31;44m│\u001b[0mAlice\u001b[31;44m│\u001b[0mRuby\u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mBob  \u001b[31;44m│\u001b[0mGo  \u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mCarol\u001b[31;44m│\u001b[0mRust\u001b[31;44m│\u001b[0m\n\u001b[31;44m╰\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┴\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╯\u001b[0m",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "\u001b[31;44m╭\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┬\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╮\u001b[0m\n\u001b[31;44m│\u001b[0mName \u001b[31;44m│\u001b[0mLang\u001b[31;44m│\u001b[0m\n\u001b[31;44m├\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┼\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m┤\u001b[0m\n\u001b[31;44m│\u001b[0mAlice\u001b[31;44m│\u001b[0mRuby\u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mBob  \u001b[31;44m│\u001b[0mGo  \u001b[31;44m│\u001b[0m\n\u001b[31;44m│\u001b[0mCarol\u001b[31;44m│\u001b[0mRust\u001b[31;44m│\u001b[0m\n\u001b[31;44m╰\u001b[0m\u001b[31;44m─────\u001b[0m\u001b[31;44m┴\u001b[0m\u001b[31;44m────\u001b[0m\u001b[31;44m╯\u001b[0m"
+    }
+  },
+  "table.border_style_bold": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:double).border_style(Lipgloss::Style.new.bold(true)).render",
+    "results": {
+      "true_color": "\u001b[1m╔\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╦\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╗\u001b[0m\n\u001b[1m║\u001b[0mName \u001b[1m║\u001b[0mLang\u001b[1m║\u001b[0m\n\u001b[1m╠\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╬\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╣\u001b[0m\n\u001b[1m║\u001b[0mAlice\u001b[1m║\u001b[0mRuby\u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mBob  \u001b[1m║\u001b[0mGo  \u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mCarol\u001b[1m║\u001b[0mRust\u001b[1m║\u001b[0m\n\u001b[1m╚\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╩\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╝\u001b[0m",
+      "ansi256": "\u001b[1m╔\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╦\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╗\u001b[0m\n\u001b[1m║\u001b[0mName \u001b[1m║\u001b[0mLang\u001b[1m║\u001b[0m\n\u001b[1m╠\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╬\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╣\u001b[0m\n\u001b[1m║\u001b[0mAlice\u001b[1m║\u001b[0mRuby\u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mBob  \u001b[1m║\u001b[0mGo  \u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mCarol\u001b[1m║\u001b[0mRust\u001b[1m║\u001b[0m\n\u001b[1m╚\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╩\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╝\u001b[0m",
+      "ansi": "\u001b[1m╔\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╦\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╗\u001b[0m\n\u001b[1m║\u001b[0mName \u001b[1m║\u001b[0mLang\u001b[1m║\u001b[0m\n\u001b[1m╠\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╬\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╣\u001b[0m\n\u001b[1m║\u001b[0mAlice\u001b[1m║\u001b[0mRuby\u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mBob  \u001b[1m║\u001b[0mGo  \u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mCarol\u001b[1m║\u001b[0mRust\u001b[1m║\u001b[0m\n\u001b[1m╚\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╩\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╝\u001b[0m",
+      "ascii": "╔═════╦════╗\n║Name ║Lang║\n╠═════╬════╣\n║Alice║Ruby║\n║Bob  ║Go  ║\n║Carol║Rust║\n╚═════╩════╝",
+      "true_color_light": "\u001b[1m╔\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╦\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╗\u001b[0m\n\u001b[1m║\u001b[0mName \u001b[1m║\u001b[0mLang\u001b[1m║\u001b[0m\n\u001b[1m╠\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╬\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╣\u001b[0m\n\u001b[1m║\u001b[0mAlice\u001b[1m║\u001b[0mRuby\u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mBob  \u001b[1m║\u001b[0mGo  \u001b[1m║\u001b[0m\n\u001b[1m║\u001b[0mCarol\u001b[1m║\u001b[0mRust\u001b[1m║\u001b[0m\n\u001b[1m╚\u001b[0m\u001b[1m═════\u001b[0m\u001b[1m╩\u001b[0m\u001b[1m════\u001b[0m\u001b[1m╝\u001b[0m"
+    }
+  },
+  "table.border_style_bad": {
+    "code": "Lipgloss::Table.new.border_style(\"red\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "table.border_row_no_headers": {
+    "code": "Lipgloss::Table.new.rows([[\"a\", \"b\"], [\"c\", \"d\"]]).border_row(true).render",
+    "results": {
+      "*": "╭─┬─╮\n│a│b│\n├─┼─┤\n│c│d│\n╰─┴─╯"
+    }
+  },
+  "table.width_5": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(5).render",
+    "results": {
+      "*": "╭─┬─╮\n│…│…│\n├─┼─┤\n│A│R│\n│l│u│\n│i│b│\n│c│y│\n│e│ │\n│B│G│\n│o│o│\n│b│ │\n│C│R│\n│a│u│\n│r│s│\n│o│t│\n│l│ │\n╰─┴─╯"
+    }
+  },
+  "table.width_10": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(10).render",
+    "results": {
+      "*": "╭─────┬───\n│Name │Lan\n├─────┼───\n│Alice│Rub\n│Bob  │Go \n│Carol│Rus\n╰─────┴───"
+    }
+  },
+  "table.width_20": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(20).render",
+    "results": {
+      "*": "╭─────────┬────────╮\n│Name     │Lang    │\n├─────────┼────────┤\n│Alice    │Ruby    │\n│Bob      │Go      │\n│Carol    │Rust    │\n╰─────────┴────────╯"
+    }
+  },
+  "table.width_30": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(30).render",
+    "results": {
+      "*": "╭──────────────┬─────────────╮\n│Name          │Lang         │\n├──────────────┼─────────────┤\n│Alice         │Ruby         │\n│Bob           │Go           │\n│Carol         │Rust         │\n╰──────────────┴─────────────╯"
+    }
+  },
+  "table.width_40": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(40).render",
+    "results": {
+      "*": "╭───────────────────┬──────────────────╮\n│Name               │Lang              │\n├───────────────────┼──────────────────┤\n│Alice              │Ruby              │\n│Bob                │Go                │\n│Carol              │Rust              │\n╰───────────────────┴──────────────────╯"
+    }
+  },
+  "table.width_zero": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(0).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.width_negative": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(-1).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.width_long_text": {
+    "code": "Lipgloss::Table.new.headers([\"Desc\", \"N\"]).rows([[\"a long description that needs wrapping\", \"1\"]]).width(24).render",
+    "results": {
+      "*": "╭────────────────────┬─╮\n│Desc                │N│\n├────────────────────┼─┤\n│a long description  │1│\n│that needs wrapping │ │\n╰────────────────────┴─╯"
+    }
+  },
+  "table.width_long_text_nowrap": {
+    "code": "Lipgloss::Table.new.headers([\"Desc\", \"N\"]).rows([[\"a long description that needs wrapping\", \"1\"]]).width(24).wrap(false).render",
+    "results": {
+      "*": "╭────────────────────┬─╮\n│Desc                │N│\n├────────────────────┼─┤\n│a long description …│1│\n╰────────────────────┴─╯"
+    }
+  },
+  "table.wrap_true": {
+    "code": "Lipgloss::Table.new.rows([[\"aaa bbb ccc ddd\", \"x\"]]).width(12).wrap(true).render",
+    "results": {
+      "*": "╭────────┬─╮\n│aaa bbb │x│\n│ccc ddd │ │\n╰────────┴─╯"
+    }
+  },
+  "table.wrap_false": {
+    "code": "Lipgloss::Table.new.rows([[\"aaa bbb ccc ddd\", \"x\"]]).width(12).wrap(false).render",
+    "results": {
+      "*": "╭────────┬─╮\n│aaa bbb…│x│\n╰────────┴─╯"
+    }
+  },
+  "table.wrap_wide": {
+    "code": "Lipgloss::Table.new.rows([[\"日本語のテキストです\", \"x\"]]).width(12).render",
+    "results": {
+      "*": "╭────────┬─╮\n│日本語の│x│\n│テキスト│ │\n│です    │ │\n╰────────┴─╯"
+    }
+  },
+  "table.height_1": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(1).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│…    │…   │\n╰─────┴────╯"
+    }
+  },
+  "table.height_3": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(3).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│…    │…   │\n╰─────┴────╯"
+    }
+  },
+  "table.height_4": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(4).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│…    │…   │\n╰─────┴────╯"
+    }
+  },
+  "table.height_5": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(5).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│…    │…   │\n╰─────┴────╯"
+    }
+  },
+  "table.height_6": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(6).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│…    │…   │\n╰─────┴────╯"
+    }
+  },
+  "table.height_8": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(8).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.height_20": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(20).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.height_long": {
+    "code": "Lipgloss::Table.new.headers([\"#\"]).rows((1..10).map { |i| [i.to_s] }).height(7).render",
+    "results": {
+      "*": "╭──╮\n│# │\n├──┤\n│1 │\n│2 │\n│… │\n╰──╯"
+    }
+  },
+  "table.height_negative": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).height(-2).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│…    │…   │\n╰─────┴────╯"
+    }
+  },
+  "table.offset_0": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).offset(0).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.offset_1": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).offset(1).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.offset_2": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).offset(2).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.offset_3": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).offset(3).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n╰─────┴────╯"
+    }
+  },
+  "table.offset_5": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).offset(5).render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n╰─────┴────╯"
+    }
+  },
+  "table.offset_height": {
+    "code": "Lipgloss::Table.new.headers([\"#\"]).rows((1..10).map { |i| [i.to_s] }).offset(3).height(6).render",
+    "results": {
+      "*": "╭──╮\n│# │\n├──┤\n│4 │\n│… │\n╰──╯"
+    }
+  },
+  "table.width_height": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(30).height(6).render",
+    "results": {
+      "*": "╭──────────────┬─────────────╮\n│Name          │Lang         │\n├──────────────┼─────────────┤\n│Alice         │Ruby         │\n│…             │…            │\n╰──────────────┴─────────────╯"
+    }
+  },
+  "table.width_string": {
+    "code": "Lipgloss::Table.new.width(\"10\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of String into Integer"
+      }
+    }
+  },
+  "table.clear_rows": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).clear_rows.render",
+    "results": {
+      "*": "╭────┬────╮\n│Name│Lang│\n├────┼────┤\n╰────┴────╯"
+    }
+  },
+  "table.clear_rows_then_add": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).clear_rows.row([\"Dave\", \"Zig\"]).render",
+    "results": {
+      "*": "╭────┬────╮\n│Name│Lang│\n├────┼────┤\n│Dave│Zig │\n╰────┴────╯"
+    }
+  },
+  "table.clear_rows_empty": {
+    "code": "Lipgloss::Table.new.clear_rows.render",
+    "results": {
+      "*": ""
+    }
+  },
+  "table.style_func_header": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| r == Lipgloss::Table::HEADER_ROW ? Lipgloss::Style.new.bold(true) : nil }.render",
+    "results": {
+      "true_color": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │\u001b[1mLang\u001b[0m│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ansi256": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │\u001b[1mLang\u001b[0m│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ansi": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │\u001b[1mLang\u001b[0m│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │\u001b[1mLang\u001b[0m│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_zebra": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| r.even? ? Lipgloss::Style.new.background(\"#333333\") : Lipgloss::Style.new.background(\"#444444\") }.render",
+    "results": {
+      "true_color": "╭─────┬────╮\n│\u001b[48;2;68;68;68mName\u001b[0m\u001b[48;2;68;68;68m \u001b[0m│\u001b[48;2;68;68;68mLang\u001b[0m│\n├─────┼────┤\n│\u001b[48;2;51;51;51mAlice\u001b[0m│\u001b[48;2;51;51;51mRuby\u001b[0m│\n│\u001b[48;2;68;68;68mBob\u001b[0m\u001b[48;2;68;68;68m  \u001b[0m│\u001b[48;2;68;68;68mGo\u001b[0m\u001b[48;2;68;68;68m  \u001b[0m│\n│\u001b[48;2;51;51;51mCarol\u001b[0m│\u001b[48;2;51;51;51mRust\u001b[0m│\n╰─────┴────╯",
+      "ansi256": "╭─────┬────╮\n│\u001b[48;5;59mName\u001b[0m\u001b[48;5;59m \u001b[0m│\u001b[48;5;59mLang\u001b[0m│\n├─────┼────┤\n│\u001b[48;5;232mAlice\u001b[0m│\u001b[48;5;232mRuby\u001b[0m│\n│\u001b[48;5;59mBob\u001b[0m\u001b[48;5;59m  \u001b[0m│\u001b[48;5;59mGo\u001b[0m\u001b[48;5;59m  \u001b[0m│\n│\u001b[48;5;232mCarol\u001b[0m│\u001b[48;5;232mRust\u001b[0m│\n╰─────┴────╯",
+      "ansi": "╭─────┬────╮\n│\u001b[100mName\u001b[0m\u001b[100m \u001b[0m│\u001b[100mLang\u001b[0m│\n├─────┼────┤\n│\u001b[40mAlice\u001b[0m│\u001b[40mRuby\u001b[0m│\n│\u001b[100mBob\u001b[0m\u001b[100m  \u001b[0m│\u001b[100mGo\u001b[0m\u001b[100m  \u001b[0m│\n│\u001b[40mCarol\u001b[0m│\u001b[40mRust\u001b[0m│\n╰─────┴────╯",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "╭─────┬────╮\n│\u001b[48;2;68;68;68mName\u001b[0m\u001b[48;2;68;68;68m \u001b[0m│\u001b[48;2;68;68;68mLang\u001b[0m│\n├─────┼────┤\n│\u001b[48;2;51;51;51mAlice\u001b[0m│\u001b[48;2;51;51;51mRuby\u001b[0m│\n│\u001b[48;2;68;68;68mBob\u001b[0m\u001b[48;2;68;68;68m  \u001b[0m│\u001b[48;2;68;68;68mGo\u001b[0m\u001b[48;2;68;68;68m  \u001b[0m│\n│\u001b[48;2;51;51;51mCarol\u001b[0m│\u001b[48;2;51;51;51mRust\u001b[0m│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_columns": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| c.zero? ? Lipgloss::Style.new.foreground(\"#00ff00\") : Lipgloss::Style.new.foreground(\"#ff0000\") }.render",
+    "results": {
+      "true_color": "╭─────┬────╮\n│\u001b[38;2;0;255;0mName\u001b[0m │\u001b[38;2;255;0;0mLang\u001b[0m│\n├─────┼────┤\n│\u001b[38;2;0;255;0mAlice\u001b[0m│\u001b[38;2;255;0;0mRuby\u001b[0m│\n│\u001b[38;2;0;255;0mBob\u001b[0m  │\u001b[38;2;255;0;0mGo\u001b[0m  │\n│\u001b[38;2;0;255;0mCarol\u001b[0m│\u001b[38;2;255;0;0mRust\u001b[0m│\n╰─────┴────╯",
+      "ansi256": "╭─────┬────╮\n│\u001b[38;5;46mName\u001b[0m │\u001b[38;5;196mLang\u001b[0m│\n├─────┼────┤\n│\u001b[38;5;46mAlice\u001b[0m│\u001b[38;5;196mRuby\u001b[0m│\n│\u001b[38;5;46mBob\u001b[0m  │\u001b[38;5;196mGo\u001b[0m  │\n│\u001b[38;5;46mCarol\u001b[0m│\u001b[38;5;196mRust\u001b[0m│\n╰─────┴────╯",
+      "ansi": "╭─────┬────╮\n│\u001b[92mName\u001b[0m │\u001b[91mLang\u001b[0m│\n├─────┼────┤\n│\u001b[92mAlice\u001b[0m│\u001b[91mRuby\u001b[0m│\n│\u001b[92mBob\u001b[0m  │\u001b[91mGo\u001b[0m  │\n│\u001b[92mCarol\u001b[0m│\u001b[91mRust\u001b[0m│\n╰─────┴────╯",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "╭─────┬────╮\n│\u001b[38;2;0;255;0mName\u001b[0m │\u001b[38;2;255;0;0mLang\u001b[0m│\n├─────┼────┤\n│\u001b[38;2;0;255;0mAlice\u001b[0m│\u001b[38;2;255;0;0mRuby\u001b[0m│\n│\u001b[38;2;0;255;0mBob\u001b[0m  │\u001b[38;2;255;0;0mGo\u001b[0m  │\n│\u001b[38;2;0;255;0mCarol\u001b[0m│\u001b[38;2;255;0;0mRust\u001b[0m│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_padding": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.padding(0, 1) }.render",
+    "results": {
+      "*": "╭───────┬──────╮\n│ Name  │ Lang │\n├───────┼──────┤\n│ Alice │ Ruby │\n│ Bob   │ Go   │\n│ Carol │ Rust │\n╰───────┴──────╯"
+    }
+  },
+  "table.style_func_width": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| c == 1 ? Lipgloss::Style.new.width(10) : nil }.render",
+    "results": {
+      "*": "╭─────┬──────────╮\n│Name │Lang      │\n├─────┼──────────┤\n│Alice│Ruby      │\n│Bob  │Go        │\n│Carol│Rust      │\n╰─────┴──────────╯"
+    }
+  },
+  "table.style_func_align": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.width(8).align(:right) }.render",
+    "results": {
+      "*": "╭────────┬────────╮\n│    Name│    Lang│\n├────────┼────────┤\n│   Alice│    Ruby│\n│     Bob│      Go│\n│   Carol│    Rust│\n╰────────┴────────╯"
+    }
+  },
+  "table.style_func_align_center": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.padding(0, 1).align(:center) }.render",
+    "results": {
+      "*": "╭───────┬──────╮\n│ Name  │ Lang │\n├───────┼──────┤\n│ Alice │ Ruby │\n│  Bob  │  Go  │\n│ Carol │ Rust │\n╰───────┴──────╯"
+    }
+  },
+  "table.style_func_all_nil": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| nil }.render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_fewer_rows": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 1, columns: 1) { |r, c| Lipgloss::Style.new.bold(true) }.render",
+    "results": {
+      "true_color": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ansi256": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ansi": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "╭─────┬────╮\n│\u001b[1mName\u001b[0m │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_more_rows": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 9, columns: 5) { |r, c| Lipgloss::Style.new.italic(true) }.render",
+    "results": {
+      "true_color": "╭─────┬────╮\n│\u001b[3mName\u001b[0m │\u001b[3mLang\u001b[0m│\n├─────┼────┤\n│\u001b[3mAlice\u001b[0m│\u001b[3mRuby\u001b[0m│\n│\u001b[3mBob\u001b[0m  │\u001b[3mGo\u001b[0m  │\n│\u001b[3mCarol\u001b[0m│\u001b[3mRust\u001b[0m│\n╰─────┴────╯",
+      "ansi256": "╭─────┬────╮\n│\u001b[3mName\u001b[0m │\u001b[3mLang\u001b[0m│\n├─────┼────┤\n│\u001b[3mAlice\u001b[0m│\u001b[3mRuby\u001b[0m│\n│\u001b[3mBob\u001b[0m  │\u001b[3mGo\u001b[0m  │\n│\u001b[3mCarol\u001b[0m│\u001b[3mRust\u001b[0m│\n╰─────┴────╯",
+      "ansi": "╭─────┬────╮\n│\u001b[3mName\u001b[0m │\u001b[3mLang\u001b[0m│\n├─────┼────┤\n│\u001b[3mAlice\u001b[0m│\u001b[3mRuby\u001b[0m│\n│\u001b[3mBob\u001b[0m  │\u001b[3mGo\u001b[0m  │\n│\u001b[3mCarol\u001b[0m│\u001b[3mRust\u001b[0m│\n╰─────┴────╯",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "╭─────┬────╮\n│\u001b[3mName\u001b[0m │\u001b[3mLang\u001b[0m│\n├─────┼────┤\n│\u001b[3mAlice\u001b[0m│\u001b[3mRuby\u001b[0m│\n│\u001b[3mBob\u001b[0m  │\u001b[3mGo\u001b[0m  │\n│\u001b[3mCarol\u001b[0m│\u001b[3mRust\u001b[0m│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_border": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.border(:normal) }.render",
+    "results": {
+      "*": "╭─────┬────╮\n│┌────│┌───│\n├─────┼────┤\n│┌────│┌───│\n│┌────│┌───│\n│┌────│┌───│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_margin": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.margin(0, 1) }.render",
+    "results": {
+      "*": "╭───────┬──────╮\n│ Name  │ Lang │\n├───────┼──────┤\n│ Alice │ Ruby │\n│ Bob   │ Go   │\n│ Carol │ Rust │\n╰───────┴──────╯"
+    }
+  },
+  "table.style_func_height": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.height(2) }.render",
+    "results": {
+      "*": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│     │    │\n│Bob  │Go  │\n│     │    │\n│Carol│Rust│\n│     │    │\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_with_width": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).width(30).style_func(rows: 3, columns: 2) { |r, c| Lipgloss::Style.new.padding(0, 1) }.render",
+    "results": {
+      "*": "╭──────────────┬─────────────╮\n│ Name         │ Lang        │\n├──────────────┼─────────────┤\n│ Alice        │ Ruby        │\n│ Bob          │ Go          │\n│ Carol        │ Rust        │\n╰──────────────┴─────────────╯"
+    }
+  },
+  "table.style_func_calls": {
+    "code": "calls = []; Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 2, columns: 2) { |r, c| calls << [r, c]; nil }; calls",
+    "results": {
+      "*": [
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ]
+    }
+  },
+  "table.style_func_no_block": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 1, columns: 1)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "block required"
+      }
+    }
+  },
+  "table.style_func_negative_rows": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: -1, columns: 1) { nil }",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "rows must be >= 0"
+      }
+    }
+  },
+  "table.style_func_zero_columns": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 1, columns: 0) { nil }",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "columns must be > 0"
+      }
+    }
+  },
+  "table.style_func_missing_kw": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 1) { nil }",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "missing keyword: :columns"
+      }
+    }
+  },
+  "table.style_func_bad_style": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).style_func(rows: 1, columns: 1) { \"bold\" }",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "table.style_func_map_private": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]])._style_func_map({\"0,0\" => Lipgloss::Style.new.bold(true)}).render",
+    "results": {
+      "true_color": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ansi256": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ansi": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "ascii": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│Alice│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯",
+      "true_color_light": "╭─────┬────╮\n│Name │Lang│\n├─────┼────┤\n│\u001b[1mAlice\u001b[0m│Ruby│\n│Bob  │Go  │\n│Carol│Rust│\n╰─────┴────╯"
+    }
+  },
+  "table.style_func_map_not_hash": {
+    "code": "Lipgloss::Table.new._style_func_map([])",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Array (expected Hash)"
+      }
+    }
+  },
+  "table.header_row_constant": {
+    "code": "Lipgloss::Table::HEADER_ROW",
+    "results": {
+      "*": -1
+    }
+  },
+  "table.styled_full": {
+    "code": "Lipgloss::Table.new.headers([\"Name\", \"Lang\"]).rows([[\"Alice\", \"Ruby\"], [\"Bob\", \"Go\"], [\"Carol\", \"Rust\"]]).border(:rounded).border_style(Lipgloss::Style.new.foreground(\"99\")).style_func(rows: 3, columns: 2) { |r, c| r == -1 ? Lipgloss::Style.new.bold(true).foreground(\"212\").padding(0, 1) : Lipgloss::Style.new.padding(0, 1) }.width(30).render",
+    "results": {
+      "true_color": "\u001b[38;5;99m╭\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┬\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m╮\u001b[0m\n\u001b[38;5;99m│\u001b[0m \u001b[1;38;5;212mName\u001b[0m         \u001b[38;5;99m│\u001b[0m \u001b[1;38;5;212mLang\u001b[0m        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m├\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┼\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m┤\u001b[0m\n\u001b[38;5;99m│\u001b[0m Alice        \u001b[38;5;99m│\u001b[0m Ruby        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m│\u001b[0m Bob          \u001b[38;5;99m│\u001b[0m Go          \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m│\u001b[0m Carol        \u001b[38;5;99m│\u001b[0m Rust        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m╰\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┴\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m╯\u001b[0m",
+      "ansi256": "\u001b[38;5;99m╭\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┬\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m╮\u001b[0m\n\u001b[38;5;99m│\u001b[0m \u001b[1;38;5;212mName\u001b[0m         \u001b[38;5;99m│\u001b[0m \u001b[1;38;5;212mLang\u001b[0m        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m├\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┼\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m┤\u001b[0m\n\u001b[38;5;99m│\u001b[0m Alice        \u001b[38;5;99m│\u001b[0m Ruby        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m│\u001b[0m Bob          \u001b[38;5;99m│\u001b[0m Go          \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m│\u001b[0m Carol        \u001b[38;5;99m│\u001b[0m Rust        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m╰\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┴\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m╯\u001b[0m",
+      "ansi": "\u001b[94m╭\u001b[0m\u001b[94m──────────────\u001b[0m\u001b[94m┬\u001b[0m\u001b[94m─────────────\u001b[0m\u001b[94m╮\u001b[0m\n\u001b[94m│\u001b[0m \u001b[1;95mName\u001b[0m         \u001b[94m│\u001b[0m \u001b[1;95mLang\u001b[0m        \u001b[94m│\u001b[0m\n\u001b[94m├\u001b[0m\u001b[94m──────────────\u001b[0m\u001b[94m┼\u001b[0m\u001b[94m─────────────\u001b[0m\u001b[94m┤\u001b[0m\n\u001b[94m│\u001b[0m Alice        \u001b[94m│\u001b[0m Ruby        \u001b[94m│\u001b[0m\n\u001b[94m│\u001b[0m Bob          \u001b[94m│\u001b[0m Go          \u001b[94m│\u001b[0m\n\u001b[94m│\u001b[0m Carol        \u001b[94m│\u001b[0m Rust        \u001b[94m│\u001b[0m\n\u001b[94m╰\u001b[0m\u001b[94m──────────────\u001b[0m\u001b[94m┴\u001b[0m\u001b[94m─────────────\u001b[0m\u001b[94m╯\u001b[0m",
+      "ascii": "╭──────────────┬─────────────╮\n│ Name         │ Lang        │\n├──────────────┼─────────────┤\n│ Alice        │ Ruby        │\n│ Bob          │ Go          │\n│ Carol        │ Rust        │\n╰──────────────┴─────────────╯",
+      "true_color_light": "\u001b[38;5;99m╭\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┬\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m╮\u001b[0m\n\u001b[38;5;99m│\u001b[0m \u001b[1;38;5;212mName\u001b[0m         \u001b[38;5;99m│\u001b[0m \u001b[1;38;5;212mLang\u001b[0m        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m├\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┼\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m┤\u001b[0m\n\u001b[38;5;99m│\u001b[0m Alice        \u001b[38;5;99m│\u001b[0m Ruby        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m│\u001b[0m Bob          \u001b[38;5;99m│\u001b[0m Go          \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m│\u001b[0m Carol        \u001b[38;5;99m│\u001b[0m Rust        \u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m╰\u001b[0m\u001b[38;5;99m──────────────\u001b[0m\u001b[38;5;99m┴\u001b[0m\u001b[38;5;99m─────────────\u001b[0m\u001b[38;5;99m╯\u001b[0m"
+    }
+  }
+}

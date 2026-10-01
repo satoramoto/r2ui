@@ -1,0 +1,42 @@
+# conformance golden for bubbles/text_input/cursor_word_jump: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== word_back_1
+alt_screen: off  cursor: hidden  modes: -
+1|> one two  three
+2|value=[one two  three] pos=9
+3|
+4|
+styles:
+1:12-12 reverse
+== word_back_2
+alt_screen: off  cursor: hidden  modes: -
+1|> one two  three
+2|value=[one two  three] pos=4
+3|
+4|
+styles:
+1:7-7 reverse
+== word_back_3
+alt_screen: off  cursor: hidden  modes: -
+1|> one two  three
+2|value=[one two  three] pos=0
+3|
+4|
+styles:
+1:3-3 reverse
+== word_forward_1
+alt_screen: off  cursor: hidden  modes: -
+1|> one two  three
+2|value=[one two  three] pos=3
+3|
+4|
+styles:
+1:6-6 reverse
+== word_forward_2
+alt_screen: off  cursor: hidden  modes: -
+1|> one two  three
+2|value=[one two  three] pos=7
+3|
+4|
+styles:
+1:10-10 reverse

@@ -1,0 +1,19 @@
+# conformance golden for bubbletea/keys/modified_arrows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x14
+== modified
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"unknown" type=-100 runes=[] alt=false char=nil flags=
+ 3|"unknown" type=-103 runes=[] alt=false char=nil flags=
+ 4|"unknown" type=-104 runes=[] alt=false char=nil flags=
+ 5|"unknown" type=-106 runes=[] alt=false char=nil flags=
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles: none

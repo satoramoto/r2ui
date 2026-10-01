@@ -1,0 +1,18 @@
+# conformance golden for bubbles/progress/rounding_third: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 60x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|████████████░░░░░░░░░░░░░░░░░░░░░░░  33%
+2|███████████████████████░░░░░░░░░░░░  67%
+3|██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   7%
+4|███████████████████████████████████ 100%
+5|
+6|
+styles:
+1:1-12 fg=#7571f9
+1:13-35 fg=#606060
+2:1-23 fg=#7571f9
+2:24-35 fg=#606060
+3:1-2 fg=#7571f9
+3:3-35 fg=#606060
+4:1-35 fg=#7571f9

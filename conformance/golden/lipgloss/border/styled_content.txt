@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/styled_content: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;125;86;243m╭──╮\e[0m"
+"\e[38;2;125;86;243m│\e[0m\e[1;38;2;250;250;250mHi\e[0m\e[38;2;125;86;243m│\e[0m"
+"\e[38;2;125;86;243m╰──╯\e[0m"

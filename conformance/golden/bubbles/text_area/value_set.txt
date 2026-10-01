@@ -1,0 +1,28 @@
+# conformance golden for bubbles/text_area/value_set: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|one
+2|two
+3|
+4|four
+5|~
+6|row=3 col=4 lines=4
+7|
+8|
+styles:
+4:5-5 reverse
+5:1-1 fg=8
+== appended
+alt_screen: off  cursor: hidden  modes: -
+1|one
+2|two
+3|
+4|four!
+5|~
+6|row=3 col=5 lines=4
+7|
+8|
+styles:
+4:6-6 reverse
+5:1-1 fg=8

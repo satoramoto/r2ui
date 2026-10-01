@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/color_background: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;0;0;255m┌───┐\e[0m"
+"\e[48;2;0;0;255m│\e[0mBox\e[48;2;0;0;255m│\e[0m"
+"\e[48;2;0;0;255m└───┘\e[0m"

@@ -1,0 +1,10 @@
+# conformance golden for lipgloss/place/vertical_top_bottom: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"ab"
+"cd"
+"  "
+"  "
+"--"
+"  "
+"  "
+"ab"
+"cd"

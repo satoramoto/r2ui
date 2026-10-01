@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/foreground_ansi: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[31mred\e[0m|\e[94mbright\e[0m|\e[38;5;201mpink\e[0m"

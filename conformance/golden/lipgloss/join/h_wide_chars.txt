@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/join/h_wide_chars: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"日本|"
+"ab   "

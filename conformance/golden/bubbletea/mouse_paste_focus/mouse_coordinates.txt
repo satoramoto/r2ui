@@ -1,0 +1,13 @@
+# conformance golden for bubbletea/mouse_paste_focus/mouse_coordinates: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x8
+== coords
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|events:
+2|mouse 0,0 button=0 action=0 shift=false alt=false ctrl=false press
+3|mouse 79,23 button=0 action=0 shift=false alt=false ctrl=false press
+4|mouse 199,99 button=0 action=0 shift=false alt=false ctrl=false press
+5|mouse 0,49 button=0 action=0 shift=false alt=false ctrl=false press
+6|
+7|
+8|
+styles: none

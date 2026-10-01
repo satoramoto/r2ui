@@ -1,0 +1,20 @@
+# conformance golden for bubbletea/render/shorter_line_alt: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x6
+== long
+alt_screen: on  cursor: hidden  modes: -
+1|a long line of text
+2|second line here
+3|
+4|
+5|
+6|
+styles: none
+== short
+alt_screen: on  cursor: hidden  modes: -
+1|short
+2|x
+3|
+4|
+5|
+6|
+styles: none

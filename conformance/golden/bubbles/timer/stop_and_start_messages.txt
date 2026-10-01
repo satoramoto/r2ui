@@ -1,0 +1,26 @@
+# conformance golden for bubbles/timer/stop_and_start_messages: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== ticked
+alt_screen: off  cursor: hidden  modes: -
+1|1m1s running=true
+2|
+3|
+styles: none
+== stopped
+alt_screen: off  cursor: hidden  modes: -
+1|1m1s running=false
+2|
+3|
+styles: none
+== tick_while_stopped
+alt_screen: off  cursor: hidden  modes: -
+1|1m1s running=false
+2|
+3|
+styles: none
+== restarted
+alt_screen: off  cursor: hidden  modes: -
+1|1m1s running=true
+2|
+3|
+styles: none

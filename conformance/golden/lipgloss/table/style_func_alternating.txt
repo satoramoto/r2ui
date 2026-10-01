@@ -1,0 +1,8 @@
+# conformance golden for lipgloss/table/style_func_alternating: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─╮"
+"│A│"
+"├─┤"
+"│\e[48;2;51;51;51m1\e[0m│"
+"│\e[48;2;85;85;85m2\e[0m│"
+"│\e[48;2;51;51;51m3\e[0m│"
+"╰─╯"

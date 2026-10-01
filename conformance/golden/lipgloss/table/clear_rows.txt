@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/table/clear_rows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─┬─╮"
+"│K│V│"
+"├─┼─┤"
+"╰─┴─╯"

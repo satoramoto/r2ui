@@ -1,0 +1,26 @@
+# conformance golden for bubbles/text_input/placeholder_blurred: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|> Search...
+2|value=[] focused=false
+3|
+4|
+styles:
+1:4-11 fg=8
+== ignored_while_blurred
+alt_screen: off  cursor: hidden  modes: -
+1|> Search...
+2|value=[] focused=false
+3|
+4|
+styles:
+1:4-11 fg=8
+== focused_and_typed
+alt_screen: off  cursor: hidden  modes: -
+1|> xy
+2|value=[xy] focused=true
+3|
+4|
+styles:
+1:5-5 reverse

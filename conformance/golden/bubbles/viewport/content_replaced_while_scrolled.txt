@@ -1,0 +1,24 @@
+# conformance golden for bubbles/viewport/content_replaced_while_scrolled: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== at_bottom
+alt_screen: off  cursor: hidden  modes: -
+1|long 17
+2|long 18
+3|long 19
+4|long 20
+5|y=16 total=20 bottom=true
+6|
+7|
+8|
+styles: none
+== replaced
+alt_screen: off  cursor: hidden  modes: -
+1|short 3
+2|short 4
+3|short 5
+4|short 6
+5|y=2 total=6 bottom=true
+6|
+7|
+8|
+styles: none

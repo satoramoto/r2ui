@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/inherit_skips_margin_padding: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[1mkid\e[0m"

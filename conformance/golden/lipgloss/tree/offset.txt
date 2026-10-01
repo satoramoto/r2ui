@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/tree/offset: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"R"
+"├── b"
+"└── c"

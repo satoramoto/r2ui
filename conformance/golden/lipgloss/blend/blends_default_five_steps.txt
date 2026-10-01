@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blends_default_five_steps: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#ff0000\", \"#e00066\", \"#be0090\", \"#9400b9\", \"#0000ff\"]"

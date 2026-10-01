@@ -1,0 +1,12 @@
+# conformance golden for bubbles/timer/format_zero_and_fractions: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x7
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|0s
+2|0s
+3|59s
+4|0s
+5|1m1s
+6|
+7|
+styles: none

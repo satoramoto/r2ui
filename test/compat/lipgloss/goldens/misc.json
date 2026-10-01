@@ -1,0 +1,730 @@
+{
+  "misc.version": {
+    "code": "Lipgloss.version",
+    "results": {
+      "*": "lipgloss v0.2.2 (upstream v1.1.0) [Go native extension]"
+    }
+  },
+  "misc.upstream_version": {
+    "code": "Lipgloss.upstream_version",
+    "results": {
+      "*": "v1.1.0"
+    }
+  },
+  "misc.gem_version_constant": {
+    "code": "Lipgloss::VERSION",
+    "results": {
+      "*": "0.2.2"
+    }
+  },
+  "misc.has_dark_background": {
+    "code": "Lipgloss.has_dark_background?",
+    "results": {
+      "true_color": true,
+      "ansi256": true,
+      "ansi": true,
+      "ascii": true,
+      "true_color_light": false
+    }
+  },
+  "misc.adaptive_probe": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"#000000\", dark: \"#ffffff\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;255;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;231mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;0;0mx\u001b[0m"
+    }
+  },
+  "misc.no_tab_conversion": {
+    "code": "Lipgloss::NO_TAB_CONVERSION",
+    "results": {
+      "*": -1
+    }
+  },
+  "misc.constants_sorted": {
+    "code": "Lipgloss.constants.map(&:to_s).sort",
+    "results": {
+      "*": [
+        "ANSIColor",
+        "ASCII_BORDER",
+        "AdaptiveColor",
+        "BLOCK_BORDER",
+        "BOTTOM",
+        "Border",
+        "CENTER",
+        "ColorBlend",
+        "CompleteAdaptiveColor",
+        "CompleteColor",
+        "DOUBLE_BORDER",
+        "HIDDEN_BORDER",
+        "LEFT",
+        "List",
+        "NORMAL_BORDER",
+        "NO_TAB_CONVERSION",
+        "Position",
+        "RIGHT",
+        "ROUNDED_BORDER",
+        "Style",
+        "THICK_BORDER",
+        "TOP",
+        "Table",
+        "Tree",
+        "VERSION"
+      ]
+    }
+  },
+  "misc.style_class": {
+    "code": "Lipgloss::Style.name",
+    "results": {
+      "*": "Lipgloss::Style"
+    }
+  },
+  "misc.classes": {
+    "code": "[Lipgloss::Style, Lipgloss::Table, Lipgloss::List, Lipgloss::Tree, Lipgloss::AdaptiveColor, Lipgloss::CompleteColor, Lipgloss::CompleteAdaptiveColor].map { |k| [k.name, k.superclass.name] }",
+    "results": {
+      "*": [
+        [
+          "Lipgloss::Style",
+          "Object"
+        ],
+        [
+          "Lipgloss::Table",
+          "Object"
+        ],
+        [
+          "Lipgloss::List",
+          "Object"
+        ],
+        [
+          "Lipgloss::Tree",
+          "Object"
+        ],
+        [
+          "Lipgloss::AdaptiveColor",
+          "Object"
+        ],
+        [
+          "Lipgloss::CompleteColor",
+          "Object"
+        ],
+        [
+          "Lipgloss::CompleteAdaptiveColor",
+          "Object"
+        ]
+      ]
+    }
+  },
+  "misc.modules": {
+    "code": "[Lipgloss, Lipgloss::Position, Lipgloss::Border, Lipgloss::ANSIColor, Lipgloss::ColorBlend].map { |m| [m.name, m.class.name] }",
+    "results": {
+      "*": [
+        [
+          "Lipgloss",
+          "Module"
+        ],
+        [
+          "Lipgloss::Position",
+          "Module"
+        ],
+        [
+          "Lipgloss::Border",
+          "Module"
+        ],
+        [
+          "Lipgloss::ANSIColor",
+          "Module"
+        ],
+        [
+          "Lipgloss::ColorBlend",
+          "Module"
+        ]
+      ]
+    }
+  },
+  "misc.color_blend_constants": {
+    "code": "Lipgloss::ColorBlend.constants.map(&:to_s).sort",
+    "results": {
+      "*": [
+        "HCL",
+        "LUV",
+        "RGB"
+      ]
+    }
+  },
+  "misc.border_constants": {
+    "code": "Lipgloss::Border.constants.map(&:to_s).sort",
+    "results": {
+      "*": [
+        "ASCII",
+        "BLOCK",
+        "DOUBLE",
+        "HIDDEN",
+        "INNER_HALF_BLOCK",
+        "NORMAL",
+        "OUTER_HALF_BLOCK",
+        "ROUNDED",
+        "THICK"
+      ]
+    }
+  },
+  "misc.position_constants": {
+    "code": "Lipgloss::Position.constants.map(&:to_s).sort",
+    "results": {
+      "*": [
+        "BOTTOM",
+        "CENTER",
+        "LEFT",
+        "RIGHT",
+        "SYMBOLS",
+        "TOP"
+      ]
+    }
+  },
+  "misc.table_constants": {
+    "code": "Lipgloss::Table.constants.map(&:to_s).sort",
+    "results": {
+      "*": [
+        "HEADER_ROW"
+      ]
+    }
+  },
+  "misc.style_methods": {
+    "code": "(Lipgloss::Style.public_instance_methods(false)).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "_align",
+        "_align_horizontal",
+        "_align_vertical",
+        "align",
+        "align_horizontal",
+        "align_vertical",
+        "background",
+        "blink",
+        "blink?",
+        "bold",
+        "bold?",
+        "border",
+        "border_background",
+        "border_bottom",
+        "border_bottom_background",
+        "border_bottom_foreground",
+        "border_custom",
+        "border_foreground",
+        "border_left",
+        "border_left_background",
+        "border_left_foreground",
+        "border_right",
+        "border_right_background",
+        "border_right_foreground",
+        "border_style",
+        "border_top",
+        "border_top_background",
+        "border_top_foreground",
+        "faint",
+        "faint?",
+        "foreground",
+        "get_background",
+        "get_foreground",
+        "get_height",
+        "get_width",
+        "height",
+        "inherit",
+        "inline",
+        "italic",
+        "italic?",
+        "margin",
+        "margin_background",
+        "margin_bottom",
+        "margin_left",
+        "margin_right",
+        "margin_top",
+        "max_height",
+        "max_width",
+        "padding",
+        "padding_bottom",
+        "padding_left",
+        "padding_right",
+        "padding_top",
+        "render",
+        "reverse",
+        "reverse?",
+        "set_string",
+        "strikethrough",
+        "strikethrough?",
+        "strikethrough_spaces",
+        "tab_width",
+        "to_s",
+        "underline",
+        "underline?",
+        "underline_spaces",
+        "unset_background",
+        "unset_blink",
+        "unset_bold",
+        "unset_border_style",
+        "unset_faint",
+        "unset_foreground",
+        "unset_height",
+        "unset_inline",
+        "unset_italic",
+        "unset_margin_bottom",
+        "unset_margin_left",
+        "unset_margin_right",
+        "unset_margin_top",
+        "unset_padding_bottom",
+        "unset_padding_left",
+        "unset_padding_right",
+        "unset_padding_top",
+        "unset_reverse",
+        "unset_strikethrough",
+        "unset_underline",
+        "unset_width",
+        "width"
+      ]
+    }
+  },
+  "misc.table_methods": {
+    "code": "(Lipgloss::Table.public_instance_methods(false)).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "_style_func_map",
+        "border",
+        "border_bottom",
+        "border_column",
+        "border_header",
+        "border_left",
+        "border_right",
+        "border_row",
+        "border_style",
+        "border_top",
+        "clear_rows",
+        "headers",
+        "height",
+        "offset",
+        "render",
+        "row",
+        "rows",
+        "style_func",
+        "to_s",
+        "width",
+        "wrap"
+      ]
+    }
+  },
+  "misc.list_methods": {
+    "code": "(Lipgloss::List.public_instance_methods(false)).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "enumerator",
+        "enumerator_style",
+        "item",
+        "item_style",
+        "items",
+        "render",
+        "to_s"
+      ]
+    }
+  },
+  "misc.tree_methods": {
+    "code": "(Lipgloss::Tree.public_instance_methods(false)).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "child",
+        "children",
+        "enumerator",
+        "enumerator_style",
+        "item_style",
+        "offset",
+        "render",
+        "root=",
+        "root_style",
+        "to_s"
+      ]
+    }
+  },
+  "misc.lipgloss_singleton_methods": {
+    "code": "Lipgloss.singleton_methods(false).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "_join_horizontal",
+        "_join_vertical",
+        "_place",
+        "_place_horizontal",
+        "_place_vertical",
+        "has_dark_background?",
+        "height",
+        "join_horizontal",
+        "join_vertical",
+        "place",
+        "place_horizontal",
+        "place_vertical",
+        "size",
+        "upstream_version",
+        "version",
+        "width"
+      ]
+    }
+  },
+  "misc.color_blend_singleton_methods": {
+    "code": "Lipgloss::ColorBlend.singleton_methods(false).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "blend",
+        "blend_hcl",
+        "blend_luv",
+        "blend_rgb",
+        "blends",
+        "grid"
+      ]
+    }
+  },
+  "misc.tree_singleton_methods": {
+    "code": "Lipgloss::Tree.singleton_methods(false).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "root"
+      ]
+    }
+  },
+  "misc.adaptive_methods": {
+    "code": "Lipgloss::AdaptiveColor.public_instance_methods(false).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "dark",
+        "light",
+        "to_h"
+      ]
+    }
+  },
+  "misc.complete_methods": {
+    "code": "Lipgloss::CompleteColor.public_instance_methods(false).map(&:to_s).sort",
+    "results": {
+      "*": [
+        "ansi",
+        "ansi256",
+        "to_h",
+        "true_color"
+      ]
+    }
+  },
+  "misc.style_arities": {
+    "code": "%i[render bold foreground width padding margin border border_custom align align_horizontal set_string inherit to_s bold? get_width unset_bold].map { |m| [m.to_s, Lipgloss::Style.instance_method(m).arity] }",
+    "results": {
+      "*": [
+        [
+          "render",
+          1
+        ],
+        [
+          "bold",
+          1
+        ],
+        [
+          "foreground",
+          1
+        ],
+        [
+          "width",
+          1
+        ],
+        [
+          "padding",
+          -1
+        ],
+        [
+          "margin",
+          -1
+        ],
+        [
+          "border",
+          -1
+        ],
+        [
+          "border_custom",
+          -1
+        ],
+        [
+          "align",
+          -1
+        ],
+        [
+          "align_horizontal",
+          1
+        ],
+        [
+          "set_string",
+          1
+        ],
+        [
+          "inherit",
+          1
+        ],
+        [
+          "to_s",
+          0
+        ],
+        [
+          "bold?",
+          0
+        ],
+        [
+          "get_width",
+          0
+        ],
+        [
+          "unset_bold",
+          0
+        ]
+      ]
+    }
+  },
+  "misc.module_arities": {
+    "code": "%i[join_horizontal join_vertical place place_horizontal place_vertical width height size has_dark_background? version upstream_version].map { |m| [m.to_s, Lipgloss.method(m).arity] }",
+    "results": {
+      "*": [
+        [
+          "join_horizontal",
+          -2
+        ],
+        [
+          "join_vertical",
+          -2
+        ],
+        [
+          "place",
+          -6
+        ],
+        [
+          "place_horizontal",
+          3
+        ],
+        [
+          "place_vertical",
+          3
+        ],
+        [
+          "width",
+          1
+        ],
+        [
+          "height",
+          1
+        ],
+        [
+          "size",
+          1
+        ],
+        [
+          "has_dark_background?",
+          0
+        ],
+        [
+          "version",
+          0
+        ],
+        [
+          "upstream_version",
+          0
+        ]
+      ]
+    }
+  },
+  "misc.table_arities": {
+    "code": "%i[headers row rows border border_style width height offset wrap clear_rows render style_func].map { |m| [m.to_s, Lipgloss::Table.instance_method(m).arity] }",
+    "results": {
+      "*": [
+        [
+          "headers",
+          1
+        ],
+        [
+          "row",
+          1
+        ],
+        [
+          "rows",
+          1
+        ],
+        [
+          "border",
+          1
+        ],
+        [
+          "border_style",
+          1
+        ],
+        [
+          "width",
+          1
+        ],
+        [
+          "height",
+          1
+        ],
+        [
+          "offset",
+          1
+        ],
+        [
+          "wrap",
+          1
+        ],
+        [
+          "clear_rows",
+          0
+        ],
+        [
+          "render",
+          0
+        ],
+        [
+          "style_func",
+          1
+        ]
+      ]
+    }
+  },
+  "misc.list_tree_arities": {
+    "code": "[Lipgloss::List.instance_method(:initialize).arity, Lipgloss::List.instance_method(:item).arity, Lipgloss::Tree.instance_method(:initialize).arity, Lipgloss::Tree.instance_method(:child).arity, Lipgloss::Tree.instance_method(:offset).arity]",
+    "results": {
+      "*": [
+        -1,
+        1,
+        -1,
+        -1,
+        2
+      ]
+    }
+  },
+  "misc.err_bold_arity": {
+    "code": "Lipgloss::Style.new.bold",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1)"
+      }
+    }
+  },
+  "misc.err_bold_arity_two": {
+    "code": "Lipgloss::Style.new.bold(true, false)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 2, expected 1)"
+      }
+    }
+  },
+  "misc.err_width_arity": {
+    "code": "Lipgloss.width",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1)"
+      }
+    }
+  },
+  "misc.err_join_no_position": {
+    "code": "Lipgloss.join_horizontal",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1+)"
+      }
+    }
+  },
+  "misc.err_unknown_method": {
+    "code": "Lipgloss::Style.new.colour(\"red\")",
+    "results": {
+      "*": {
+        "error": "NoMethodError",
+        "message": "undefined method 'colour' for an instance of Lipgloss::Style"
+      }
+    }
+  },
+  "misc.err_list_new_kwargs": {
+    "code": "Lipgloss::List.new(a: 1).render",
+    "results": {
+      "*": ""
+    }
+  },
+  "misc.err_padding_float": {
+    "code": "Lipgloss::Style.new.padding(1.5).render(\"x\")",
+    "results": {
+      "*": "   \n x \n   "
+    }
+  },
+  "misc.err_padding_nil": {
+    "code": "Lipgloss::Style.new.padding(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion from nil to integer"
+      }
+    }
+  },
+  "misc.err_width_huge": {
+    "code": "Lipgloss::Style.new.width(2**40)",
+    "results": {
+      "*": {
+        "error": "RangeError",
+        "message": "integer 1099511627776 too big to convert to 'int'"
+      }
+    }
+  },
+  "misc.err_dup": {
+    "code": "Lipgloss::Style.new.bold(true).dup.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "misc.err_clone": {
+    "code": "Lipgloss::Style.new.bold(true).clone.bold?",
+    "results": {
+      "*": false
+    }
+  },
+  "misc.style_equal": {
+    "code": "Lipgloss::Style.new == Lipgloss::Style.new",
+    "results": {
+      "*": false
+    }
+  },
+  "misc.frozen_string_input": {
+    "code": "Lipgloss::Style.new.bold(true).render(\"x\".freeze)",
+    "results": {
+      "true_color": "\u001b[1mx\u001b[0m",
+      "ansi256": "\u001b[1mx\u001b[0m",
+      "ansi": "\u001b[1mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[1mx\u001b[0m"
+    }
+  },
+  "misc.binary_string_input": {
+    "code": "Lipgloss::Style.new.render(\"abc\".b)",
+    "results": {
+      "*": "abc"
+    }
+  },
+  "misc.result_encoding": {
+    "code": "Lipgloss::Style.new.render(\"abc\".b).encoding.name",
+    "results": {
+      "*": "UTF-8"
+    }
+  },
+  "misc.result_frozen": {
+    "code": "Lipgloss::Style.new.render(\"abc\").frozen?",
+    "results": {
+      "*": false
+    }
+  },
+  "misc.nul_in_string": {
+    "code": "Lipgloss::Style.new.render(\"a\\0b\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "string contains null byte"
+      }
+    }
+  }
+}

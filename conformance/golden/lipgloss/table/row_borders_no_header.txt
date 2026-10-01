@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/row_borders_no_header: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─┬─╮"
+"│1│2│"
+"├─┼─┤"
+"│3│4│"
+"╰─┴─╯"

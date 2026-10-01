@@ -1,0 +1,9 @@
+# conformance golden for bubbles/spinner/styled_foreground: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x3
+== final
+alt_screen: off  cursor: hidden  modes: -
+1|⢿ working ticks=3 done
+2|
+3|
+styles:
+1:1-1 bold fg=#ff5faf

@@ -1,0 +1,28 @@
+# conformance golden for bubbles/list/empty: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|No items
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none
+== after_keys
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|No items
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

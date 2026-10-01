@@ -1,0 +1,9 @@
+# conformance golden for bubbletea/mouse_paste_focus/value_focus_blur_classes: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"KeyMessage < Message: true"
+"MouseMessage < Message: true"
+"WindowSizeMessage < Message: true"
+"FocusMessage < Message: true"
+"BlurMessage < Message: true"
+"QuitMessage < Message: true"
+"ResumeMessage < Message: true"
+"[80, 24]"

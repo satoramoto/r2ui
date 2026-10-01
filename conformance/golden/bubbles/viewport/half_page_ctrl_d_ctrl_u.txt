@@ -1,0 +1,24 @@
+# conformance golden for bubbles/viewport/half_page_ctrl_d_ctrl_u: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 44x8
+== half_twice
+alt_screen: off  cursor: hidden  modes: -
+1|line 05
+2|line 06
+3|line 07
+4|line 08
+5|line 09
+6|y=4 pct=27 top=false bottom=false
+7|
+8|
+styles: none
+== half_up
+alt_screen: off  cursor: hidden  modes: -
+1|line 03
+2|line 04
+3|line 05
+4|line 06
+5|line 07
+6|y=2 pct=13 top=false bottom=false
+7|
+8|
+styles: none

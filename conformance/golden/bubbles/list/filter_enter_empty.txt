@@ -1,0 +1,31 @@
+# conformance golden for bubbles/list/filter_enter_empty: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== open
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter:
+ 4|
+ 5|> Apple
+ 6|  Banana
+ 7|  Cherry
+ 8|  Date
+ 9|
+10|
+styles:
+ 3:9-9 reverse
+ 5:1-7 reverse
+== closed
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:1-7 reverse

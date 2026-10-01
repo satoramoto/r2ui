@@ -1,0 +1,13 @@
+# conformance golden for bubbletea/mouse_paste_focus/paste_single_write: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x8
+== pasted
+alt_screen: off  cursor: hidden  modes: 2004
+1|events:
+2|key "alt+["
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none

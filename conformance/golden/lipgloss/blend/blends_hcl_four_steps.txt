@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blends_hcl_four_steps: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#ff8800\", \"#ff4f7b\", \"#dd62d8\", \"#0088ff\"]"

@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/ctrl_unnamed_1c_1f: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== unnamed
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"ctrl+?" type=28 runes=[] alt=false char=nil flags=ctrl
+ 3|"ctrl+?" type=29 runes=[] alt=false char=nil flags=ctrl
+ 4|"ctrl+?" type=30 runes=[] alt=false char=nil flags=ctrl
+ 5|"ctrl+?" type=31 runes=[] alt=false char=nil flags=ctrl
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

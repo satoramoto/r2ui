@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/nested_twice: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"• top"
+"  • mid"
+"    • deep"

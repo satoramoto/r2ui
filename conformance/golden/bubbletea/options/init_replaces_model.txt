@@ -1,0 +1,18 @@
+# conformance golden for bubbletea/options/init_replaces_model: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|second model, keys=0
+2|
+3|
+4|
+5|
+styles: none
+== two_keys
+alt_screen: off  cursor: hidden  modes: -
+1|second model, keys=2
+2|
+3|
+4|
+5|
+styles: none

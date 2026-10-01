@@ -1,0 +1,26 @@
+# conformance golden for bubbles/paginator/dots_default: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== first
+alt_screen: off  cursor: hidden  modes: -
+1|● ○ ○ ○ ○
+2|
+3|
+styles: none
+== third
+alt_screen: off  cursor: hidden  modes: -
+1|○ ○ ● ○ ○
+2|
+3|
+styles: none
+== clamped_last
+alt_screen: off  cursor: hidden  modes: -
+1|○ ○ ○ ○ ●
+2|
+3|
+styles: none
+== fourth
+alt_screen: off  cursor: hidden  modes: -
+1|○ ○ ○ ● ○
+2|
+3|
+styles: none

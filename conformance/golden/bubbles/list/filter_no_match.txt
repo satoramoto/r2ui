@@ -1,0 +1,29 @@
+# conformance golden for bubbles/list/filter_no_match: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== no_match
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: xyz
+ 4|
+ 5|No items
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:12-12 reverse
+== applied_no_match
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: xyz
+ 4|
+ 5|No items
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

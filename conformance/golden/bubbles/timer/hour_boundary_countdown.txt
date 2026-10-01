@@ -1,0 +1,20 @@
+# conformance golden for bubbles/timer/hour_boundary_countdown: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|1h0m1s
+2|
+3|
+styles: none
+== exact_hour
+alt_screen: off  cursor: hidden  modes: -
+1|1h0m0s
+2|
+3|
+styles: none
+== below_hour
+alt_screen: off  cursor: hidden  modes: -
+1|59m59s
+2|
+3|
+styles: none

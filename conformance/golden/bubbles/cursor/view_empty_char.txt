@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/view_empty_char: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[7m\e[0m"

@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/adaptive_ansi_values: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[96madaptive\e[0m"

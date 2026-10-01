@@ -1,0 +1,19 @@
+# conformance golden for bubbletea/options/report_focus_mode: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== running
+alt_screen: off  cursor: hidden  modes: 1004
+1|report focus
+2|
+3|
+4|
+5|
+styles: none
+== after_quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|report focus
+2|
+3|
+4|
+5|
+styles: none

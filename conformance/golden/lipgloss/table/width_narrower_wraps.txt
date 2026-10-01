@@ -1,0 +1,8 @@
+# conformance golden for lipgloss/table/width_narrower_wraps: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─────┬────────────────╮"
+"│Name │Notes           │"
+"├─────┼────────────────┤"
+"│Alice│likes long walks│"
+"│     │on the beach    │"
+"│Bob  │short           │"
+"╰─────┴────────────────╯"

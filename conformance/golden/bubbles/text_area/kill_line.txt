@@ -1,0 +1,38 @@
+# conformance golden for bubbles/text_area/kill_line: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x7
+== placed
+alt_screen: off  cursor: hidden  modes: -
+1|keep this
+2|hello world
+3|keep too
+4|~
+5|row=1 col=5
+6|
+7|
+styles:
+2:6-6 reverse
+4:1-1 fg=8
+== killed_to_end
+alt_screen: off  cursor: hidden  modes: -
+1|keep this
+2|hello
+3|keep too
+4|~
+5|row=1 col=5
+6|
+7|
+styles:
+2:6-6 reverse
+4:1-1 fg=8
+== killed_to_start
+alt_screen: off  cursor: hidden  modes: -
+1|keep this
+2|
+3|keep too
+4|~
+5|row=1 col=0
+6|
+7|
+styles:
+2:1-1 reverse
+4:1-1 fg=8

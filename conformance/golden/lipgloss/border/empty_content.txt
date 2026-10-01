@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/empty_content: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"┌┐"
+"││"
+"└┘"

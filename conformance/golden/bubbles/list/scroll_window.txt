@@ -1,0 +1,58 @@
+# conformance golden for bubbles/list/scroll_window: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== last_visible
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 1
+ 4|  Item 2
+ 5|  Item 3
+ 6|> Item 4
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 6:1-8 reverse
+== scrolled_one
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 2
+ 4|  Item 3
+ 5|  Item 4
+ 6|> Item 5
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 6:1-8 reverse
+== scrolled_five
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 6
+ 4|  Item 7
+ 5|  Item 8
+ 6|> Item 9
+ 7|
+ 8|○ ● ○
+ 9|
+10|
+styles:
+ 6:1-8 reverse
+== back_up
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Item 1
+ 4|  Item 2
+ 5|  Item 3
+ 6|  Item 4
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 3:1-8 reverse

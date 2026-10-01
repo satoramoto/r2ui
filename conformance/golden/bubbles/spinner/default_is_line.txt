@@ -1,0 +1,8 @@
+# conformance golden for bubbles/spinner/default_is_line: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x3
+== final
+alt_screen: off  cursor: hidden  modes: -
+1|[-] ticks=2 done
+2|
+3|
+styles: none

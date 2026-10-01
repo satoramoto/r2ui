@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/style_func_header_bold: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─┬─╮"
+"│\e[1mA\e[0m│\e[1mB\e[0m│"
+"├─┼─┤"
+"│1│2│"
+"╰─┴─╯"

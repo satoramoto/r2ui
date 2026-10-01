@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/letters_upper: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== letters
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"A" type=-1 runes=[65] alt=false char="A" flags=runes
+ 3|"Q" type=-1 runes=[81] alt=false char="Q" flags=runes
+ 4|"Z" type=-1 runes=[90] alt=false char="Z" flags=runes
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

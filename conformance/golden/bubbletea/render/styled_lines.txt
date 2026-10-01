@@ -1,0 +1,14 @@
+# conformance golden for bubbletea/render/styled_lines: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x6
+== start
+alt_screen: on  cursor: hidden  modes: -
+1|bold
+2|plain
+3|x red y
+4| on blue
+5|
+6|
+styles:
+1:1-4 bold
+3:3-5 fg=#ff0000
+4:1-9 fg=#ffffff bg=#0000ff

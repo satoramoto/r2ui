@@ -1,0 +1,53 @@
+# conformance golden for bubbles/list/filter_typing: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x12
+== e
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: e
+ 4|
+ 5|> Apple
+ 6|  Cherry
+ 7|  Date
+ 8|  Elder
+ 9|
+10|● ○
+11|
+12|
+styles:
+ 3:10-10 reverse
+ 5:1-7 reverse
+== el
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: el
+ 4|
+ 5|> Elder
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+styles:
+ 3:11-11 reverse
+ 5:1-7 reverse
+== backspaced
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: e
+ 4|
+ 5|> Apple
+ 6|  Cherry
+ 7|  Date
+ 8|  Elder
+ 9|
+10|● ○
+11|
+12|
+styles:
+ 3:10-10 reverse
+ 5:1-7 reverse

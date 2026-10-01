@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/style_box/multiline_ragged_width: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;68;68;68ma\e[0m\e[48;2;68;68;68m   \e[0m"
+"\e[48;2;68;68;68mbbbb\e[0m"
+"\e[48;2;68;68;68mcc\e[0m\e[48;2;68;68;68m  \e[0m"

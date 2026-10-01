@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/style_box/margin_background: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;170;51;0m      "
+"\e[0m\e[48;2;170;51;0m  \e[0mab\e[48;2;170;51;0m  \e[0m\e[48;2;170;51;0m"
+"      \e[0m"

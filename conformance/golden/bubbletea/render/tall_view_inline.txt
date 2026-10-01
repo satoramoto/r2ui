@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/render/tall_view_inline: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|line 7
+2|line 8
+3|line 9
+4|line 10
+5|line 11
+6|line 12
+styles: none

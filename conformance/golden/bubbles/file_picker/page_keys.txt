@@ -1,0 +1,92 @@
+# conformance golden for bubbles/file_picker/page_keys: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x9
+== page1
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|   file02.txt 2.0B
+4|   file03.txt 3.0B
+5|   file04.txt 4.0B
+6|>  file05.txt 5.0B
+7|cursor=4
+8|
+9|
+styles:
+1:1-6 fg=4
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:4-13 bold
+6:15-18 fg=8
+== page2
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|   file06.txt 6.0B
+4|   file07.txt 7.0B
+5|   file08.txt 8.0B
+6|>  file09.txt 9.0B
+7|cursor=8
+8|
+9|
+styles:
+1:1-6 fg=4
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:4-13 bold
+6:15-18 fg=8
+== clamped_end
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|   file07.txt 7.0B
+4|   file08.txt 8.0B
+5|   file09.txt 9.0B
+6|>  file10.txt 10.0B
+7|cursor=9
+8|
+9|
+styles:
+1:1-6 fg=4
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:4-13 bold
+6:15-19 fg=8
+== back1
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|>  file06.txt 6.0B
+4|   file07.txt 7.0B
+5|   file08.txt 8.0B
+6|   file09.txt 9.0B
+7|cursor=5
+8|
+9|
+styles:
+1:1-6 fg=4
+3:4-13 bold
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:15-18 fg=8
+== clamped_start
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|>  file01.txt 1.0B
+4|   file02.txt 2.0B
+5|   file03.txt 3.0B
+6|   file04.txt 4.0B
+7|cursor=0
+8|
+9|
+styles:
+1:1-6 fg=4
+3:4-13 bold
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:15-18 fg=8

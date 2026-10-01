@@ -1,0 +1,10 @@
+# conformance golden for bubbles/table/no_columns: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x5
+== nothing
+alt_screen: off  cursor: hidden  modes: -
+1|top
+2|[]
+3|bottom
+4|
+5|
+styles: none

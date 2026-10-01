@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/style_text/multiline_styled: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[1;38;2;255;135;0mone\e[0m  "
+"\e[1;38;2;255;135;0mtwo\e[0m  "
+"\e[1;38;2;255;135;0mthree\e[0m"

@@ -1,0 +1,29 @@
+# conformance golden for bubbles/text_area/insert_mid_line: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x7
+== inserted
+alt_screen: off  cursor: hidden  modes: -
+1|abXcd
+2|~
+3|~
+4|~
+5|row=0 col=3
+6|
+7|
+styles:
+1:4-4 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+4:1-1 fg=8
+== split
+alt_screen: off  cursor: hidden  modes: -
+1|abX
+2|cd
+3|~
+4|~
+5|row=1 col=0
+6|
+7|
+styles:
+2:1-1 reverse
+3:1-1 fg=8
+4:1-1 fg=8

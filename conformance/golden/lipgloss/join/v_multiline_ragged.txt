@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/join/v_multiline_ragged: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"a  "
+"bbb"
+"cc "
+"d  "

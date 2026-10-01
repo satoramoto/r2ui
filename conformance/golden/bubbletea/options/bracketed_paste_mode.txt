@@ -1,0 +1,19 @@
+# conformance golden for bubbletea/options/bracketed_paste_mode: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== running
+alt_screen: off  cursor: hidden  modes: 2004
+1|bracketed paste
+2|
+3|
+4|
+5|
+styles: none
+== after_quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|bracketed paste
+2|
+3|
+4|
+5|
+styles: none

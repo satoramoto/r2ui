@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/list/enumerator_style: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;255;0;0m•\e[0mRed"
+"\e[38;2;255;0;0m•\e[0mGreen"

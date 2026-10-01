@@ -1,0 +1,10 @@
+# conformance golden for bubbles/text_input/echo_none: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== typed
+alt_screen: off  cursor: hidden  modes: -
+1|>
+2|value=[abc] pos=3
+3|
+4|
+styles:
+1:3-3 reverse

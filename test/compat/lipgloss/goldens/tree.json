@@ -1,0 +1,488 @@
+{
+  "tree.basic": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").render",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.to_s": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").to_s",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.empty": {
+    "code": "Lipgloss::Tree.new.render",
+    "results": {
+      "*": ""
+    }
+  },
+  "tree.new_with_root": {
+    "code": "Lipgloss::Tree.new(\"Root\").child(\"a\").render",
+    "results": {
+      "*": "Root\n└── a"
+    }
+  },
+  "tree.new_root_only": {
+    "code": "Lipgloss::Tree.new(\"Root\").render",
+    "results": {
+      "*": "Root"
+    }
+  },
+  "tree.root_only": {
+    "code": "Lipgloss::Tree.root(\"Root\").render",
+    "results": {
+      "*": "Root"
+    }
+  },
+  "tree.no_root": {
+    "code": "Lipgloss::Tree.new.child(\"a\", \"b\").render",
+    "results": {
+      "*": "├── a\n└── b"
+    }
+  },
+  "tree.no_root_nested": {
+    "code": "Lipgloss::Tree.new.child(\"a\", Lipgloss::Tree.root(\"b\").child(\"c\")).render",
+    "results": {
+      "*": "├── a\n└── b\n    └── c"
+    }
+  },
+  "tree.set_root": {
+    "code": "t = Lipgloss::Tree.new.child(\"a\"); (t.root = \"R\"); t.render",
+    "results": {
+      "*": "R\n└── a"
+    }
+  },
+  "tree.set_root_return": {
+    "code": "Lipgloss::Tree.new.child(\"a\").send(:root=, \"R\").render",
+    "results": {
+      "*": "R\n└── a"
+    }
+  },
+  "tree.child_single": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"only\").render",
+    "results": {
+      "*": "R\n└── only"
+    }
+  },
+  "tree.child_chained": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\").child(\"b\").render",
+    "results": {
+      "*": "R\n├── a\n└── b"
+    }
+  },
+  "tree.children": {
+    "code": "Lipgloss::Tree.root(\"R\").children([\"a\", \"b\", \"c\"]).render",
+    "results": {
+      "*": "R\n├── a\n├── b\n└── c"
+    }
+  },
+  "tree.children_empty": {
+    "code": "Lipgloss::Tree.root(\"R\").children([]).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.children_then_child": {
+    "code": "Lipgloss::Tree.root(\"R\").children([\"a\"]).child(\"b\").render",
+    "results": {
+      "*": "R\n├── a\n└── b"
+    }
+  },
+  "tree.children_non_string": {
+    "code": "Lipgloss::Tree.root(\"R\").children([\"a\", 1]).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.children_not_array": {
+    "code": "Lipgloss::Tree.root(\"R\").children(\"a\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Array)"
+      }
+    }
+  },
+  "tree.child_none": {
+    "code": "Lipgloss::Tree.root(\"R\").child",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1+)"
+      }
+    }
+  },
+  "tree.child_non_string": {
+    "code": "Lipgloss::Tree.root(\"R\").child(1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "tree.child_nil": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected String)"
+      }
+    }
+  },
+  "tree.root_non_string": {
+    "code": "Lipgloss::Tree.root(1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "tree.new_non_string": {
+    "code": "Lipgloss::Tree.new(:r)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Symbol (expected String)"
+      }
+    }
+  },
+  "tree.new_two_args": {
+    "code": "Lipgloss::Tree.new(\"a\", \"b\").render",
+    "results": {
+      "*": ""
+    }
+  },
+  "tree.immutable": {
+    "code": "t = Lipgloss::Tree.root(\"R\"); t.child(\"a\"); t.render",
+    "results": {
+      "*": "R\n└── a"
+    }
+  },
+  "tree.multiline_child": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"line1\\nline2\", \"b\").render",
+    "results": {
+      "*": "R\n├── line1\n│   line2\n└── b"
+    }
+  },
+  "tree.multiline_root": {
+    "code": "Lipgloss::Tree.root(\"R1\\nR2\").child(\"a\").render",
+    "results": {
+      "*": "R1\nR2\n└── a"
+    }
+  },
+  "tree.wide_children": {
+    "code": "Lipgloss::Tree.root(\"根\").child(\"日本語\", \"😀\", \"한글\").render",
+    "results": {
+      "*": "根\n├── 日本語\n├── 😀\n└── 한글"
+    }
+  },
+  "tree.ansi_children": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"\\e[31mred\\e[0m\", \"plain\").render",
+    "results": {
+      "*": "R\n├── \u001b[31mred\u001b[0m\n└── plain"
+    }
+  },
+  "tree.styled_child": {
+    "code": "Lipgloss::Tree.root(\"R\").child(Lipgloss::Style.new.border(:normal).render(\"box\"), \"after\").render",
+    "results": {
+      "*": "R\n├── ┌───┐\n│   │box│\n│   └───┘\n└── after"
+    }
+  },
+  "tree.empty_child": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"\", \"b\").render",
+    "results": {
+      "*": "R\n├── \n└── b"
+    }
+  },
+  "tree.class_of_chain": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\").class.name",
+    "results": {
+      "*": "Lipgloss::Tree"
+    }
+  },
+  "tree.nested": {
+    "code": "Lipgloss::Tree.root(\".\").child(\"macOS\", Lipgloss::Tree.root(\"Linux\").child(\"NixOS\", \"Arch\"), \"BSD\").render",
+    "results": {
+      "*": ".\n├── macOS\n├── Linux\n│   ├── NixOS\n│   └── Arch\n└── BSD"
+    }
+  },
+  "tree.nested_deep": {
+    "code": "Lipgloss::Tree.root(\"a\").child(Lipgloss::Tree.root(\"b\").child(Lipgloss::Tree.root(\"c\").child(\"d\", \"e\")), \"f\").render",
+    "results": {
+      "*": "a\n├── b\n│   └── c\n│       ├── d\n│       └── e\n└── f"
+    }
+  },
+  "tree.nested_last": {
+    "code": "Lipgloss::Tree.root(\"a\").child(\"b\", Lipgloss::Tree.root(\"c\").child(\"d\")).render",
+    "results": {
+      "*": "a\n├── b\n└── c\n    └── d"
+    }
+  },
+  "tree.nested_no_root": {
+    "code": "Lipgloss::Tree.root(\"a\").child(\"b\", Lipgloss::Tree.new.child(\"c\", \"d\"), \"e\").render",
+    "results": {
+      "*": "a\n├── b\n│   ├── c\n│   └── d\n└── e"
+    }
+  },
+  "tree.nested_empty": {
+    "code": "Lipgloss::Tree.root(\"a\").child(Lipgloss::Tree.new, \"b\").render",
+    "results": {
+      "*": "a\n├── \n└── b"
+    }
+  },
+  "tree.nested_root_only": {
+    "code": "Lipgloss::Tree.root(\"a\").child(Lipgloss::Tree.root(\"b\"), \"c\").render",
+    "results": {
+      "*": "a\n├── b\n└── c"
+    }
+  },
+  "tree.nested_multiline": {
+    "code": "Lipgloss::Tree.root(\"a\").child(Lipgloss::Tree.root(\"b\\nb2\").child(\"c\\nc2\")).render",
+    "results": {
+      "*": "a\n└── b \n    b2\n    └── c \n        c2"
+    }
+  },
+  "tree.enum_default": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").enumerator(:default).render",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.enum_rounded": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").enumerator(:rounded).render",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n╰── Cherry"
+    }
+  },
+  "tree.enum_unknown": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").enumerator(:nope).render",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.enum_string": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").enumerator(\"rounded\").render",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.enum_rounded_nested": {
+    "code": "Lipgloss::Tree.root(\"a\").child(\"b\", Lipgloss::Tree.root(\"c\").child(\"d\", \"e\"), \"f\").enumerator(:rounded).render",
+    "results": {
+      "*": "a\n├── b\n├── c\n│   ├── d\n│   ╰── e\n╰── f"
+    }
+  },
+  "tree.enum_nested_own": {
+    "code": "Lipgloss::Tree.root(\"a\").child(\"b\", Lipgloss::Tree.root(\"c\").child(\"d\", \"e\").enumerator(:rounded), \"f\").render",
+    "results": {
+      "*": "a\n├── b\n├── c\n│   ├── d\n│   ╰── e\n└── f"
+    }
+  },
+  "tree.enum_rounded_multiline": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"x\\ny\", \"z\").enumerator(:rounded).render",
+    "results": {
+      "*": "R\n├── x\n│   y\n╰── z"
+    }
+  },
+  "tree.root_style": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").root_style(Lipgloss::Style.new.bold(true).foreground(\"#ff0000\")).render",
+    "results": {
+      "true_color": "\u001b[1;38;2;255;0;0mFruit\u001b[0m\n├── Apple\n├── Banana\n└── Cherry",
+      "ansi256": "\u001b[1;38;5;196mFruit\u001b[0m\n├── Apple\n├── Banana\n└── Cherry",
+      "ansi": "\u001b[1;91mFruit\u001b[0m\n├── Apple\n├── Banana\n└── Cherry",
+      "ascii": "Fruit\n├── Apple\n├── Banana\n└── Cherry",
+      "true_color_light": "\u001b[1;38;2;255;0;0mFruit\u001b[0m\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.item_style": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.foreground(\"#00ff00\")).render",
+    "results": {
+      "true_color": "Fruit\n├── \u001b[38;2;0;255;0mApple\u001b[0m\n├── \u001b[38;2;0;255;0mBanana\u001b[0m\n└── \u001b[38;2;0;255;0mCherry\u001b[0m",
+      "ansi256": "Fruit\n├── \u001b[38;5;46mApple\u001b[0m\n├── \u001b[38;5;46mBanana\u001b[0m\n└── \u001b[38;5;46mCherry\u001b[0m",
+      "ansi": "Fruit\n├── \u001b[92mApple\u001b[0m\n├── \u001b[92mBanana\u001b[0m\n└── \u001b[92mCherry\u001b[0m",
+      "ascii": "Fruit\n├── Apple\n├── Banana\n└── Cherry",
+      "true_color_light": "Fruit\n├── \u001b[38;2;0;255;0mApple\u001b[0m\n├── \u001b[38;2;0;255;0mBanana\u001b[0m\n└── \u001b[38;2;0;255;0mCherry\u001b[0m"
+    }
+  },
+  "tree.enumerator_style": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").enumerator_style(Lipgloss::Style.new.foreground(\"#0000ff\")).render",
+    "results": {
+      "true_color": "Fruit\n\u001b[38;2;0;0;255m├──\u001b[0mApple\n\u001b[38;2;0;0;255m├──\u001b[0mBanana\n\u001b[38;2;0;0;255m└──\u001b[0mCherry",
+      "ansi256": "Fruit\n\u001b[38;5;21m├──\u001b[0mApple\n\u001b[38;5;21m├──\u001b[0mBanana\n\u001b[38;5;21m└──\u001b[0mCherry",
+      "ansi": "Fruit\n\u001b[94m├──\u001b[0mApple\n\u001b[94m├──\u001b[0mBanana\n\u001b[94m└──\u001b[0mCherry",
+      "ascii": "Fruit\n├──Apple\n├──Banana\n└──Cherry",
+      "true_color_light": "Fruit\n\u001b[38;2;0;0;255m├──\u001b[0mApple\n\u001b[38;2;0;0;255m├──\u001b[0mBanana\n\u001b[38;2;0;0;255m└──\u001b[0mCherry"
+    }
+  },
+  "tree.enumerator_style_padding": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").enumerator_style(Lipgloss::Style.new.padding_right(1)).render",
+    "results": {
+      "*": "Fruit\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.item_style_padding": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.padding_left(2)).render",
+    "results": {
+      "*": "Fruit\n├──   Apple\n├──   Banana\n└──   Cherry"
+    }
+  },
+  "tree.item_style_border": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.border(:normal)).render",
+    "results": {
+      "*": "Fruit\n├── ┌─────┐\n│   │Apple│\n│   └─────┘\n├── ┌──────┐\n│   │Banana│\n│   └──────┘\n└── ┌──────┐\n    │Cherry│\n    └──────┘"
+    }
+  },
+  "tree.root_style_border": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").root_style(Lipgloss::Style.new.border(:rounded)).render",
+    "results": {
+      "*": "╭─────╮\n│Fruit│\n╰─────╯\n├── Apple\n├── Banana\n└── Cherry"
+    }
+  },
+  "tree.all_styles": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").root_style(Lipgloss::Style.new.bold(true)).item_style(Lipgloss::Style.new.italic(true)).enumerator_style(Lipgloss::Style.new.faint(true)).render",
+    "results": {
+      "true_color": "\u001b[1mFruit\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mApple\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mBanana\u001b[0m\n\u001b[2m└──\u001b[0m\u001b[3mCherry\u001b[0m",
+      "ansi256": "\u001b[1mFruit\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mApple\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mBanana\u001b[0m\n\u001b[2m└──\u001b[0m\u001b[3mCherry\u001b[0m",
+      "ansi": "\u001b[1mFruit\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mApple\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mBanana\u001b[0m\n\u001b[2m└──\u001b[0m\u001b[3mCherry\u001b[0m",
+      "ascii": "Fruit\n├──Apple\n├──Banana\n└──Cherry",
+      "true_color_light": "\u001b[1mFruit\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mApple\u001b[0m\n\u001b[2m├──\u001b[0m\u001b[3mBanana\u001b[0m\n\u001b[2m└──\u001b[0m\u001b[3mCherry\u001b[0m"
+    }
+  },
+  "tree.styles_nested": {
+    "code": "Lipgloss::Tree.root(\"a\").child(\"b\", Lipgloss::Tree.root(\"c\").child(\"d\")).item_style(Lipgloss::Style.new.foreground(\"1\")).enumerator_style(Lipgloss::Style.new.foreground(\"2\")).render",
+    "results": {
+      "true_color": "a\n\u001b[32m├──\u001b[0m\u001b[31mb\u001b[0m\n\u001b[32m└──\u001b[0m\u001b[31mc\u001b[0m\n\u001b[32m   \u001b[0m\u001b[32m└──\u001b[0m\u001b[31md\u001b[0m",
+      "ansi256": "a\n\u001b[32m├──\u001b[0m\u001b[31mb\u001b[0m\n\u001b[32m└──\u001b[0m\u001b[31mc\u001b[0m\n\u001b[32m   \u001b[0m\u001b[32m└──\u001b[0m\u001b[31md\u001b[0m",
+      "ansi": "a\n\u001b[32m├──\u001b[0m\u001b[31mb\u001b[0m\n\u001b[32m└──\u001b[0m\u001b[31mc\u001b[0m\n\u001b[32m   \u001b[0m\u001b[32m└──\u001b[0m\u001b[31md\u001b[0m",
+      "ascii": "a\n├──b\n└──c\n   └──d",
+      "true_color_light": "a\n\u001b[32m├──\u001b[0m\u001b[31mb\u001b[0m\n\u001b[32m└──\u001b[0m\u001b[31mc\u001b[0m\n\u001b[32m   \u001b[0m\u001b[32m└──\u001b[0m\u001b[31md\u001b[0m"
+    }
+  },
+  "tree.styles_nested_own": {
+    "code": "Lipgloss::Tree.root(\"a\").child(\"b\", Lipgloss::Tree.root(\"c\").child(\"d\").item_style(Lipgloss::Style.new.foreground(\"3\"))).render",
+    "results": {
+      "true_color": "a\n├── b\n└── c\n    └── \u001b[33md\u001b[0m",
+      "ansi256": "a\n├── b\n└── c\n    └── \u001b[33md\u001b[0m",
+      "ansi": "a\n├── b\n└── c\n    └── \u001b[33md\u001b[0m",
+      "ascii": "a\n├── b\n└── c\n    └── d",
+      "true_color_light": "a\n├── b\n└── c\n    └── \u001b[33md\u001b[0m"
+    }
+  },
+  "tree.style_bad": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").item_style(\"red\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "tree.root_style_bad": {
+    "code": "Lipgloss::Tree.root(\"Fruit\").child(\"Apple\", \"Banana\", \"Cherry\").root_style(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "tree.offset_0_0": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(0, 0).render",
+    "results": {
+      "*": "R\n├── a\n├── b\n├── c\n├── d\n└── e"
+    }
+  },
+  "tree.offset_1_0": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(1, 0).render",
+    "results": {
+      "*": "R\n├── a\n├── b\n├── c\n└── d"
+    }
+  },
+  "tree.offset_0_1": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(0, 1).render",
+    "results": {
+      "*": "R\n├── a\n├── b\n├── c\n└── d"
+    }
+  },
+  "tree.offset_1_1": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(1, 1).render",
+    "results": {
+      "*": "R\n├── b\n├── c\n└── d"
+    }
+  },
+  "tree.offset_2_2": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(2, 2).render",
+    "results": {
+      "*": "R\n└── c"
+    }
+  },
+  "tree.offset_0_5": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(0, 5).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.offset_5_0": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(5, 0).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.offset_3_3": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(3, 3).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.offset_9_9": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(9, 9).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.offset_m1_0": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(-1, 0).render",
+    "results": {
+      "*": "R\n├── a\n├── b\n├── c\n├── d\n└── e"
+    }
+  },
+  "tree.offset_0_m1": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(0, -1).render",
+    "results": {
+      "*": "R\n├── a\n├── b\n├── c\n├── d\n└── e"
+    }
+  },
+  "tree.offset_m1_m1": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(-1, -1).render",
+    "results": {
+      "*": "R"
+    }
+  },
+  "tree.offset_nested": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", Lipgloss::Tree.root(\"b\").child(\"c\"), \"d\").offset(1, 1).render",
+    "results": {
+      "*": "R\n└── b\n    └── c"
+    }
+  },
+  "tree.offset_string": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(\"1\", 0)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of String into Integer"
+      }
+    }
+  },
+  "tree.offset_one_arg": {
+    "code": "Lipgloss::Tree.root(\"R\").child(\"a\", \"b\", \"c\", \"d\", \"e\").offset(1)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 1, expected 2)"
+      }
+    }
+  }
+}

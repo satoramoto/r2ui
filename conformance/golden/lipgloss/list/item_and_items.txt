@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/list/item_and_items: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"• a"
+"• b"
+"• c"
+"• d"

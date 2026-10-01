@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_rgb_short_hex: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"#800080"

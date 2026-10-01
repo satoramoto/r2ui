@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/style_func_column_color: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─┬─╮"
+"│A│B│"
+"├─┼─┤"
+"│1│\e[38;2;0;255;0m2\e[0m│"
+"│3│\e[38;2;0;255;0m4\e[0m│"
+"╰─┴─╯"

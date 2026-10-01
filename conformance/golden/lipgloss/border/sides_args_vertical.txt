@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/sides_args_vertical: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"───"
+"Box"
+"───"

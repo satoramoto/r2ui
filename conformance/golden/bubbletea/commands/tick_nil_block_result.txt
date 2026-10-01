@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/commands/tick_nil_block_result: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== one
+alt_screen: off  cursor: hidden  modes: -
+1|fired: 1
+2|
+3|
+4|
+5|
+styles: none

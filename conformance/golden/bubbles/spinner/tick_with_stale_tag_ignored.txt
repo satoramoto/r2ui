@@ -1,0 +1,14 @@
+# conformance golden for bubbles/spinner/tick_with_stale_tag_ignored: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x3
+== stale_ignored
+alt_screen: off  cursor: hidden  modes: -
+1|[|] s no-cmd
+2|
+3|
+styles: none
+== wildcard_advances
+alt_screen: off  cursor: hidden  modes: -
+1|[/] w cmd
+2|
+3|
+styles: none

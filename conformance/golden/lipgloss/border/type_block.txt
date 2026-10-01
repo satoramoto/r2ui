@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/type_block: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"█████"
+"█Box█"
+"█████"

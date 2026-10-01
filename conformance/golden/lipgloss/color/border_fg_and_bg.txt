@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/color/border_fg_and_bg: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;0;255;0;48;2;0;0;128m╔═══╗\e[0m"
+"\e[38;2;0;255;0;48;2;0;0;128m║\e[0mBox\e[38;2;0;255;0;48;2;0;0;128m║\e[0m"
+"\e[38;2;0;255;0;48;2;0;0;128m╚═══╝\e[0m"

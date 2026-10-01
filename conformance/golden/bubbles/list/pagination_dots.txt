@@ -1,0 +1,58 @@
+# conformance golden for bubbles/list/pagination_dots: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== first_page
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Item 1
+ 4|  Item 2
+ 5|  Item 3
+ 6|  Item 4
+ 7|
+ 8|● ○ ○ ○ ○ ○ ○ ○
+ 9|
+10|
+styles:
+ 3:1-8 reverse
+== third_page
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 6
+ 4|  Item 7
+ 5|  Item 8
+ 6|> Item 9
+ 7|
+ 8|○ ● ○ ○ ○ ○ ○ ○
+ 9|
+10|
+styles:
+ 6:1-8 reverse
+== last_page
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 27
+ 4|  Item 28
+ 5|  Item 29
+ 6|> Item 30
+ 7|
+ 8|○ ○ ○ ○ ○ ○ ● ○
+ 9|
+10|
+styles:
+ 6:1-9 reverse
+== no_pagination
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 27
+ 4|  Item 28
+ 5|  Item 29
+ 6|> Item 30
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 6:1-9 reverse

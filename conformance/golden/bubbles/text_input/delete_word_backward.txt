@@ -1,0 +1,18 @@
+# conformance golden for bubbles/text_input/delete_word_backward: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== removed_three
+alt_screen: off  cursor: hidden  modes: -
+1|> one two
+2|value=[one two ] pos=8
+3|
+4|
+styles:
+1:11-11 reverse
+== removed_trailing_spaces_and_two
+alt_screen: off  cursor: hidden  modes: -
+1|> one
+2|value=[one ] pos=4
+3|
+4|
+styles:
+1:7-7 reverse

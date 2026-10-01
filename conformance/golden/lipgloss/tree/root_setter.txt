@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/tree/root_setter: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"Top"
+"├── a"
+"└── b"

@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/join/h_fraction_quarter: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"a  "
+"bxy"
+"c  "
+"d  "
+"e  "

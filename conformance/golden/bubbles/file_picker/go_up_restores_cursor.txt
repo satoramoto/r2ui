@@ -1,0 +1,78 @@
+# conformance golden for bubbles/file_picker/go_up_restores_cursor: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== in_src
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>/src
+ 2|
+ 3|>  .. rwxr-xr-x
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=0 did=false path=nil
+14|
+styles:
+ 1:1-10 fg=4
+ 3:4-5 bold
+ 3:7-15 fg=8
+== back_cursor_on_src
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|   docs/ rwxr-xr-x
+ 4|>  src/ rwxr-xr-x
+ 5|   alpha.txt 5.0B rw-r--r--
+ 6|   beta.rb 1.5K rw-r--r--
+ 7|   Gamma.md 0 B rw-r--r--
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=1 did=false path=nil
+14|
+styles:
+ 1:1-6 fg=4
+ 3:4-8 fg=4
+ 3:10-18 fg=8
+ 4:4-6 bold
+ 4:9-17 fg=8
+ 5:14-17 fg=8
+ 5:19-27 fg=8
+ 6:12-15 fg=8
+ 6:17-25 fg=8
+ 7:13-15 fg=8
+ 7:17-25 fg=8
+== at_top_h_ignored
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|   docs/ rwxr-xr-x
+ 4|>  src/ rwxr-xr-x
+ 5|   alpha.txt 5.0B rw-r--r--
+ 6|   beta.rb 1.5K rw-r--r--
+ 7|   Gamma.md 0 B rw-r--r--
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=1 did=false path=nil
+14|
+styles:
+ 1:1-6 fg=4
+ 3:4-8 fg=4
+ 3:10-18 fg=8
+ 4:4-6 bold
+ 4:9-17 fg=8
+ 5:14-17 fg=8
+ 5:19-27 fg=8
+ 6:12-15 fg=8
+ 6:17-25 fg=8
+ 7:13-15 fg=8
+ 7:17-25 fg=8

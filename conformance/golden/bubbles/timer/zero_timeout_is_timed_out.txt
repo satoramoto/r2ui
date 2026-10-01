@@ -1,0 +1,8 @@
+# conformance golden for bubbles/timer/zero_timeout_is_timed_out: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|0s running=false out=true cmd=none
+2|
+3|
+styles: none

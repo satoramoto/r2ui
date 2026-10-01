@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/wide_chars: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭──────┬────╮"
+"│名前  │Name│"
+"├──────┼────┤"
+"│日本語│x   │"
+"│a     │yy  │"
+"╰──────┴────╯"

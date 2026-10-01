@@ -1,0 +1,32 @@
+# conformance golden for bubbles/text_area/height_scroll_down: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x6
+== exactly_full
+alt_screen: off  cursor: hidden  modes: -
+1|a
+2|b
+3|c
+4|row=2 lines=3
+5|
+6|
+styles:
+3:2-2 reverse
+== scrolled_one
+alt_screen: off  cursor: hidden  modes: -
+1|b
+2|c
+3|d
+4|row=3 lines=4
+5|
+6|
+styles:
+3:2-2 reverse
+== scrolled_three
+alt_screen: off  cursor: hidden  modes: -
+1|d
+2|e
+3|f
+4|row=5 lines=6
+5|
+6|
+styles:
+3:2-2 reverse

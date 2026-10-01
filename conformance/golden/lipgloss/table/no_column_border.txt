@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/no_column_border: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭──╮"
+"│AB│"
+"├──┤"
+"│12│"
+"╰──╯"

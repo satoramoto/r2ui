@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/style_box/height_pads_short: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"ab"
+"  "
+"  "
+"  "

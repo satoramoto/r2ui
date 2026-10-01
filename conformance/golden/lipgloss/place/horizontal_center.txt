@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/place/horizontal_center: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"   ab    "
+"    c    "

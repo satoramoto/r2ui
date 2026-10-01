@@ -1,0 +1,35 @@
+# conformance golden for bubbletea/keys/ctrl_letters: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x30
+== all
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"ctrl+a" type=1 runes=[] alt=false char=nil flags=ctrl
+ 3|"ctrl+b" type=2 runes=[] alt=false char=nil flags=ctrl
+ 4|"ctrl+c" type=3 runes=[] alt=false char=nil flags=ctrl
+ 5|"ctrl+d" type=4 runes=[] alt=false char=nil flags=ctrl
+ 6|"ctrl+e" type=5 runes=[] alt=false char=nil flags=ctrl
+ 7|"ctrl+f" type=6 runes=[] alt=false char=nil flags=ctrl
+ 8|"ctrl+g" type=7 runes=[] alt=false char=nil flags=ctrl
+ 9|"ctrl+h" type=8 runes=[] alt=false char=nil flags=ctrl
+10|"tab" type=9 runes=[] alt=false char=nil flags=ctrl,tab
+11|"ctrl+j" type=10 runes=[] alt=false char=nil flags=ctrl
+12|"ctrl+k" type=11 runes=[] alt=false char=nil flags=ctrl
+13|"ctrl+l" type=12 runes=[] alt=false char=nil flags=ctrl
+14|"enter" type=13 runes=[] alt=false char=nil flags=ctrl,enter
+15|"ctrl+n" type=14 runes=[] alt=false char=nil flags=ctrl
+16|"ctrl+o" type=15 runes=[] alt=false char=nil flags=ctrl
+17|"ctrl+p" type=16 runes=[] alt=false char=nil flags=ctrl
+18|"ctrl+q" type=17 runes=[] alt=false char=nil flags=ctrl
+19|"ctrl+r" type=18 runes=[] alt=false char=nil flags=ctrl
+20|"ctrl+s" type=19 runes=[] alt=false char=nil flags=ctrl
+21|"ctrl+t" type=20 runes=[] alt=false char=nil flags=ctrl
+22|"ctrl+u" type=21 runes=[] alt=false char=nil flags=ctrl
+23|"ctrl+v" type=22 runes=[] alt=false char=nil flags=ctrl
+24|"ctrl+w" type=23 runes=[] alt=false char=nil flags=ctrl
+25|"ctrl+x" type=24 runes=[] alt=false char=nil flags=ctrl
+26|"ctrl+y" type=25 runes=[] alt=false char=nil flags=ctrl
+27|"ctrl+z" type=26 runes=[] alt=false char=nil flags=ctrl
+28|
+29|
+30|
+styles: none

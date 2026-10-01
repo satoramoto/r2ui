@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/multiline_item: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"1. first "
+"   second"
+"2. third"

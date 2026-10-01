@@ -1,0 +1,26 @@
+# conformance golden for bubbles/text_area/long_line_scroll: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x6
+== at_end
+alt_screen: off  cursor: hidden  modes: -
+1|789ABCDEF
+2|~
+3|~
+4|col=16
+5|
+6|
+styles:
+1:10-10 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+== at_start
+alt_screen: off  cursor: hidden  modes: -
+1|0123456789
+2|~
+3|~
+4|col=0
+5|
+6|
+styles:
+1:1-1 reverse
+2:1-1 fg=8
+3:1-1 fg=8

@@ -1,0 +1,10 @@
+# conformance golden for bubbles/progress/hide_percentage: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|██████████░░░░░░░░░░
+2|
+3|
+styles:
+1:1-10 fg=#7571f9
+1:11-20 fg=#606060

@@ -1,0 +1,1580 @@
+{
+  "color.fg_hex_red6": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff0000\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_red6": {
+    "code": "Lipgloss::Style.new.background(\"#ff0000\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;196mx\u001b[0m",
+      "ansi": "\u001b[101mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_green6": {
+    "code": "Lipgloss::Style.new.foreground(\"#00ff00\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;255;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;46mx\u001b[0m",
+      "ansi": "\u001b[92mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;255;0mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_green6": {
+    "code": "Lipgloss::Style.new.background(\"#00ff00\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;255;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;46mx\u001b[0m",
+      "ansi": "\u001b[102mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;0;255;0mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_blue6": {
+    "code": "Lipgloss::Style.new.foreground(\"#0000ff\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;0;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;21mx\u001b[0m",
+      "ansi": "\u001b[94mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;0;255mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_blue6": {
+    "code": "Lipgloss::Style.new.background(\"#0000ff\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;0;255mx\u001b[0m",
+      "ansi256": "\u001b[48;5;21mx\u001b[0m",
+      "ansi": "\u001b[104mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;0;0;255mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_white6": {
+    "code": "Lipgloss::Style.new.foreground(\"#ffffff\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;255;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;231mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;255;255mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_white6": {
+    "code": "Lipgloss::Style.new.background(\"#ffffff\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;255;255mx\u001b[0m",
+      "ansi256": "\u001b[48;5;231mx\u001b[0m",
+      "ansi": "\u001b[107mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;255;255mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_black6": {
+    "code": "Lipgloss::Style.new.foreground(\"#000000\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;0;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;16mx\u001b[0m",
+      "ansi": "\u001b[30mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;0;0mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_black6": {
+    "code": "Lipgloss::Style.new.background(\"#000000\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;0;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;16mx\u001b[0m",
+      "ansi": "\u001b[40mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;0;0;0mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_upper6": {
+    "code": "Lipgloss::Style.new.foreground(\"#7D56F4\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;125;86;243mx\u001b[0m",
+      "ansi256": "\u001b[38;5;99mx\u001b[0m",
+      "ansi": "\u001b[94mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;125;86;243mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_upper6": {
+    "code": "Lipgloss::Style.new.background(\"#7D56F4\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;125;86;243mx\u001b[0m",
+      "ansi256": "\u001b[48;5;99mx\u001b[0m",
+      "ansi": "\u001b[104mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;125;86;243mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_gray6": {
+    "code": "Lipgloss::Style.new.foreground(\"#808080\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;128;128;128mx\u001b[0m",
+      "ansi256": "\u001b[38;5;102mx\u001b[0m",
+      "ansi": "\u001b[90mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;128;128;128mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_gray6": {
+    "code": "Lipgloss::Style.new.background(\"#808080\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;128;128;128mx\u001b[0m",
+      "ansi256": "\u001b[48;5;102mx\u001b[0m",
+      "ansi": "\u001b[100mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;128;128;128mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_dark_gray6": {
+    "code": "Lipgloss::Style.new.foreground(\"#1a1a1a\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;26;26;26mx\u001b[0m",
+      "ansi256": "\u001b[38;5;232mx\u001b[0m",
+      "ansi": "\u001b[30mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;26;26;26mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_dark_gray6": {
+    "code": "Lipgloss::Style.new.background(\"#1a1a1a\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;26;26;26mx\u001b[0m",
+      "ansi256": "\u001b[48;5;232mx\u001b[0m",
+      "ansi": "\u001b[40mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;26;26;26mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_light_gray6": {
+    "code": "Lipgloss::Style.new.foreground(\"#e0e0e0\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;224;224;224mx\u001b[0m",
+      "ansi256": "\u001b[38;5;188mx\u001b[0m",
+      "ansi": "\u001b[37mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;224;224;224mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_light_gray6": {
+    "code": "Lipgloss::Style.new.background(\"#e0e0e0\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;224;224;224mx\u001b[0m",
+      "ansi256": "\u001b[48;5;188mx\u001b[0m",
+      "ansi": "\u001b[47mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;224;224;224mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_orange6": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff8800\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;136;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;208mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;136;0mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_orange6": {
+    "code": "Lipgloss::Style.new.background(\"#ff8800\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;136;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;208mx\u001b[0m",
+      "ansi": "\u001b[101mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;136;0mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_teal6": {
+    "code": "Lipgloss::Style.new.foreground(\"#008080\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;128;128mx\u001b[0m",
+      "ansi256": "\u001b[38;5;30mx\u001b[0m",
+      "ansi": "\u001b[36mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;128;128mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_teal6": {
+    "code": "Lipgloss::Style.new.background(\"#008080\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;128;128mx\u001b[0m",
+      "ansi256": "\u001b[48;5;30mx\u001b[0m",
+      "ansi": "\u001b[46mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;0;128;128mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_pink6": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff69b4\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;105;179mx\u001b[0m",
+      "ansi256": "\u001b[38;5;205mx\u001b[0m",
+      "ansi": "\u001b[95mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;105;179mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_pink6": {
+    "code": "Lipgloss::Style.new.background(\"#ff69b4\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;105;179mx\u001b[0m",
+      "ansi256": "\u001b[48;5;205mx\u001b[0m",
+      "ansi": "\u001b[105mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;105;179mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_near_cube6": {
+    "code": "Lipgloss::Style.new.foreground(\"#5f87af\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;95;135;175mx\u001b[0m",
+      "ansi256": "\u001b[38;5;67mx\u001b[0m",
+      "ansi": "\u001b[94mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;95;135;175mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_near_cube6": {
+    "code": "Lipgloss::Style.new.background(\"#5f87af\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;95;135;175mx\u001b[0m",
+      "ansi256": "\u001b[48;5;67mx\u001b[0m",
+      "ansi": "\u001b[104mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;95;135;175mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_red3": {
+    "code": "Lipgloss::Style.new.foreground(\"#f00\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_red3": {
+    "code": "Lipgloss::Style.new.background(\"#f00\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;196mx\u001b[0m",
+      "ansi": "\u001b[101mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_mixed3": {
+    "code": "Lipgloss::Style.new.foreground(\"#a3c\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;170;51;204mx\u001b[0m",
+      "ansi256": "\u001b[38;5;134mx\u001b[0m",
+      "ansi": "\u001b[95mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;170;51;204mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_mixed3": {
+    "code": "Lipgloss::Style.new.background(\"#a3c\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;170;51;204mx\u001b[0m",
+      "ansi256": "\u001b[48;5;134mx\u001b[0m",
+      "ansi": "\u001b[105mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;170;51;204mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_upper3": {
+    "code": "Lipgloss::Style.new.foreground(\"#ABC\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;170;187;204mx\u001b[0m",
+      "ansi256": "\u001b[38;5;146mx\u001b[0m",
+      "ansi": "\u001b[94mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;170;187;204mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_upper3": {
+    "code": "Lipgloss::Style.new.background(\"#ABC\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;170;187;204mx\u001b[0m",
+      "ansi256": "\u001b[48;5;146mx\u001b[0m",
+      "ansi": "\u001b[104mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;170;187;204mx\u001b[0m"
+    }
+  },
+  "color.fg_hex_white3": {
+    "code": "Lipgloss::Style.new.foreground(\"#fff\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;255;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;231mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;255;255mx\u001b[0m"
+    }
+  },
+  "color.bg_hex_white3": {
+    "code": "Lipgloss::Style.new.background(\"#fff\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;255;255mx\u001b[0m",
+      "ansi256": "\u001b[48;5;231mx\u001b[0m",
+      "ansi": "\u001b[107mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;255;255mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_0": {
+    "code": "Lipgloss::Style.new.foreground(\"0\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[30mx\u001b[0m",
+      "ansi256": "\u001b[30mx\u001b[0m",
+      "ansi": "\u001b[30mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[30mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_0": {
+    "code": "Lipgloss::Style.new.background(\"0\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[40mx\u001b[0m",
+      "ansi256": "\u001b[40mx\u001b[0m",
+      "ansi": "\u001b[40mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[40mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_1": {
+    "code": "Lipgloss::Style.new.foreground(\"1\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[31mx\u001b[0m",
+      "ansi256": "\u001b[31mx\u001b[0m",
+      "ansi": "\u001b[31mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[31mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_1": {
+    "code": "Lipgloss::Style.new.background(\"1\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[41mx\u001b[0m",
+      "ansi256": "\u001b[41mx\u001b[0m",
+      "ansi": "\u001b[41mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[41mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_2": {
+    "code": "Lipgloss::Style.new.foreground(\"2\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[32mx\u001b[0m",
+      "ansi256": "\u001b[32mx\u001b[0m",
+      "ansi": "\u001b[32mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[32mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_2": {
+    "code": "Lipgloss::Style.new.background(\"2\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[42mx\u001b[0m",
+      "ansi256": "\u001b[42mx\u001b[0m",
+      "ansi": "\u001b[42mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[42mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_3": {
+    "code": "Lipgloss::Style.new.foreground(\"3\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[33mx\u001b[0m",
+      "ansi256": "\u001b[33mx\u001b[0m",
+      "ansi": "\u001b[33mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[33mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_3": {
+    "code": "Lipgloss::Style.new.background(\"3\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[43mx\u001b[0m",
+      "ansi256": "\u001b[43mx\u001b[0m",
+      "ansi": "\u001b[43mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[43mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_4": {
+    "code": "Lipgloss::Style.new.foreground(\"4\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[34mx\u001b[0m",
+      "ansi256": "\u001b[34mx\u001b[0m",
+      "ansi": "\u001b[34mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[34mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_4": {
+    "code": "Lipgloss::Style.new.background(\"4\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[44mx\u001b[0m",
+      "ansi256": "\u001b[44mx\u001b[0m",
+      "ansi": "\u001b[44mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[44mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_5": {
+    "code": "Lipgloss::Style.new.foreground(\"5\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[35mx\u001b[0m",
+      "ansi256": "\u001b[35mx\u001b[0m",
+      "ansi": "\u001b[35mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[35mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_5": {
+    "code": "Lipgloss::Style.new.background(\"5\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[45mx\u001b[0m",
+      "ansi256": "\u001b[45mx\u001b[0m",
+      "ansi": "\u001b[45mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[45mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_6": {
+    "code": "Lipgloss::Style.new.foreground(\"6\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[36mx\u001b[0m",
+      "ansi256": "\u001b[36mx\u001b[0m",
+      "ansi": "\u001b[36mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[36mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_6": {
+    "code": "Lipgloss::Style.new.background(\"6\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[46mx\u001b[0m",
+      "ansi256": "\u001b[46mx\u001b[0m",
+      "ansi": "\u001b[46mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[46mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_7": {
+    "code": "Lipgloss::Style.new.foreground(\"7\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[37mx\u001b[0m",
+      "ansi256": "\u001b[37mx\u001b[0m",
+      "ansi": "\u001b[37mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[37mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_7": {
+    "code": "Lipgloss::Style.new.background(\"7\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[47mx\u001b[0m",
+      "ansi256": "\u001b[47mx\u001b[0m",
+      "ansi": "\u001b[47mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[47mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_8": {
+    "code": "Lipgloss::Style.new.foreground(\"8\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[90mx\u001b[0m",
+      "ansi256": "\u001b[90mx\u001b[0m",
+      "ansi": "\u001b[90mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[90mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_8": {
+    "code": "Lipgloss::Style.new.background(\"8\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[100mx\u001b[0m",
+      "ansi256": "\u001b[100mx\u001b[0m",
+      "ansi": "\u001b[100mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[100mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_9": {
+    "code": "Lipgloss::Style.new.foreground(\"9\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[91mx\u001b[0m",
+      "ansi256": "\u001b[91mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[91mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_9": {
+    "code": "Lipgloss::Style.new.background(\"9\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[101mx\u001b[0m",
+      "ansi256": "\u001b[101mx\u001b[0m",
+      "ansi": "\u001b[101mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[101mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_10": {
+    "code": "Lipgloss::Style.new.foreground(\"10\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[92mx\u001b[0m",
+      "ansi256": "\u001b[92mx\u001b[0m",
+      "ansi": "\u001b[92mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[92mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_10": {
+    "code": "Lipgloss::Style.new.background(\"10\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[102mx\u001b[0m",
+      "ansi256": "\u001b[102mx\u001b[0m",
+      "ansi": "\u001b[102mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[102mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_11": {
+    "code": "Lipgloss::Style.new.foreground(\"11\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[93mx\u001b[0m",
+      "ansi256": "\u001b[93mx\u001b[0m",
+      "ansi": "\u001b[93mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[93mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_11": {
+    "code": "Lipgloss::Style.new.background(\"11\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[103mx\u001b[0m",
+      "ansi256": "\u001b[103mx\u001b[0m",
+      "ansi": "\u001b[103mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[103mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_12": {
+    "code": "Lipgloss::Style.new.foreground(\"12\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[94mx\u001b[0m",
+      "ansi256": "\u001b[94mx\u001b[0m",
+      "ansi": "\u001b[94mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[94mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_12": {
+    "code": "Lipgloss::Style.new.background(\"12\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[104mx\u001b[0m",
+      "ansi256": "\u001b[104mx\u001b[0m",
+      "ansi": "\u001b[104mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[104mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_13": {
+    "code": "Lipgloss::Style.new.foreground(\"13\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[95mx\u001b[0m",
+      "ansi256": "\u001b[95mx\u001b[0m",
+      "ansi": "\u001b[95mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[95mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_13": {
+    "code": "Lipgloss::Style.new.background(\"13\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[105mx\u001b[0m",
+      "ansi256": "\u001b[105mx\u001b[0m",
+      "ansi": "\u001b[105mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[105mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_14": {
+    "code": "Lipgloss::Style.new.foreground(\"14\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[96mx\u001b[0m",
+      "ansi256": "\u001b[96mx\u001b[0m",
+      "ansi": "\u001b[96mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[96mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_14": {
+    "code": "Lipgloss::Style.new.background(\"14\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[106mx\u001b[0m",
+      "ansi256": "\u001b[106mx\u001b[0m",
+      "ansi": "\u001b[106mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[106mx\u001b[0m"
+    }
+  },
+  "color.fg_ansi_15": {
+    "code": "Lipgloss::Style.new.foreground(\"15\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[97mx\u001b[0m",
+      "ansi256": "\u001b[97mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[97mx\u001b[0m"
+    }
+  },
+  "color.bg_ansi_15": {
+    "code": "Lipgloss::Style.new.background(\"15\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[107mx\u001b[0m",
+      "ansi256": "\u001b[107mx\u001b[0m",
+      "ansi": "\u001b[107mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[107mx\u001b[0m"
+    }
+  },
+  "color.fg_256_16": {
+    "code": "Lipgloss::Style.new.foreground(\"16\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;16mx\u001b[0m",
+      "ansi256": "\u001b[38;5;16mx\u001b[0m",
+      "ansi": "\u001b[30mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;16mx\u001b[0m"
+    }
+  },
+  "color.bg_256_16": {
+    "code": "Lipgloss::Style.new.background(\"16\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;16mx\u001b[0m",
+      "ansi256": "\u001b[48;5;16mx\u001b[0m",
+      "ansi": "\u001b[40mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;16mx\u001b[0m"
+    }
+  },
+  "color.fg_256_21": {
+    "code": "Lipgloss::Style.new.foreground(\"21\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;21mx\u001b[0m",
+      "ansi256": "\u001b[38;5;21mx\u001b[0m",
+      "ansi": "\u001b[94mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;21mx\u001b[0m"
+    }
+  },
+  "color.bg_256_21": {
+    "code": "Lipgloss::Style.new.background(\"21\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;21mx\u001b[0m",
+      "ansi256": "\u001b[48;5;21mx\u001b[0m",
+      "ansi": "\u001b[104mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;21mx\u001b[0m"
+    }
+  },
+  "color.fg_256_52": {
+    "code": "Lipgloss::Style.new.foreground(\"52\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;52mx\u001b[0m",
+      "ansi256": "\u001b[38;5;52mx\u001b[0m",
+      "ansi": "\u001b[31mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;52mx\u001b[0m"
+    }
+  },
+  "color.bg_256_52": {
+    "code": "Lipgloss::Style.new.background(\"52\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;52mx\u001b[0m",
+      "ansi256": "\u001b[48;5;52mx\u001b[0m",
+      "ansi": "\u001b[41mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;52mx\u001b[0m"
+    }
+  },
+  "color.fg_256_100": {
+    "code": "Lipgloss::Style.new.foreground(\"100\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;100mx\u001b[0m",
+      "ansi256": "\u001b[38;5;100mx\u001b[0m",
+      "ansi": "\u001b[33mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;100mx\u001b[0m"
+    }
+  },
+  "color.bg_256_100": {
+    "code": "Lipgloss::Style.new.background(\"100\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;100mx\u001b[0m",
+      "ansi256": "\u001b[48;5;100mx\u001b[0m",
+      "ansi": "\u001b[43mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;100mx\u001b[0m"
+    }
+  },
+  "color.fg_256_124": {
+    "code": "Lipgloss::Style.new.foreground(\"124\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;124mx\u001b[0m",
+      "ansi256": "\u001b[38;5;124mx\u001b[0m",
+      "ansi": "\u001b[31mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;124mx\u001b[0m"
+    }
+  },
+  "color.bg_256_124": {
+    "code": "Lipgloss::Style.new.background(\"124\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;124mx\u001b[0m",
+      "ansi256": "\u001b[48;5;124mx\u001b[0m",
+      "ansi": "\u001b[41mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;124mx\u001b[0m"
+    }
+  },
+  "color.fg_256_196": {
+    "code": "Lipgloss::Style.new.foreground(\"196\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;196mx\u001b[0m",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;196mx\u001b[0m"
+    }
+  },
+  "color.bg_256_196": {
+    "code": "Lipgloss::Style.new.background(\"196\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;196mx\u001b[0m",
+      "ansi256": "\u001b[48;5;196mx\u001b[0m",
+      "ansi": "\u001b[101mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;196mx\u001b[0m"
+    }
+  },
+  "color.fg_256_202": {
+    "code": "Lipgloss::Style.new.foreground(\"202\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;202mx\u001b[0m",
+      "ansi256": "\u001b[38;5;202mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;202mx\u001b[0m"
+    }
+  },
+  "color.bg_256_202": {
+    "code": "Lipgloss::Style.new.background(\"202\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;202mx\u001b[0m",
+      "ansi256": "\u001b[48;5;202mx\u001b[0m",
+      "ansi": "\u001b[101mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;202mx\u001b[0m"
+    }
+  },
+  "color.fg_256_226": {
+    "code": "Lipgloss::Style.new.foreground(\"226\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;226mx\u001b[0m",
+      "ansi256": "\u001b[38;5;226mx\u001b[0m",
+      "ansi": "\u001b[93mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;226mx\u001b[0m"
+    }
+  },
+  "color.bg_256_226": {
+    "code": "Lipgloss::Style.new.background(\"226\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;226mx\u001b[0m",
+      "ansi256": "\u001b[48;5;226mx\u001b[0m",
+      "ansi": "\u001b[103mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;226mx\u001b[0m"
+    }
+  },
+  "color.fg_256_231": {
+    "code": "Lipgloss::Style.new.foreground(\"231\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;231mx\u001b[0m",
+      "ansi256": "\u001b[38;5;231mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;231mx\u001b[0m"
+    }
+  },
+  "color.bg_256_231": {
+    "code": "Lipgloss::Style.new.background(\"231\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;231mx\u001b[0m",
+      "ansi256": "\u001b[48;5;231mx\u001b[0m",
+      "ansi": "\u001b[107mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;231mx\u001b[0m"
+    }
+  },
+  "color.fg_256_232": {
+    "code": "Lipgloss::Style.new.foreground(\"232\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;232mx\u001b[0m",
+      "ansi256": "\u001b[38;5;232mx\u001b[0m",
+      "ansi": "\u001b[30mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;232mx\u001b[0m"
+    }
+  },
+  "color.bg_256_232": {
+    "code": "Lipgloss::Style.new.background(\"232\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;232mx\u001b[0m",
+      "ansi256": "\u001b[48;5;232mx\u001b[0m",
+      "ansi": "\u001b[40mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;232mx\u001b[0m"
+    }
+  },
+  "color.fg_256_240": {
+    "code": "Lipgloss::Style.new.foreground(\"240\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;240mx\u001b[0m",
+      "ansi256": "\u001b[38;5;240mx\u001b[0m",
+      "ansi": "\u001b[90mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;240mx\u001b[0m"
+    }
+  },
+  "color.bg_256_240": {
+    "code": "Lipgloss::Style.new.background(\"240\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;240mx\u001b[0m",
+      "ansi256": "\u001b[48;5;240mx\u001b[0m",
+      "ansi": "\u001b[100mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;240mx\u001b[0m"
+    }
+  },
+  "color.fg_256_244": {
+    "code": "Lipgloss::Style.new.foreground(\"244\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;244mx\u001b[0m",
+      "ansi256": "\u001b[38;5;244mx\u001b[0m",
+      "ansi": "\u001b[90mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;244mx\u001b[0m"
+    }
+  },
+  "color.bg_256_244": {
+    "code": "Lipgloss::Style.new.background(\"244\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;244mx\u001b[0m",
+      "ansi256": "\u001b[48;5;244mx\u001b[0m",
+      "ansi": "\u001b[100mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;244mx\u001b[0m"
+    }
+  },
+  "color.fg_256_250": {
+    "code": "Lipgloss::Style.new.foreground(\"250\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;250mx\u001b[0m",
+      "ansi256": "\u001b[38;5;250mx\u001b[0m",
+      "ansi": "\u001b[37mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;250mx\u001b[0m"
+    }
+  },
+  "color.bg_256_250": {
+    "code": "Lipgloss::Style.new.background(\"250\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;250mx\u001b[0m",
+      "ansi256": "\u001b[48;5;250mx\u001b[0m",
+      "ansi": "\u001b[47mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;250mx\u001b[0m"
+    }
+  },
+  "color.fg_256_255": {
+    "code": "Lipgloss::Style.new.foreground(\"255\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;255mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;255mx\u001b[0m"
+    }
+  },
+  "color.bg_256_255": {
+    "code": "Lipgloss::Style.new.background(\"255\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;5;255mx\u001b[0m",
+      "ansi256": "\u001b[48;5;255mx\u001b[0m",
+      "ansi": "\u001b[107mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;5;255mx\u001b[0m"
+    }
+  },
+  "color.fg_invalid_empty": {
+    "code": "Lipgloss::Style.new.foreground(\"\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_empty": {
+    "code": "Lipgloss::Style.new.background(\"\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_name": {
+    "code": "Lipgloss::Style.new.foreground(\"red\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_name": {
+    "code": "Lipgloss::Style.new.background(\"red\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_bad_hex": {
+    "code": "Lipgloss::Style.new.foreground(\"#gg0000\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_bad_hex": {
+    "code": "Lipgloss::Style.new.background(\"#gg0000\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_short_hex": {
+    "code": "Lipgloss::Style.new.foreground(\"#12\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_short_hex": {
+    "code": "Lipgloss::Style.new.background(\"#12\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_long_hex": {
+    "code": "Lipgloss::Style.new.foreground(\"#1234567\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;18;52;86mx\u001b[0m",
+      "ansi256": "\u001b[38;5;23mx\u001b[0m",
+      "ansi": "\u001b[36mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;18;52;86mx\u001b[0m"
+    }
+  },
+  "color.bg_invalid_long_hex": {
+    "code": "Lipgloss::Style.new.background(\"#1234567\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;18;52;86mx\u001b[0m",
+      "ansi256": "\u001b[48;5;23mx\u001b[0m",
+      "ansi": "\u001b[46mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;18;52;86mx\u001b[0m"
+    }
+  },
+  "color.fg_invalid_no_hash": {
+    "code": "Lipgloss::Style.new.foreground(\"ff0000\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_no_hash": {
+    "code": "Lipgloss::Style.new.background(\"ff0000\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_negative": {
+    "code": "Lipgloss::Style.new.foreground(\"-1\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[29mx\u001b[0m",
+      "ansi256": "\u001b[29mx\u001b[0m",
+      "ansi": "\u001b[29mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[29mx\u001b[0m"
+    }
+  },
+  "color.bg_invalid_negative": {
+    "code": "Lipgloss::Style.new.background(\"-1\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[39mx\u001b[0m",
+      "ansi256": "\u001b[39mx\u001b[0m",
+      "ansi": "\u001b[39mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[39mx\u001b[0m"
+    }
+  },
+  "color.fg_invalid_space": {
+    "code": "Lipgloss::Style.new.foreground(\" 1\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_space": {
+    "code": "Lipgloss::Style.new.background(\" 1\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_four_hex": {
+    "code": "Lipgloss::Style.new.foreground(\"#abcd\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_four_hex": {
+    "code": "Lipgloss::Style.new.background(\"#abcd\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_hash_only": {
+    "code": "Lipgloss::Style.new.foreground(\"#\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_hash_only": {
+    "code": "Lipgloss::Style.new.background(\"#\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_float": {
+    "code": "Lipgloss::Style.new.foreground(\"1.5\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.bg_invalid_float": {
+    "code": "Lipgloss::Style.new.background(\"1.5\").render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.fg_invalid_leading_zero": {
+    "code": "Lipgloss::Style.new.foreground(\"007\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[37mx\u001b[0m",
+      "ansi256": "\u001b[37mx\u001b[0m",
+      "ansi": "\u001b[37mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[37mx\u001b[0m"
+    }
+  },
+  "color.bg_invalid_leading_zero": {
+    "code": "Lipgloss::Style.new.background(\"007\").render(\"x\")",
+    "results": {
+      "true_color": "\u001b[47mx\u001b[0m",
+      "ansi256": "\u001b[47mx\u001b[0m",
+      "ansi": "\u001b[47mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[47mx\u001b[0m"
+    }
+  },
+  "color.fg_nil": {
+    "code": "Lipgloss::Style.new.foreground(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected String)"
+      }
+    }
+  },
+  "color.fg_integer": {
+    "code": "Lipgloss::Style.new.foreground(1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "color.fg_symbol": {
+    "code": "Lipgloss::Style.new.foreground(:red)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Symbol (expected String)"
+      }
+    }
+  },
+  "color.bg_integer": {
+    "code": "Lipgloss::Style.new.background(1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "color.fg_hash": {
+    "code": "Lipgloss::Style.new.foreground({light: \"#000\", dark: \"#fff\"})",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Hash (expected String)"
+      }
+    }
+  },
+  "color.adaptive_fg": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"#0000ff\", dark: \"#ffff00\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;255;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;226mx\u001b[0m",
+      "ansi": "\u001b[93mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;0;255mx\u001b[0m"
+    }
+  },
+  "color.adaptive_bg": {
+    "code": "Lipgloss::Style.new.background(Lipgloss::AdaptiveColor.new(light: \"#0000ff\", dark: \"#ffff00\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;255;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;226mx\u001b[0m",
+      "ansi": "\u001b[103mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;0;0;255mx\u001b[0m"
+    }
+  },
+  "color.adaptive_ansi": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"1\", dark: \"2\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[32mx\u001b[0m",
+      "ansi256": "\u001b[32mx\u001b[0m",
+      "ansi": "\u001b[32mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[31mx\u001b[0m"
+    }
+  },
+  "color.adaptive_256": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"21\", dark: \"226\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;5;226mx\u001b[0m",
+      "ansi256": "\u001b[38;5;226mx\u001b[0m",
+      "ansi": "\u001b[93mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;5;21mx\u001b[0m"
+    }
+  },
+  "color.adaptive_empty_light": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"\", dark: \"#ff0000\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "x"
+    }
+  },
+  "color.adaptive_invalid": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"zz\", dark: \"yy\")).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "color.adaptive_to_h": {
+    "code": "Lipgloss::AdaptiveColor.new(light: \"#000\", dark: \"#fff\").to_h.transform_keys(&:to_s)",
+    "results": {
+      "*": {
+        "light": "#000",
+        "dark": "#fff"
+      }
+    }
+  },
+  "color.adaptive_readers": {
+    "code": "c = Lipgloss::AdaptiveColor.new(light: \"#000\", dark: \"#fff\"); [c.light, c.dark]",
+    "results": {
+      "*": [
+        "#000",
+        "#fff"
+      ]
+    }
+  },
+  "color.adaptive_missing_kw": {
+    "code": "Lipgloss::AdaptiveColor.new(light: \"#000\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "missing keyword: :dark"
+      }
+    }
+  },
+  "color.adaptive_integer_values": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: 1, dark: 2))",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of Integer into String"
+      }
+    }
+  },
+  "color.adaptive_duck_typed": {
+    "code": "o = Struct.new(:light, :dark).new(\"#ff0000\", \"#00ff00\"); Lipgloss::Style.new.foreground(o).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;255;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;46mx\u001b[0m",
+      "ansi": "\u001b[92mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.adaptive_with_text": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"#333333\", dark: \"#cccccc\")).background(Lipgloss::AdaptiveColor.new(light: \"#eeeeee\", dark: \"#111111\")).padding(0, 1).render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[48;2;17;17;17m \u001b[0m\u001b[38;2;204;204;204;48;2;17;17;17mHi\u001b[0m\u001b[48;2;17;17;17m \u001b[0m",
+      "ansi256": "\u001b[48;5;232m \u001b[0m\u001b[38;5;188;48;5;232mHi\u001b[0m\u001b[48;5;232m \u001b[0m",
+      "ansi": "\u001b[40m \u001b[0m\u001b[37;40mHi\u001b[0m\u001b[40m \u001b[0m",
+      "ascii": " Hi ",
+      "true_color_light": "\u001b[48;2;238;238;238m \u001b[0m\u001b[38;2;51;51;51;48;2;238;238;238mHi\u001b[0m\u001b[48;2;238;238;238m \u001b[0m"
+    }
+  },
+  "color.complete_fg": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteColor.new(true_color: \"#0000ff\", ansi256: 21, ansi: :blue)).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;0;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;21mx\u001b[0m",
+      "ansi": "\u001b[34mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;0;255mx\u001b[0m"
+    }
+  },
+  "color.complete_bg": {
+    "code": "Lipgloss::Style.new.background(Lipgloss::CompleteColor.new(true_color: \"#ff8800\", ansi256: \"208\", ansi: \"3\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;136;0mx\u001b[0m",
+      "ansi256": "\u001b[48;5;208mx\u001b[0m",
+      "ansi": "\u001b[43mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;136;0mx\u001b[0m"
+    }
+  },
+  "color.complete_symbols": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteColor.new(true_color: \"#ff0000\", ansi256: :bright_red, ansi: :red)).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[91mx\u001b[0m",
+      "ansi": "\u001b[31mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.complete_mismatched": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteColor.new(true_color: \"#00ff00\", ansi256: 196, ansi: 4)).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;255;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[34mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;255;0mx\u001b[0m"
+    }
+  },
+  "color.complete_empty_true": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteColor.new(true_color: \"\", ansi256: 196, ansi: 4)).render(\"x\")",
+    "results": {
+      "true_color": "x",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[34mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "x"
+    }
+  },
+  "color.complete_to_h": {
+    "code": "Lipgloss::CompleteColor.new(true_color: \"#0000ff\", ansi256: 21, ansi: :blue).to_h.transform_keys(&:to_s)",
+    "results": {
+      "*": {
+        "true_color": "#0000ff",
+        "ansi256": "21",
+        "ansi": "4"
+      }
+    }
+  },
+  "color.complete_readers": {
+    "code": "c = Lipgloss::CompleteColor.new(true_color: \"#0000ff\", ansi256: :bright_white, ansi: 7); [c.true_color, c.ansi256, c.ansi]",
+    "results": {
+      "*": [
+        "#0000ff",
+        "15",
+        "7"
+      ]
+    }
+  },
+  "color.complete_unknown_symbol": {
+    "code": "Lipgloss::CompleteColor.new(true_color: \"#000\", ansi256: :pink, ansi: :red)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown ANSI color: :pink"
+      }
+    }
+  },
+  "color.complete_float": {
+    "code": "Lipgloss::CompleteColor.new(true_color: \"#000\", ansi256: 1.5, ansi: :red)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "ANSI color must be a Symbol, String, or Integer, got Float"
+      }
+    }
+  },
+  "color.complete_nil": {
+    "code": "Lipgloss::CompleteColor.new(true_color: \"#000\", ansi256: 1, ansi: nil)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "ANSI color must be a Symbol, String, or Integer, got NilClass"
+      }
+    }
+  },
+  "color.complete_true_color_integer": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteColor.new(true_color: 5, ansi256: 1, ansi: 1))",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of Integer into String"
+      }
+    }
+  },
+  "color.ansi_colors_table": {
+    "code": "Lipgloss::ANSIColor::COLORS.transform_keys(&:to_s)",
+    "results": {
+      "*": {
+        "black": "0",
+        "red": "1",
+        "green": "2",
+        "yellow": "3",
+        "blue": "4",
+        "magenta": "5",
+        "cyan": "6",
+        "white": "7",
+        "bright_black": "8",
+        "bright_red": "9",
+        "bright_green": "10",
+        "bright_yellow": "11",
+        "bright_blue": "12",
+        "bright_magenta": "13",
+        "bright_cyan": "14",
+        "bright_white": "15"
+      }
+    }
+  },
+  "color.ansi_resolve_symbol": {
+    "code": "Lipgloss::ANSIColor.resolve(:bright_cyan)",
+    "results": {
+      "*": "14"
+    }
+  },
+  "color.ansi_resolve_string": {
+    "code": "Lipgloss::ANSIColor.resolve(\"42\")",
+    "results": {
+      "*": "42"
+    }
+  },
+  "color.ansi_resolve_integer": {
+    "code": "Lipgloss::ANSIColor.resolve(200)",
+    "results": {
+      "*": "200"
+    }
+  },
+  "color.ansi_resolve_unknown": {
+    "code": "Lipgloss::ANSIColor.resolve(:nope)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown ANSI color: :nope"
+      }
+    }
+  },
+  "color.ansi_resolve_array": {
+    "code": "Lipgloss::ANSIColor.resolve([])",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "ANSI color must be a Symbol, String, or Integer, got Array"
+      }
+    }
+  },
+  "color.complete_adaptive_fg": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteAdaptiveColor.new(light: Lipgloss::CompleteColor.new(true_color: \"#000000\", ansi256: :black, ansi: :black), dark: Lipgloss::CompleteColor.new(true_color: \"#ffffff\", ansi256: 231, ansi: :bright_white))).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;255;255mx\u001b[0m",
+      "ansi256": "\u001b[38;5;231mx\u001b[0m",
+      "ansi": "\u001b[97mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;0;0mx\u001b[0m"
+    }
+  },
+  "color.complete_adaptive_bg": {
+    "code": "Lipgloss::Style.new.background(Lipgloss::CompleteAdaptiveColor.new(light: Lipgloss::CompleteColor.new(true_color: \"#ff0000\", ansi256: 196, ansi: 1), dark: Lipgloss::CompleteColor.new(true_color: \"#0000ff\", ansi256: 21, ansi: 4))).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;0;255mx\u001b[0m",
+      "ansi256": "\u001b[48;5;21mx\u001b[0m",
+      "ansi": "\u001b[44mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[48;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "color.complete_adaptive_to_h": {
+    "code": "Lipgloss::CompleteAdaptiveColor.new(light: Lipgloss::CompleteColor.new(true_color: \"#000\", ansi256: 0, ansi: 0), dark: Lipgloss::CompleteColor.new(true_color: \"#fff\", ansi256: 15, ansi: 15)).to_h.to_a.map { |k, v| [k.to_s, v.transform_keys(&:to_s)] }",
+    "results": {
+      "*": [
+        [
+          "light",
+          {
+            "true_color": "#000",
+            "ansi256": "0",
+            "ansi": "0"
+          }
+        ],
+        [
+          "dark",
+          {
+            "true_color": "#fff",
+            "ansi256": "15",
+            "ansi": "15"
+          }
+        ]
+      ]
+    }
+  },
+  "color.complete_adaptive_half": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteAdaptiveColor.new(light: Lipgloss::CompleteColor.new(true_color: \"#000\", ansi256: 0, ansi: 0), dark: \"#ff0000\")).render(\"x\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of Lipgloss::CompleteColor into String"
+      }
+    }
+  },
+  "color.fg_bg": {
+    "code": "Lipgloss::Style.new.foreground(\"#ffffff\").background(\"#ff0000\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;255;255;48;2;255;0;0mhi\u001b[0m",
+      "ansi256": "\u001b[38;5;231;48;5;196mhi\u001b[0m",
+      "ansi": "\u001b[97;101mhi\u001b[0m",
+      "ascii": "hi",
+      "true_color_light": "\u001b[38;2;255;255;255;48;2;255;0;0mhi\u001b[0m"
+    }
+  },
+  "color.fg_bg_ansi": {
+    "code": "Lipgloss::Style.new.foreground(\"15\").background(\"1\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[97;41mhi\u001b[0m",
+      "ansi256": "\u001b[97;41mhi\u001b[0m",
+      "ansi": "\u001b[97;41mhi\u001b[0m",
+      "ascii": "hi",
+      "true_color_light": "\u001b[97;41mhi\u001b[0m"
+    }
+  },
+  "color.border_and_text": {
+    "code": "Lipgloss::Style.new.border(:normal).border_foreground(\"#00ff00\").border_background(\"#000080\").foreground(\"#ff0000\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;255;0;48;2;0;0;128m┌──┐\u001b[0m\n\u001b[38;2;0;255;0;48;2;0;0;128m│\u001b[0m\u001b[38;2;255;0;0mhi\u001b[0m\u001b[38;2;0;255;0;48;2;0;0;128m│\u001b[0m\n\u001b[38;2;0;255;0;48;2;0;0;128m└──┘\u001b[0m",
+      "ansi256": "\u001b[38;5;46;48;5;18m┌──┐\u001b[0m\n\u001b[38;5;46;48;5;18m│\u001b[0m\u001b[38;5;196mhi\u001b[0m\u001b[38;5;46;48;5;18m│\u001b[0m\n\u001b[38;5;46;48;5;18m└──┘\u001b[0m",
+      "ansi": "\u001b[92;44m┌──┐\u001b[0m\n\u001b[92;44m│\u001b[0m\u001b[91mhi\u001b[0m\u001b[92;44m│\u001b[0m\n\u001b[92;44m└──┘\u001b[0m",
+      "ascii": "\u001b[;m┌──┐\u001b[0m\n\u001b[;m│\u001b[0mhi\u001b[;m│\u001b[0m\n\u001b[;m└──┘\u001b[0m",
+      "true_color_light": "\u001b[38;2;0;255;0;48;2;0;0;128m┌──┐\u001b[0m\n\u001b[38;2;0;255;0;48;2;0;0;128m│\u001b[0m\u001b[38;2;255;0;0mhi\u001b[0m\u001b[38;2;0;255;0;48;2;0;0;128m│\u001b[0m\n\u001b[38;2;0;255;0;48;2;0;0;128m└──┘\u001b[0m"
+    }
+  },
+  "color.margin_bg_hex": {
+    "code": "Lipgloss::Style.new.margin(0, 1).margin_background(\"#ff00ff\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;255m \u001b[0mhi\u001b[48;2;255;0;255m \u001b[0m",
+      "ansi256": "\u001b[48;5;201m \u001b[0mhi\u001b[48;5;201m \u001b[0m",
+      "ansi": "\u001b[105m \u001b[0mhi\u001b[105m \u001b[0m",
+      "ascii": " hi ",
+      "true_color_light": "\u001b[48;2;255;0;255m \u001b[0mhi\u001b[48;2;255;0;255m \u001b[0m"
+    }
+  },
+  "color.margin_bg_256": {
+    "code": "Lipgloss::Style.new.margin(0, 1).margin_background(\"99\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[48;5;99m \u001b[0mhi\u001b[48;5;99m \u001b[0m",
+      "ansi256": "\u001b[48;5;99m \u001b[0mhi\u001b[48;5;99m \u001b[0m",
+      "ansi": "\u001b[104m \u001b[0mhi\u001b[104m \u001b[0m",
+      "ascii": " hi ",
+      "true_color_light": "\u001b[48;5;99m \u001b[0mhi\u001b[48;5;99m \u001b[0m"
+    }
+  },
+  "color.margin_bg_invalid": {
+    "code": "Lipgloss::Style.new.margin(0, 1).margin_background(\"nope\").render(\"hi\")",
+    "results": {
+      "*": " hi "
+    }
+  },
+  "color.border_fg_256": {
+    "code": "Lipgloss::Style.new.border(:rounded).border_foreground(\"99\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[38;5;99m╭──╮\u001b[0m\n\u001b[38;5;99m│\u001b[0mhi\u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m╰──╯\u001b[0m",
+      "ansi256": "\u001b[38;5;99m╭──╮\u001b[0m\n\u001b[38;5;99m│\u001b[0mhi\u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m╰──╯\u001b[0m",
+      "ansi": "\u001b[94m╭──╮\u001b[0m\n\u001b[94m│\u001b[0mhi\u001b[94m│\u001b[0m\n\u001b[94m╰──╯\u001b[0m",
+      "ascii": "╭──╮\n│hi│\n╰──╯",
+      "true_color_light": "\u001b[38;5;99m╭──╮\u001b[0m\n\u001b[38;5;99m│\u001b[0mhi\u001b[38;5;99m│\u001b[0m\n\u001b[38;5;99m╰──╯\u001b[0m"
+    }
+  },
+  "color.border_bg_ansi": {
+    "code": "Lipgloss::Style.new.border(:rounded).border_background(\"5\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[45m╭──╮\u001b[0m\n\u001b[45m│\u001b[0mhi\u001b[45m│\u001b[0m\n\u001b[45m╰──╯\u001b[0m",
+      "ansi256": "\u001b[45m╭──╮\u001b[0m\n\u001b[45m│\u001b[0mhi\u001b[45m│\u001b[0m\n\u001b[45m╰──╯\u001b[0m",
+      "ansi": "\u001b[45m╭──╮\u001b[0m\n\u001b[45m│\u001b[0mhi\u001b[45m│\u001b[0m\n\u001b[45m╰──╯\u001b[0m",
+      "ascii": "╭──╮\n│hi│\n╰──╯",
+      "true_color_light": "\u001b[45m╭──╮\u001b[0m\n\u001b[45m│\u001b[0mhi\u001b[45m│\u001b[0m\n\u001b[45m╰──╯\u001b[0m"
+    }
+  },
+  "color.reverse_with_colors": {
+    "code": "Lipgloss::Style.new.reverse(true).foreground(\"1\").background(\"2\").render(\"hi\")",
+    "results": {
+      "true_color": "\u001b[7;31;42mhi\u001b[0m",
+      "ansi256": "\u001b[7;31;42mhi\u001b[0m",
+      "ansi": "\u001b[7;31;42mhi\u001b[0m",
+      "ascii": "hi",
+      "true_color_light": "\u001b[7;31;42mhi\u001b[0m"
+    }
+  },
+  "color.has_dark_background": {
+    "code": "Lipgloss.has_dark_background?",
+    "results": {
+      "true_color": true,
+      "ansi256": true,
+      "ansi": true,
+      "ascii": true,
+      "true_color_light": false
+    }
+  }
+}

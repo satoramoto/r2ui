@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/style_box/wrap_unbreakable_word: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"abcde"
+"fghij"
+"klmno"
+"p    "
