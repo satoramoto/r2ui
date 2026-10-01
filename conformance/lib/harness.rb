@@ -6,6 +6,7 @@ require "open3"
 require "rbconfig"
 require "etc"
 require "fileutils"
+require "set"
 require_relative "pty_runner"
 
 module Conformance
@@ -14,6 +15,7 @@ module Conformance
   CASES = File.join(DIR, "cases")
   GOLDEN = File.join(DIR, "golden")
   RATCHET = File.join(DIR, "ratchet")
+  CONCESSIONS = File.join(DIR, "concessions")
   CHILD = File.join(DIR, "lib", "child.rb")
 
   DEFAULT_SIZE = "80x24"
@@ -59,10 +61,11 @@ module Conformance
     def program? = config.key?("steps")
     def golden_path = File.join(GOLDEN, "#{id}.txt")
 
-    def size
-      cols, rows = config.fetch("size", DEFAULT_SIZE).to_s.split("x").map { |n| Integer(n) }
-      [cols, rows]
-    end
+    def size = Conformance.parse_size(config.fetch("size", DEFAULT_SIZE), "#{id}: size")
+
+    # Notes about the last run that don't belong in the golden (content scrolled off the top or
+    # rows that overflowed the width before a snapshot). `record` prints them on stderr.
+    def warnings = @warnings || []
 
     def golden
       File.exist?(golden_path) ? File.read(golden_path, encoding: "UTF-8") : nil
@@ -76,6 +79,7 @@ module Conformance
     # flavor :real loads the upstream gems, :r2ui loads them through r2ui/drop_in.
     def run(flavor)
       @flavor = flavor
+      @warnings = []
       ruby = [RbConfig.ruby]
       ruby += ["-I", File.join(ROOT, "lib"), "-r", "r2ui/drop_in"] if flavor == :r2ui
       program? ? run_program(ruby) : run_value(ruby)
@@ -128,18 +132,23 @@ module Conformance
           step = { "snapshot" => step } if step.is_a?(String)
           raise ArgumentError, "#{id}: step #{i + 1} must be a mapping" unless step.is_a?(Hash)
 
-          unknown = step.keys - %w[keys input wait_for exit snapshot]
+          unknown = step.keys - STEP_KEYS
           raise ArgumentError, "#{id}: step #{i + 1} has unknown keys #{unknown.join(', ')}" unless unknown.empty?
+          if step.key?("snapshot") && step["snapshot"].to_s.empty?
+            raise ArgumentError, "#{id}: step #{i + 1} has an empty snapshot name"
+          end
 
+          r.resize(*Conformance.parse_size(step["resize"], "#{id}: step #{i + 1} resize")) if step["resize"]
           r.send_keys(Array(step["keys"])) if step["keys"]
           r.send_input(step["input"].to_s) if step["input"]
           r.wait_for(step["wait_for"].to_s) if step["wait_for"]
           status = r.wait_exit if step["exit"]
           next unless step["snapshot"]
 
+          note_overflow(step["snapshot"], *r.take_overflow)
           out << "== #{step['snapshot']}\n"
           out << "exit: #{status}\n" if step["exit"]
-          out << r.snapshot
+          out << r.snapshot(title: config["window_title"] == true)
         end
         if r.exited? && r.exit_status == LEAK_EXIT
           return [nil, "exit #{LEAK_EXIT}: a real upstream gem was loaded under r2ui\n#{r.snapshot_lines.reject(&:empty?).join("\n")}"]
@@ -147,6 +156,27 @@ module Conformance
       end
       [out, nil]
     end
+
+    def note_overflow(snapshot, scrolled, wrapped)
+      if scrolled.positive?
+        @warnings << "#{id}: before snapshot #{snapshot}, #{scrolled} non-blank row(s) scrolled off the top " \
+                     "of the screen; the snapshot can't show them (use a taller size:)"
+      end
+      return unless wrapped.positive?
+
+      @warnings << "#{id}: before snapshot #{snapshot}, a row overflowed the width and wrapped " \
+                   "#{wrapped} time(s) (use a wider size: if that isn't the point of the case)"
+    end
+  end
+
+  STEP_KEYS = %w[resize keys input wait_for exit snapshot].freeze
+
+  # "COLSxROWS" -> [cols, rows]
+  def self.parse_size(value, what)
+    m = /\A(\d+)x(\d+)\z/.match(value.to_s)
+    raise ArgumentError, "#{what} must look like 80x24, got #{value.inspect}" unless m && m[1].to_i.positive? && m[2].to_i.positive?
+
+    [m[1].to_i, m[2].to_i]
   end
 
   # Runs cases in parallel (each is its own subprocess and pty), yielding results in id order.
@@ -180,10 +210,39 @@ module Conformance
   end
 
   # conformance/ratchet/<area>.txt: one case id per line; `#` starts a comment.
-  def self.ratchet
-    Dir.glob(File.join(RATCHET, "*.txt")).sort.flat_map do |file|
-      File.readlines(file, chomp: true).map { |l| l.sub(/#.*/, "").strip }.reject(&:empty?)
-          .map { |id| [id, File.basename(file)] }
+  # Returns [[id, file], ...].
+  def self.ratchet(dir = RATCHET)
+    ledger(dir).map { |id, file, _| [id, file] }
+  end
+
+  # conformance/concessions/<area>.txt: `<id>  # reason`, one per line; the reason is required.
+  # Returns [[id, file, reason], ...]; reason is nil when the line has none.
+  def self.concessions(dir = CONCESSIONS) = ledger(dir)
+
+  def self.ledger(dir)
+    Dir.glob(File.join(dir, "*.txt")).sort.flat_map do |file|
+      File.readlines(file, chomp: true).filter_map do |line|
+        id, reason = line.split("#", 2).map(&:strip)
+        next if id.nil? || id.empty?
+
+        [id, File.basename(file), reason.nil? || reason.empty? ? nil : reason]
+      end
     end
+  end
+
+  # Problems with the ratchet and concession lists themselves, as messages: an id with no case,
+  # a concession without a reason, or an id both ratcheted and conceded.
+  def self.ledger_problems(ratchet, concessions, case_ids)
+    known = case_ids.to_set
+    problems = ratchet.reject { |id, _| known.include?(id) }
+                      .map { |id, file| "UNKNOWN #{id} (listed in conformance/ratchet/#{file}, no such case)" }
+    concessions.each do |id, file, reason|
+      problems << "UNKNOWN #{id} (listed in conformance/concessions/#{file}, no such case)" unless known.include?(id)
+      problems << "NO REASON #{id} (conformance/concessions/#{file}: write `#{id}  # why r2ui differs`)" unless reason
+    end
+    (ratchet.map(&:first) & concessions.map(&:first)).each do |id|
+      problems << "BOTH #{id} is in conformance/ratchet/ and conformance/concessions/; a case is one or the other"
+    end
+    problems
   end
 end

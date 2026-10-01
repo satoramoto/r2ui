@@ -279,6 +279,39 @@ class VTTest < Minitest::Test
 
   # ---- OSC, strings, replies ----
 
+  def test_resize_keeps_the_cursor_row_and_cuts_or_pads
+    t = vt("a\r\nb\r\nc\r\ndddddddddd", cols: 10, rows: 4)
+    t.resize(4, 2)
+    assert_equal %w[c dddd], t.lines
+    assert_equal [1, 3], t.cursor
+    t.resize(6, 3)
+    assert_equal ["c", "dddd", ""], t.lines
+    t.feed("\e[3;1Hxxxxxx")
+    assert_equal "xxxxxx", t.lines[2]
+  end
+
+  def test_resize_cuts_a_wide_char_in_half
+    t = vt("ab中", cols: 6, rows: 1)
+    t.resize(3, 1)
+    assert_equal ["ab"], t.lines
+  end
+
+  def test_title_in_snapshot_only_when_asked
+    t = vt("\e]0;hi\a")
+    refute_includes t.snapshot, "title"
+    assert_includes t.snapshot(title: true), "title: \"hi\""
+    assert_includes vt("x").snapshot(title: true), "title: -"
+  end
+
+  def test_counts_rows_scrolled_off_and_wraps
+    t = vt("1\r\n2\r\n3\r\n4\r\n", cols: 3, rows: 4)
+    assert_equal 1, t.scrolled_off
+    t = vt("\r\n\r\n\r\n\r\n\r\n", cols: 3, rows: 4)
+    assert_equal 0, t.scrolled_off # blank rows lose nothing
+    assert_equal 1, vt("abcd", cols: 3, rows: 2).wrapped
+    assert_equal 0, vt("abc\r\n", cols: 3, rows: 2).wrapped
+  end
+
   def test_osc_title_with_bel_and_st
     assert_equal "hello", vt("\e]0;hello\a").title
     assert_equal "wörld", vt("\e]2;wörld\e\\x").title

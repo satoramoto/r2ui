@@ -11,9 +11,10 @@
 
 require "io/console"
 
-case_path = ARGV.fetch(0)
-cols, rows = ENV.fetch("CONFORMANCE_SIZE").split("x").map { |n| Integer(n) }
-$stdout.winsize = [rows, cols] if $stdout.tty?
+# No top-level locals in this file: a value case is evaluated at the top level, where it would
+# see (and could overwrite) them. Harness state lives in constants and methods.
+CONFORMANCE_CASE = ARGV.fetch(0)
+$stdout.winsize = ENV.fetch("CONFORMANCE_SIZE").split("x").map { |n| Integer(n) }.reverse if $stdout.tty?
 
 # Under `check` (CONFORMANCE_FLAVOR=r2ui) the case must run on r2ui alone: if any file of the
 # real bubbletea/lipgloss gems got loaded, the comparison proves nothing, so the case fails.
@@ -37,16 +38,21 @@ if ENV["CONFORMANCE_FLAVOR"] == "r2ui"
   at_exit { conformance_assert_r2ui_only! }
 end
 
-out = ENV["CONFORMANCE_OUT"]
-if out
-  source = File.read(case_path).split(/^__END__\r?\n/, 2).first
-  result = TOPLEVEL_BINDING.eval(source, case_path, 1)
+# Evaluates a value case at the top level (self is main, `def` defines top-level methods) in a
+# binding of its own, so its locals stay its own; this method's locals are invisible to it.
+def conformance_value_case(path, out)
+  source = File.read(path).split(/^__END__\r?\n/, 2).first
+  result = TOPLEVEL_BINDING.dup.eval(source, path, 1)
   unless result.is_a?(String)
-    warn "conformance: #{case_path} returned #{result.class}, expected a String"
+    warn "conformance: #{path} returned #{result.class}, expected a String"
     exit 2
   end
   conformance_assert_r2ui_only!
   File.binwrite(out, result)
+end
+
+if ENV["CONFORMANCE_OUT"]
+  conformance_value_case(CONFORMANCE_CASE, ENV.fetch("CONFORMANCE_OUT"))
 else
-  load case_path
+  load CONFORMANCE_CASE
 end
