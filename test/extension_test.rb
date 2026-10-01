@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "open3"
 
 # The extension point (R2UI.extension) and the app's message routing on the Bubbletea model.
 class ExtensionTest < Minitest::Test
@@ -146,6 +147,47 @@ class ExtensionTest < Minitest::Test
 
     assert_equal "hi 30x6", app.view
     assert_nil app.press(:tab, :back_tab).first, "focus keys are harmless with no panels"
+  end
+
+  def test_after_update_runs_after_init_and_each_update_with_its_commands
+    seen = []
+    extension(:test_after) do
+      on(Ping) { state[:pinged] = true }
+      after_update { seen << state[:pinged]; command(Bubbletea.set_window_title("t")) if state[:pinged] }
+    end
+    R2UI.dashboard { row { panel(:p, resource: nil) { view { "" } } } }
+
+    _, first = app.init
+    _, command = app.update(Ping.new)
+
+    assert_equal [nil, true], seen
+    assert_nil first
+    assert_kind_of Bubbletea::SetWindowTitleCommand, command
+  ensure
+    app.stop
+  end
+
+  def test_components_draw_before_init_as_in_a_snapshot
+    extension(:test_snap) do
+      dsl(:panel) { def input(name) = item(InputItem.new(name)) }
+      component(InputItem, focusable: true) { |_item| FakeInput.new }
+    end
+    R2UI.dashboard { row { panel(:form, resource: nil) { input :name } } }
+
+    assert_match(/│\[\]/, R2UI.snapshot(width: 30, height: 5))
+    assert_equal [], app.component(:name).log, "no init or focus without a running program"
+  end
+
+  def test_require_r2ui_leaves_the_load_path_alone
+    out, status = Open3.capture2e(RbConfig.ruby, "-I#{File.expand_path("../lib", __dir__)}", "-e", <<~RUBY)
+      require "r2ui"
+      abort "drop_in loaded" if $LOAD_PATH.any? { |p| p.end_with?("compat/load_path") }
+      R2UI::Component.require_bubbles!
+      abort "real gem loaded" if $LOADED_FEATURES.grep(%r{/gems/(bubbletea|lipgloss)-}).any?
+      puts Bubbles::Spinner.new.view
+    RUBY
+    assert status.success?, out
+    assert_equal "|\n", out
   end
 
   def test_unknown_panel_item_is_an_error

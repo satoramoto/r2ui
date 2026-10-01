@@ -53,15 +53,17 @@ module R2UI
       ctx = Context.new(self)
       @feeds.each_value(&:start) unless @started
       @started = true
-      build_components(ctx)
+      start_components(ctx)
       Extensions.hooks(:init).each { |h| ctx.call(h.block) }
+      after_update(ctx)
       [self, ctx.commands]
     end
 
     def update(message)
       ctx = Context.new(self, message)
       dispatch(ctx, message)
-      sync_component_focus(ctx)
+      sync_component_focus(ctx) if @components_started
+      after_update(ctx)
       [self, ctx.commands]
     end
 
@@ -109,7 +111,10 @@ module R2UI
     end
 
     # The hosted model for the component item named `name` (nil if none).
-    def component(name) = @components.find { |c| c.name == name }&.model
+    def component(name)
+      build_components
+      @components.find { |c| c.name == name }&.model
+    end
 
     # Gives key focus to the named component (blurring the others), or takes it away with `nil`:
     # e.g. esc in a text input hands keys back to the core while its panel stays focused.
@@ -154,6 +159,7 @@ module R2UI
 
     def frame(width, height)
       ctx = Context.new(self)
+      build_components(ctx)
       styles = Extensions.hooks(:styles).reduce({}) { |acc, h| acc.merge(ctx.call(h.block) || {}) }
       @renderer.render(@dashboard, width:, height:, focus: @focus, zoomed: @zoomed, prompt: prompt(ctx),
                                    hints: hints(ctx), styles: styles.empty? ? nil : styles)
@@ -180,6 +186,8 @@ module R2UI
       core_key(ctx, key) if key
     end
 
+    def after_update(ctx) = Extensions.hooks(:after_update).each { |h| ctx.call(h.block) }
+
     def handled?(ctx, hooks, message) = hooks.any? { |h| h.match?(message) && ctx.handle(h.block, message) }
 
     def core_key(ctx, key)
@@ -188,9 +196,11 @@ module R2UI
 
     # --- components ---
 
-    def build_components(ctx)
-      return unless @components.empty?
+    # Builds the component models once (first frame or init, whichever comes first).
+    def build_components(ctx = Context.new(self))
+      return if @components_built
 
+      @components_built = true
       specs = Extensions.hooks(:component)
       @dashboard.panels.each do |panel|
         panel.items.each do |item|
@@ -199,12 +209,22 @@ module R2UI
 
           instance = Component::Instance.new(panel:, item:, spec:, focused: false)
           instance.model = ctx.call(spec.build, item)
-          if instance.model.respond_to?(:init)
-            instance.model, cmd = Component.split(instance.model, instance.model.init)
-            ctx.command(cmd)
-          end
           @components << instance
         end
+      end
+    end
+
+    # Runs each model's `init` once, in App#init, and gives the focused panel's component focus.
+    def start_components(ctx)
+      build_components(ctx)
+      return if @components_started
+
+      @components_started = true
+      @components.each do |instance|
+        next unless instance.model.respond_to?(:init)
+
+        instance.model, cmd = Component.split(instance.model, instance.model.init)
+        ctx.command(cmd)
       end
       sync_component_focus(ctx)
     end

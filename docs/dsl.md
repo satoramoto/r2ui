@@ -18,7 +18,7 @@ loop of its own any more.
 | Bubbletea | r2ui |
 |---|---|
 | `Model.new` | `App.new(registry, name)`: picks the dashboard, builds feeds and panel state, runs extensions' `setup` hooks |
-| `init` → `[model, cmd]` | starts the resource feeds, builds the component models (and runs their `init`), runs extensions' `init` hooks; their commands come back batched |
+| `init` → `[model, cmd]` | starts the resource feeds, runs the component models' `init` and focuses the focused panel's component, runs extensions' `init` and `after_update` hooks; their commands come back batched. (Component models are built by whichever comes first, the first frame or `init`, so snapshots draw them too.) |
 | `update(msg)` → `[model, cmd]` | routes `msg` (below); every command the handlers enqueue comes back batched |
 | `view` → String | a `view_override` hook's String if one returns one, else the dashboard drawn into a `Canvas` at the window size (or what `frame_size` hooks make it) |
 | Runner options | `App::PROGRAM_OPTIONS` (`alt_screen: true, fps: 20`) merged with every `program_options` hook |
@@ -60,6 +60,7 @@ automatically, in name order, from `lib/r2ui.rb`.
 | `init { }` | In `App#init`: start timers, fetches |
 | `on(matcher, priority: 0) { \|msg\| }` | Handles messages `matcher === msg` (a class, a lambda, ...); consumes unless it calls `pass` |
 | `observe(matcher = nil) { \|msg\| }` | Sees messages first, never consumes |
+| `after_update { }` | Runs after init and after every update, on that update's Context (its commands go out with it): react to state that changed |
 | `panel_item(Klass) { \|item\| String }` | Draws an item; `width`, `height`, `panel` give its space; ANSI kept |
 | `component(Klass, focusable: false) { \|item\| model }` | Hosts a Bubbletea-style model (`update` → `[model, cmd]`, `view`) per item: built at init, fed messages, focused with its panel, drawn with `view` (see `lib/r2ui/component.rb`) |
 | `hints { [[key, label], ...] }` | Status-bar hints, before the core's (`app.hint_pairs` has them all) |
@@ -96,8 +97,10 @@ from background commands) and live in its namespace, `R2UI::Ext::<Name>`.
 - Tests drive the app through `init` / `update` / `view` / `press` / `frame` like
   `test/ext/every_test.rb`; no real terminal unless the story is about terminal bytes (then a pty
   test via `test/compat/bubbletea/pty_helper.rb`, like `test/engine_test.rb`).
-- Component stories call `R2UI::Component.require_bubbles!` before touching `Bubbles::` (bubbles
-  is optional for apps; the test bundle has it). Behavior comes from bubbles itself; don't
+- Component stories call `R2UI::Component.require_bubbles!` when the keyword is first used, never
+  at file load (bubbles is optional for apps; the test bundle has it). It opts into
+  `r2ui/drop_in` so bubbles runs on r2ui's engine; plain `require "r2ui"` loads the engine by
+  path and leaves `require "bubbletea"` alone. Behavior comes from bubbles itself; don't
   reimplement it.
 - Priorities: 100 = something capturing all keys (an open modal), 50 = keys a focused thing
   handles itself (beats ordinary bindings, like the focused component does), 0 = ordinary
@@ -165,7 +168,7 @@ names the story owns: keywords on a builder (`dashboard`, `panel`, ...) and Cont
 | s09-exec | Run an external program | helper `execute` | `execute(*argv) { \|status\| }` releases the terminal (leaves alt screen if in it, cooked mode, cursor shown), runs the program in the foreground, restores the terminal, then runs the block with its `Process::Status`. A pty test shows the child's output and the app redrawn after. | `lib/r2ui/ext/exec.rb`, `test/ext/exec_test.rb` |
 | s10-suspend | ctrl+z suspend / resume | dashboard `suspendable`, `on_resume`; helper `suspend` | `suspendable` binds ctrl+z to `suspend` (Bubbletea's `SuspendCommand`); `on_resume { }` runs on `ResumeMessage`; the terminal is restored while stopped and set up again after (pty test with SIGTSTP/SIGCONT). | `lib/r2ui/ext/suspend.rb`, `test/ext/suspend_test.rb` |
 | s11-println | Print above the program | helper `println` | `println(text)` enqueues Bubbletea's `PutsCommand`, so in inline mode the line appears above the program and stays in the scrollback; returns the command. | `lib/r2ui/ext/println.rb`, `test/ext/println_test.rb` |
-| s12-window-title | Window title | dashboard `window_title`; helper `set_window_title` | `window_title "Agents"` or `window_title { dynamic }` sets the title at init and (block form) again whenever its value changes after an update; `set_window_title(text)` sets it now. Bytes match Bubbletea's (OSC 2). | `lib/r2ui/ext/window_title.rb`, `test/ext/window_title_test.rb` |
+| s12-window-title | Window title | dashboard `window_title`; helper `set_window_title` | `window_title "Agents"` or `window_title { dynamic }` sets the title at init and (block form, via `after_update`) again whenever its value changes after an update; `set_window_title(text)` sets it now. Bytes match Bubbletea's (OSC 2). | `lib/r2ui/ext/window_title.rb`, `test/ext/window_title_test.rb` |
 | s13-screen-mode | Alt screen vs inline | dashboard `inline`; helpers `enter_alt_screen`, `exit_alt_screen` | `inline height: 10` runs without the alt screen (`program_options`) and draws `height` lines (`frame_size`), leaving the last frame in the scrollback on quit; the helpers switch at runtime; pty test checks the bytes. | `lib/r2ui/ext/screen_mode.rb`, `test/ext/screen_mode_test.rb` |
 | s14-mouse | Mouse | dashboard `mouse`, `on_click` | `mouse :cell` / `:all` turns on mouse reporting; a left click focuses the panel under it and selects the clicked table row (using `app.panel_rects`, `panel_state`); the wheel moves the selection; `on_click { \|msg, panel\| }` runs for clicks; reporting is turned off on exit. | `lib/r2ui/ext/mouse.rb`, `test/ext/mouse_test.rb` |
 | s15-paste | Bracketed paste | dashboard `paste`, `on_paste` | `paste` turns on bracketed paste; a paste reaches the search prompt or a focused component as text (never as one key binding per character); otherwise `on_paste { \|text\| }` gets it; pasting is turned off on exit. | `lib/r2ui/ext/paste.rb`, `test/ext/paste_test.rb` |

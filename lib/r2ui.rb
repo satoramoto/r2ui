@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-# r2ui runs on its own pure-Ruby Bubbletea, so `require "bubbletea"` / `require "lipgloss"` /
-# `require "bubbles"` after this resolve to r2ui's versions (see r2ui/drop_in).
-require_relative "r2ui/drop_in"
-require "bubbletea"
+# r2ui runs on its own pure-Ruby Bubbletea, loaded by path. This doesn't touch $LOAD_PATH:
+# `require "bubbletea"` still means whatever it meant; `require "r2ui/drop_in"` opts into r2ui's.
+require_relative "r2ui/compat/bubbletea"
 
 require_relative "r2ui/version"
 require_relative "r2ui/value"

@@ -10,3 +10,7 @@ gem "rake", "~> 13.0"
 # For the component extensions' tests (lib/r2ui/ext/, docs/dsl.md). Apps that use components add
 # bubbles themselves; it pulls in the real bubbletea/lipgloss gems, which r2ui shadows and never loads.
 gem "bubbles", "0.1.1", require: false
+# Pinned to the versions r2ui reproduces, so the bundle's copies match the spec.
+gem "bubbletea", "0.1.4", require: false
+gem "lipgloss", "0.2.2", require: false
+gem "harmonica", "0.1.1", require: false

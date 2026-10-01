@@ -52,6 +52,10 @@ module R2UI
     # Runs once in App#init. Enqueue startup commands with `command(...)` (or return one).
     def init(&block) = hook(:init, nil, block)
 
+    # Runs after init and after every update, on the same Context (its commands go out with that
+    # update's): e.g. re-send the window title when the value it shows has changed.
+    def after_update(&block) = hook(:after_update, nil, block)
+
     # Handles messages matching `matcher` (anything with ===: a class, a proc, a regexp...).
     # A matching handler consumes the message unless it calls `pass`. Higher priority runs first:
     # 100 = an open modal capturing keys, 50 and up = before the focused component (which comes

@@ -29,11 +29,22 @@ module R2UI
 
     module_function
 
-    # Bubbles is an optional dependency: component extensions call this before using it.
+    # Bubbles is an optional dependency: component extensions call this when first used (not at
+    # load time). It opts into r2ui/drop_in, so bubbles' `require "bubbletea"`/`"lipgloss"` load
+    # r2ui's engine instead of the real gems.
     def require_bubbles!
-      require "bubbles"
-    rescue LoadError
-      raise Error, "this needs the bubbles gem: add `gem \"bubbles\"` to your Gemfile"
+      return if defined?(::Bubbles)
+
+      begin
+        require_relative "drop_in"
+      rescue LoadError => e
+        raise Error, "bubbles components run on r2ui's Bubbletea, but #{e.message}"
+      end
+      begin
+        require "bubbles"
+      rescue LoadError
+        raise Error, "this needs the bubbles gem: add `gem \"bubbles\"` to your Gemfile"
+      end
     end
 
     # [model, command] from an init/update result (a pair, a bare command, or nil).
