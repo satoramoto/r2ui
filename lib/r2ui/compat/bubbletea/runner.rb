@@ -27,6 +27,7 @@ module Bubbletea
       @renderer_id = nil
       @running = false
       @pending_ticks = []
+      @pending_ticks_lock = Mutex.new
       @width = 80
       @height = 24
       @resize_pending = false
@@ -325,22 +326,21 @@ module Bubbletea
     end
 
     def schedule_tick(tick_command)
-      @pending_ticks << {
-        at: Time.now + tick_command.duration,
-        callback: tick_command.callback,
-      }
+      tick = { at: Time.now + tick_command.duration, callback: tick_command.callback }
+      @pending_ticks_lock.synchronize { @pending_ticks << tick }
     end
 
     def schedule_delayed_message(send_command)
-      @pending_ticks << {
-        at: Time.now + send_command.delay,
-        message: send_command.message,
-      }
+      tick = { at: Time.now + send_command.delay, message: send_command.message }
+      @pending_ticks_lock.synchronize { @pending_ticks << tick }
     end
 
     def process_ticks
       now = Time.now
-      ready, @pending_ticks = @pending_ticks.partition { |tick| tick[:at] <= now }
+      ready = @pending_ticks_lock.synchronize do
+        ready, @pending_ticks = @pending_ticks.partition { |tick| tick[:at] <= now }
+        ready
+      end
 
       ready.each do |tick|
         if tick[:callback]
