@@ -18,7 +18,8 @@
 # hint. Binding the same key twice in one dashboard raises.
 module R2UI
   module Ext
-    module Keys
+    # Not `Keys`: that would shadow R2UI::Keys for every other extension under R2UI::Ext.
+    module KeyBindings
       # What `on_key` declares on the dashboard: `keys` are core key names (R2UI::Keys.name).
       Binding = Data.define(:keys, :label, :help, :block)
 
@@ -35,7 +36,7 @@ module R2UI
         raise ArgumentError, "on_key needs at least one key" if keys.empty?
         raise ArgumentError, "on_key needs a block" unless block
 
-        names = keys.map { |key| Ext::Keys.normalize(key) }
+        names = keys.map { |key| Ext::KeyBindings.normalize(key) }
         taken = @d.declared(:on_key).flat_map(&:keys)
         names.each do |name|
           raise ArgumentError, "on_key: #{name.inspect} is already bound" if taken.include?(name)
@@ -44,7 +45,7 @@ module R2UI
         end
 
         label = keys.map(&:to_s).join("/")
-        declare(:on_key, Ext::Keys::Binding.new(keys: names, label:, help:, block:))
+        declare(:on_key, Ext::KeyBindings::Binding.new(keys: names, label:, help:, block:))
       end
     end
 

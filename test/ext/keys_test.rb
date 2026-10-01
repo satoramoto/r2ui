@@ -148,13 +148,13 @@ class KeysTest < Minitest::Test
   def test_help_adds_a_status_bar_hint
     app = build do
       on_key("r", help: "refresh") { nil }
-      on_key("z") { nil }
+      on_key("x") { nil }
     end
 
     assert_includes app.hint_pairs, %w[r refresh]
     assert_equal 1, app.hint_pairs.count { |_key, label| label == "refresh" }
     assert_match(/r refresh/, text(app, 140, 20).lines.last)
-    refute(app.hint_pairs.any? { |key, _| key == "z" }, "no help: no hint")
+    refute(app.hint_pairs.any? { |key, _| key == "x" }, "no help: no hint")
   end
 
   def test_binding_the_same_key_twice_in_one_dashboard_raises
