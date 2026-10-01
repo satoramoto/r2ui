@@ -17,14 +17,17 @@ module Conformance
   CHILD = File.join(DIR, "lib", "child.rb")
 
   DEFAULT_SIZE = "80x24"
+  LEAK_EXIT = 97 # child.rb exits with this when a real bubbletea/lipgloss file loads under r2ui
   QUIET = Float(ENV.fetch("CONFORMANCE_QUIET", "0.3"))
   TIMEOUT = Float(ENV.fetch("CONFORMANCE_TIMEOUT", "15"))
 
   # Environment every case runs under, recording and checking alike: a true-colour xterm, UTF-8,
   # and nothing from bundler (recording must see the installed upstream gems).
+  # CI is dropped because termenv (under lipgloss) treats any non-empty CI as "not a TTY" and
+  # renders without colour; GitHub runners set CI=true, which made goldens machine-dependent.
   def self.child_env
     drop = ENV.keys.select { |k| k.start_with?("BUNDLE_", "BUNDLER_") } +
-           %w[RUBYOPT RUBYLIB NO_COLOR CLICOLOR CLICOLOR_FORCE COLUMNS LINES TERM_PROGRAM TMUX STY]
+           %w[CI RUBYOPT RUBYLIB NO_COLOR CLICOLOR CLICOLOR_FORCE COLUMNS LINES TERM_PROGRAM TMUX STY]
     env = drop.to_h { |k| [k, nil] }
     env.merge(
       "TERM" => "xterm-256color",
@@ -72,6 +75,7 @@ module Conformance
     # Runs the case and returns [text, error]; text is the golden-format output (without header).
     # flavor :real loads the upstream gems, :r2ui loads them through r2ui/drop_in.
     def run(flavor)
+      @flavor = flavor
       ruby = [RbConfig.ruby]
       ruby += ["-I", File.join(ROOT, "lib"), "-r", "r2ui/drop_in"] if flavor == :r2ui
       program? ? run_program(ruby) : run_value(ruby)
@@ -82,7 +86,8 @@ module Conformance
     private
 
     def spawn_env(extra = {})
-      Conformance.child_env.merge("CONFORMANCE_SIZE" => size.join("x")).merge(extra)
+      Conformance.child_env.merge("CONFORMANCE_SIZE" => size.join("x"),
+                                  "CONFORMANCE_FLAVOR" => @flavor.to_s).merge(extra)
     end
 
     def runner(ruby, env)
@@ -135,6 +140,9 @@ module Conformance
           out << "== #{step['snapshot']}\n"
           out << "exit: #{status}\n" if step["exit"]
           out << r.snapshot
+        end
+        if r.exited? && r.exit_status == LEAK_EXIT
+          return [nil, "exit #{LEAK_EXIT}: a real upstream gem was loaded under r2ui\n#{r.snapshot_lines.reject(&:empty?).join("\n")}"]
         end
       end
       [out, nil]

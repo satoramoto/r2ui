@@ -25,6 +25,29 @@ jobs:
       - run: gem install --no-document $UPSTREAM_GEMS
       - run: bin/conformance check --ratchet
 
+  ratchet-only-grows:
+    name: no id removed from the ratchet
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      # Any id line (not a comment or blank) present on the base and gone from the PR fails.
+      - env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          ids() { sed 's/#.*//; s/^[[:space:]]*//; s/[[:space:]]*$//' | grep -v '^$' | sort -u; }
+          git archive "$BASE_SHA" conformance/ratchet | tar -x -O --wildcards '*.txt' | ids > base.ids || true
+          cat conformance/ratchet/*.txt | ids > head.ids
+          removed=$(comm -23 base.ids head.ids)
+          if [ -n "$removed" ]; then
+            echo "These ids were removed from conformance/ratchet (the ratchet only grows):"
+            echo "$removed"
+            exit 1
+          fi
+
   goldens:
     name: goldens match the upstream gems
     runs-on: ubuntu-latest
