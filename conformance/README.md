@@ -6,6 +6,7 @@ Measures r2ui's drop-in (`require "r2ui/drop_in"`) against the upstream Charm ge
 bin/conformance record [filter...]             # run cases on the real gems, (re)write goldens
 bin/conformance check [filter...]              # run cases on r2ui, diff against goldens; fails on any failure (conceded cases excepted)
 bin/conformance check --ratchet [filter...]    # fails only if a case listed in conformance/ratchet/ fails
+bin/conformance ratchet [filter...]            # run cases on r2ui, add every passing one to conformance/ratchet/
 bin/conformance list [filter...]               # list case ids
 ```
 
@@ -114,7 +115,7 @@ Both run each case as `ruby [-I lib -r r2ui/drop_in] conformance/lib/child.rb <c
 
 ## Ratchet
 
-`ratchet/<area>.txt` lists the cases that must keep passing. When a lane makes a case pass, it adds the id; `check --ratchet` (run in CI on every PR) then fails if that case regresses, and lists cases that pass but aren't listed yet. Listing an id that has no case is also a failure.
+`ratchet/<area>.txt` lists the cases that must keep passing. When a lane makes a case pass, it runs `bin/conformance ratchet [filter]`: that runs the matching cases on r2ui and adds every passing id that isn't listed or conceded to its area's file, in sorted position, leaving comments in place. Cases that don't pass are left out; the command never removes an id. `check --ratchet` (run in CI on every PR) then fails if a listed case regresses, and lists cases that pass but aren't listed yet. Listing an id that has no case is also a failure.
 
 ## Concessions
 

@@ -215,6 +215,21 @@ module Conformance
     ledger(dir).map { |id, file, _| [id, file] }
   end
 
+  # Adds ids to a ratchet file, each before the first listed id that sorts after it (so a sorted
+  # list stays sorted). Comment and blank lines stay where they are. Returns the ids added.
+  def self.add_to_ratchet(path, ids)
+    lines = File.exist?(path) ? File.readlines(path, chomp: true) : []
+    listed = lines.map { |l| l.split("#", 2).first.to_s.strip }
+    added = (ids.uniq - listed).sort
+    added.each do |id|
+      at = listed.index { |l| !l.empty? && l > id } || lines.size
+      lines.insert(at, id)
+      listed.insert(at, id)
+    end
+    File.write(path, lines.map { |l| "#{l}\n" }.join) unless added.empty?
+    added
+  end
+
   # conformance/concessions/<area>.txt: `<id>  # reason`, one per line; the reason is required.
   # Returns [[id, file, reason], ...]; reason is nil when the line has none.
   def self.concessions(dir = CONCESSIONS) = ledger(dir)
