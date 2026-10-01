@@ -89,6 +89,39 @@ async function admit() {
 }
 function leave() { inFlight--; const next = waiting.shift(); if (next) next() }
 
+// Integration station: every few ready orders, assemble all ready branches on a local
+// integration branch and run the whole suite; culprits go back to build.
+const INTEGRATION = { type: 'object', properties: {
+  passed: { type: 'boolean' }, ran: { type: 'string' },
+  culprits: { type: 'array', items: { type: 'object', properties: { order_id: { type: 'string' }, problem: { type: 'string' } }, required: ['order_id', 'problem'] } },
+  unattributed: { type: 'array', items: { type: 'string' } }, problems: { type: 'array', items: { type: 'string' } } },
+  required: ['passed', 'ran', 'culprits', 'unattributed', 'problems'] }
+const ready = []            // {id, branch, entry, o}
+let integratedUpTo = 0
+let integrating = null
+async function integrate(final) {
+  if (integrating) await integrating
+  if (ready.length === integratedUpTo && !final) return
+  integratedUpTo = ready.length
+  const batch = ready.map(r => `${r.id} → ${r.branch}`).join('\n')
+  integrating = agent(`${sop('integration')}\n\nIntegration worktree: "${WT}/integration" (create it with \`git worktree add --detach "${WT}/integration" origin/main\` from "${REPO}" if missing). Ready orders and branches, merge in this order:\n${batch}`,
+    { label: `integration@${ready.length}`, phase: 'Integrate', schema: INTEGRATION, model: 'sonnet' })
+  const r = await integrating
+  integrating = null
+  if (!r) return
+  log(`integration of ${ready.length} branches: ${r.passed ? 'green' : `${r.culprits.length} culprits`}`)
+  record.push({ id: `integration@${ready.length}`, type: 'integration', outcome: r.passed ? 'green' : 'red', culprits: r.culprits, unattributed: r.unattributed, problems: r.problems })
+  for (const c of r.culprits) {
+    const item = ready.find(x => x.id === c.order_id)
+    if (!item) continue
+    item.entry.firstPass = false
+    const b = await agent(`${sop('build')}\n\nWork order ${item.id}: ${item.o.input}\n\nBranch \`${item.branch}\`, worktree "${WT}/${item.id}". Existing PR: #${item.entry.pr}.\n\nREWORK from the integration station (your branch breaks when assembled with the other ready orders) — fix only this:\n${c.problem}`,
+      { label: `build:${item.id}:integration-rework`, phase: 'Build', schema: BUILD })
+    item.entry.stations.push({ st: 'build', ok: b?.result === 'ok' })
+    if (b?.result !== 'ok') item.entry.outcome = 'blocked'
+  }
+}
+
 async function runOrder(o) {
   for (const dep of o.after || []) await done[dep]
   await admit()
@@ -144,6 +177,10 @@ async function runOrderAdmitted(o) {
   entry.pr = pr; entry.output_tokens_at_finish = spent()
   record.push(entry)
   log(`${o.id}: ${entry.outcome}${entry.firstPass ? ' (first pass)' : ''} — ${spent()} output tokens so far`)
+  if (entry.outcome === 'ready-to-merge') {
+    ready.push({ id: o.id, branch: `job/${o.id}`, entry, o })
+    if (ready.length - integratedUpTo >= (cfg.integrate_every || Infinity)) await integrate(false)
+  }
   resolvers[o.id](entry.outcome)
   if (++finishedSinceSupervise >= cfg.supervise_every && record.length < orders.length && !stopped) {
     finishedSinceSupervise = 0
@@ -153,5 +190,6 @@ async function runOrderAdmitted(o) {
 }
 
 await pipeline(orders, o => runOrder(o))
+if (ready.length) await integrate(true)
 const final = await supervise()
 return { stopped, output_tokens: spent(), record, final_supervisor: final }

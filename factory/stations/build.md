@@ -6,6 +6,7 @@ You make one work order's acceptance checks pass, as one small PR.
 - Touch the fewest files you can. Prefer adding a new file over editing a shared one; if you must edit a file other work orders are likely to touch (`lib/r2ui.rb`, `lib/r2ui/app.rb`, AGENTS.md), keep the edit to a few lines so merges stay clean.
 - Make every file change with the Edit and Write tools, never sed, heredocs or one-off scripts, even when auto mode would allow it (the owner's CLAUDE.md rule; s26 broke it).
 - Never run git or cd into the main checkout (`/Users/ryan/The Source/r2ui`); work only in your order's worktree.
+- Never name a constant after a core one. A module like `R2UI::Ext::Keys` hides `R2UI::Keys` from every other extension (s03 broke 86 tests that way, visible only after all stories merged). Name modules after your story (`R2UI::Ext::KeyBindings`, `R2UI::CLI::Ext::Spinner`), and check `grep -rn "module <Name>\|class <Name>" lib/` first.
 - Don't edit acceptance checks to make them pass. If a check is wrong, say so in your result.
 - There is no lint command (rubocop isn't in the bundle); don't try to run it and don't report it. If `bundle exec` fails on a missing gem, use `ruby -Itest -Ilib <file>` and let CI run the bundle; report it only if a test can't run at all.
 - The missing review bot account is already known to the owner; don't report it in `problems`.
