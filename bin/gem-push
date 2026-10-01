@@ -19,4 +19,5 @@ Dir.chdir(File.expand_path("..", __dir__))
 abort "No .env: cp .env.example .env and set GEM_HOST_API_KEY to an op:// reference" unless File.exist?(".env")
 
 run("gem", "build", "r2ui.gemspec")
-run("op", "run", "--env-file=.env", "--", "gem", "push", "r2ui-#{R2UI::VERSION}.gem", *ARGV)
+# --no-masking: masking buffers output, which hides gem's MFA "Code:" prompt. gem never prints the key.
+run("op", "run", "--env-file=.env", "--no-masking", "--", "gem", "push", "r2ui-#{R2UI::VERSION}.gem", *ARGV)
