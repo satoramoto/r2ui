@@ -150,11 +150,15 @@ module R2UI
         module_function
 
         # 0.12 → "120ms", 3.456 → "3.5s", 75 → "1m 15s".
+        # Rounds before picking the unit, so 59.97 is "1m 0s", not "60.0s".
         def duration(seconds)
-          return "#{(seconds * 1000).round}ms" if seconds < 1
-          return "#{format("%.1f", seconds)}s" if seconds < 60
+          return "#{(seconds * 1000).round}ms" if (seconds * 1000).round < 1000
 
-          "#{(seconds / 60).floor}m #{(seconds % 60).round}s"
+          tenths = (seconds * 10).round
+          return "#{format("%.1f", tenths / 10.0)}s" if tenths < 600
+
+          total = seconds.round
+          "#{total / 60}m #{total % 60}s"
         end
 
         # The list a `tasks` block is declaring on this thread (nil outside one).

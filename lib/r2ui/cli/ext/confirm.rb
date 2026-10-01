@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# c20-confirm: a yes/no question.
+# c03-confirm: a yes/no question.
 #
 #   confirm("Deploy api to production?")                 # => true / false
 #   confirm("Overwrite config?", default: true)
