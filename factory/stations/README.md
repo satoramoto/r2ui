@@ -14,11 +14,15 @@ Routings:
 - `fix` (a GitHub issue): build → inspect → integrate
 - `story` (a capability): spec → build → inspect → integrate
 - `doc`: build → inspect → integrate
+- `story-lite`: build → inspect (ends `ready-to-merge`; the owner merges)
 
-A work order may go back to `build` once (rework). A second failure scraps it and the dispatcher reports it.
+If build reports that an acceptance check is wrong (not a code problem), the order goes back to `spec` once with build's reason, then to build again; it isn't scrapped or blocked for that.
+
+A work order may go back to `build` once (rework), but only for code problems (review findings, red CI, conflicts). An integrate result of `blocked` (merge refused by permissions, green CI) ends the order as blocked and goes to the owner; the dispatcher must not route it to build. A second failure scraps it and the dispatcher reports it.
 
 ## Circuit breakers (in the dispatcher)
 
-- **Tokens:** a cap for the whole run and per work order. A work order over its cap is scrapped; the run stops dispatching when it passes the run cap.
+- **Tokens:** a cap for the whole run and per work order. A work order over its cap is scrapped; the run stops dispatching when it passes the run cap. Run spend is counted from the run's start (session tokens at launch are the baseline, not part of the run); if the counter is the session total, the run cap must be set to baseline + budget.
+- A work order that arrives with an open PR (e.g. carried over from an earlier run) enters at `inspect`, not `build`.
 - **Quality:** the line stops (no new work orders; in-flight ones finish) when 3 work orders in a row end scrapped, or first-pass yield over the last 5 finished is under 40%.
 - The supervisor can also stop the line.
