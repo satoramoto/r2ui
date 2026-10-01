@@ -18,6 +18,10 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 | `bundle exec ruby -Itest -Ilib test/query_test.rb` | Targeted: one file |
 | `exe/r2ui --snapshot --width 140 --height 45 examples/agents.rb` | After changing drawing or the example; prints one real frame |
 
+## Releasing
+
+Bump `lib/r2ui/version.rb`, then `bin/gem-push`: it builds the gem and runs `op run --env-file=.env -- gem push`. `.env` (gitignored; template in `.env.example`) holds a 1Password reference for `GEM_HOST_API_KEY`, resolved for that one command. It asks for Touch ID (and a one-time code if MFA is on), so the owner runs it, not an agent.
+
 The interactive mode needs a terminal; tests drive it through `App#press` and `App#frame` instead.
 
 ## Rules

@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Build the gem and push it to RubyGems. `.env` holds a 1Password reference, not the key:
+# `op run` resolves it for this push only, so the key never touches disk or your shell.
+# Extra arguments go to `gem push` (e.g. --otp 123456).
+#
+#   cp .env.example .env   # once, then point it at your 1Password item
+#   bin/gem-push
+
+require_relative "../lib/r2ui/version"
+
+def run(*cmd)
+  puts "$ #{cmd.join(" ")}"
+  system(*cmd, exception: true)
+end
+
+Dir.chdir(File.expand_path("..", __dir__))
+abort "No .env: cp .env.example .env and set GEM_HOST_API_KEY to an op:// reference" unless File.exist?(".env")
+
+run("gem", "build", "r2ui.gemspec")
+run("op", "run", "--env-file=.env", "--", "gem", "push", "r2ui-#{R2UI::VERSION}.gem", *ARGV)
