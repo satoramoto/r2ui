@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# r2ui runs on its own pure-Ruby Bubbletea, loaded by path. This doesn't touch $LOAD_PATH:
+# `require "bubbletea"` still means whatever it meant; `require "r2ui/drop_in"` opts into r2ui's.
+require_relative "r2ui/compat/bubbletea"
+
 require_relative "r2ui/version"
 require_relative "r2ui/value"
 require_relative "r2ui/format"
@@ -20,7 +24,9 @@ require_relative "r2ui/panel_state"
 require_relative "r2ui/feed"
 require_relative "r2ui/renderer"
 require_relative "r2ui/keys"
-require_relative "r2ui/terminal"
+require_relative "r2ui/context"
+require_relative "r2ui/extension"
+require_relative "r2ui/component"
 require_relative "r2ui/app"
 
 # R2UI: declare terminal dashboards the way ActiveAdmin declares admin pages.
@@ -51,3 +57,6 @@ module R2UI
     def reset! = @registry = Registry.new
   end
 end
+
+# Capabilities: one self-registering file each (docs/dsl.md).
+R2UI::Extensions.load_all

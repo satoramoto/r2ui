@@ -21,13 +21,48 @@ module R2UI
       ok: "32", warn: "33", alert: "31", accent: "35", muted: "90"
     }.freeze
 
+    SGR = /\A\e\[([0-9;:]*)m\z/
+    # SGR, any other escape sequence (CSI, OSC, two-byte; dropped), or a run of text.
+    TOKEN = /\e\[[0-9;:]*m|\e(?:\[[0-?]*[ -\/]*[@-~]|\][^\a\e]*(?:\a|\e\\)|[@-_])|[^\e]+|\e/
+
     attr_reader :width, :height
 
-    def initialize(width, height)
+    # `styles` overrides or adds named styles ({ name => "SGR params" }).
+    def initialize(width, height, styles: nil)
       @width = width
       @height = height
+      @palette = styles ? STYLES.merge(styles) : STYLES
       @chars = Array.new(height) { Array.new(width, " ") }
       @styles = Array.new(height) { Array.new(width, :plain) }
+    end
+
+    # Writes one line of styled text (a lipgloss render, a bubbles view): its SGR colours are
+    # kept per cell, other escapes dropped. Wide characters take two cells. Returns the cells used.
+    def write_ansi(x, y, text, max: nil)
+      return 0 if y.negative? || y >= height
+
+      limit = [max || width, width - x].min
+      used = 0
+      sgr = nil
+      text.to_s.scan(TOKEN).each do |part|
+        if (m = part.match(SGR))
+          params = m[1]
+          sgr = params.empty? || params.match?(/\A0*\z/) ? nil : [sgr, params].compact.join(";")
+          next
+        end
+        next if part.start_with?("\e")
+
+        part.each_char do |ch|
+          w = Compat::Tea::ANSI.string_width(ch)
+          next if w.zero?
+          return used if used + w > limit
+
+          put(x + used, y, ch, sgr || :plain)
+          put(x + used + 1, y, "", sgr || :plain) if w == 2
+          used += w
+        end
+      end
+      used
     end
 
     def write(x, y, text, style = :plain, max: nil)
@@ -55,12 +90,21 @@ module R2UI
         current = nil
         @chars[y].each_with_index do |ch, x|
           style = @styles[y][x]
-          out << "\e[0;#{STYLES.fetch(style)}m" if style != current
+          out << "\e[0;#{style.is_a?(String) ? style : @palette.fetch(style)}m" if style != current
           current = style
           out << ch
         end
         out << "\e[0m"
       end
+    end
+
+    private
+
+    def put(x, y, ch, style)
+      return if x.negative? || x >= width
+
+      @chars[y][x] = ch
+      @styles[y][x] = style
     end
   end
 end

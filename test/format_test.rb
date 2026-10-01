@@ -31,7 +31,17 @@ class FormatTest < Minitest::Test
   end
 
   def test_keys
-    assert_equal [:up, "q", :tab, :back_tab, :escape], R2UI::Keys.parse("\e[Aq\t\e[Z\e")
+    names = R2UI::Compat::Tea::Input.parse_all("\e[Aq\t\e[Z\x03 \e[6~\x12\ex\e".b)
+                                    .map { |event| R2UI::Keys.name(Bubbletea.parse_event(event)) }
+    assert_equal [:up, "q", :tab, :back_tab, :interrupt, " ", :page_down, :"ctrl+r", :"alt+x", :escape], names
+  end
+
+  def test_keys_round_trip_through_messages
+    [:up, :page_up, :back_tab, :enter, :escape, :backspace, :interrupt, "q", " ", :"ctrl+r", :f1].each do |key|
+      assert_equal key, R2UI::Keys.name(R2UI::Keys.message(key)), key.inspect
+    end
+    assert_equal "paste", R2UI::Keys.name(R2UI::Keys.message("paste")), "unknown names are typed text"
+    assert_equal "ctrl+r", R2UI::Keys.message("ctrl+r").to_s
   end
 
   def test_sparkline
