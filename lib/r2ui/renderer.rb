@@ -3,21 +3,32 @@
 module R2UI
   # Lays out a dashboard and draws every panel into a canvas.
   class Renderer
-    HINTS = "tab panel  [ ] scope  g group  s/S sort  / search  ⏎ fold  z zoom  q quit"
+    HINT_PAIRS = [
+      ["tab", "panel"], ["[ ]", "scope"], ["g", "group"], ["s/S", "sort"], ["/", "search"], ["⏎", "fold"],
+      ["z", "zoom"], ["q", "quit"]
+    ].freeze
+    HINTS = HINT_PAIRS.map { |key, label| "#{key} #{label}" }.join("  ").freeze
 
     # The lines each table panel showed in the last frame, for selection and actions.
     attr_reader :lines
+    # Where each panel was drawn in the last frame (panel => Rect), e.g. for mouse hit tests.
+    attr_reader :rects
 
-    def initialize(registry, feeds, states)
+    # `draw_item` draws items the core doesn't know (extension items): called with
+    # (panel, item, width, height), it returns a String, or nil if no extension draws that item.
+    def initialize(registry, feeds, states, draw_item: nil)
       @registry = registry
       @feeds = feeds
       @states = states
+      @draw_item = draw_item
       @lines = {}
+      @rects = {}
     end
 
-    def render(dashboard, width:, height:, focus:, zoomed: false, prompt: nil)
-      canvas = Canvas.new(width, height)
+    def render(dashboard, width:, height:, focus:, zoomed: false, prompt: nil, hints: HINTS, styles: nil)
+      canvas = Canvas.new(width, height, styles:)
       body = Rect.new(x: 0, y: 0, width:, height: height - 1)
+      @rects = {}
       if zoomed
         draw_panel(canvas, body, focus, true)
       else
@@ -25,7 +36,7 @@ module R2UI
           draw_panel(canvas, rect, panel, panel == focus)
         end
       end
-      draw_status(canvas, height - 1, width, focus, prompt)
+      draw_status(canvas, height - 1, width, focus, prompt, hints)
       canvas
     end
 
@@ -57,30 +68,56 @@ module R2UI
     end
 
     def draw_panel(canvas, rect, panel, focused)
-      resource = @registry.resource(panel.resource)
-      feed = @feeds.fetch(resource.name)
+      @rects[panel] = rect
+      resource = panel.resource && @registry.resource(panel.resource)
+      feed = resource && @feeds.fetch(resource.name)
       state = @states[panel]
-      title = panel.title || (panel.name == resource.name ? resource.title : panel.name.to_s.tr("_", " ").capitalize)
-      inner = Widgets::Box.draw(canvas, rect, title:, focused:, tabs: state ? state.scope_tabs : [])
+      inner = Widgets::Box.draw(canvas, rect, title: panel_title(panel, resource), focused:,
+                                              tabs: state ? state.scope_tabs : [])
       return if inner.empty?
 
-      if (error = feed.error)
+      if (error = feed&.error)
         canvas.write(inner.x, inner.y, error, :alert, max: inner.width)
         inner = inner.take(1).last
       end
 
-      rows = feed.rows
+      rows = feed ? feed.rows : []
       record = rows.first
       panel.items.each do |item|
         break if inner.empty?
 
         inner = case item
-                when DSL::Gauge then draw_gauge(canvas, inner, resource, record, item)
-                when DSL::Stat then draw_stats(canvas, inner, resource, record, item)
-                when DSL::Sparkline then draw_sparkline(canvas, inner, resource, feed, item)
-                when DSL::Table then draw_table(canvas, inner, resource, feed, rows, panel, state, focused, item)
+                when DSL::Gauge then draw_gauge(canvas, inner, needs(resource, panel), record, item)
+                when DSL::Stat then draw_stats(canvas, inner, needs(resource, panel), record, item)
+                when DSL::Sparkline then draw_sparkline(canvas, inner, needs(resource, panel), feed, item)
+                when DSL::Table
+                  draw_table(canvas, inner, needs(resource, panel), feed, rows, panel, state, focused, item)
+                else draw_extension_item(canvas, inner, panel, item)
                 end
       end
+    end
+
+    def panel_title(panel, resource)
+      return panel.title if panel.title
+      return resource.title if resource && panel.name == resource.name
+
+      panel.name.to_s.tr("_", " ").capitalize
+    end
+
+    def needs(resource, panel)
+      resource || raise(Error, "panel #{panel.name} has no resource for its gauge/stat/sparkline/table")
+    end
+
+    def draw_extension_item(canvas, rect, panel, item)
+      text = @draw_item&.call(panel, item, rect.width, rect.height)
+      raise Error, "panel #{panel.name}: no extension draws #{item.class}" if text.nil?
+
+      lines = text.to_s.split("\n")
+      area, rest = rect.take(lines.size)
+      lines.first(area.height).each_with_index do |line, i|
+        canvas.write_ansi(area.x, area.y + i, line, max: area.width)
+      end
+      rest
     end
 
     def draw_gauge(canvas, rect, resource, record, item)
@@ -124,11 +161,10 @@ module R2UI
       rect.with(height: 0)
     end
 
-    def draw_status(canvas, y, width, focus, prompt)
+    def draw_status(canvas, y, width, focus, prompt, hints)
       left = prompt || @states[focus]&.status.to_s
       canvas.fill(Rect.new(x: 0, y:, width:, height: 1), " ", :reverse)
       canvas.write(1, y, left, :reverse, max: width - 2)
-      hints = HINTS
       canvas.write(width - hints.length - 1, y, hints, :reverse) if left.length + hints.length + 4 <= width
     end
 

@@ -7,7 +7,9 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 - `lib/r2ui/dsl/` — the DSL: `Resource` (+ `Builder`), `Dashboard` (+ row/panel builders), `Column`. Definitions are plain data; nothing here draws.
 - `lib/r2ui/query.rb`, `search.rb` — rows → lines (scope, search, group, tree, sort). Pure functions; most logic tests live here.
 - `lib/r2ui/widgets/`, `canvas.rb`, `renderer.rb` — drawing into a character grid.
-- `lib/r2ui/app.rb`, `terminal.rb`, `keys.rb`, `feed.rb` — the run loop, raw terminal, input, background fetching.
+- `lib/r2ui/app.rb` — `R2UI::App`, a Bubbletea model (init/update/view) that `R2UI.run` runs on the compat engine (`lib/r2ui/compat/bubbletea`); r2ui has no terminal loop of its own. `keys.rb` maps Bubbletea key messages to the core's key names; `feed.rb` fetches resources in the background.
+- `lib/r2ui/extension.rb`, `context.rb`, `component.rb` — the extension point: `R2UI.extension(name) { ... }` registers DSL keywords, helpers, update handlers, panel items, hosted bubbles-style components and program options. Hook and user blocks run on a `Context`.
+- `lib/r2ui/ext/*.rb` — one capability per file, loaded automatically (name order); each has `test/ext/<file>_test.rb`. `every.rb` and `view.rb` are the reference ones. `docs/dsl.md` is the design and the story list: a story adds only its own files there and edits nothing existing.
 - `examples/agents.rb` + `examples/agents/probe.rb` — the macOS Claude/Codex monitor; the probe is app code, not part of the gem.
 
 ## Tests
@@ -16,6 +18,7 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 |---|---|
 | `bundle exec rake test` | After any change in `lib/` or `conformance/lib/` (~15 s: the compat and harness tests drive real ptys) |
 | `bundle exec ruby -Itest -Ilib test/query_test.rb` | Targeted: one file |
+| `bundle exec ruby -Itest -Ilib test/ext/<file>_test.rb` | Targeted: one DSL extension while working on it |
 | `bundle exec ruby -Itest -Ilib test/compat/bubbletea/<file>_test.rb` | Targeted: one compat test file while working in `lib/r2ui/compat/` |
 | `bundle exec ruby -Itest -Ilib test/conformance/harness_test.rb` | Targeted: the harness (`vt_test.rb` for the decoder) while working in `conformance/lib/` |
 | `exe/r2ui --snapshot --width 140 --height 45 examples/agents.rb` | After changing drawing or the example; prints one real frame |
@@ -32,7 +35,7 @@ CI (`.github/workflows/ci.yml`) runs `bundle exec rake test` on every PR; it is 
 
 `factory/FACTORY.md` describes how this work is run (lanes, stations, which files each lane owns); `factory/LOG.md` records each run.
 
-**Shared files** (change only through a small contract PR): `lib/r2ui/drop_in.rb`, `lib/r2ui/compat/load_path/`, `lib/r2ui.rb`, `r2ui.gemspec`, `Gemfile`, `Rakefile`, `.github/workflows/ci.yml`, this file.
+**Shared files** (change only through a small contract PR): `lib/r2ui/drop_in.rb`, `lib/r2ui/compat/load_path/`, `lib/r2ui.rb`, `lib/r2ui/extension.rb`, `lib/r2ui/context.rb`, `lib/r2ui/component.rb`, `docs/dsl.md`, `r2ui.gemspec`, `Gemfile`, `Rakefile`, `.github/workflows/ci.yml`, this file.
 
 ## Review checklist
 

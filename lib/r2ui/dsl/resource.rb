@@ -33,7 +33,13 @@ module R2UI
         @columns = []
         @searchable = []
         @actions = []
+        @declarations = Hash.new { |h, k| h[k] = [] }
       end
+
+      # What extensions declared on this resource, by key.
+      attr_reader :declarations
+
+      def declared(key) = declarations.fetch(key, [])
 
       def column(key) = columns.find { |c| c.key == key }
 
@@ -98,6 +104,12 @@ module R2UI
         end
 
         private
+
+        # For extension keywords: record `value` under `key` on the resource. Returns `value`.
+        def declare(key, value)
+          @r.declarations[key] << value
+          value
+        end
 
         def set(ivar, value) = @r.instance_variable_set(:"@#{ivar}", value)
 
