@@ -530,6 +530,44 @@ class CompatLipglossColorTest < Minitest::Test
     assert_raises(ArgumentError) { Renderer.color_profile = :sixteen }
   end
 
+  # Background detection can wait seconds on the terminal; it must not hold the renderer's lock.
+  class SlowOutput < Termenv::Output
+    attr_reader :started, :release
+
+    def initialize
+      super(io: FakeIO.new(true), env: { "TERM" => "xterm-256color" })
+      @started = Queue.new
+      @release = Queue.new
+    end
+
+    def has_dark_background?
+      @started << true
+      @release.pop
+    end
+  end
+
+  def test_background_detection_does_not_hold_the_renderer_lock
+    output = SlowOutput.new
+    renderer = Renderer.new(output)
+    detecting = Thread.new { renderer.has_dark_background? }
+    output.started.pop
+    profile = Thread.new { renderer.color_profile }
+    assert profile.join(2), "color_profile blocked behind background detection"
+    assert_equal Termenv::Profile::ANSI256, profile.value
+    renderer.has_dark_background = false
+    refute renderer.has_dark_background?, "explicit value answers during detection"
+    output.release << false
+    refute detecting.join(2).value
+    renderer.has_dark_background = nil
+    detecting = Thread.new { renderer.has_dark_background? }
+    output.started.pop
+    output.release << true
+    assert detecting.join(2).value
+    assert renderer.has_dark_background?, "stored after detection"
+  ensure
+    output&.release&.close
+  end
+
   def test_dark_background_without_a_terminal
     output = Termenv::Output.new(io: FakeIO.new(false), env: { "COLORFGBG" => "0;15" })
     assert_equal Termenv::NoColor.new, output.background_color

@@ -636,12 +636,22 @@ module R2UI
           end
         end
 
+        # Detection queries the terminal (up to seconds), so it runs outside the lock: other threads
+        # asking for the profile or background aren't blocked. The first answer stored wins; one
+        # started before a setter or reset! is used by its caller but not stored.
         def has_dark_background?
+          generation = @mutex.synchronize do
+            return @explicit_dark unless @explicit_dark.nil?
+            return @dark unless @dark.nil?
+
+            @generation
+          end
+          detected = @output.has_dark_background?
           @mutex.synchronize do
             return @explicit_dark unless @explicit_dark.nil?
 
-            @dark = @output.has_dark_background? if @dark.nil?
-            @dark
+            @dark = detected if @dark.nil? && @generation == generation
+            @dark.nil? ? detected : @dark
           end
         end
 
@@ -650,6 +660,7 @@ module R2UI
           @mutex.synchronize do
             @explicit_dark = value.nil? ? nil : (value ? true : false)
             @dark = nil
+            @generation += 1
           end
         end
 
@@ -659,6 +670,7 @@ module R2UI
             @color_profile = nil
             @explicit_dark = nil
             @dark = nil
+            @generation = (@generation || 0) + 1
           end
         end
 
