@@ -1,0 +1,47 @@
+# conformance golden for bubbletea/counter: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|Count: 0
+2|
+3|Press up/down to change, q to quit
+4|
+5|
+6|
+7|
+8|
+styles: none
+== three
+alt_screen: off  cursor: hidden  modes: -
+1|Count: 3
+2|
+3|Press up/down to change, q to quit
+4|
+5|
+6|
+7|
+8|
+styles: none
+== negative
+alt_screen: off  cursor: hidden  modes: -
+1|Count: -2
+2|
+3|Press up/down to change, q to quit
+4|
+5|
+6|
+7|
+8|
+styles: none
+== quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|Count: -2
+2|
+3|Press up/down to change, q to quit
+4|
+5|
+6|
+7|
+8|
+styles: none

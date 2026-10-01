@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/join/horizontal: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;60;60;60m \e[0m\e[48;2;60;60;60ma\e[0m\e[48;2;60;60;60m \e[0m \e[38;2;4;181;117mone\e[0m"
+"\e[48;2;60;60;60m \e[0m\e[48;2;60;60;60mb\e[0m\e[48;2;60;60;60m \e[0m \e[38;2;4;181;117mtwo\e[0m"
+"\e[48;2;60;60;60m \e[0m\e[48;2;60;60;60mc\e[0m\e[48;2;60;60;60m \e[0m    "

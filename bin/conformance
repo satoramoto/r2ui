@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Conformance harness: records golden outputs from the upstream Charm gems and checks r2ui's
+# drop-in against them. See conformance/README.md.
+#
+#   bin/conformance record [filter...]           run cases on the real gems, write goldens
+#   bin/conformance check [--ratchet] [filter...] run cases on r2ui/drop_in, compare to goldens
+#   bin/conformance list [filter...]             list case ids
+#
+# Filters match case ids by substring. -j N sets parallel jobs (default: CPU count).
+# The exit code is the result: 0 pass, 1 fail.
+
+require_relative "../conformance/lib/harness"
+
+USAGE = "usage: bin/conformance (record|check [--ratchet]|list) [-j N] [filter...]"
+
+args = ARGV.dup
+command = args.shift
+ratchet = !args.delete("--ratchet").nil?
+jobs = Etc.nprocessors
+if (i = args.index("-j"))
+  jobs = Integer(args.delete_at(i + 1) || abort(USAGE))
+  args.delete_at(i)
+end
+abort USAGE if args.any? { |a| a.start_with?("-") }
+filters = args
+
+all = Conformance::Case.all
+selected = filters.empty? ? all : all.select { |c| filters.any? { |f| c.id.include?(f) } }
+
+def strip_header(text) = text.sub(/\A#[^\n]*\n/, "")
+
+case command
+when "list"
+  selected.each { |c| puts "#{c.id}  (#{c.program? ? 'program' : 'value'})" }
+
+when "record"
+  abort "no cases match #{filters.join(' ')}" if selected.empty?
+  failed = 0
+  Conformance.run_all(selected, :real, jobs: jobs).each do |c, text, error|
+    if error
+      failed += 1
+      puts "ERROR #{c.id}\n#{error.gsub(/^/, '  ')}"
+      next
+    end
+    FileUtils.mkdir_p(File.dirname(c.golden_path))
+    changed = strip_header(c.golden.to_s) != text
+    File.write(c.golden_path, c.header + text)
+    puts "#{changed ? 'WROTE' : 'same '} #{c.id}"
+  end
+  if filters.empty?
+    known = all.map(&:golden_path)
+    (Dir.glob(File.join(Conformance::GOLDEN, "**", "*.txt")) - known).each do |orphan|
+      File.delete(orphan)
+      puts "REMOVED #{orphan.delete_prefix("#{Conformance::ROOT}/")} (no case)"
+    end
+  end
+  puts "#{selected.size - failed} recorded, #{failed} errors"
+  exit(failed.zero? ? 0 : 1)
+
+when "check"
+  listed = Conformance.ratchet
+  listed_ids = listed.map(&:first)
+  problems = 0
+  unknown = listed.reject { |id, _| all.any? { |c| c.id == id } }
+  unknown.each do |id, file|
+    puts "UNKNOWN #{id} (listed in conformance/ratchet/#{file}, no such case)"
+    problems += 1
+  end
+  passing_unlisted = []
+  passed = failed = 0
+  Conformance.run_all(selected, :r2ui, jobs: jobs).each do |c, text, error|
+    golden = c.golden
+    ok = golden && !error && strip_header(golden) == text
+    gating = !ratchet || listed_ids.include?(c.id)
+    if ok
+      passed += 1
+      puts "PASS #{c.id}"
+      passing_unlisted << c.id if ratchet && !gating
+      next
+    end
+    failed += 1
+    problems += 1 if gating
+    puts "FAIL #{c.id}#{gating ? '' : '  (not in ratchet)'}"
+    next unless gating
+
+    if golden.nil?
+      puts "  no golden: run `bin/conformance record #{c.id}`"
+    elsif error
+      puts error.gsub(/^/, "  ")
+    else
+      puts Conformance.diff(strip_header(golden), text).gsub(/^/, "  ")
+    end
+  end
+  puts "#{passed} passed, #{failed} failed"
+  if ratchet
+    puts "#{listed_ids.size} in ratchet, #{problems} ratchet failures"
+    unless passing_unlisted.empty?
+      puts "Passing but not in the ratchet (add them to conformance/ratchet/<area>.txt):"
+      passing_unlisted.each { |id| puts "  #{id}" }
+    end
+  end
+  exit(problems.zero? ? 0 : 1)
+
+else
+  abort USAGE
+end
