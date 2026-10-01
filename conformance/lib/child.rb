@@ -15,6 +15,28 @@ case_path = ARGV.fetch(0)
 cols, rows = ENV.fetch("CONFORMANCE_SIZE").split("x").map { |n| Integer(n) }
 $stdout.winsize = [rows, cols] if $stdout.tty?
 
+# Under `check` (CONFORMANCE_FLAVOR=r2ui) the case must run on r2ui alone: if any file of the
+# real bubbletea/lipgloss gems got loaded, the comparison proves nothing, so the case fails.
+REAL_GEM_FILE = %r{/gems/(bubbletea|lipgloss)-[^/]+/}
+def conformance_assert_r2ui_only!
+  return unless ENV["CONFORMANCE_FLAVOR"] == "r2ui"
+
+  leaked = $LOADED_FEATURES.grep(REAL_GEM_FILE)
+  return if leaked.empty?
+
+  warn "conformance: real upstream gem loaded under r2ui: #{leaked.first(3).join(', ')}"
+  exit! LEAK_EXIT
+end
+LEAK_EXIT = 97 # the harness turns this exit status into a case error
+if ENV["CONFORMANCE_FLAVOR"] == "r2ui"
+  conformance_assert_r2ui_only! # drop_in itself must not pull them in
+  # Check after every require so a long-running program case fails at once, not only at exit.
+  Kernel.prepend(Module.new do
+    private def require(*) = super.tap { conformance_assert_r2ui_only! }
+  end)
+  at_exit { conformance_assert_r2ui_only! }
+end
+
 out = ENV["CONFORMANCE_OUT"]
 if out
   source = File.read(case_path).split(/^__END__\r?\n/, 2).first
@@ -23,6 +45,7 @@ if out
     warn "conformance: #{case_path} returned #{result.class}, expected a String"
     exit 2
   end
+  conformance_assert_r2ui_only!
   File.binwrite(out, result)
 else
   load case_path

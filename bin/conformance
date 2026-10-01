@@ -60,6 +60,7 @@ when "record"
   exit(failed.zero? ? 0 : 1)
 
 when "check"
+  abort "no cases match #{filters.join(' ')}" if selected.empty?
   listed = Conformance.ratchet
   listed_ids = listed.map(&:first)
   problems = 0

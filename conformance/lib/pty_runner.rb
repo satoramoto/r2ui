@@ -154,17 +154,17 @@ module Conformance
     def stop
       return unless @pid
 
-      unless exited?
-        %w[TERM KILL].each do |sig|
-          begin
-            Process.kill(sig, @pid)
-          rescue Errno::ESRCH
-            break
-          end
-          20.times { break if exited?; sleep 0.02 }
-          break if exited?
+      # PTY.spawn makes the child a session (and process group) leader, so -pid signals the
+      # whole group: anything the case forked dies with it, even after the leader has exited.
+      %w[TERM KILL].each do |sig|
+        begin
+          Process.kill(sig, -@pid)
+        rescue Errno::ESRCH, Errno::EPERM
+          break
         end
+        20.times { break if exited?; sleep 0.02 }
       end
+      exited?
       @reader&.join(1)
       @reader&.kill
       [@input, @master].each { |io| io.close unless io.nil? || io.closed? }
