@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 # Ported from lipgloss-ruby test/table_test.rb at tag v0.2.2 (MIT License, Copyright (c) 2025
-# Marco Roth). Only change: requires upstream_helper (plain Minitest, r2ui drop-in) instead of test_helper.
+# Marco Roth). Changes: requires upstream_helper (plain Minitest, r2ui drop-in) instead of test_helper,
+# and lives in LipglossUpstream (see upstream_helper) instead of Lipgloss.
 require_relative "upstream_helper"
 
-module Lipgloss
-  class TableTest < Minitest::Spec
+module LipglossUpstream
+  class TableTest < Spec
     it "renders basic table" do
       table = Lipgloss::Table.new
                              .headers(["Name", "Age"])

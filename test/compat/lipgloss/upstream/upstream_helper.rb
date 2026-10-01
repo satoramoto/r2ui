@@ -27,3 +27,13 @@ require "minitest/autorun"
 def strip_ansi(string)
   string.gsub(/\e\[[0-9;]*[A-Za-z]/, "")
 end
+
+# Upstream defines its test classes inside `module Lipgloss`. Here they live in LipglossUpstream so
+# they don't add constants to Lipgloss (a conformance case pins `Lipgloss.constants`, and every test
+# runs in one process). Spec includes Lipgloss so bare constants (Style, Table, ...) resolve as
+# they do upstream.
+module LipglossUpstream
+  class Spec < Minitest::Spec
+    include Lipgloss
+  end
+end
