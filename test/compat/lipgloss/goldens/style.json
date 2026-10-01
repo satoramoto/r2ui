@@ -1,0 +1,2228 @@
+{
+  "style.plain": {
+    "code": "Lipgloss::Style.new.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.plain_empty": {
+    "code": "Lipgloss::Style.new.render(\"\")",
+    "results": {
+      "*": ""
+    }
+  },
+  "style.plain_multiline": {
+    "code": "Lipgloss::Style.new.render(\"a\\nbb\\nccc\")",
+    "results": {
+      "*": "a\nbb\nccc"
+    }
+  },
+  "style.bold": {
+    "code": "Lipgloss::Style.new.bold(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[1mHello\u001b[0m",
+      "ansi256": "\u001b[1mHello\u001b[0m",
+      "ansi": "\u001b[1mHello\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[1mHello\u001b[0m"
+    }
+  },
+  "style.bold_false": {
+    "code": "Lipgloss::Style.new.bold(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.bold_words": {
+    "code": "Lipgloss::Style.new.bold(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[1mHello World\u001b[0m",
+      "ansi256": "\u001b[1mHello World\u001b[0m",
+      "ansi": "\u001b[1mHello World\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[1mHello World\u001b[0m"
+    }
+  },
+  "style.bold_multiline": {
+    "code": "Lipgloss::Style.new.bold(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[1mab\u001b[0m\n\u001b[1mc\u001b[0m ",
+      "ansi256": "\u001b[1mab\u001b[0m\n\u001b[1mc\u001b[0m ",
+      "ansi": "\u001b[1mab\u001b[0m\n\u001b[1mc\u001b[0m ",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[1mab\u001b[0m\n\u001b[1mc\u001b[0m "
+    }
+  },
+  "style.bold_getter_default": {
+    "code": "Lipgloss::Style.new.bold?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.bold_getter_true": {
+    "code": "Lipgloss::Style.new.bold(true).bold?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.bold_getter_false": {
+    "code": "Lipgloss::Style.new.bold(false).bold?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.bold_unset": {
+    "code": "Lipgloss::Style.new.bold(true).unset_bold.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.bold_unset_getter": {
+    "code": "Lipgloss::Style.new.bold(true).unset_bold.bold?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.bold_truthy_string": {
+    "code": "Lipgloss::Style.new.bold(\"yes\").bold?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.bold_nil": {
+    "code": "Lipgloss::Style.new.bold(nil).bold?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.italic": {
+    "code": "Lipgloss::Style.new.italic(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[3mHello\u001b[0m",
+      "ansi256": "\u001b[3mHello\u001b[0m",
+      "ansi": "\u001b[3mHello\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[3mHello\u001b[0m"
+    }
+  },
+  "style.italic_false": {
+    "code": "Lipgloss::Style.new.italic(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.italic_words": {
+    "code": "Lipgloss::Style.new.italic(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[3mHello World\u001b[0m",
+      "ansi256": "\u001b[3mHello World\u001b[0m",
+      "ansi": "\u001b[3mHello World\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[3mHello World\u001b[0m"
+    }
+  },
+  "style.italic_multiline": {
+    "code": "Lipgloss::Style.new.italic(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[3mab\u001b[0m\n\u001b[3mc\u001b[0m ",
+      "ansi256": "\u001b[3mab\u001b[0m\n\u001b[3mc\u001b[0m ",
+      "ansi": "\u001b[3mab\u001b[0m\n\u001b[3mc\u001b[0m ",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[3mab\u001b[0m\n\u001b[3mc\u001b[0m "
+    }
+  },
+  "style.italic_getter_default": {
+    "code": "Lipgloss::Style.new.italic?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.italic_getter_true": {
+    "code": "Lipgloss::Style.new.italic(true).italic?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.italic_getter_false": {
+    "code": "Lipgloss::Style.new.italic(false).italic?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.italic_unset": {
+    "code": "Lipgloss::Style.new.italic(true).unset_italic.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.italic_unset_getter": {
+    "code": "Lipgloss::Style.new.italic(true).unset_italic.italic?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.italic_truthy_string": {
+    "code": "Lipgloss::Style.new.italic(\"yes\").italic?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.italic_nil": {
+    "code": "Lipgloss::Style.new.italic(nil).italic?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.underline": {
+    "code": "Lipgloss::Style.new.underline(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m",
+      "ansi256": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m",
+      "ansi": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m"
+    }
+  },
+  "style.underline_false": {
+    "code": "Lipgloss::Style.new.underline(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.underline_words": {
+    "code": "Lipgloss::Style.new.underline(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mW\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4;4mr\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4md\u001b[0m",
+      "ansi256": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mW\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4;4mr\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4md\u001b[0m",
+      "ansi": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mW\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4;4mr\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4md\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[4;4mH\u001b[0m\u001b[4;4me\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mW\u001b[0m\u001b[4;4mo\u001b[0m\u001b[4;4mr\u001b[0m\u001b[4;4ml\u001b[0m\u001b[4;4md\u001b[0m"
+    }
+  },
+  "style.underline_multiline": {
+    "code": "Lipgloss::Style.new.underline(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m\n\u001b[4;4mc\u001b[0m ",
+      "ansi256": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m\n\u001b[4;4mc\u001b[0m ",
+      "ansi": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m\n\u001b[4;4mc\u001b[0m ",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m\n\u001b[4;4mc\u001b[0m "
+    }
+  },
+  "style.underline_getter_default": {
+    "code": "Lipgloss::Style.new.underline?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.underline_getter_true": {
+    "code": "Lipgloss::Style.new.underline(true).underline?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.underline_getter_false": {
+    "code": "Lipgloss::Style.new.underline(false).underline?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.underline_unset": {
+    "code": "Lipgloss::Style.new.underline(true).unset_underline.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.underline_unset_getter": {
+    "code": "Lipgloss::Style.new.underline(true).unset_underline.underline?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.underline_truthy_string": {
+    "code": "Lipgloss::Style.new.underline(\"yes\").underline?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.underline_nil": {
+    "code": "Lipgloss::Style.new.underline(nil).underline?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.strikethrough": {
+    "code": "Lipgloss::Style.new.strikethrough(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m",
+      "ansi256": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m",
+      "ansi": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m"
+    }
+  },
+  "style.strikethrough_false": {
+    "code": "Lipgloss::Style.new.strikethrough(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.strikethrough_words": {
+    "code": "Lipgloss::Style.new.strikethrough(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m\u001b[9m \u001b[0m\u001b[9mW\u001b[0m\u001b[9mo\u001b[0m\u001b[9mr\u001b[0m\u001b[9ml\u001b[0m\u001b[9md\u001b[0m",
+      "ansi256": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m\u001b[9m \u001b[0m\u001b[9mW\u001b[0m\u001b[9mo\u001b[0m\u001b[9mr\u001b[0m\u001b[9ml\u001b[0m\u001b[9md\u001b[0m",
+      "ansi": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m\u001b[9m \u001b[0m\u001b[9mW\u001b[0m\u001b[9mo\u001b[0m\u001b[9mr\u001b[0m\u001b[9ml\u001b[0m\u001b[9md\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[9mH\u001b[0m\u001b[9me\u001b[0m\u001b[9ml\u001b[0m\u001b[9ml\u001b[0m\u001b[9mo\u001b[0m\u001b[9m \u001b[0m\u001b[9mW\u001b[0m\u001b[9mo\u001b[0m\u001b[9mr\u001b[0m\u001b[9ml\u001b[0m\u001b[9md\u001b[0m"
+    }
+  },
+  "style.strikethrough_multiline": {
+    "code": "Lipgloss::Style.new.strikethrough(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[9ma\u001b[0m\u001b[9mb\u001b[0m\n\u001b[9mc\u001b[0m ",
+      "ansi256": "\u001b[9ma\u001b[0m\u001b[9mb\u001b[0m\n\u001b[9mc\u001b[0m ",
+      "ansi": "\u001b[9ma\u001b[0m\u001b[9mb\u001b[0m\n\u001b[9mc\u001b[0m ",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[9ma\u001b[0m\u001b[9mb\u001b[0m\n\u001b[9mc\u001b[0m "
+    }
+  },
+  "style.strikethrough_getter_default": {
+    "code": "Lipgloss::Style.new.strikethrough?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.strikethrough_getter_true": {
+    "code": "Lipgloss::Style.new.strikethrough(true).strikethrough?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.strikethrough_getter_false": {
+    "code": "Lipgloss::Style.new.strikethrough(false).strikethrough?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.strikethrough_unset": {
+    "code": "Lipgloss::Style.new.strikethrough(true).unset_strikethrough.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.strikethrough_unset_getter": {
+    "code": "Lipgloss::Style.new.strikethrough(true).unset_strikethrough.strikethrough?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.strikethrough_truthy_string": {
+    "code": "Lipgloss::Style.new.strikethrough(\"yes\").strikethrough?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.strikethrough_nil": {
+    "code": "Lipgloss::Style.new.strikethrough(nil).strikethrough?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.reverse": {
+    "code": "Lipgloss::Style.new.reverse(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[7mHello\u001b[0m",
+      "ansi256": "\u001b[7mHello\u001b[0m",
+      "ansi": "\u001b[7mHello\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[7mHello\u001b[0m"
+    }
+  },
+  "style.reverse_false": {
+    "code": "Lipgloss::Style.new.reverse(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.reverse_words": {
+    "code": "Lipgloss::Style.new.reverse(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[7mHello World\u001b[0m",
+      "ansi256": "\u001b[7mHello World\u001b[0m",
+      "ansi": "\u001b[7mHello World\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[7mHello World\u001b[0m"
+    }
+  },
+  "style.reverse_multiline": {
+    "code": "Lipgloss::Style.new.reverse(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[7mab\u001b[0m\n\u001b[7mc\u001b[0m\u001b[7m \u001b[0m",
+      "ansi256": "\u001b[7mab\u001b[0m\n\u001b[7mc\u001b[0m\u001b[7m \u001b[0m",
+      "ansi": "\u001b[7mab\u001b[0m\n\u001b[7mc\u001b[0m\u001b[7m \u001b[0m",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[7mab\u001b[0m\n\u001b[7mc\u001b[0m\u001b[7m \u001b[0m"
+    }
+  },
+  "style.reverse_getter_default": {
+    "code": "Lipgloss::Style.new.reverse?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.reverse_getter_true": {
+    "code": "Lipgloss::Style.new.reverse(true).reverse?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.reverse_getter_false": {
+    "code": "Lipgloss::Style.new.reverse(false).reverse?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.reverse_unset": {
+    "code": "Lipgloss::Style.new.reverse(true).unset_reverse.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.reverse_unset_getter": {
+    "code": "Lipgloss::Style.new.reverse(true).unset_reverse.reverse?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.reverse_truthy_string": {
+    "code": "Lipgloss::Style.new.reverse(\"yes\").reverse?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.reverse_nil": {
+    "code": "Lipgloss::Style.new.reverse(nil).reverse?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.blink": {
+    "code": "Lipgloss::Style.new.blink(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[5mHello\u001b[0m",
+      "ansi256": "\u001b[5mHello\u001b[0m",
+      "ansi": "\u001b[5mHello\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[5mHello\u001b[0m"
+    }
+  },
+  "style.blink_false": {
+    "code": "Lipgloss::Style.new.blink(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.blink_words": {
+    "code": "Lipgloss::Style.new.blink(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[5mHello World\u001b[0m",
+      "ansi256": "\u001b[5mHello World\u001b[0m",
+      "ansi": "\u001b[5mHello World\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[5mHello World\u001b[0m"
+    }
+  },
+  "style.blink_multiline": {
+    "code": "Lipgloss::Style.new.blink(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[5mab\u001b[0m\n\u001b[5mc\u001b[0m ",
+      "ansi256": "\u001b[5mab\u001b[0m\n\u001b[5mc\u001b[0m ",
+      "ansi": "\u001b[5mab\u001b[0m\n\u001b[5mc\u001b[0m ",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[5mab\u001b[0m\n\u001b[5mc\u001b[0m "
+    }
+  },
+  "style.blink_getter_default": {
+    "code": "Lipgloss::Style.new.blink?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.blink_getter_true": {
+    "code": "Lipgloss::Style.new.blink(true).blink?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.blink_getter_false": {
+    "code": "Lipgloss::Style.new.blink(false).blink?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.blink_unset": {
+    "code": "Lipgloss::Style.new.blink(true).unset_blink.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.blink_unset_getter": {
+    "code": "Lipgloss::Style.new.blink(true).unset_blink.blink?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.blink_truthy_string": {
+    "code": "Lipgloss::Style.new.blink(\"yes\").blink?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.blink_nil": {
+    "code": "Lipgloss::Style.new.blink(nil).blink?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.faint": {
+    "code": "Lipgloss::Style.new.faint(true).render(\"Hello\")",
+    "results": {
+      "true_color": "\u001b[2mHello\u001b[0m",
+      "ansi256": "\u001b[2mHello\u001b[0m",
+      "ansi": "\u001b[2mHello\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[2mHello\u001b[0m"
+    }
+  },
+  "style.faint_false": {
+    "code": "Lipgloss::Style.new.faint(false).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.faint_words": {
+    "code": "Lipgloss::Style.new.faint(true).render(\"Hello World\")",
+    "results": {
+      "true_color": "\u001b[2mHello World\u001b[0m",
+      "ansi256": "\u001b[2mHello World\u001b[0m",
+      "ansi": "\u001b[2mHello World\u001b[0m",
+      "ascii": "Hello World",
+      "true_color_light": "\u001b[2mHello World\u001b[0m"
+    }
+  },
+  "style.faint_multiline": {
+    "code": "Lipgloss::Style.new.faint(true).render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[2mab\u001b[0m\n\u001b[2mc\u001b[0m ",
+      "ansi256": "\u001b[2mab\u001b[0m\n\u001b[2mc\u001b[0m ",
+      "ansi": "\u001b[2mab\u001b[0m\n\u001b[2mc\u001b[0m ",
+      "ascii": "ab\nc ",
+      "true_color_light": "\u001b[2mab\u001b[0m\n\u001b[2mc\u001b[0m "
+    }
+  },
+  "style.faint_getter_default": {
+    "code": "Lipgloss::Style.new.faint?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.faint_getter_true": {
+    "code": "Lipgloss::Style.new.faint(true).faint?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.faint_getter_false": {
+    "code": "Lipgloss::Style.new.faint(false).faint?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.faint_unset": {
+    "code": "Lipgloss::Style.new.faint(true).unset_faint.render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.faint_unset_getter": {
+    "code": "Lipgloss::Style.new.faint(true).unset_faint.faint?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.faint_truthy_string": {
+    "code": "Lipgloss::Style.new.faint(\"yes\").faint?",
+    "results": {
+      "*": true
+    }
+  },
+  "style.faint_nil": {
+    "code": "Lipgloss::Style.new.faint(nil).faint?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.bold_italic": {
+    "code": "Lipgloss::Style.new.bold(true).italic(true).render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[1;3mHi\u001b[0m",
+      "ansi256": "\u001b[1;3mHi\u001b[0m",
+      "ansi": "\u001b[1;3mHi\u001b[0m",
+      "ascii": "Hi",
+      "true_color_light": "\u001b[1;3mHi\u001b[0m"
+    }
+  },
+  "style.all_attrs": {
+    "code": "Lipgloss::Style.new.bold(true).italic(true).underline(true).strikethrough(true).reverse(true).blink(true).faint(true).render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[1;3;4;7;5;2;4;9mH\u001b[0m\u001b[1;3;4;7;5;2;4;9mi\u001b[0m",
+      "ansi256": "\u001b[1;3;4;7;5;2;4;9mH\u001b[0m\u001b[1;3;4;7;5;2;4;9mi\u001b[0m",
+      "ansi": "\u001b[1;3;4;7;5;2;4;9mH\u001b[0m\u001b[1;3;4;7;5;2;4;9mi\u001b[0m",
+      "ascii": "Hi",
+      "true_color_light": "\u001b[1;3;4;7;5;2;4;9mH\u001b[0m\u001b[1;3;4;7;5;2;4;9mi\u001b[0m"
+    }
+  },
+  "style.bold_fg_bg": {
+    "code": "Lipgloss::Style.new.bold(true).foreground(\"#ff0000\").background(\"#0000ff\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[1;38;2;255;0;0;48;2;0;0;255mHi\u001b[0m",
+      "ansi256": "\u001b[1;38;5;196;48;5;21mHi\u001b[0m",
+      "ansi": "\u001b[1;91;104mHi\u001b[0m",
+      "ascii": "Hi",
+      "true_color_light": "\u001b[1;38;2;255;0;0;48;2;0;0;255mHi\u001b[0m"
+    }
+  },
+  "style.underline_fg": {
+    "code": "Lipgloss::Style.new.underline(true).foreground(\"5\").render(\"a b\")",
+    "results": {
+      "true_color": "\u001b[4;35;4ma\u001b[0m\u001b[35;4m \u001b[0m\u001b[4;35;4mb\u001b[0m",
+      "ansi256": "\u001b[4;35;4ma\u001b[0m\u001b[35;4m \u001b[0m\u001b[4;35;4mb\u001b[0m",
+      "ansi": "\u001b[4;35;4ma\u001b[0m\u001b[35;4m \u001b[0m\u001b[4;35;4mb\u001b[0m",
+      "ascii": "a b",
+      "true_color_light": "\u001b[4;35;4ma\u001b[0m\u001b[35;4m \u001b[0m\u001b[4;35;4mb\u001b[0m"
+    }
+  },
+  "style.chain_immutable": {
+    "code": "s = Lipgloss::Style.new; s.bold(true); s.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.chain_returns_new": {
+    "code": "s = Lipgloss::Style.new; t = s.bold(true); [s.bold?, t.bold?]",
+    "results": {
+      "*": [
+        false,
+        true
+      ]
+    }
+  },
+  "style.class_of_chain": {
+    "code": "Lipgloss::Style.new.bold(true).class.name",
+    "results": {
+      "*": "Lipgloss::Style"
+    }
+  },
+  "style.get_foreground_default": {
+    "code": "Lipgloss::Style.new.get_foreground",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_foreground_hex": {
+    "code": "Lipgloss::Style.new.foreground(\"#FF00ff\").get_foreground",
+    "results": {
+      "*": "#FF00ff"
+    }
+  },
+  "style.get_foreground_ansi": {
+    "code": "Lipgloss::Style.new.foreground(\"9\").get_foreground",
+    "results": {
+      "*": "9"
+    }
+  },
+  "style.get_foreground_adaptive": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::AdaptiveColor.new(light: \"#000\", dark: \"#fff\")).get_foreground",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_foreground_complete": {
+    "code": "Lipgloss::Style.new.foreground(Lipgloss::CompleteColor.new(true_color: \"#ff0000\", ansi256: 196, ansi: :red)).get_foreground",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_foreground_unset": {
+    "code": "Lipgloss::Style.new.foreground(\"1\").unset_foreground.get_foreground",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_foreground_empty": {
+    "code": "Lipgloss::Style.new.foreground(\"\").get_foreground",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_foreground_invalid": {
+    "code": "Lipgloss::Style.new.foreground(\"nope\").get_foreground",
+    "results": {
+      "*": "nope"
+    }
+  },
+  "style.get_background_default": {
+    "code": "Lipgloss::Style.new.get_background",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_background_hex": {
+    "code": "Lipgloss::Style.new.background(\"#123456\").get_background",
+    "results": {
+      "*": "#123456"
+    }
+  },
+  "style.get_background_adaptive": {
+    "code": "Lipgloss::Style.new.background(Lipgloss::AdaptiveColor.new(light: \"#000\", dark: \"#fff\")).get_background",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_background_unset": {
+    "code": "Lipgloss::Style.new.background(\"1\").unset_background.get_background",
+    "results": {
+      "*": null
+    }
+  },
+  "style.get_width_default": {
+    "code": "Lipgloss::Style.new.get_width",
+    "results": {
+      "*": 0
+    }
+  },
+  "style.get_width": {
+    "code": "Lipgloss::Style.new.width(12).get_width",
+    "results": {
+      "*": 12
+    }
+  },
+  "style.get_width_unset": {
+    "code": "Lipgloss::Style.new.width(12).unset_width.get_width",
+    "results": {
+      "*": 0
+    }
+  },
+  "style.get_width_negative": {
+    "code": "Lipgloss::Style.new.width(-4).get_width",
+    "results": {
+      "*": 0
+    }
+  },
+  "style.get_height_default": {
+    "code": "Lipgloss::Style.new.get_height",
+    "results": {
+      "*": 0
+    }
+  },
+  "style.get_height": {
+    "code": "Lipgloss::Style.new.height(3).get_height",
+    "results": {
+      "*": 3
+    }
+  },
+  "style.get_height_unset": {
+    "code": "Lipgloss::Style.new.height(3).unset_height.get_height",
+    "results": {
+      "*": 0
+    }
+  },
+  "style.width_float_truncates": {
+    "code": "Lipgloss::Style.new.width(7.9).get_width",
+    "results": {
+      "*": 7
+    }
+  },
+  "style.unset_foreground": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff0000\").unset_foreground.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.unset_background": {
+    "code": "Lipgloss::Style.new.background(\"#ff0000\").unset_background.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.unset_width": {
+    "code": "Lipgloss::Style.new.width(10).unset_width.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.unset_height": {
+    "code": "Lipgloss::Style.new.height(3).unset_height.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.unset_padding_top": {
+    "code": "Lipgloss::Style.new.padding(1, 2).unset_padding_top.render(\"x\")",
+    "results": {
+      "*": "  x  \n     "
+    }
+  },
+  "style.unset_margin_top": {
+    "code": "Lipgloss::Style.new.margin(1, 2).unset_margin_top.render(\"x\")",
+    "results": {
+      "*": "  x  \n     "
+    }
+  },
+  "style.unset_padding_right": {
+    "code": "Lipgloss::Style.new.padding(1, 2).unset_padding_right.render(\"x\")",
+    "results": {
+      "*": "   \n  x\n   "
+    }
+  },
+  "style.unset_margin_right": {
+    "code": "Lipgloss::Style.new.margin(1, 2).unset_margin_right.render(\"x\")",
+    "results": {
+      "*": "   \n  x\n   "
+    }
+  },
+  "style.unset_padding_bottom": {
+    "code": "Lipgloss::Style.new.padding(1, 2).unset_padding_bottom.render(\"x\")",
+    "results": {
+      "*": "     \n  x  "
+    }
+  },
+  "style.unset_margin_bottom": {
+    "code": "Lipgloss::Style.new.margin(1, 2).unset_margin_bottom.render(\"x\")",
+    "results": {
+      "*": "     \n  x  "
+    }
+  },
+  "style.unset_padding_left": {
+    "code": "Lipgloss::Style.new.padding(1, 2).unset_padding_left.render(\"x\")",
+    "results": {
+      "*": "   \nx  \n   "
+    }
+  },
+  "style.unset_margin_left": {
+    "code": "Lipgloss::Style.new.margin(1, 2).unset_margin_left.render(\"x\")",
+    "results": {
+      "*": "   \nx  \n   "
+    }
+  },
+  "style.unset_border_style": {
+    "code": "Lipgloss::Style.new.border(:rounded).unset_border_style.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.unset_inline": {
+    "code": "Lipgloss::Style.new.inline(true).unset_inline.render(\"a\\nb\")",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "style.unset_nothing_set": {
+    "code": "Lipgloss::Style.new.unset_bold.unset_width.unset_padding_left.render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.to_s_empty": {
+    "code": "Lipgloss::Style.new.to_s",
+    "results": {
+      "*": ""
+    }
+  },
+  "style.to_s_bold_no_string": {
+    "code": "Lipgloss::Style.new.bold(true).to_s",
+    "results": {
+      "true_color": "\u001b[1m\u001b[0m",
+      "ansi256": "\u001b[1m\u001b[0m",
+      "ansi": "\u001b[1m\u001b[0m",
+      "ascii": "",
+      "true_color_light": "\u001b[1m\u001b[0m"
+    }
+  },
+  "style.set_string_to_s": {
+    "code": "Lipgloss::Style.new.set_string(\"Hello\").to_s",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.set_string_bold_to_s": {
+    "code": "Lipgloss::Style.new.set_string(\"Hello\").bold(true).to_s",
+    "results": {
+      "true_color": "\u001b[1mHello\u001b[0m",
+      "ansi256": "\u001b[1mHello\u001b[0m",
+      "ansi": "\u001b[1mHello\u001b[0m",
+      "ascii": "Hello",
+      "true_color_light": "\u001b[1mHello\u001b[0m"
+    }
+  },
+  "style.set_string_then_style": {
+    "code": "Lipgloss::Style.new.bold(true).set_string(\"Hi\").width(6).to_s",
+    "results": {
+      "true_color": "\u001b[1mHi\u001b[0m    ",
+      "ansi256": "\u001b[1mHi\u001b[0m    ",
+      "ansi": "\u001b[1mHi\u001b[0m    ",
+      "ascii": "Hi    ",
+      "true_color_light": "\u001b[1mHi\u001b[0m    "
+    }
+  },
+  "style.set_string_render_joins": {
+    "code": "Lipgloss::Style.new.set_string(\"Hello\").render(\"World\")",
+    "results": {
+      "*": "Hello World"
+    }
+  },
+  "style.set_string_render_empty": {
+    "code": "Lipgloss::Style.new.set_string(\"Hello\").render(\"\")",
+    "results": {
+      "*": "Hello "
+    }
+  },
+  "style.set_string_twice": {
+    "code": "Lipgloss::Style.new.set_string(\"a\").set_string(\"b\").to_s",
+    "results": {
+      "*": "b"
+    }
+  },
+  "style.set_string_multiline": {
+    "code": "Lipgloss::Style.new.set_string(\"a\\nb\").border(:normal).to_s",
+    "results": {
+      "*": "┌─┐\n│a│\n│b│\n└─┘"
+    }
+  },
+  "style.to_s_interpolation": {
+    "code": "\"[#{Lipgloss::Style.new.set_string(\"x\")}]\"",
+    "results": {
+      "*": "[x]"
+    }
+  },
+  "style.set_string_non_string": {
+    "code": "Lipgloss::Style.new.set_string(5)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "style.render_non_string": {
+    "code": "Lipgloss::Style.new.render(5)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "style.render_nil": {
+    "code": "Lipgloss::Style.new.render(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected String)"
+      }
+    }
+  },
+  "style.render_symbol": {
+    "code": "Lipgloss::Style.new.render(:hi)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Symbol (expected String)"
+      }
+    }
+  },
+  "style.render_no_args": {
+    "code": "Lipgloss::Style.new.render",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1)"
+      }
+    }
+  },
+  "style.render_two_args": {
+    "code": "Lipgloss::Style.new.render(\"a\", \"b\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 2, expected 1)"
+      }
+    }
+  },
+  "style.new_with_args": {
+    "code": "Lipgloss::Style.new(1)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 1, expected 0)"
+      }
+    }
+  },
+  "style.inherit_bold": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.bold(true)).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[1mx\u001b[0m",
+      "ansi256": "\u001b[1mx\u001b[0m",
+      "ansi": "\u001b[1mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[1mx\u001b[0m"
+    }
+  },
+  "style.inherit_keeps_own": {
+    "code": "Lipgloss::Style.new.bold(false).inherit(Lipgloss::Style.new.bold(true)).bold?",
+    "results": {
+      "*": false
+    }
+  },
+  "style.inherit_foreground": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.foreground(\"#00ff00\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;0;255;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;46mx\u001b[0m",
+      "ansi": "\u001b[92mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;0;255;0mx\u001b[0m"
+    }
+  },
+  "style.inherit_foreground_not_override": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff0000\").inherit(Lipgloss::Style.new.foreground(\"#00ff00\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0mx\u001b[0m",
+      "ansi256": "\u001b[38;5;196mx\u001b[0m",
+      "ansi": "\u001b[91mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[38;2;255;0;0mx\u001b[0m"
+    }
+  },
+  "style.inherit_background": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.background(\"4\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[44mx\u001b[0m",
+      "ansi256": "\u001b[44mx\u001b[0m",
+      "ansi": "\u001b[44mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[44mx\u001b[0m"
+    }
+  },
+  "style.inherit_padding_ignored": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.padding(2)).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.inherit_margin_ignored": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.margin(2)).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.inherit_width": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.width(6)).render(\"x\")",
+    "results": {
+      "*": "x     "
+    }
+  },
+  "style.inherit_border": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.border(:rounded)).render(\"x\")",
+    "results": {
+      "*": "╭─╮\n│x│\n╰─╯"
+    }
+  },
+  "style.inherit_bg_to_margin": {
+    "code": "Lipgloss::Style.new.margin(1).inherit(Lipgloss::Style.new.background(\"#ff0000\")).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0m   \n\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;255;0;0mx\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;255;0;0m\n   \u001b[0m",
+      "ansi256": "\u001b[48;5;196m   \n\u001b[0m\u001b[48;5;196m \u001b[0m\u001b[48;5;196mx\u001b[0m\u001b[48;5;196m \u001b[0m\u001b[48;5;196m\n   \u001b[0m",
+      "ansi": "\u001b[101m   \n\u001b[0m\u001b[101m \u001b[0m\u001b[101mx\u001b[0m\u001b[101m \u001b[0m\u001b[101m\n   \u001b[0m",
+      "ascii": "   \n x \n   ",
+      "true_color_light": "\u001b[48;2;255;0;0m   \n\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;255;0;0mx\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;255;0;0m\n   \u001b[0m"
+    }
+  },
+  "style.inherit_set_string": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.set_string(\"parent\")).to_s",
+    "results": {
+      "*": ""
+    }
+  },
+  "style.inherit_align": {
+    "code": "Lipgloss::Style.new.width(9).inherit(Lipgloss::Style.new.align(:right)).render(\"x\")",
+    "results": {
+      "*": "        x"
+    }
+  },
+  "style.inherit_multiple": {
+    "code": "Lipgloss::Style.new.inherit(Lipgloss::Style.new.bold(true)).inherit(Lipgloss::Style.new.italic(true).bold(false)).render(\"x\")",
+    "results": {
+      "true_color": "\u001b[1;3mx\u001b[0m",
+      "ansi256": "\u001b[1;3mx\u001b[0m",
+      "ansi": "\u001b[1;3mx\u001b[0m",
+      "ascii": "x",
+      "true_color_light": "\u001b[1;3mx\u001b[0m"
+    }
+  },
+  "style.inherit_non_style": {
+    "code": "Lipgloss::Style.new.inherit(\"bold\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "style.inherit_getters": {
+    "code": "s = Lipgloss::Style.new.inherit(Lipgloss::Style.new.italic(true).width(4)); [s.italic?, s.get_width]",
+    "results": {
+      "*": [
+        true,
+        4
+      ]
+    }
+  },
+  "style.width_pad": {
+    "code": "Lipgloss::Style.new.width(10).render(\"Hello\")",
+    "results": {
+      "*": "Hello     "
+    }
+  },
+  "style.width_exact": {
+    "code": "Lipgloss::Style.new.width(5).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.width_wraps_words": {
+    "code": "Lipgloss::Style.new.width(10).render(\"The quick brown fox jumps over the lazy dog\")",
+    "results": {
+      "*": "The quick \nbrown fox \njumps over\nthe lazy  \ndog       "
+    }
+  },
+  "style.width_wraps_long_word": {
+    "code": "Lipgloss::Style.new.width(4).render(\"abcdefghij\")",
+    "results": {
+      "*": "abcd\nefgh\nij  "
+    }
+  },
+  "style.width_zero": {
+    "code": "Lipgloss::Style.new.width(0).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.width_one": {
+    "code": "Lipgloss::Style.new.width(1).render(\"Hello\")",
+    "results": {
+      "*": "H\ne\nl\nl\no"
+    }
+  },
+  "style.width_negative": {
+    "code": "Lipgloss::Style.new.width(-3).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.width_multiline": {
+    "code": "Lipgloss::Style.new.width(6).render(\"a\\nbbb\\ncc\")",
+    "results": {
+      "*": "a     \nbbb   \ncc    "
+    }
+  },
+  "style.width_with_bg": {
+    "code": "Lipgloss::Style.new.width(8).background(\"#333333\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[48;2;51;51;51mHi\u001b[0m\u001b[48;2;51;51;51m      \u001b[0m",
+      "ansi256": "\u001b[48;5;232mHi\u001b[0m\u001b[48;5;232m      \u001b[0m",
+      "ansi": "\u001b[40mHi\u001b[0m\u001b[40m      \u001b[0m",
+      "ascii": "Hi      ",
+      "true_color_light": "\u001b[48;2;51;51;51mHi\u001b[0m\u001b[48;2;51;51;51m      \u001b[0m"
+    }
+  },
+  "style.width_string_arg": {
+    "code": "Lipgloss::Style.new.width(\"10\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of String into Integer"
+      }
+    }
+  },
+  "style.width_nil_arg": {
+    "code": "Lipgloss::Style.new.width(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion from nil to integer"
+      }
+    }
+  },
+  "style.height_pad": {
+    "code": "Lipgloss::Style.new.height(3).render(\"Hello\")",
+    "results": {
+      "*": "Hello\n     \n     "
+    }
+  },
+  "style.height_less_than_content": {
+    "code": "Lipgloss::Style.new.height(1).render(\"a\\nb\\nc\")",
+    "results": {
+      "*": "a\nb\nc"
+    }
+  },
+  "style.height_zero": {
+    "code": "Lipgloss::Style.new.height(0).render(\"a\\nb\")",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "style.width_height": {
+    "code": "Lipgloss::Style.new.width(6).height(3).render(\"Hi\")",
+    "results": {
+      "*": "Hi    \n      \n      "
+    }
+  },
+  "style.width_height_bg": {
+    "code": "Lipgloss::Style.new.width(6).height(3).background(\"2\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[42mHi\u001b[0m\u001b[42m    \u001b[0m\n\u001b[42m      \u001b[0m\n\u001b[42m      \u001b[0m",
+      "ansi256": "\u001b[42mHi\u001b[0m\u001b[42m    \u001b[0m\n\u001b[42m      \u001b[0m\n\u001b[42m      \u001b[0m",
+      "ansi": "\u001b[42mHi\u001b[0m\u001b[42m    \u001b[0m\n\u001b[42m      \u001b[0m\n\u001b[42m      \u001b[0m",
+      "ascii": "Hi    \n      \n      ",
+      "true_color_light": "\u001b[42mHi\u001b[0m\u001b[42m    \u001b[0m\n\u001b[42m      \u001b[0m\n\u001b[42m      \u001b[0m"
+    }
+  },
+  "style.max_width_truncates": {
+    "code": "Lipgloss::Style.new.max_width(3).render(\"Hello\")",
+    "results": {
+      "*": "Hel"
+    }
+  },
+  "style.max_width_larger": {
+    "code": "Lipgloss::Style.new.max_width(30).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.max_width_multiline": {
+    "code": "Lipgloss::Style.new.max_width(2).render(\"abc\\ndefg\\nh\")",
+    "results": {
+      "*": "ab\nde\nh "
+    }
+  },
+  "style.max_width_zero": {
+    "code": "Lipgloss::Style.new.max_width(0).render(\"Hello\")",
+    "results": {
+      "*": "Hello"
+    }
+  },
+  "style.max_width_with_border": {
+    "code": "Lipgloss::Style.new.border(:normal).max_width(4).render(\"Hello\")",
+    "results": {
+      "*": "┌───\n│Hel\n└───"
+    }
+  },
+  "style.max_width_ansi_content": {
+    "code": "Lipgloss::Style.new.max_width(3).render(\"\\e[31mHello\\e[0m\")",
+    "results": {
+      "*": "\u001b[31mHel\u001b[0m"
+    }
+  },
+  "style.max_width_wide": {
+    "code": "Lipgloss::Style.new.max_width(3).render(\"日本語\")",
+    "results": {
+      "*": "日"
+    }
+  },
+  "style.max_height_truncates": {
+    "code": "Lipgloss::Style.new.max_height(2).render(\"a\\nb\\nc\\nd\")",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "style.max_height_larger": {
+    "code": "Lipgloss::Style.new.max_height(9).render(\"a\\nb\")",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "style.max_height_zero": {
+    "code": "Lipgloss::Style.new.max_height(0).render(\"a\\nb\")",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "style.max_height_with_border": {
+    "code": "Lipgloss::Style.new.border(:normal).max_height(3).render(\"a\\nb\\nc\")",
+    "results": {
+      "*": "┌─┐\n│a│\n│b│"
+    }
+  },
+  "style.width_and_max_width": {
+    "code": "Lipgloss::Style.new.width(10).max_width(5).render(\"Hello World\")",
+    "results": {
+      "*": "Hello\nWorld"
+    }
+  },
+  "style.align_left": {
+    "code": "Lipgloss::Style.new.width(10).align(:left).render(\"Hi\")",
+    "results": {
+      "*": "Hi        "
+    }
+  },
+  "style.align_left_multiline": {
+    "code": "Lipgloss::Style.new.align(:left).render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": "a   \nbbbb\ncc  "
+    }
+  },
+  "style.align_center": {
+    "code": "Lipgloss::Style.new.width(10).align(:center).render(\"Hi\")",
+    "results": {
+      "*": "    Hi    "
+    }
+  },
+  "style.align_center_multiline": {
+    "code": "Lipgloss::Style.new.align(:center).render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": " a  \nbbbb\n cc "
+    }
+  },
+  "style.align_right": {
+    "code": "Lipgloss::Style.new.width(10).align(:right).render(\"Hi\")",
+    "results": {
+      "*": "        Hi"
+    }
+  },
+  "style.align_right_multiline": {
+    "code": "Lipgloss::Style.new.align(:right).render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": "   a\nbbbb\n  cc"
+    }
+  },
+  "style.align_float_quarter": {
+    "code": "Lipgloss::Style.new.width(10).align(0.25).render(\"Hi\")",
+    "results": {
+      "*": "Hi        "
+    }
+  },
+  "style.align_float_quarter_multiline": {
+    "code": "Lipgloss::Style.new.align(0.25).render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": "a   \nbbbb\ncc  "
+    }
+  },
+  "style.align_integer_one": {
+    "code": "Lipgloss::Style.new.width(10).align(1).render(\"Hi\")",
+    "results": {
+      "*": "        Hi"
+    }
+  },
+  "style.align_integer_one_multiline": {
+    "code": "Lipgloss::Style.new.align(1).render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": "   a\nbbbb\n  cc"
+    }
+  },
+  "style.align_string_center": {
+    "code": "Lipgloss::Style.new.width(10).align(\"center\").render(\"Hi\")",
+    "results": {
+      "*": "    Hi    "
+    }
+  },
+  "style.align_string_center_multiline": {
+    "code": "Lipgloss::Style.new.align(\"center\").render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": " a  \nbbbb\n cc "
+    }
+  },
+  "style.align_constant_right": {
+    "code": "Lipgloss::Style.new.width(10).align(Lipgloss::RIGHT).render(\"Hi\")",
+    "results": {
+      "*": "        Hi"
+    }
+  },
+  "style.align_constant_right_multiline": {
+    "code": "Lipgloss::Style.new.align(Lipgloss::RIGHT).render(\"a\\nbbbb\\ncc\")",
+    "results": {
+      "*": "   a\nbbbb\n  cc"
+    }
+  },
+  "style.align_center_odd": {
+    "code": "Lipgloss::Style.new.width(6).align(:center).render(\"abc\")",
+    "results": {
+      "*": " abc  "
+    }
+  },
+  "style.align_two_positions": {
+    "code": "Lipgloss::Style.new.width(7).height(5).align(:center, :bottom).render(\"x\")",
+    "results": {
+      "*": "       \n       \n       \n       \n   x   "
+    }
+  },
+  "style.align_two_top": {
+    "code": "Lipgloss::Style.new.width(7).height(3).align(:right, :top).render(\"x\")",
+    "results": {
+      "*": "      x\n       \n       "
+    }
+  },
+  "style.align_vertical_center": {
+    "code": "Lipgloss::Style.new.height(5).align_vertical(:center).render(\"x\")",
+    "results": {
+      "*": " \n \nx\n \n "
+    }
+  },
+  "style.align_vertical_bottom": {
+    "code": "Lipgloss::Style.new.height(4).align_vertical(:bottom).render(\"a\\nb\")",
+    "results": {
+      "*": " \n \na\nb"
+    }
+  },
+  "style.align_vertical_float": {
+    "code": "Lipgloss::Style.new.height(5).align_vertical(0.75).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.align_horizontal_right": {
+    "code": "Lipgloss::Style.new.width(5).align_horizontal(:right).render(\"x\")",
+    "results": {
+      "*": "    x"
+    }
+  },
+  "style.align_horizontal_center_multi": {
+    "code": "Lipgloss::Style.new.align_horizontal(:center).render(\"a\\nabcde\")",
+    "results": {
+      "*": "  a  \nabcde"
+    }
+  },
+  "style.align_bg": {
+    "code": "Lipgloss::Style.new.width(8).align(:center).background(\"#00ff00\").render(\"ab\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;255;0m   \u001b[0m\u001b[48;2;0;255;0mab\u001b[0m\u001b[48;2;0;255;0m   \u001b[0m",
+      "ansi256": "\u001b[48;5;46m   \u001b[0m\u001b[48;5;46mab\u001b[0m\u001b[48;5;46m   \u001b[0m",
+      "ansi": "\u001b[102m   \u001b[0m\u001b[102mab\u001b[0m\u001b[102m   \u001b[0m",
+      "ascii": "   ab   ",
+      "true_color_light": "\u001b[48;2;0;255;0m   \u001b[0m\u001b[48;2;0;255;0mab\u001b[0m\u001b[48;2;0;255;0m   \u001b[0m"
+    }
+  },
+  "style.align_out_of_range": {
+    "code": "Lipgloss::Style.new.width(8).align(2.5).render(\"ab\")",
+    "results": {
+      "*": "ab      "
+    }
+  },
+  "style.align_negative": {
+    "code": "Lipgloss::Style.new.width(8).align(-1).render(\"ab\")",
+    "results": {
+      "*": "ab      "
+    }
+  },
+  "style.align_unknown_symbol": {
+    "code": "Lipgloss::Style.new.align(:middle)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: :middle"
+      }
+    }
+  },
+  "style.align_unknown_string": {
+    "code": "Lipgloss::Style.new.align(\"middle\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: \"middle\""
+      }
+    }
+  },
+  "style.align_nil": {
+    "code": "Lipgloss::Style.new.align(nil)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Position must be a Symbol or Numeric, got NilClass"
+      }
+    }
+  },
+  "style.align_none": {
+    "code": "Lipgloss::Style.new.align",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1..2)"
+      }
+    }
+  },
+  "style.align_three": {
+    "code": "Lipgloss::Style.new.align(:left, :top, :left)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 3, expected 1..2)"
+      }
+    }
+  },
+  "style.align_horizontal_bad": {
+    "code": "Lipgloss::Style.new.align_horizontal([])",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Position must be a Symbol or Numeric, got Array"
+      }
+    }
+  },
+  "style.private_align_string": {
+    "code": "Lipgloss::Style.new._align(\"left\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion to float from string"
+      }
+    }
+  },
+  "style.padding_1": {
+    "code": "Lipgloss::Style.new.padding(1).render(\"x\")",
+    "results": {
+      "*": "   \n x \n   "
+    }
+  },
+  "style.padding_2": {
+    "code": "Lipgloss::Style.new.padding(1, 2).render(\"x\")",
+    "results": {
+      "*": "     \n  x  \n     "
+    }
+  },
+  "style.padding_3": {
+    "code": "Lipgloss::Style.new.padding(1, 2, 3).render(\"x\")",
+    "results": {
+      "*": "     \n  x  \n     \n     \n     "
+    }
+  },
+  "style.padding_4": {
+    "code": "Lipgloss::Style.new.padding(1, 2, 3, 4).render(\"x\")",
+    "results": {
+      "*": "       \n    x  \n       \n       \n       "
+    }
+  },
+  "style.padding_zero": {
+    "code": "Lipgloss::Style.new.padding(0).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.padding_negative": {
+    "code": "Lipgloss::Style.new.padding(-1).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.padding_5": {
+    "code": "Lipgloss::Style.new.padding(1, 2, 3, 4, 5)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 5, expected 1..4)"
+      }
+    }
+  },
+  "style.padding_none": {
+    "code": "Lipgloss::Style.new.padding",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1..4)"
+      }
+    }
+  },
+  "style.padding_string": {
+    "code": "Lipgloss::Style.new.padding(\"1\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of String into Integer"
+      }
+    }
+  },
+  "style.padding_top": {
+    "code": "Lipgloss::Style.new.padding_top(1).render(\"x\")",
+    "results": {
+      "*": " \nx"
+    }
+  },
+  "style.padding_top_bg": {
+    "code": "Lipgloss::Style.new.padding_top(2).background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0mab\u001b[0m\n\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m \u001b[0m",
+      "ansi256": "\u001b[48;5;196m  \u001b[0m\n\u001b[48;5;196m  \u001b[0m\n\u001b[48;5;196mab\u001b[0m\n\u001b[48;5;196mc\u001b[0m\u001b[48;5;196m \u001b[0m",
+      "ansi": "\u001b[101m  \u001b[0m\n\u001b[101m  \u001b[0m\n\u001b[101mab\u001b[0m\n\u001b[101mc\u001b[0m\u001b[101m \u001b[0m",
+      "ascii": "  \n  \nab\nc ",
+      "true_color_light": "\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0mab\u001b[0m\n\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m \u001b[0m"
+    }
+  },
+  "style.padding_right": {
+    "code": "Lipgloss::Style.new.padding_right(2).render(\"x\")",
+    "results": {
+      "*": "x  "
+    }
+  },
+  "style.padding_right_bg": {
+    "code": "Lipgloss::Style.new.padding_right(2).background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0mab\u001b[0m\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m  \u001b[0m\u001b[48;2;255;0;0m \u001b[0m",
+      "ansi256": "\u001b[48;5;196mab\u001b[0m\u001b[48;5;196m  \u001b[0m\n\u001b[48;5;196mc\u001b[0m\u001b[48;5;196m  \u001b[0m\u001b[48;5;196m \u001b[0m",
+      "ansi": "\u001b[101mab\u001b[0m\u001b[101m  \u001b[0m\n\u001b[101mc\u001b[0m\u001b[101m  \u001b[0m\u001b[101m \u001b[0m",
+      "ascii": "ab  \nc   ",
+      "true_color_light": "\u001b[48;2;255;0;0mab\u001b[0m\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m  \u001b[0m\u001b[48;2;255;0;0m \u001b[0m"
+    }
+  },
+  "style.padding_bottom": {
+    "code": "Lipgloss::Style.new.padding_bottom(3).render(\"x\")",
+    "results": {
+      "*": "x\n \n \n "
+    }
+  },
+  "style.padding_bottom_bg": {
+    "code": "Lipgloss::Style.new.padding_bottom(2).background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0mab\u001b[0m\n\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m",
+      "ansi256": "\u001b[48;5;196mab\u001b[0m\n\u001b[48;5;196mc\u001b[0m\u001b[48;5;196m \u001b[0m\n\u001b[48;5;196m  \u001b[0m\n\u001b[48;5;196m  \u001b[0m",
+      "ansi": "\u001b[101mab\u001b[0m\n\u001b[101mc\u001b[0m\u001b[101m \u001b[0m\n\u001b[101m  \u001b[0m\n\u001b[101m  \u001b[0m",
+      "ascii": "ab\nc \n  \n  ",
+      "true_color_light": "\u001b[48;2;255;0;0mab\u001b[0m\n\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m"
+    }
+  },
+  "style.padding_left": {
+    "code": "Lipgloss::Style.new.padding_left(4).render(\"x\")",
+    "results": {
+      "*": "    x"
+    }
+  },
+  "style.padding_left_bg": {
+    "code": "Lipgloss::Style.new.padding_left(2).background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0m  \u001b[0m\u001b[48;2;255;0;0mab\u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m \u001b[0m",
+      "ansi256": "\u001b[48;5;196m  \u001b[0m\u001b[48;5;196mab\u001b[0m\n\u001b[48;5;196m  \u001b[0m\u001b[48;5;196mc\u001b[0m\u001b[48;5;196m \u001b[0m",
+      "ansi": "\u001b[101m  \u001b[0m\u001b[101mab\u001b[0m\n\u001b[101m  \u001b[0m\u001b[101mc\u001b[0m\u001b[101m \u001b[0m",
+      "ascii": "  ab\n  c ",
+      "true_color_light": "\u001b[48;2;255;0;0m  \u001b[0m\u001b[48;2;255;0;0mab\u001b[0m\n\u001b[48;2;255;0;0m  \u001b[0m\u001b[48;2;255;0;0mc\u001b[0m\u001b[48;2;255;0;0m \u001b[0m"
+    }
+  },
+  "style.padding_bg": {
+    "code": "Lipgloss::Style.new.padding(1, 2).background(\"#0000ff\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;0;255m      \u001b[0m\n\u001b[48;2;0;0;255m  \u001b[0m\u001b[48;2;0;0;255mHi\u001b[0m\u001b[48;2;0;0;255m  \u001b[0m\n\u001b[48;2;0;0;255m      \u001b[0m",
+      "ansi256": "\u001b[48;5;21m      \u001b[0m\n\u001b[48;5;21m  \u001b[0m\u001b[48;5;21mHi\u001b[0m\u001b[48;5;21m  \u001b[0m\n\u001b[48;5;21m      \u001b[0m",
+      "ansi": "\u001b[104m      \u001b[0m\n\u001b[104m  \u001b[0m\u001b[104mHi\u001b[0m\u001b[104m  \u001b[0m\n\u001b[104m      \u001b[0m",
+      "ascii": "      \n  Hi  \n      ",
+      "true_color_light": "\u001b[48;2;0;0;255m      \u001b[0m\n\u001b[48;2;0;0;255m  \u001b[0m\u001b[48;2;0;0;255mHi\u001b[0m\u001b[48;2;0;0;255m  \u001b[0m\n\u001b[48;2;0;0;255m      \u001b[0m"
+    }
+  },
+  "style.padding_fg_only": {
+    "code": "Lipgloss::Style.new.padding(0, 1).foreground(\"#0000ff\").render(\"Hi\")",
+    "results": {
+      "true_color": " \u001b[38;2;0;0;255mHi\u001b[0m ",
+      "ansi256": " \u001b[38;5;21mHi\u001b[0m ",
+      "ansi": " \u001b[94mHi\u001b[0m ",
+      "ascii": " Hi ",
+      "true_color_light": " \u001b[38;2;0;0;255mHi\u001b[0m "
+    }
+  },
+  "style.padding_multiline": {
+    "code": "Lipgloss::Style.new.padding(0, 1).render(\"a\\nbbb\")",
+    "results": {
+      "*": " a   \n bbb "
+    }
+  },
+  "style.padding_with_width": {
+    "code": "Lipgloss::Style.new.padding(0, 2).width(10).render(\"Hello world again\")",
+    "results": {
+      "*": "  Hello   \n  world   \n  again   "
+    }
+  },
+  "style.padding_underline": {
+    "code": "Lipgloss::Style.new.padding(0, 2).underline(true).render(\"ab\")",
+    "results": {
+      "true_color": "  \u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m  ",
+      "ansi256": "  \u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m  ",
+      "ansi": "  \u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m  ",
+      "ascii": "  ab  ",
+      "true_color_light": "  \u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m  "
+    }
+  },
+  "style.padding_reverse": {
+    "code": "Lipgloss::Style.new.padding(0, 1).reverse(true).render(\"ab\")",
+    "results": {
+      "true_color": "\u001b[7m \u001b[0m\u001b[7mab\u001b[0m\u001b[7m \u001b[0m",
+      "ansi256": "\u001b[7m \u001b[0m\u001b[7mab\u001b[0m\u001b[7m \u001b[0m",
+      "ansi": "\u001b[7m \u001b[0m\u001b[7mab\u001b[0m\u001b[7m \u001b[0m",
+      "ascii": " ab ",
+      "true_color_light": "\u001b[7m \u001b[0m\u001b[7mab\u001b[0m\u001b[7m \u001b[0m"
+    }
+  },
+  "style.margin_1": {
+    "code": "Lipgloss::Style.new.margin(1).render(\"x\")",
+    "results": {
+      "*": "   \n x \n   "
+    }
+  },
+  "style.margin_2": {
+    "code": "Lipgloss::Style.new.margin(1, 2).render(\"x\")",
+    "results": {
+      "*": "     \n  x  \n     "
+    }
+  },
+  "style.margin_3": {
+    "code": "Lipgloss::Style.new.margin(1, 2, 3).render(\"x\")",
+    "results": {
+      "*": "     \n  x  \n     \n     \n     "
+    }
+  },
+  "style.margin_4": {
+    "code": "Lipgloss::Style.new.margin(1, 2, 3, 4).render(\"x\")",
+    "results": {
+      "*": "       \n    x  \n       \n       \n       "
+    }
+  },
+  "style.margin_zero": {
+    "code": "Lipgloss::Style.new.margin(0).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.margin_negative": {
+    "code": "Lipgloss::Style.new.margin(-2).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.margin_5": {
+    "code": "Lipgloss::Style.new.margin(1, 1, 1, 1, 1)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 5, expected 1..4)"
+      }
+    }
+  },
+  "style.margin_none": {
+    "code": "Lipgloss::Style.new.margin",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 0, expected 1..4)"
+      }
+    }
+  },
+  "style.margin_float": {
+    "code": "Lipgloss::Style.new.margin(1.9).render(\"x\")",
+    "results": {
+      "*": "   \n x \n   "
+    }
+  },
+  "style.margin_top": {
+    "code": "Lipgloss::Style.new.margin_top(1).render(\"x\")",
+    "results": {
+      "*": " \nx"
+    }
+  },
+  "style.margin_top_bg": {
+    "code": "Lipgloss::Style.new.margin_top(1).margin_background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0m  \n\u001b[0mab\nc ",
+      "ansi256": "\u001b[48;5;196m  \n\u001b[0mab\nc ",
+      "ansi": "\u001b[101m  \n\u001b[0mab\nc ",
+      "ascii": "  \nab\nc ",
+      "true_color_light": "\u001b[48;2;255;0;0m  \n\u001b[0mab\nc "
+    }
+  },
+  "style.margin_right": {
+    "code": "Lipgloss::Style.new.margin_right(2).render(\"x\")",
+    "results": {
+      "*": "x  "
+    }
+  },
+  "style.margin_right_bg": {
+    "code": "Lipgloss::Style.new.margin_right(1).margin_background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "ab\u001b[48;2;255;0;0m \u001b[0m\nc \u001b[48;2;255;0;0m \u001b[0m",
+      "ansi256": "ab\u001b[48;5;196m \u001b[0m\nc \u001b[48;5;196m \u001b[0m",
+      "ansi": "ab\u001b[101m \u001b[0m\nc \u001b[101m \u001b[0m",
+      "ascii": "ab \nc  ",
+      "true_color_light": "ab\u001b[48;2;255;0;0m \u001b[0m\nc \u001b[48;2;255;0;0m \u001b[0m"
+    }
+  },
+  "style.margin_bottom": {
+    "code": "Lipgloss::Style.new.margin_bottom(3).render(\"x\")",
+    "results": {
+      "*": "x\n \n \n "
+    }
+  },
+  "style.margin_bottom_bg": {
+    "code": "Lipgloss::Style.new.margin_bottom(1).margin_background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "ab\nc \u001b[48;2;255;0;0m\n  \u001b[0m",
+      "ansi256": "ab\nc \u001b[48;5;196m\n  \u001b[0m",
+      "ansi": "ab\nc \u001b[101m\n  \u001b[0m",
+      "ascii": "ab\nc \n  ",
+      "true_color_light": "ab\nc \u001b[48;2;255;0;0m\n  \u001b[0m"
+    }
+  },
+  "style.margin_left": {
+    "code": "Lipgloss::Style.new.margin_left(4).render(\"x\")",
+    "results": {
+      "*": "    x"
+    }
+  },
+  "style.margin_left_bg": {
+    "code": "Lipgloss::Style.new.margin_left(1).margin_background(\"#ff0000\").render(\"ab\\nc\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0m \u001b[0mab\n\u001b[48;2;255;0;0m \u001b[0mc ",
+      "ansi256": "\u001b[48;5;196m \u001b[0mab\n\u001b[48;5;196m \u001b[0mc ",
+      "ansi": "\u001b[101m \u001b[0mab\n\u001b[101m \u001b[0mc ",
+      "ascii": " ab\n c ",
+      "true_color_light": "\u001b[48;2;255;0;0m \u001b[0mab\n\u001b[48;2;255;0;0m \u001b[0mc "
+    }
+  },
+  "style.margin_background": {
+    "code": "Lipgloss::Style.new.margin(1, 2).margin_background(\"#00ff00\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[48;2;0;255;0m      \n\u001b[0m\u001b[48;2;0;255;0m  \u001b[0mHi\u001b[48;2;0;255;0m  \u001b[0m\u001b[48;2;0;255;0m\n      \u001b[0m",
+      "ansi256": "\u001b[48;5;46m      \n\u001b[0m\u001b[48;5;46m  \u001b[0mHi\u001b[48;5;46m  \u001b[0m\u001b[48;5;46m\n      \u001b[0m",
+      "ansi": "\u001b[102m      \n\u001b[0m\u001b[102m  \u001b[0mHi\u001b[102m  \u001b[0m\u001b[102m\n      \u001b[0m",
+      "ascii": "      \n  Hi  \n      ",
+      "true_color_light": "\u001b[48;2;0;255;0m      \n\u001b[0m\u001b[48;2;0;255;0m  \u001b[0mHi\u001b[48;2;0;255;0m  \u001b[0m\u001b[48;2;0;255;0m\n      \u001b[0m"
+    }
+  },
+  "style.margin_background_ansi": {
+    "code": "Lipgloss::Style.new.margin(1).margin_background(\"3\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[43m    \n\u001b[0m\u001b[43m \u001b[0mHi\u001b[43m \u001b[0m\u001b[43m\n    \u001b[0m",
+      "ansi256": "\u001b[43m    \n\u001b[0m\u001b[43m \u001b[0mHi\u001b[43m \u001b[0m\u001b[43m\n    \u001b[0m",
+      "ansi": "\u001b[43m    \n\u001b[0m\u001b[43m \u001b[0mHi\u001b[43m \u001b[0m\u001b[43m\n    \u001b[0m",
+      "ascii": "    \n Hi \n    ",
+      "true_color_light": "\u001b[43m    \n\u001b[0m\u001b[43m \u001b[0mHi\u001b[43m \u001b[0m\u001b[43m\n    \u001b[0m"
+    }
+  },
+  "style.margin_background_no_margin": {
+    "code": "Lipgloss::Style.new.margin_background(\"#00ff00\").render(\"Hi\")",
+    "results": {
+      "*": "Hi"
+    }
+  },
+  "style.margin_background_from_bg": {
+    "code": "Lipgloss::Style.new.margin(1).background(\"#00ff00\").render(\"Hi\")",
+    "results": {
+      "true_color": "    \n \u001b[48;2;0;255;0mHi\u001b[0m \n    ",
+      "ansi256": "    \n \u001b[48;5;46mHi\u001b[0m \n    ",
+      "ansi": "    \n \u001b[102mHi\u001b[0m \n    ",
+      "ascii": "    \n Hi \n    ",
+      "true_color_light": "    \n \u001b[48;2;0;255;0mHi\u001b[0m \n    "
+    }
+  },
+  "style.margin_background_and_bg": {
+    "code": "Lipgloss::Style.new.margin(1).background(\"#00ff00\").margin_background(\"#ff0000\").render(\"Hi\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0m    \n\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;0;255;0mHi\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;255;0;0m\n    \u001b[0m",
+      "ansi256": "\u001b[48;5;196m    \n\u001b[0m\u001b[48;5;196m \u001b[0m\u001b[48;5;46mHi\u001b[0m\u001b[48;5;196m \u001b[0m\u001b[48;5;196m\n    \u001b[0m",
+      "ansi": "\u001b[101m    \n\u001b[0m\u001b[101m \u001b[0m\u001b[102mHi\u001b[0m\u001b[101m \u001b[0m\u001b[101m\n    \u001b[0m",
+      "ascii": "    \n Hi \n    ",
+      "true_color_light": "\u001b[48;2;255;0;0m    \n\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;0;255;0mHi\u001b[0m\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;255;0;0m\n    \u001b[0m"
+    }
+  },
+  "style.margin_background_invalid_type": {
+    "code": "Lipgloss::Style.new.margin_background(Lipgloss::AdaptiveColor.new(light: \"#000\", dark: \"#fff\"))",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Lipgloss::AdaptiveColor (expected String)"
+      }
+    }
+  },
+  "style.margin_padding_border": {
+    "code": "Lipgloss::Style.new.margin(1).padding(1).border(:normal).render(\"x\")",
+    "results": {
+      "*": "       \n ┌───┐ \n │   │ \n │ x │ \n │   │ \n └───┘ \n       "
+    }
+  },
+  "style.margin_multiline": {
+    "code": "Lipgloss::Style.new.margin(0, 2).render(\"a\\nbbb\")",
+    "results": {
+      "*": "  a    \n  bbb  "
+    }
+  },
+  "style.inline_newlines": {
+    "code": "Lipgloss::Style.new.inline(true).render(\"a\\nb\\nc\")",
+    "results": {
+      "*": "abc"
+    }
+  },
+  "style.inline_ignores_padding": {
+    "code": "Lipgloss::Style.new.inline(true).padding(1).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.inline_ignores_margin": {
+    "code": "Lipgloss::Style.new.inline(true).margin(1).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.inline_ignores_border": {
+    "code": "Lipgloss::Style.new.inline(true).border(:normal).render(\"x\")",
+    "results": {
+      "*": "x"
+    }
+  },
+  "style.inline_with_width": {
+    "code": "Lipgloss::Style.new.inline(true).width(3).render(\"hello world\")",
+    "results": {
+      "*": "hello world"
+    }
+  },
+  "style.inline_max_width": {
+    "code": "Lipgloss::Style.new.inline(true).max_width(3).render(\"hello\\nworld\")",
+    "results": {
+      "*": "hel"
+    }
+  },
+  "style.inline_bold": {
+    "code": "Lipgloss::Style.new.inline(true).bold(true).render(\"a\\nb\")",
+    "results": {
+      "true_color": "\u001b[1mab\u001b[0m",
+      "ansi256": "\u001b[1mab\u001b[0m",
+      "ansi": "\u001b[1mab\u001b[0m",
+      "ascii": "ab",
+      "true_color_light": "\u001b[1mab\u001b[0m"
+    }
+  },
+  "style.inline_false": {
+    "code": "Lipgloss::Style.new.inline(false).padding(0, 1).render(\"a\\nb\")",
+    "results": {
+      "*": " a \n b "
+    }
+  },
+  "style.tab_default": {
+    "code": "Lipgloss::Style.new.render(\"a\\tb\")",
+    "results": {
+      "*": "a    b"
+    }
+  },
+  "style.tab_width_2": {
+    "code": "Lipgloss::Style.new.tab_width(2).render(\"a\\tb\")",
+    "results": {
+      "*": "a  b"
+    }
+  },
+  "style.tab_width_0": {
+    "code": "Lipgloss::Style.new.tab_width(0).render(\"a\\tb\")",
+    "results": {
+      "*": "ab"
+    }
+  },
+  "style.tab_width_keep": {
+    "code": "Lipgloss::Style.new.tab_width(Lipgloss::NO_TAB_CONVERSION).render(\"a\\tb\")",
+    "results": {
+      "*": "a\tb"
+    }
+  },
+  "style.tab_width_8_multi": {
+    "code": "Lipgloss::Style.new.tab_width(8).render(\"\\ta\\n\\t\\tb\")",
+    "results": {
+      "*": "        a        \n                b"
+    }
+  },
+  "style.tab_width_with_width": {
+    "code": "Lipgloss::Style.new.tab_width(4).width(10).render(\"x\\ty\")",
+    "results": {
+      "*": "x    y    "
+    }
+  },
+  "style.underline_spaces_true": {
+    "code": "Lipgloss::Style.new.underline(true).underline_spaces(true).render(\"a b\")",
+    "results": {
+      "true_color": "\u001b[4;4ma\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mb\u001b[0m",
+      "ansi256": "\u001b[4;4ma\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mb\u001b[0m",
+      "ansi": "\u001b[4;4ma\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mb\u001b[0m",
+      "ascii": "a b",
+      "true_color_light": "\u001b[4;4ma\u001b[0m\u001b[4m \u001b[0m\u001b[4;4mb\u001b[0m"
+    }
+  },
+  "style.underline_spaces_false": {
+    "code": "Lipgloss::Style.new.underline(true).underline_spaces(false).render(\"a b\")",
+    "results": {
+      "true_color": "\u001b[4;4ma\u001b[0m \u001b[4;4mb\u001b[0m",
+      "ansi256": "\u001b[4;4ma\u001b[0m \u001b[4;4mb\u001b[0m",
+      "ansi": "\u001b[4;4ma\u001b[0m \u001b[4;4mb\u001b[0m",
+      "ascii": "a b",
+      "true_color_light": "\u001b[4;4ma\u001b[0m \u001b[4;4mb\u001b[0m"
+    }
+  },
+  "style.underline_spaces_alone": {
+    "code": "Lipgloss::Style.new.underline_spaces(true).render(\"a b\")",
+    "results": {
+      "true_color": "a\u001b[4m \u001b[0mb",
+      "ansi256": "a\u001b[4m \u001b[0mb",
+      "ansi": "a\u001b[4m \u001b[0mb",
+      "ascii": "a b",
+      "true_color_light": "a\u001b[4m \u001b[0mb"
+    }
+  },
+  "style.strikethrough_spaces_true": {
+    "code": "Lipgloss::Style.new.strikethrough(true).strikethrough_spaces(true).render(\"a b\")",
+    "results": {
+      "true_color": "\u001b[9ma\u001b[0m\u001b[9m \u001b[0m\u001b[9mb\u001b[0m",
+      "ansi256": "\u001b[9ma\u001b[0m\u001b[9m \u001b[0m\u001b[9mb\u001b[0m",
+      "ansi": "\u001b[9ma\u001b[0m\u001b[9m \u001b[0m\u001b[9mb\u001b[0m",
+      "ascii": "a b",
+      "true_color_light": "\u001b[9ma\u001b[0m\u001b[9m \u001b[0m\u001b[9mb\u001b[0m"
+    }
+  },
+  "style.strikethrough_spaces_false": {
+    "code": "Lipgloss::Style.new.strikethrough(true).strikethrough_spaces(false).render(\"a b\")",
+    "results": {
+      "true_color": "\u001b[9ma\u001b[0m \u001b[9mb\u001b[0m",
+      "ansi256": "\u001b[9ma\u001b[0m \u001b[9mb\u001b[0m",
+      "ansi": "\u001b[9ma\u001b[0m \u001b[9mb\u001b[0m",
+      "ascii": "a b",
+      "true_color_light": "\u001b[9ma\u001b[0m \u001b[9mb\u001b[0m"
+    }
+  },
+  "style.strikethrough_spaces_alone": {
+    "code": "Lipgloss::Style.new.strikethrough_spaces(true).render(\"a  b\")",
+    "results": {
+      "true_color": "a\u001b[9m \u001b[0m\u001b[9m \u001b[0mb",
+      "ansi256": "a\u001b[9m \u001b[0m\u001b[9m \u001b[0mb",
+      "ansi": "a\u001b[9m \u001b[0m\u001b[9m \u001b[0mb",
+      "ascii": "a  b",
+      "true_color_light": "a\u001b[9m \u001b[0m\u001b[9m \u001b[0mb"
+    }
+  },
+  "style.underline_padding_spaces": {
+    "code": "Lipgloss::Style.new.underline(true).width(6).render(\"ab\")",
+    "results": {
+      "true_color": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m    ",
+      "ansi256": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m    ",
+      "ansi": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m    ",
+      "ascii": "ab    ",
+      "true_color_light": "\u001b[4;4ma\u001b[0m\u001b[4;4mb\u001b[0m    "
+    }
+  },
+  "style.wrap_cjk": {
+    "code": "Lipgloss::Style.new.width(5).render(\"日本語のテキスト\")",
+    "results": {
+      "*": "日本 \n語の \nテキ \nスト "
+    }
+  },
+  "style.wrap_cjk_mixed": {
+    "code": "Lipgloss::Style.new.width(6).render(\"ab日本cd語ef\")",
+    "results": {
+      "*": "ab日本\ncd語ef"
+    }
+  },
+  "style.wrap_emoji": {
+    "code": "Lipgloss::Style.new.width(4).render(\"😀😃😄😁😆\")",
+    "results": {
+      "*": "😀😃\n😄😁\n😆  "
+    }
+  },
+  "style.wrap_emoji_zwj": {
+    "code": "Lipgloss::Style.new.width(3).render(\"👨‍👩‍👧 👍🏽 x\")",
+    "results": {
+      "*": "👨‍👩‍👧 \n👍🏽 \nx  "
+    }
+  },
+  "style.wrap_ansi_input": {
+    "code": "Lipgloss::Style.new.width(5).render(\"\\e[31mred text here\\e[0m\")",
+    "results": {
+      "*": "\u001b[31mred\u001b[m  \n\u001b[31mtext\u001b[m \n\u001b[31mhere\u001b[0m "
+    }
+  },
+  "style.wrap_ansi_styled": {
+    "code": "Lipgloss::Style.new.bold(true).width(4).render(\"\\e[32mgreen\\e[0m and\")",
+    "results": {
+      "true_color": "\u001b[1m\u001b[32mgree\u001b[m\u001b[0m\n\u001b[1m\u001b[32mn\u001b[0m\u001b[0m   \n\u001b[1mand\u001b[0m ",
+      "ansi256": "\u001b[1m\u001b[32mgree\u001b[m\u001b[0m\n\u001b[1m\u001b[32mn\u001b[0m\u001b[0m   \n\u001b[1mand\u001b[0m ",
+      "ansi": "\u001b[1m\u001b[32mgree\u001b[m\u001b[0m\n\u001b[1m\u001b[32mn\u001b[0m\u001b[0m   \n\u001b[1mand\u001b[0m ",
+      "ascii": "\u001b[32mgree\u001b[m\n\u001b[32mn\u001b[0m   \nand ",
+      "true_color_light": "\u001b[1m\u001b[32mgree\u001b[m\u001b[0m\n\u001b[1m\u001b[32mn\u001b[0m\u001b[0m   \n\u001b[1mand\u001b[0m "
+    }
+  },
+  "style.wrap_trailing_spaces": {
+    "code": "Lipgloss::Style.new.width(5).render(\"ab   \")",
+    "results": {
+      "*": "ab   "
+    }
+  },
+  "style.wrap_leading_spaces": {
+    "code": "Lipgloss::Style.new.width(5).render(\"   ab cd ef\")",
+    "results": {
+      "*": "   ab\ncd ef"
+    }
+  },
+  "style.wrap_hyphen": {
+    "code": "Lipgloss::Style.new.width(6).render(\"well-known long-word\")",
+    "results": {
+      "*": "well- \nknown \nlong- \nword  "
+    }
+  },
+  "style.wrap_newlines": {
+    "code": "Lipgloss::Style.new.width(4).render(\"ab\\n\\ncd ef gh\")",
+    "results": {
+      "*": "ab  \n    \ncd  \nef  \ngh  "
+    }
+  },
+  "style.wrap_crlf": {
+    "code": "Lipgloss::Style.new.width(10).render(\"a\\r\\nb\")",
+    "results": {
+      "*": "a         \nb         "
+    }
+  },
+  "style.combining_marks": {
+    "code": "Lipgloss::Style.new.width(4).render(\"éé\")",
+    "results": {
+      "*": "éé  "
+    }
+  },
+  "style.ansi_passthrough": {
+    "code": "Lipgloss::Style.new.render(\"\\e[1mbold\\e[0m\")",
+    "results": {
+      "*": "\u001b[1mbold\u001b[0m"
+    }
+  },
+  "style.ansi_with_fg": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff0000\").render(\"a\\e[0mb\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0ma\u001b[0mb\u001b[0m",
+      "ansi256": "\u001b[38;5;196ma\u001b[0mb\u001b[0m",
+      "ansi": "\u001b[91ma\u001b[0mb\u001b[0m",
+      "ascii": "a\u001b[0mb",
+      "true_color_light": "\u001b[38;2;255;0;0ma\u001b[0mb\u001b[0m"
+    }
+  },
+  "style.fg_multiline": {
+    "code": "Lipgloss::Style.new.foreground(\"#ff0000\").render(\"ab\\ncd\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0mab\u001b[0m\n\u001b[38;2;255;0;0mcd\u001b[0m",
+      "ansi256": "\u001b[38;5;196mab\u001b[0m\n\u001b[38;5;196mcd\u001b[0m",
+      "ansi": "\u001b[91mab\u001b[0m\n\u001b[91mcd\u001b[0m",
+      "ascii": "ab\ncd",
+      "true_color_light": "\u001b[38;2;255;0;0mab\u001b[0m\n\u001b[38;2;255;0;0mcd\u001b[0m"
+    }
+  },
+  "style.bg_multiline_uneven": {
+    "code": "Lipgloss::Style.new.background(\"#ff0000\").render(\"a\\nbcd\")",
+    "results": {
+      "true_color": "\u001b[48;2;255;0;0ma\u001b[0m\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0mbcd\u001b[0m",
+      "ansi256": "\u001b[48;5;196ma\u001b[0m\u001b[48;5;196m  \u001b[0m\n\u001b[48;5;196mbcd\u001b[0m",
+      "ansi": "\u001b[101ma\u001b[0m\u001b[101m  \u001b[0m\n\u001b[101mbcd\u001b[0m",
+      "ascii": "a  \nbcd",
+      "true_color_light": "\u001b[48;2;255;0;0ma\u001b[0m\u001b[48;2;255;0;0m  \u001b[0m\n\u001b[48;2;255;0;0mbcd\u001b[0m"
+    }
+  },
+  "style.wide_with_border": {
+    "code": "Lipgloss::Style.new.border(:normal).render(\"日本\")",
+    "results": {
+      "*": "┌────┐\n│日本│\n└────┘"
+    }
+  },
+  "style.emoji_with_padding": {
+    "code": "Lipgloss::Style.new.padding(0, 1).background(\"1\").render(\"🎉\")",
+    "results": {
+      "true_color": "\u001b[41m \u001b[0m\u001b[41m🎉\u001b[0m\u001b[41m \u001b[0m",
+      "ansi256": "\u001b[41m \u001b[0m\u001b[41m🎉\u001b[0m\u001b[41m \u001b[0m",
+      "ansi": "\u001b[41m \u001b[0m\u001b[41m🎉\u001b[0m\u001b[41m \u001b[0m",
+      "ascii": " 🎉 ",
+      "true_color_light": "\u001b[41m \u001b[0m\u001b[41m🎉\u001b[0m\u001b[41m \u001b[0m"
+    }
+  },
+  "style.unicode_width_center": {
+    "code": "Lipgloss::Style.new.width(8).align(:center).render(\"日本\")",
+    "results": {
+      "*": "  日本  "
+    }
+  },
+  "style.empty_with_width": {
+    "code": "Lipgloss::Style.new.width(3).render(\"\")",
+    "results": {
+      "*": "   "
+    }
+  },
+  "style.empty_with_border": {
+    "code": "Lipgloss::Style.new.border(:normal).render(\"\")",
+    "results": {
+      "*": "┌┐\n││\n└┘"
+    }
+  },
+  "style.empty_with_padding": {
+    "code": "Lipgloss::Style.new.padding(1).render(\"\")",
+    "results": {
+      "*": "  \n  \n  "
+    }
+  },
+  "style.newline_only": {
+    "code": "Lipgloss::Style.new.border(:normal).render(\"\\n\")",
+    "results": {
+      "*": "┌┐\n││\n││\n└┘"
+    }
+  },
+  "style.trailing_newline": {
+    "code": "Lipgloss::Style.new.render(\"a\\n\")",
+    "results": {
+      "*": "a\n"
+    }
+  },
+  "style.card": {
+    "code": "Lipgloss::Style.new.bold(true).foreground(\"#FAFAFA\").background(\"#7D56F4\").padding(1, 4).width(22).render(\"Hello, kitty\")",
+    "results": {
+      "true_color": "\u001b[48;2;125;86;243m                      \u001b[0m\n\u001b[48;2;125;86;243m    \u001b[0m\u001b[1;38;2;250;250;250;48;2;125;86;243mHello, kitty\u001b[0m\u001b[48;2;125;86;243m    \u001b[0m\u001b[48;2;125;86;243m  \u001b[0m\n\u001b[48;2;125;86;243m                      \u001b[0m",
+      "ansi256": "\u001b[48;5;99m                      \u001b[0m\n\u001b[48;5;99m    \u001b[0m\u001b[1;38;5;231;48;5;99mHello, kitty\u001b[0m\u001b[48;5;99m    \u001b[0m\u001b[48;5;99m  \u001b[0m\n\u001b[48;5;99m                      \u001b[0m",
+      "ansi": "\u001b[104m                      \u001b[0m\n\u001b[104m    \u001b[0m\u001b[1;97;104mHello, kitty\u001b[0m\u001b[104m    \u001b[0m\u001b[104m  \u001b[0m\n\u001b[104m                      \u001b[0m",
+      "ascii": "                      \n    Hello, kitty      \n                      ",
+      "true_color_light": "\u001b[48;2;125;86;243m                      \u001b[0m\n\u001b[48;2;125;86;243m    \u001b[0m\u001b[1;38;2;250;250;250;48;2;125;86;243mHello, kitty\u001b[0m\u001b[48;2;125;86;243m    \u001b[0m\u001b[48;2;125;86;243m  \u001b[0m\n\u001b[48;2;125;86;243m                      \u001b[0m"
+    }
+  },
+  "style.card_border": {
+    "code": "Lipgloss::Style.new.border(:rounded).border_foreground(\"#874BFD\").padding(1, 2).margin(1).width(20).align(:center).render(\"Dialog\\nbox\")",
+    "results": {
+      "true_color": "                        \n \u001b[38;2;135;75;253m╭────────────────────╮\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m                    \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m       Dialog       \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m        box         \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m                    \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m╰────────────────────╯\u001b[0m \n                        ",
+      "ansi256": "                        \n \u001b[38;5;99m╭────────────────────╮\u001b[0m \n \u001b[38;5;99m│\u001b[0m                    \u001b[38;5;99m│\u001b[0m \n \u001b[38;5;99m│\u001b[0m       Dialog       \u001b[38;5;99m│\u001b[0m \n \u001b[38;5;99m│\u001b[0m        box         \u001b[38;5;99m│\u001b[0m \n \u001b[38;5;99m│\u001b[0m                    \u001b[38;5;99m│\u001b[0m \n \u001b[38;5;99m╰────────────────────╯\u001b[0m \n                        ",
+      "ansi": "                        \n \u001b[94m╭────────────────────╮\u001b[0m \n \u001b[94m│\u001b[0m                    \u001b[94m│\u001b[0m \n \u001b[94m│\u001b[0m       Dialog       \u001b[94m│\u001b[0m \n \u001b[94m│\u001b[0m        box         \u001b[94m│\u001b[0m \n \u001b[94m│\u001b[0m                    \u001b[94m│\u001b[0m \n \u001b[94m╰────────────────────╯\u001b[0m \n                        ",
+      "ascii": "                        \n ╭────────────────────╮ \n │                    │ \n │       Dialog       │ \n │        box         │ \n │                    │ \n ╰────────────────────╯ \n                        ",
+      "true_color_light": "                        \n \u001b[38;2;135;75;253m╭────────────────────╮\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m                    \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m       Dialog       \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m        box         \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m│\u001b[0m                    \u001b[38;2;135;75;253m│\u001b[0m \n \u001b[38;2;135;75;253m╰────────────────────╯\u001b[0m \n                        "
+    }
+  },
+  "style.reuse_style": {
+    "code": "s = Lipgloss::Style.new.foreground(\"2\").padding(0, 1); [s.render(\"a\"), s.render(\"bb\")]",
+    "results": {
+      "true_color": [
+        " \u001b[32ma\u001b[0m ",
+        " \u001b[32mbb\u001b[0m "
+      ],
+      "ansi256": [
+        " \u001b[32ma\u001b[0m ",
+        " \u001b[32mbb\u001b[0m "
+      ],
+      "ansi": [
+        " \u001b[32ma\u001b[0m ",
+        " \u001b[32mbb\u001b[0m "
+      ],
+      "ascii": [
+        " a ",
+        " bb "
+      ],
+      "true_color_light": [
+        " \u001b[32ma\u001b[0m ",
+        " \u001b[32mbb\u001b[0m "
+      ]
+    }
+  }
+}
