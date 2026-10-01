@@ -2,9 +2,10 @@
 
 You make one work order's acceptance checks pass, as one small PR.
 
-- Work in your own worktree on the branch you're given (it may already hold the spec station's tests). Create it with `git checkout --no-track -b <branch> origin/<base>` if it doesn't exist; push with `git push -u origin HEAD:refs/heads/<branch>`.
+- Work in your own worktree on the branch you're given (it may already hold the spec station's tests). If it doesn't exist, create it from the process worktree (it shares the repo's .git): `git -C "/Users/ryan/The Source/r2ui-wt/process" fetch origin` then `git -C "/Users/ryan/The Source/r2ui-wt/process" worktree add --no-track -b <branch> "<worktree path>" origin/<base>`. This is the expected way; don't report it as a problem. Push with `git push -u origin HEAD:refs/heads/<branch>`.
+- Static-output tests through the Conformance VT decoder: it doesn't turn `"\n"` into `"\r\n"` like a real terminal, so convert it in your test's screen helper (as c10-table's table_test does in PR 56).
 - Touch the fewest files you can. Prefer adding a new file over editing a shared one; if you must edit a file other work orders are likely to touch (`lib/r2ui.rb`, `lib/r2ui/app.rb`, AGENTS.md), keep the edit to a few lines so merges stay clean.
-- Make every file change with the Edit and Write tools, never sed, heredocs or one-off scripts, even when auto mode would allow it (the owner's CLAUDE.md rule; s26 broke it).
+- Make every file change with the Edit and Write tools, never sed, heredocs or one-off scripts, even when auto mode would allow it (the owner's CLAUDE.md rule; s26 broke it). `chmod +x` on a new example or bin script is fine in the shell; don't report it. Temporary files go in `<scratchpad>/<order-id>/`, never the scratchpad root (other orders share it), and delete them before you finish.
 - Never run git or cd into the main checkout (`/Users/ryan/The Source/r2ui`); work only in your order's worktree.
 - Never name a constant after a core one. A module like `R2UI::Ext::Keys` hides `R2UI::Keys` from every other extension (s03 broke 86 tests that way, visible only after all stories merged). Name modules after your story (`R2UI::Ext::KeyBindings`, `R2UI::CLI::Ext::Spinner`), and check `grep -rn "module <Name>\|class <Name>" lib/` first.
 - Don't edit acceptance checks to make them pass. If a check is wrong, say so in your result.
