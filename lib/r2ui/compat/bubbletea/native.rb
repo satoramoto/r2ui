@@ -181,6 +181,7 @@ module Bubbletea
       return true if @state[:reader]
 
       @state[:reader] = Tea::InputReader.new(terminal.input).start
+      @state[:decoder] = Tea::Input::Decoder.new
       true
     rescue StandardError
       false
@@ -193,6 +194,7 @@ module Bubbletea
 
       reader.stop
       @state[:reader] = nil
+      @state[:decoder] = nil
       @pending_events.clear
       nil
     end
@@ -213,7 +215,7 @@ module Bubbletea
       chunk = reader.pop(timeout_ms)
       return nil unless chunk
 
-      @pending_events.concat(Tea::Input.parse_all(chunk))
+      @pending_events.concat(@state[:decoder].feed(chunk))
       @pending_events.shift
     end
 
