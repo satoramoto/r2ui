@@ -1,0 +1,19 @@
+# conformance golden for bubbles/text_area/height_short_content: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|only line
+2|~
+3|~
+4|~
+5|~
+6|~
+7|
+8|
+styles:
+1:10-10 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+4:1-1 fg=8
+5:1-1 fg=8
+6:1-1 fg=8

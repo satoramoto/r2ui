@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/table/no_outer_edges: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"A│B"
+"─┼─"
+"1│2"
+"3│4"

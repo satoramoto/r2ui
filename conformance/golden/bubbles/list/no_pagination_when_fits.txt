@@ -1,0 +1,38 @@
+# conformance golden for bubbles/list/no_pagination_when_fits: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x14
+== filled
+alt_screen: off  cursor: hidden  modes: -
+ 1|Short
+ 2|
+ 3|> One
+ 4|  Two
+ 5|  Three
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|--end--
+12|
+13|
+14|
+styles:
+ 3:1-5 reverse
+== not_filled
+alt_screen: off  cursor: hidden  modes: -
+ 1|Short
+ 2|
+ 3|> One
+ 4|  Two
+ 5|  Three
+ 6|--end--
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles:
+ 3:1-5 reverse

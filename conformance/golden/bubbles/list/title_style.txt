@@ -1,0 +1,38 @@
+# conformance golden for bubbles/list/title_style: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|Styled
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 1:1-6 bold fg=#ff8700
+ 3:1-7 bold fg=#00ff00
+ 4:1-8 fg=#888888
+ 5:1-8 fg=#888888
+ 6:1-6 fg=#888888
+== moved
+alt_screen: off  cursor: hidden  modes: -
+ 1|Styled
+ 2|
+ 3|  Apple
+ 4|> Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 1:1-6 bold fg=#ff8700
+ 3:1-7 fg=#888888
+ 4:1-8 bold fg=#00ff00
+ 5:1-8 fg=#888888
+ 6:1-6 fg=#888888

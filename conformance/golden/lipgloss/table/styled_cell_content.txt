@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/styled_cell_content: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─────┬────╮"
+"│Level│Msg │"
+"├─────┼────┤"
+"│\e[38;2;255;0;0merr\e[0m  │boom│"
+"│ok   │fine│"
+"╰─────┴────╯"

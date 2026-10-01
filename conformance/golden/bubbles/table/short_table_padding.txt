@@ -1,0 +1,17 @@
+# conformance golden for bubbles/table/short_table_padding: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x10
+== padded
+alt_screen: off  cursor: hidden  modes: -
+ 1|Name
+ 2|──────────
+ 3|One
+ 4|Two
+ 5|
+ 6|
+ 7|
+ 8|--end--
+ 9|
+10|
+styles:
+ 1:1-10 bold
+ 3:1-10 reverse

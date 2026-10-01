@@ -1,0 +1,8 @@
+# conformance golden for lipgloss/table/ragged_rows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─┬─┬─╮"
+"│A│B│C│"
+"├─┼─┼─┤"
+"│1│ │ │"
+"│1│2│3│"
+"│1│2│ │"
+"╰─┴─┴─╯"

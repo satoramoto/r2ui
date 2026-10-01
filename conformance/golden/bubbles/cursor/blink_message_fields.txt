@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/blink_message_fields: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[7, 3, true, true, true]"

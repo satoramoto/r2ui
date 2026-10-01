@@ -1,0 +1,19 @@
+# conformance golden for bubbletea/render/styled_to_plain: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x5
+== styled
+alt_screen: on  cursor: hidden  modes: -
+1|styled line
+2|tail
+3|
+4|
+5|
+styles:
+1:1-11 bold fg=#00ff00 bg=#333333
+== plain
+alt_screen: on  cursor: hidden  modes: -
+1|plain!
+2|tail
+3|
+4|
+5|
+styles: none

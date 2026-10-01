@@ -1,0 +1,9 @@
+# conformance golden for bubbles/help/width_truncates_full: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x4
+== cut_at_18
+alt_screen: off  cursor: hidden  modes: -
+1|a add item    c co
+2|b go back    d dd
+3|
+4|
+styles: none

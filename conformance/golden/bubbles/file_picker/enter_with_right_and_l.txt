@@ -1,0 +1,48 @@
+# conformance golden for bubbles/file_picker/enter_with_right_and_l: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== right_into_docs
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>/docs
+ 2|
+ 3|>  .. rwxr-xr-x
+ 4|   deep/ rwxr-xr-x
+ 5|   notes.txt 2.0K rw-r--r--
+ 6|   readme.md 12.0B rw-r--r--
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=0 did=false path=nil
+14|
+styles:
+ 1:1-11 fg=4
+ 3:4-5 bold
+ 3:7-15 fg=8
+ 4:4-8 fg=4
+ 4:10-18 fg=8
+ 5:14-17 fg=8
+ 5:19-27 fg=8
+ 6:14-18 fg=8
+ 6:20-28 fg=8
+== l_into_src
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>/src
+ 2|
+ 3|>  .. rwxr-xr-x
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=0 did=false path=nil
+14|
+styles:
+ 1:1-10 fg=4
+ 3:4-5 bold
+ 3:7-15 fg=8

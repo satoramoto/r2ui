@@ -1,0 +1,13 @@
+# conformance golden for bubbles/help/key_matches: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x8
+== matches
+alt_screen: off  cursor: hidden  modes: -
+1|up: UP,EITHER
+2|k: UP,EITHER
+3|q: QUIT,EITHER
+4|ctrl+x: QUIT,EITHER
+5|z:
+6|x:
+7|
+8|
+styles: none

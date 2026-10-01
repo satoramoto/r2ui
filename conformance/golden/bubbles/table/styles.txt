@@ -1,0 +1,40 @@
+# conformance golden for bubbles/table/styles: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|Name     Qty
+2|─────────────
+3|Bolt     100
+4|Nut      250
+5|Washer   75
+6|
+7|
+8|
+styles:
+1:1-8 underline fg=#ffd700
+1:10-13 underline fg=#ffd700
+3:1-8 bold fg=#ffffff bg=#0000aa
+3:10-13 bold fg=#ffffff bg=#0000aa
+4:1-8 fg=#aaaaaa
+4:10-13 fg=#aaaaaa
+5:1-8 fg=#aaaaaa
+5:10-13 fg=#aaaaaa
+== moved
+alt_screen: off  cursor: hidden  modes: -
+1|Name     Qty
+2|─────────────
+3|Bolt     100
+4|Nut      250
+5|Washer   75
+6|
+7|
+8|
+styles:
+1:1-8 underline fg=#ffd700
+1:10-13 underline fg=#ffd700
+3:1-8 fg=#aaaaaa
+3:10-13 fg=#aaaaaa
+4:1-8 bold fg=#ffffff bg=#0000aa
+4:10-13 bold fg=#ffffff bg=#0000aa
+5:1-8 fg=#aaaaaa
+5:10-13 fg=#aaaaaa

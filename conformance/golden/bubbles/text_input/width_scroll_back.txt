@@ -1,0 +1,34 @@
+# conformance golden for bubbles/text_input/width_scroll_back: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== at_end
+alt_screen: off  cursor: hidden  modes: -
+1|> 6789
+2|value=[0123456789] pos=10
+3|
+4|
+styles:
+1:7-7 reverse
+== still_in_window
+alt_screen: off  cursor: hidden  modes: -
+1|> 56789
+2|value=[0123456789] pos=5
+3|
+4|
+styles:
+1:3-3 reverse
+== scrolled_left
+alt_screen: off  cursor: hidden  modes: -
+1|> 34567
+2|value=[0123456789] pos=3
+3|
+4|
+styles:
+1:3-3 reverse
+== at_start
+alt_screen: off  cursor: hidden  modes: -
+1|> 01234
+2|value=[0123456789] pos=0
+3|
+4|
+styles:
+1:3-3 reverse

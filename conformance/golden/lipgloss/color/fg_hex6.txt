@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/fg_hex6: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;30;144;255mhex\e[0m"

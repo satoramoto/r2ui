@@ -1,0 +1,19 @@
+# conformance golden for bubbles/text_input/suggestions_accept: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== ba
+alt_screen: off  cursor: hidden  modes: -
+1|> banana
+2|value=[ba] pos=2
+3|
+4|
+styles:
+1:5-5 reverse
+1:6-8 fg=8
+== accepted
+alt_screen: off  cursor: hidden  modes: -
+1|> banana
+2|value=[banana] pos=6
+3|
+4|
+styles:
+1:9-9 reverse

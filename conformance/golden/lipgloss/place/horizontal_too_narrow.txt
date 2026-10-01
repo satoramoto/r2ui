@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/place/horizontal_too_narrow: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"abcd"
+"ef"

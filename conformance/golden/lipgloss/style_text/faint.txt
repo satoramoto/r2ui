@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/faint: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[2mHello\e[0m"

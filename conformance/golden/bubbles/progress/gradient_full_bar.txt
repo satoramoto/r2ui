@@ -1,0 +1,27 @@
+# conformance golden for bubbles/progress/gradient_full_bar: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|███████████████████ 100%
+2|
+3|
+styles:
+1:1-1 fg=#ff0000
+1:2-2 fg=#f80030
+1:3-3 fg=#f10045
+1:4-4 fg=#ea0054
+1:5-5 fg=#e30061
+1:6-6 fg=#dc006c
+1:7-7 fg=#d50076
+1:8-8 fg=#ce007f
+1:9-9 fg=#c60087
+1:10-10 fg=#be0090
+1:11-11 fg=#b60098
+1:12-12 fg=#ae00a1
+1:13-13 fg=#a300aa
+1:14-14 fg=#9a00b3
+1:15-15 fg=#8e00be
+1:16-16 fg=#8100ca
+1:17-17 fg=#6f00d8
+1:18-18 fg=#5400e9
+1:19-19 fg=#0000ff

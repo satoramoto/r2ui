@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/complete_bg: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;255;119;0mcomplete\e[0m"

@@ -1,0 +1,18 @@
+# conformance golden for bubbles/text_input/width_scroll: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== fits
+alt_screen: off  cursor: hidden  modes: -
+1|> abcde
+2|value=[abcde] pos=5
+3|
+4|
+styles:
+1:8-8 reverse
+== scrolled
+alt_screen: off  cursor: hidden  modes: -
+1|> efghi
+2|value=[abcdefghi] pos=9
+3|
+4|
+styles:
+1:8-8 reverse

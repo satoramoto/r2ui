@@ -1,0 +1,16 @@
+# conformance golden for bubbles/text_input/prompt_custom: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|Name:
+2|
+3|
+styles:
+1:7-7 reverse
+== typed
+alt_screen: off  cursor: hidden  modes: -
+1|Name: Ada
+2|
+3|
+styles:
+1:10-10 reverse

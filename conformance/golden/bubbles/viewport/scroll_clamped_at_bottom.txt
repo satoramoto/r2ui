@@ -1,0 +1,13 @@
+# conformance golden for bubbles/viewport/scroll_clamped_at_bottom: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 44x8
+== past_bottom
+alt_screen: off  cursor: hidden  modes: -
+1|line 04
+2|line 05
+3|line 06
+4|line 07
+5|line 08
+6|y=3 pct=100 top=false bottom=true
+7|
+8|
+styles: none

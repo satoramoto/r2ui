@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/join/h_center: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"a  "
+"b  "
+"cxy"
+"d  "
+"e  "

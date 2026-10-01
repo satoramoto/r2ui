@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/place/vertical_too_short: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"ab"
+"cd"

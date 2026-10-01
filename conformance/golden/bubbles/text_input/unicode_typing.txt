@@ -1,0 +1,18 @@
+# conformance golden for bubbles/text_input/unicode_typing: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== typed
+alt_screen: off  cursor: hidden  modes: -
+1|> éüñ
+2|value=[éüñ] pos=3
+3|
+4|
+styles:
+1:6-6 reverse
+== deleted_middle
+alt_screen: off  cursor: hidden  modes: -
+1|> éñ
+2|value=[éñ] pos=1
+3|
+4|
+styles:
+1:4-4 reverse

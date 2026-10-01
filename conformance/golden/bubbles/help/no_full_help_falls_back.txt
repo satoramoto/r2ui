@@ -1,0 +1,8 @@
+# conformance golden for bubbles/help/no_full_help_falls_back: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x3
+== short_fallback
+alt_screen: off  cursor: hidden  modes: -
+1|a add • b back
+2|
+3|
+styles: none

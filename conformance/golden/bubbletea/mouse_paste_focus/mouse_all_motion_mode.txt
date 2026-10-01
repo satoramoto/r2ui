@@ -1,0 +1,13 @@
+# conformance golden for bubbletea/mouse_paste_focus/mouse_all_motion_mode: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x8
+== start
+alt_screen: off  cursor: hidden  modes: 1003 1006
+1|events:
+2|
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none

@@ -1,0 +1,18 @@
+# conformance golden for bubbletea/options/init_returns_tick: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== first_view
+alt_screen: off  cursor: hidden  modes: -
+1|state: initial
+2|
+3|
+4|
+5|
+styles: none
+== after_tick
+alt_screen: off  cursor: hidden  modes: -
+1|state: ticked
+2|
+3|
+4|
+5|
+styles: none

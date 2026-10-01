@@ -1,0 +1,92 @@
+# conformance golden for bubbles/file_picker/scrolling_window: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x9
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|>  file01.txt 1.0B
+4|   file02.txt 2.0B
+5|   file03.txt 3.0B
+6|   file04.txt 4.0B
+7|cursor=0
+8|
+9|
+styles:
+1:1-6 fg=4
+3:4-13 bold
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:15-18 fg=8
+== last_visible
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|   file01.txt 1.0B
+4|   file02.txt 2.0B
+5|   file03.txt 3.0B
+6|>  file04.txt 4.0B
+7|cursor=3
+8|
+9|
+styles:
+1:1-6 fg=4
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:4-13 bold
+6:15-18 fg=8
+== scrolled_one
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|   file02.txt 2.0B
+4|   file03.txt 3.0B
+5|   file04.txt 4.0B
+6|>  file05.txt 5.0B
+7|cursor=4
+8|
+9|
+styles:
+1:1-6 fg=4
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:4-13 bold
+6:15-18 fg=8
+== at_end
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|   file09.txt 9.0B
+4|   file10.txt 10.0B
+5|   file11.txt 11.0B
+6|>  file12.txt 12.0B
+7|cursor=11
+8|
+9|
+styles:
+1:1-6 fg=4
+3:15-18 fg=8
+4:15-19 fg=8
+5:15-19 fg=8
+6:4-13 bold
+6:15-19 fg=8
+== scrolled_back
+alt_screen: off  cursor: hidden  modes: -
+1|<root>
+2|
+3|>  file07.txt 7.0B
+4|   file08.txt 8.0B
+5|   file09.txt 9.0B
+6|   file10.txt 10.0B
+7|cursor=6
+8|
+9|
+styles:
+1:1-6 fg=4
+3:4-13 bold
+3:15-18 fg=8
+4:15-18 fg=8
+5:15-18 fg=8
+6:15-19 fg=8

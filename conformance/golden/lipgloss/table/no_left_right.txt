@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/no_left_right: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"─┬─"
+"A│B"
+"─┼─"
+"1│2"
+"─┴─"

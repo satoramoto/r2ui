@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/join/h_bordered_boxes: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─╮    "
+"│a│╭──╮"
+"│b││xy│"
+"│c│╰──╯"
+"╰─╯    "

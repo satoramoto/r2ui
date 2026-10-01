@@ -1,0 +1,16 @@
+# conformance golden for bubbles/paginator/single_page: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|arabic: 1/1
+2|dots: ●
+3|
+4|
+styles: none
+== after_next
+alt_screen: off  cursor: hidden  modes: -
+1|arabic: 1/1
+2|dots: ●
+3|
+4|
+styles: none

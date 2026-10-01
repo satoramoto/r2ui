@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/custom_full: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"1~~~2"
+"(Box)"
+"3===4"

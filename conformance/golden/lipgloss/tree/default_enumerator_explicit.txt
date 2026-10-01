@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/tree/default_enumerator_explicit: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"Project"
+"├── a"
+"└── b"

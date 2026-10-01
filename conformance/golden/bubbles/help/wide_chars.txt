@@ -1,0 +1,8 @@
+# conformance golden for bubbles/help/wide_chars: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 60x3
+== unicode
+alt_screen: off  cursor: hidden  modes: -
+1|←/→ navigate • ↵ confirm • ⎋ cancel|
+2|
+3|
+styles: none

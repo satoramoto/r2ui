@@ -1,0 +1,19 @@
+# conformance golden for bubbles/list/filter_start: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x12
+== prompt
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter:
+ 4|
+ 5|> Apple
+ 6|  Banana
+ 7|  Cherry
+ 8|  Date
+ 9|
+10|● ○
+11|
+12|
+styles:
+ 3:9-9 reverse
+ 5:1-7 reverse

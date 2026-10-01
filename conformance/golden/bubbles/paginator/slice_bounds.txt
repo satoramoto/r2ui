@@ -1,0 +1,20 @@
+# conformance golden for bubbles/paginator/slice_bounds: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 60x3
+== first
+alt_screen: off  cursor: hidden  modes: -
+1|page=0 bounds=[0, 10] count=10 empty=0
+2|
+3|
+styles: none
+== second
+alt_screen: off  cursor: hidden  modes: -
+1|page=1 bounds=[10, 20] count=10 empty=0
+2|
+3|
+styles: none
+== last
+alt_screen: off  cursor: hidden  modes: -
+1|page=2 bounds=[20, 25] count=5 empty=0
+2|
+3|
+styles: none

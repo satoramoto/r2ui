@@ -1,0 +1,9 @@
+# conformance golden for bubbles/help/full_separator: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 60x4
+== custom_columns
+alt_screen: off  cursor: hidden  modes: -
+1|a add :: c copy
+2|bbbb back up a long way :: d delete
+3|
+4|
+styles: none

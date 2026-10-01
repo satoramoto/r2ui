@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/new_with_args: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"1. x"
+"2. y"
+"3. z"

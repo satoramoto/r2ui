@@ -1,0 +1,20 @@
+# conformance golden for bubbles/stopwatch/start_message_enables_ticks: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== started
+alt_screen: off  cursor: hidden  modes: -
+1|0:00.00 running=true none
+2|
+3|
+styles: none
+== tick1
+alt_screen: off  cursor: hidden  modes: -
+1|0:00.25 running=true cmd
+2|
+3|
+styles: none
+== tick4
+alt_screen: off  cursor: hidden  modes: -
+1|0:01.00 running=true cmd
+2|
+3|
+styles: none

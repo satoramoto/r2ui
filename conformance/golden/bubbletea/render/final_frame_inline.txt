@@ -1,0 +1,36 @@
+# conformance golden for bubbletea/render/final_frame_inline: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|first frame
+2|line two
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none
+== updated
+alt_screen: off  cursor: hidden  modes: -
+1|final frame
+2|line two
+3|line three
+4|
+5|
+6|
+7|
+8|
+styles: none
+== after_quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|final frame
+2|line two
+3|line three
+4|
+5|
+6|
+7|
+8|
+styles: none

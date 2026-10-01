@@ -1,0 +1,23 @@
+# conformance golden for bubbletea/options/mouse_click_message: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x4
+== start
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|mouse:
+2|
+3|
+4|
+styles: none
+== press
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|mouse: x=4 y=2 button=0 action=0
+2|
+3|
+4|
+styles: none
+== release
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|mouse: x=4 y=2 button=0 action=0 | x=4 y=2 button=0 action=1
+2|
+3|
+4|
+styles: none

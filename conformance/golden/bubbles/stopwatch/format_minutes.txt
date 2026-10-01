@@ -1,0 +1,14 @@
+# conformance golden for bubbles/stopwatch/format_minutes: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== one
+alt_screen: off  cursor: hidden  modes: -
+1|1:01.50
+2|
+3|
+styles: none
+== two
+alt_screen: off  cursor: hidden  modes: -
+1|2:03.00
+2|
+3|
+styles: none

@@ -1,0 +1,27 @@
+# conformance golden for bubbles/text_area/delete_forward_join: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x7
+== char_deleted
+alt_screen: off  cursor: hidden  modes: -
+1|bc
+2|def
+3|ghi
+4|~
+5|row=0 col=0 lines=3
+6|
+7|
+styles:
+1:1-1 reverse
+4:1-1 fg=8
+== joined_next
+alt_screen: off  cursor: hidden  modes: -
+1|bcdef
+2|ghi
+3|~
+4|~
+5|row=0 col=2 lines=2
+6|
+7|
+styles:
+1:3-3 reverse
+3:1-1 fg=8
+4:1-1 fg=8

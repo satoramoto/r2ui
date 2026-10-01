@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/alt_non_printable: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== esc_prefixed
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"esc" type=27 runes=[] alt=false char=nil flags=ctrl,esc
+ 3|"esc" type=27 runes=[] alt=false char=nil flags=ctrl,esc
+ 4|"esc" type=27 runes=[] alt=false char=nil flags=ctrl,esc
+ 5|"esc" type=27 runes=[] alt=false char=nil flags=ctrl,esc
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

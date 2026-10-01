@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/commands/proc_in_batch: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== both
+alt_screen: off  cursor: hidden  modes: -
+1|seen: one,two
+2|
+3|
+4|
+5|
+styles: none

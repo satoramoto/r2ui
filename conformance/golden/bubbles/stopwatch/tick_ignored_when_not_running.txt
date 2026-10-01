@@ -1,0 +1,8 @@
+# conformance golden for bubbles/stopwatch/tick_ignored_when_not_running: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== ignored
+alt_screen: off  cursor: hidden  modes: -
+1|0:00.00 no-cmd
+2|
+3|
+styles: none

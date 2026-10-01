@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/tree/to_s_matches_render: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"true\"R\\n└── a\""

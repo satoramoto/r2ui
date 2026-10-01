@@ -1,0 +1,23 @@
+# conformance golden for bubbles/help/toggle_show_all: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x4
+== short
+alt_screen: off  cursor: hidden  modes: -
+1|? more • q quit
+2|
+3|
+4|
+styles: none
+== full
+alt_screen: off  cursor: hidden  modes: -
+1|↑/k up    ? more
+2|↓/j down    q quit
+3|
+4|
+styles: none
+== short_again
+alt_screen: off  cursor: hidden  modes: -
+1|? more • q quit
+2|
+3|
+4|
+styles: none

@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/commands/puts_from_init: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|hello from init
+2|live view
+3|
+4|
+5|
+6|
+styles: none

@@ -1,0 +1,8 @@
+# conformance golden for bubbles/help/short_default: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x3
+== short
+alt_screen: off  cursor: hidden  modes: -
+1|↑/k up • ↓/j down • q quit
+2|
+3|
+styles: none

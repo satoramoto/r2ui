@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_default_luv: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"#be0090"

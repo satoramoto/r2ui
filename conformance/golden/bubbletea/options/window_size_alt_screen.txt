@@ -1,0 +1,12 @@
+# conformance golden for bubbletea/options/window_size_alt_screen: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 36x7
+== start
+alt_screen: on  cursor: hidden  modes: -
+1|top 36x7
+2|
+3|
+4|
+5|
+6|
+7|bottom
+styles: none

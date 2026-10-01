@@ -1,0 +1,13 @@
+# conformance golden for bubbles/viewport/no_horizontal_scroll_by_default: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== after_right
+alt_screen: off  cursor: hidden  modes: -
+1|0123456789
+2|abcdefghij
+3|short
+4|x=0
+5|
+6|
+7|
+8|
+styles: none

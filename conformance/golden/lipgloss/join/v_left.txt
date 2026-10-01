@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/join/v_left: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"abc"
+"d  "
+"ef "

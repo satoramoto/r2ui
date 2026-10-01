@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/border/multiline_blank_line: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"┌──────┐"
+"│top   │"
+"│      │"
+"│bottom│"
+"└──────┘"

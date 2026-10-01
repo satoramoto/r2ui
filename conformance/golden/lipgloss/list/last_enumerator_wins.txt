@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/list/last_enumerator_wins: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"1. a"
+"2. b"

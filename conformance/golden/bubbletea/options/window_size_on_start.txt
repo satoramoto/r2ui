@@ -1,0 +1,13 @@
+# conformance golden for bubbletea/options/window_size_on_start: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|size: 40x8
+2|
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none

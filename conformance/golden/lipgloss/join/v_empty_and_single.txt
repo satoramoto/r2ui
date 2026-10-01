@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/join/v_empty_and_single: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"ab"
+"  "
+"c "
+"--"
+"a"
+"long"

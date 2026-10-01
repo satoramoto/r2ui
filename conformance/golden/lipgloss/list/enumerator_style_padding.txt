@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/list/enumerator_style_padding: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"-  a"
+"-  b"

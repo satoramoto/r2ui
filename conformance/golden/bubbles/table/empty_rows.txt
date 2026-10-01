@@ -1,0 +1,28 @@
+# conformance golden for bubbles/table/empty_rows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== empty
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Age
+2|────────────────
+3|  No data
+4|
+5|
+6|
+7|row=nil
+8|
+styles:
+1:1-10 bold
+1:12-16 bold
+== after_keys
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Age
+2|────────────────
+3|  No data
+4|
+5|
+6|
+7|row=nil
+8|
+styles:
+1:1-10 bold
+1:12-16 bold

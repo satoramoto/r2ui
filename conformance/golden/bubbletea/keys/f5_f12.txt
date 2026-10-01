@@ -1,0 +1,19 @@
+# conformance golden for bubbletea/keys/f5_f12: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x14
+== f5_f12
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"f5" type=-16 runes=[] alt=false char=nil flags=
+ 3|"f6" type=-17 runes=[] alt=false char=nil flags=
+ 4|"f7" type=-18 runes=[] alt=false char=nil flags=
+ 5|"f8" type=-19 runes=[] alt=false char=nil flags=
+ 6|"f9" type=-20 runes=[] alt=false char=nil flags=
+ 7|"f10" type=-21 runes=[] alt=false char=nil flags=
+ 8|"f11" type=-22 runes=[] alt=false char=nil flags=
+ 9|"f12" type=-23 runes=[] alt=false char=nil flags=
+10|
+11|
+12|
+13|
+14|
+styles: none

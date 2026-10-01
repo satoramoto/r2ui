@@ -1,0 +1,26 @@
+# conformance golden for bubbles/text_input/delete_forward: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== noop_at_end
+alt_screen: off  cursor: hidden  modes: -
+1|> abcde
+2|value=[abcde] pos=5
+3|
+4|
+styles:
+1:8-8 reverse
+== first_deleted
+alt_screen: off  cursor: hidden  modes: -
+1|> bcde
+2|value=[bcde] pos=0
+3|
+4|
+styles:
+1:3-3 reverse
+== ctrl_d
+alt_screen: off  cursor: hidden  modes: -
+1|> bde
+2|value=[bde] pos=1
+3|
+4|
+styles:
+1:4-4 reverse

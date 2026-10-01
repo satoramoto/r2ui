@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/csi_unknown: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== unknown_csi
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"alt+[" type=-1 runes=[91] alt=true char="[" flags=runes
+ 3|"alt+[" type=-1 runes=[91] alt=true char="[" flags=runes
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

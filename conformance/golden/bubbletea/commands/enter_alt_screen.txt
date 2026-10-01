@@ -1,0 +1,27 @@
+# conformance golden for bubbletea/commands/enter_alt_screen: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== inline
+alt_screen: off  cursor: hidden  modes: -
+1|view line, keys=0
+2|
+3|
+4|
+5|
+styles: none
+== alt
+alt_screen: on  cursor: hidden  modes: -
+1|view line, keys=1
+2|
+3|
+4|
+5|
+styles: none
+== after_quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|view line, keys=0
+2|
+3|
+4|
+5|
+styles: none

@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/join/h_styled_bottom: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;255;0;0m \e[0m\e[48;2;255;0;0ma\e[0m\e[48;2;255;0;0m \e[0m  "
+"\e[48;2;255;0;0m \e[0m\e[48;2;255;0;0mb\e[0m\e[48;2;255;0;0m \e[0m  "
+"\e[48;2;255;0;0m \e[0m\e[48;2;255;0;0mc\e[0m\e[48;2;255;0;0m \e[0m\e[1;38;2;0;255;0mxy\e[0m"

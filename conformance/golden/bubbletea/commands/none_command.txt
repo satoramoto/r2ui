@@ -1,0 +1,18 @@
+# conformance golden for bubbletea/commands/none_command: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|n=0 none=nil
+2|
+3|
+4|
+5|
+styles: none
+== after
+alt_screen: off  cursor: hidden  modes: -
+1|n=12 none=nil
+2|
+3|
+4|
+5|
+styles: none

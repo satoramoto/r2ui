@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/style_func_padding: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭───┬───╮"
+"│ A │ B │"
+"├───┼───┤"
+"│ 1 │ 2 │"
+"╰───┴───╯"

@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/fg_ansi_basic: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[30mx\e[0m|\e[31mx\e[0m|\e[32mx\e[0m|\e[33mx\e[0m|\e[34mx\e[0m|\e[35mx\e[0m|\e[36mx\e[0m|\e[37mx\e[0m"

@@ -1,0 +1,50 @@
+# conformance golden for bubbles/text_area/word_ops: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x6
+== word_back
+alt_screen: off  cursor: hidden  modes: -
+1|one two three
+2|~
+3|~
+4|row=0 col=8
+5|
+6|
+styles:
+1:9-9 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+== word_back_again
+alt_screen: off  cursor: hidden  modes: -
+1|one two three
+2|~
+3|~
+4|row=0 col=4
+5|
+6|
+styles:
+1:5-5 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+== word_forward
+alt_screen: off  cursor: hidden  modes: -
+1|one two three
+2|~
+3|~
+4|row=0 col=7
+5|
+6|
+styles:
+1:8-8 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+== deleted_word
+alt_screen: off  cursor: hidden  modes: -
+1|one  three
+2|~
+3|~
+4|row=0 col=4
+5|
+6|
+styles:
+1:5-5 reverse
+2:1-1 fg=8
+3:1-1 fg=8

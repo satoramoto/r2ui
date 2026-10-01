@@ -1,0 +1,48 @@
+# conformance golden for bubbles/file_picker/dotdot_entry_selects_parent: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== in_docs
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>/docs
+ 2|
+ 3|>  ..
+ 4|   deep/
+ 5|   notes.txt 2.0K
+ 6|   readme.md 12.0B
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=0 did=false path=nil
+14|
+styles:
+ 1:1-11 fg=4
+ 3:4-5 bold
+ 4:4-8 fg=4
+ 5:14-17 fg=8
+ 6:14-18 fg=8
+== dotdot_entered
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|>  ..
+ 4|   docs/
+ 5|   src/
+ 6|   alpha.txt 5.0B
+ 7|   beta.rb 1.5K
+ 8|   Gamma.md 0 B
+ 9|
+10|
+11|
+12|
+13|cursor=0 did=false path=nil
+14|
+styles:
+ 1:1-6 fg=4
+ 3:4-5 bold
+ 4:4-8 fg=4
+ 5:4-7 fg=4
+ 6:14-17 fg=8
+ 7:12-15 fg=8
+ 8:13-15 fg=8

@@ -1,0 +1,8 @@
+# conformance golden for lipgloss/table/multiline_cell: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭───┬─╮"
+"│A  │B│"
+"├───┼─┤"
+"│one│x│"
+"│two│ │"
+"│y  │z│"
+"╰───┴─╯"

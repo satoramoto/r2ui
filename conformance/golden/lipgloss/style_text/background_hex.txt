@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/background_hex: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;30;144;255mblue\e[0m"

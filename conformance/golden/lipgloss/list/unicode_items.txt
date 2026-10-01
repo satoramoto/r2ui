@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/unicode_items: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"• café"
+"• 日本語"
+"• x"

@@ -1,0 +1,25 @@
+# conformance golden for bubbles/text_area/line_numbers_placeholder: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|   Type here
+2|   ~
+3|   ~
+4|
+5|
+styles:
+1:4-4 reverse
+1:5-12 fg=8
+2:4-4 fg=8
+3:4-4 fg=8
+== typed
+alt_screen: off  cursor: hidden  modes: -
+1| 1 a
+2|   ~
+3|   ~
+4|
+5|
+styles:
+1:5-5 reverse
+2:4-4 fg=8
+3:4-4 fg=8

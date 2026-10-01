@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/border_style_color: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;255;135;0m╭\e[0m\e[38;2;255;135;0m─\e[0m\e[38;2;255;135;0m┬\e[0m\e[38;2;255;135;0m─\e[0m\e[38;2;255;135;0m╮\e[0m"
+"\e[38;2;255;135;0m│\e[0mA\e[38;2;255;135;0m│\e[0mB\e[38;2;255;135;0m│\e[0m"
+"\e[38;2;255;135;0m├\e[0m\e[38;2;255;135;0m─\e[0m\e[38;2;255;135;0m┼\e[0m\e[38;2;255;135;0m─\e[0m\e[38;2;255;135;0m┤\e[0m"
+"\e[38;2;255;135;0m│\e[0m1\e[38;2;255;135;0m│\e[0m2\e[38;2;255;135;0m│\e[0m"
+"\e[38;2;255;135;0m╰\e[0m\e[38;2;255;135;0m─\e[0m\e[38;2;255;135;0m┴\e[0m\e[38;2;255;135;0m─\e[0m\e[38;2;255;135;0m╯\e[0m"

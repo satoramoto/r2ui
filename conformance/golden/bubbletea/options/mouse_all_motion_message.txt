@@ -1,0 +1,16 @@
+# conformance golden for bubbletea/options/mouse_all_motion_message: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 60x4
+== start
+alt_screen: off  cursor: hidden  modes: 1003 1006
+1|move:
+2|
+3|
+4|
+styles: none
+== moved
+alt_screen: off  cursor: hidden  modes: 1003 1006
+1|move: x=11 y=6 motion=true
+2|
+3|
+4|
+styles: none

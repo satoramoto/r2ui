@@ -1,0 +1,34 @@
+# conformance golden for bubbles/list/items_replaced: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x12
+== moved
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Apple
+ 4|  Banana
+ 5|> Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|sel=2 n=4
+10|
+11|
+12|
+styles:
+ 5:1-8 reverse
+== replaced
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Red
+ 4|  Green
+ 5|  Blue
+ 6|
+ 7|
+ 8|
+ 9|sel=0 n=3
+10|
+11|
+12|
+styles:
+ 3:1-5 reverse

@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/list/nested_styled: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+" \e[1mI.\e[0ma"
+"\e[1m \e[0mA. \e[2mx\e[0m"
+"\e[1m \e[0mB. \e[2my\e[0m"
+"\e[1mII.\e[0mb"

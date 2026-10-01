@@ -1,0 +1,14 @@
+# conformance golden for bubbles/paginator/dots_custom_glyphs: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== first
+alt_screen: off  cursor: hidden  modes: -
+1|# - - - -
+2|
+3|
+styles: none
+== third
+alt_screen: off  cursor: hidden  modes: -
+1|- - # - -
+2|
+3|
+styles: none

@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/style_func_align_right: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─────┬──────╮"
+"│Item │   Qty│"
+"├─────┼──────┤"
+"│apple│     3│"
+"│fig  │    12│"
+"╰─────┴──────╯"

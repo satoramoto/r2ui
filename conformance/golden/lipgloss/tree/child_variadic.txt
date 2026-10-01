@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/tree/child_variadic: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"Project"
+"├── src"
+"├── lib"
+"└── test"

@@ -1,0 +1,50 @@
+# conformance golden for bubbles/list/status_message: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x12
+== before
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+styles:
+ 3:1-7 reverse
+== with_status
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|Saved!
+ 9|
+10|
+11|
+12|
+styles:
+ 3:1-7 reverse
+== hidden
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+styles:
+ 3:1-7 reverse

@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/text_style: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;0;255;0mt\e[0m"

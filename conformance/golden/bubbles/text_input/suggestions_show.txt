@@ -1,0 +1,36 @@
+# conformance golden for bubbles/text_input/suggestions_show: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== empty
+alt_screen: off  cursor: hidden  modes: -
+1|>
+2|value=[]
+3|
+4|
+styles:
+1:3-3 reverse
+== a
+alt_screen: off  cursor: hidden  modes: -
+1|> apple
+2|value=[a]
+3|
+4|
+styles:
+1:4-4 reverse
+1:5-7 fg=8
+== apr
+alt_screen: off  cursor: hidden  modes: -
+1|> apricot
+2|value=[apr]
+3|
+4|
+styles:
+1:6-6 reverse
+1:7-9 fg=8
+== no_match
+alt_screen: off  cursor: hidden  modes: -
+1|> aprx
+2|value=[aprx]
+3|
+4|
+styles:
+1:7-7 reverse

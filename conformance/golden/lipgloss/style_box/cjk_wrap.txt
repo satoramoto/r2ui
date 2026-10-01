@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/style_box/cjk_wrap: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"日本 "
+"語テ "
+"キス "
+"ト   "
