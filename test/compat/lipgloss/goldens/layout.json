@@ -1,0 +1,1281 @@
+{
+  "layout.join_h_top": {
+    "code": "Lipgloss.join_horizontal(:top, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "aX1\nb 2\nc  "
+    }
+  },
+  "layout.join_v_top": {
+    "code": "Lipgloss.join_vertical(:top, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": "abc \nX   \n12  \n1234"
+    }
+  },
+  "layout.join_h_center": {
+    "code": "Lipgloss.join_horizontal(:center, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nbX1\nc 2"
+    }
+  },
+  "layout.join_v_center": {
+    "code": "Lipgloss.join_vertical(:center, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n  X \n 12 \n1234"
+    }
+  },
+  "layout.join_h_bottom": {
+    "code": "Lipgloss.join_horizontal(:bottom, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nb 1\ncX2"
+    }
+  },
+  "layout.join_v_bottom": {
+    "code": "Lipgloss.join_vertical(:bottom, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n   X\n  12\n1234"
+    }
+  },
+  "layout.join_h_left": {
+    "code": "Lipgloss.join_horizontal(:left, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "aX1\nb 2\nc  "
+    }
+  },
+  "layout.join_v_left": {
+    "code": "Lipgloss.join_vertical(:left, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": "abc \nX   \n12  \n1234"
+    }
+  },
+  "layout.join_h_right": {
+    "code": "Lipgloss.join_horizontal(:right, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nb 1\ncX2"
+    }
+  },
+  "layout.join_v_right": {
+    "code": "Lipgloss.join_vertical(:right, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n   X\n  12\n1234"
+    }
+  },
+  "layout.join_h_f02": {
+    "code": "Lipgloss.join_horizontal(0.2, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "aX1\nb 2\nc  "
+    }
+  },
+  "layout.join_v_f02": {
+    "code": "Lipgloss.join_vertical(0.2, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": "abc \n X  \n12  \n1234"
+    }
+  },
+  "layout.join_h_f08": {
+    "code": "Lipgloss.join_horizontal(0.8, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nb 1\ncX2"
+    }
+  },
+  "layout.join_v_f08": {
+    "code": "Lipgloss.join_vertical(0.8, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n  X \n  12\n1234"
+    }
+  },
+  "layout.join_h_int0": {
+    "code": "Lipgloss.join_horizontal(0, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "aX1\nb 2\nc  "
+    }
+  },
+  "layout.join_v_int0": {
+    "code": "Lipgloss.join_vertical(0, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": "abc \nX   \n12  \n1234"
+    }
+  },
+  "layout.join_h_int1": {
+    "code": "Lipgloss.join_horizontal(1, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nb 1\ncX2"
+    }
+  },
+  "layout.join_v_int1": {
+    "code": "Lipgloss.join_vertical(1, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n   X\n  12\n1234"
+    }
+  },
+  "layout.join_h_str_bottom": {
+    "code": "Lipgloss.join_horizontal(\"bottom\", \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nb 1\ncX2"
+    }
+  },
+  "layout.join_v_str_bottom": {
+    "code": "Lipgloss.join_vertical(\"bottom\", \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n   X\n  12\n1234"
+    }
+  },
+  "layout.join_h_const_center": {
+    "code": "Lipgloss.join_horizontal(Lipgloss::CENTER, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nbX1\nc 2"
+    }
+  },
+  "layout.join_v_const_center": {
+    "code": "Lipgloss.join_vertical(Lipgloss::CENTER, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n  X \n 12 \n1234"
+    }
+  },
+  "layout.join_h_over": {
+    "code": "Lipgloss.join_horizontal(1.5, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "a  \nb 1\ncX2"
+    }
+  },
+  "layout.join_v_over": {
+    "code": "Lipgloss.join_vertical(1.5, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": " abc\n   X\n  12\n1234"
+    }
+  },
+  "layout.join_h_under": {
+    "code": "Lipgloss.join_horizontal(-0.5, \"a\\nb\\nc\", \"X\", \"1\\n2\")",
+    "results": {
+      "*": "aX1\nb 2\nc  "
+    }
+  },
+  "layout.join_v_under": {
+    "code": "Lipgloss.join_vertical(-0.5, \"abc\", \"X\", \"12\\n1234\")",
+    "results": {
+      "*": "abc \nX   \n12  \n1234"
+    }
+  },
+  "layout.join_h_single": {
+    "code": "Lipgloss.join_horizontal(:top, \"a\\nb\")",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "layout.join_h_none": {
+    "code": "Lipgloss.join_horizontal(:top)",
+    "results": {
+      "*": ""
+    }
+  },
+  "layout.join_h_empty_strings": {
+    "code": "Lipgloss.join_horizontal(:top, \"\", \"\")",
+    "results": {
+      "*": ""
+    }
+  },
+  "layout.join_h_uneven_width": {
+    "code": "Lipgloss.join_horizontal(:top, \"a\\nbbbb\", \"cc\\nd\\ne\")",
+    "results": {
+      "*": "a   cc\nbbbbd \n    e "
+    }
+  },
+  "layout.join_h_styled": {
+    "code": "a = Lipgloss::Style.new.border(:normal).render(\"A\"); b = Lipgloss::Style.new.border(:rounded).padding(1).render(\"B\"); Lipgloss.join_horizontal(:center, a, b)",
+    "results": {
+      "*": "   ╭───╮\n┌─┐│   │\n│A││ B │\n└─┘│   │\n   ╰───╯"
+    }
+  },
+  "layout.join_h_ansi": {
+    "code": "Lipgloss.join_horizontal(:bottom, \"\\e[31mred\\e[0m\\nx\", \"\\e[1mb\\e[0m\")",
+    "results": {
+      "*": "\u001b[31mred\u001b[0m \nx  \u001b[1mb\u001b[0m"
+    }
+  },
+  "layout.join_h_wide": {
+    "code": "Lipgloss.join_horizontal(:top, \"日本\\n語\", \"ab\\ncd\")",
+    "results": {
+      "*": "日本ab\n語  cd"
+    }
+  },
+  "layout.join_h_trailing_newline": {
+    "code": "Lipgloss.join_horizontal(:top, \"a\\n\", \"b\")",
+    "results": {
+      "*": "ab\n  "
+    }
+  },
+  "layout.join_h_non_string": {
+    "code": "Lipgloss.join_horizontal(:top, \"a\", 1)",
+    "results": {
+      "*": ""
+    }
+  },
+  "layout.join_h_nil": {
+    "code": "Lipgloss.join_horizontal(:top, nil)",
+    "results": {
+      "*": ""
+    }
+  },
+  "layout.join_h_bad_position": {
+    "code": "Lipgloss.join_horizontal(:middle, \"a\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: :middle"
+      }
+    }
+  },
+  "layout.join_h_array_position": {
+    "code": "Lipgloss.join_horizontal([], \"a\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Position must be a Symbol or Numeric, got Array"
+      }
+    }
+  },
+  "layout.join_h_array_arg": {
+    "code": "Lipgloss.join_horizontal(:top, [\"a\", \"b\"])",
+    "results": {
+      "*": ""
+    }
+  },
+  "layout.join_h_private": {
+    "code": "Lipgloss._join_horizontal(0.5, [\"a\\nb\", \"c\"])",
+    "results": {
+      "*": "a \nbc"
+    }
+  },
+  "layout.join_h_private_not_array": {
+    "code": "Lipgloss._join_horizontal(0.5, \"a\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Array)"
+      }
+    }
+  },
+  "layout.join_v_single": {
+    "code": "Lipgloss.join_vertical(:left, \"abc\")",
+    "results": {
+      "*": "abc"
+    }
+  },
+  "layout.join_v_none": {
+    "code": "Lipgloss.join_vertical(:left)",
+    "results": {
+      "*": ""
+    }
+  },
+  "layout.join_v_empty": {
+    "code": "Lipgloss.join_vertical(:center, \"\", \"abc\", \"\")",
+    "results": {
+      "*": "   \nabc\n   "
+    }
+  },
+  "layout.join_v_styled": {
+    "code": "a = Lipgloss::Style.new.border(:normal).render(\"Top\"); b = Lipgloss::Style.new.border(:thick).render(\"Bottom row\"); Lipgloss.join_vertical(:center, a, b)",
+    "results": {
+      "*": "    ┌───┐   \n    │Top│   \n    └───┘   \n┏━━━━━━━━━━┓\n┃Bottom row┃\n┗━━━━━━━━━━┛"
+    }
+  },
+  "layout.join_v_ansi": {
+    "code": "Lipgloss.join_vertical(:right, \"\\e[31mred\\e[0m\", \"longer line\")",
+    "results": {
+      "*": "        \u001b[31mred\u001b[0m\nlonger line"
+    }
+  },
+  "layout.join_v_wide": {
+    "code": "Lipgloss.join_vertical(:right, \"日本語\", \"a\")",
+    "results": {
+      "*": "日本語\n     a"
+    }
+  },
+  "layout.join_v_multiline_blocks": {
+    "code": "Lipgloss.join_vertical(:center, \"a\\nbbb\", \"ccccc\\nd\")",
+    "results": {
+      "*": "  a  \n bbb \nccccc\n  d  "
+    }
+  },
+  "layout.join_v_bad_position": {
+    "code": "Lipgloss.join_vertical(Object.new, \"a\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Position must be a Symbol or Numeric, got Object"
+      }
+    }
+  },
+  "layout.join_v_non_string": {
+    "code": "Lipgloss.join_vertical(:top, \"a\", :b)",
+    "results": {
+      "*": "a\nb"
+    }
+  },
+  "layout.join_nested": {
+    "code": "Lipgloss.join_vertical(:left, Lipgloss.join_horizontal(:top, \"a\", \"b\\nc\"), \"dddd\")",
+    "results": {
+      "*": "ab  \n c  \ndddd"
+    }
+  },
+  "layout.place_left_top": {
+    "code": "Lipgloss.place(7, 5, :left, :top, \"ab\\nc\")",
+    "results": {
+      "*": "ab     \nc      \n       \n       \n       "
+    }
+  },
+  "layout.place_left_center": {
+    "code": "Lipgloss.place(7, 5, :left, :center, \"ab\\nc\")",
+    "results": {
+      "*": "       \nab     \nc      \n       \n       "
+    }
+  },
+  "layout.place_left_bottom": {
+    "code": "Lipgloss.place(7, 5, :left, :bottom, \"ab\\nc\")",
+    "results": {
+      "*": "       \n       \n       \nab     \nc      "
+    }
+  },
+  "layout.place_center_top": {
+    "code": "Lipgloss.place(7, 5, :center, :top, \"ab\\nc\")",
+    "results": {
+      "*": "  ab   \n   c   \n       \n       \n       "
+    }
+  },
+  "layout.place_center_center": {
+    "code": "Lipgloss.place(7, 5, :center, :center, \"ab\\nc\")",
+    "results": {
+      "*": "       \n  ab   \n   c   \n       \n       "
+    }
+  },
+  "layout.place_center_bottom": {
+    "code": "Lipgloss.place(7, 5, :center, :bottom, \"ab\\nc\")",
+    "results": {
+      "*": "       \n       \n       \n  ab   \n   c   "
+    }
+  },
+  "layout.place_right_top": {
+    "code": "Lipgloss.place(7, 5, :right, :top, \"ab\\nc\")",
+    "results": {
+      "*": "     ab\n      c\n       \n       \n       "
+    }
+  },
+  "layout.place_right_center": {
+    "code": "Lipgloss.place(7, 5, :right, :center, \"ab\\nc\")",
+    "results": {
+      "*": "       \n     ab\n      c\n       \n       "
+    }
+  },
+  "layout.place_right_bottom": {
+    "code": "Lipgloss.place(7, 5, :right, :bottom, \"ab\\nc\")",
+    "results": {
+      "*": "       \n       \n       \n     ab\n      c"
+    }
+  },
+  "layout.place_float": {
+    "code": "Lipgloss.place(10, 6, 0.25, 0.75, \"x\")",
+    "results": {
+      "*": "          \n       x  \n          \n          \n          \n          "
+    }
+  },
+  "layout.place_smaller": {
+    "code": "Lipgloss.place(2, 1, :center, :center, \"hello\\nworld\")",
+    "results": {
+      "*": "hello\nworld"
+    }
+  },
+  "layout.place_zero": {
+    "code": "Lipgloss.place(0, 0, :center, :center, \"hi\")",
+    "results": {
+      "*": "hi"
+    }
+  },
+  "layout.place_negative": {
+    "code": "Lipgloss.place(-3, -3, :center, :center, \"hi\")",
+    "results": {
+      "*": "hi"
+    }
+  },
+  "layout.place_empty": {
+    "code": "Lipgloss.place(4, 2, :center, :center, \"\")",
+    "results": {
+      "*": "    \n    "
+    }
+  },
+  "layout.place_wide": {
+    "code": "Lipgloss.place(8, 3, :center, :center, \"日本\")",
+    "results": {
+      "*": "        \n  日本  \n        "
+    }
+  },
+  "layout.place_styled": {
+    "code": "Lipgloss.place(12, 5, :center, :center, Lipgloss::Style.new.border(:rounded).render(\"hi\"))",
+    "results": {
+      "*": "            \n    ╭──╮    \n    │hi│    \n    ╰──╯    \n            "
+    }
+  },
+  "layout.place_ansi": {
+    "code": "Lipgloss.place(6, 3, :right, :bottom, \"\\e[31mab\\e[0m\")",
+    "results": {
+      "*": "      \n      \n    \u001b[31mab\u001b[0m"
+    }
+  },
+  "layout.place_ws_chars": {
+    "code": "Lipgloss.place(7, 3, :center, :center, \"x\", whitespace_chars: \".\")",
+    "results": {
+      "*": ".......\n...x...\n......."
+    }
+  },
+  "layout.place_ws_chars_multi": {
+    "code": "Lipgloss.place(9, 3, :center, :center, \"x\", whitespace_chars: \"ab\")",
+    "results": {
+      "*": "ababababa\nababxabab\nababababa"
+    }
+  },
+  "layout.place_ws_chars_wide": {
+    "code": "Lipgloss.place(9, 3, :center, :center, \"x\", whitespace_chars: \"日\")",
+    "results": {
+      "*": "日日日日日\n日日x日日\n日日日日日"
+    }
+  },
+  "layout.place_ws_fg": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", whitespace_chars: \"-\", whitespace_foreground: \"#ff0000\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0m-----\u001b[0m\n\u001b[38;2;255;0;0m--\u001b[0mx\u001b[38;2;255;0;0m--\u001b[0m\n\u001b[38;2;255;0;0m-----\u001b[0m",
+      "ansi256": "\u001b[38;5;196m-----\u001b[0m\n\u001b[38;5;196m--\u001b[0mx\u001b[38;5;196m--\u001b[0m\n\u001b[38;5;196m-----\u001b[0m",
+      "ansi": "\u001b[91m-----\u001b[0m\n\u001b[91m--\u001b[0mx\u001b[91m--\u001b[0m\n\u001b[91m-----\u001b[0m",
+      "ascii": "-----\n--x--\n-----",
+      "true_color_light": "\u001b[38;2;255;0;0m-----\u001b[0m\n\u001b[38;2;255;0;0m--\u001b[0mx\u001b[38;2;255;0;0m--\u001b[0m\n\u001b[38;2;255;0;0m-----\u001b[0m"
+    }
+  },
+  "layout.place_ws_fg_ansi": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", whitespace_chars: \"-\", whitespace_foreground: \"4\")",
+    "results": {
+      "true_color": "\u001b[34m-----\u001b[0m\n\u001b[34m--\u001b[0mx\u001b[34m--\u001b[0m\n\u001b[34m-----\u001b[0m",
+      "ansi256": "\u001b[34m-----\u001b[0m\n\u001b[34m--\u001b[0mx\u001b[34m--\u001b[0m\n\u001b[34m-----\u001b[0m",
+      "ansi": "\u001b[34m-----\u001b[0m\n\u001b[34m--\u001b[0mx\u001b[34m--\u001b[0m\n\u001b[34m-----\u001b[0m",
+      "ascii": "-----\n--x--\n-----",
+      "true_color_light": "\u001b[34m-----\u001b[0m\n\u001b[34m--\u001b[0mx\u001b[34m--\u001b[0m\n\u001b[34m-----\u001b[0m"
+    }
+  },
+  "layout.place_ws_fg_only": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", whitespace_foreground: \"#ff0000\")",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0m     \u001b[0m\n\u001b[38;2;255;0;0m  \u001b[0mx\u001b[38;2;255;0;0m  \u001b[0m\n\u001b[38;2;255;0;0m     \u001b[0m",
+      "ansi256": "\u001b[38;5;196m     \u001b[0m\n\u001b[38;5;196m  \u001b[0mx\u001b[38;5;196m  \u001b[0m\n\u001b[38;5;196m     \u001b[0m",
+      "ansi": "\u001b[91m     \u001b[0m\n\u001b[91m  \u001b[0mx\u001b[91m  \u001b[0m\n\u001b[91m     \u001b[0m",
+      "ascii": "     \n  x  \n     ",
+      "true_color_light": "\u001b[38;2;255;0;0m     \u001b[0m\n\u001b[38;2;255;0;0m  \u001b[0mx\u001b[38;2;255;0;0m  \u001b[0m\n\u001b[38;2;255;0;0m     \u001b[0m"
+    }
+  },
+  "layout.place_ws_fg_adaptive": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", whitespace_chars: \"~\", whitespace_foreground: Lipgloss::AdaptiveColor.new(light: \"#ff0000\", dark: \"#00ff00\"))",
+    "results": {
+      "true_color": "\u001b[38;2;0;255;0m~~~~~\u001b[0m\n\u001b[38;2;0;255;0m~~\u001b[0mx\u001b[38;2;0;255;0m~~\u001b[0m\n\u001b[38;2;0;255;0m~~~~~\u001b[0m",
+      "ansi256": "\u001b[38;5;46m~~~~~\u001b[0m\n\u001b[38;5;46m~~\u001b[0mx\u001b[38;5;46m~~\u001b[0m\n\u001b[38;5;46m~~~~~\u001b[0m",
+      "ansi": "\u001b[92m~~~~~\u001b[0m\n\u001b[92m~~\u001b[0mx\u001b[92m~~\u001b[0m\n\u001b[92m~~~~~\u001b[0m",
+      "ascii": "~~~~~\n~~x~~\n~~~~~",
+      "true_color_light": "\u001b[38;2;255;0;0m~~~~~\u001b[0m\n\u001b[38;2;255;0;0m~~\u001b[0mx\u001b[38;2;255;0;0m~~\u001b[0m\n\u001b[38;2;255;0;0m~~~~~\u001b[0m"
+    }
+  },
+  "layout.place_ws_empty_opts": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", **{})",
+    "results": {
+      "*": "     \n  x  \n     "
+    }
+  },
+  "layout.place_ws_unknown_opt": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", foo: 1)",
+    "results": {
+      "*": "     \n  x  \n     "
+    }
+  },
+  "layout.place_ws_bad_chars": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", whitespace_chars: 1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of Integer into String"
+      }
+    }
+  },
+  "layout.place_ws_bad_fg": {
+    "code": "Lipgloss.place(5, 3, :center, :center, \"x\", whitespace_foreground: 1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of Integer into String"
+      }
+    }
+  },
+  "layout.place_non_string": {
+    "code": "Lipgloss.place(5, 3, :center, :center, 5)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "layout.place_string_width": {
+    "code": "Lipgloss.place(\"5\", 3, :center, :center, \"x\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "no implicit conversion of String into Integer"
+      }
+    }
+  },
+  "layout.place_bad_position": {
+    "code": "Lipgloss.place(5, 3, :middle, :center, \"x\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: :middle"
+      }
+    }
+  },
+  "layout.place_wrong_arity": {
+    "code": "Lipgloss.place(5, 3, :center, \"x\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "wrong number of arguments (given 4, expected 5)"
+      }
+    }
+  },
+  "layout.place_private": {
+    "code": "Lipgloss._place(5, 3, 0.5, 0.5, \"x\")",
+    "results": {
+      "*": "     \n  x  \n     "
+    }
+  },
+  "layout.place_h_left": {
+    "code": "Lipgloss.place_horizontal(8, :left, \"ab\\ncde\")",
+    "results": {
+      "*": "ab      \ncde     "
+    }
+  },
+  "layout.place_h_center": {
+    "code": "Lipgloss.place_horizontal(8, :center, \"ab\\ncde\")",
+    "results": {
+      "*": "   ab   \n  cde   "
+    }
+  },
+  "layout.place_h_right": {
+    "code": "Lipgloss.place_horizontal(8, :right, \"ab\\ncde\")",
+    "results": {
+      "*": "      ab\n     cde"
+    }
+  },
+  "layout.place_h_float": {
+    "code": "Lipgloss.place_horizontal(10, 0.3, \"ab\")",
+    "results": {
+      "*": "      ab  "
+    }
+  },
+  "layout.place_h_smaller": {
+    "code": "Lipgloss.place_horizontal(2, :center, \"abcdef\")",
+    "results": {
+      "*": "abcdef"
+    }
+  },
+  "layout.place_h_wide": {
+    "code": "Lipgloss.place_horizontal(7, :right, \"日本\")",
+    "results": {
+      "*": "   日本"
+    }
+  },
+  "layout.place_h_ansi": {
+    "code": "Lipgloss.place_horizontal(7, :center, \"\\e[1mab\\e[0m\")",
+    "results": {
+      "*": "  \u001b[1mab\u001b[0m   "
+    }
+  },
+  "layout.place_h_empty": {
+    "code": "Lipgloss.place_horizontal(3, :left, \"\")",
+    "results": {
+      "*": "   "
+    }
+  },
+  "layout.place_h_non_string": {
+    "code": "Lipgloss.place_horizontal(3, :left, nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected String)"
+      }
+    }
+  },
+  "layout.place_h_bad_position": {
+    "code": "Lipgloss.place_horizontal(3, \"nowhere\", \"a\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: \"nowhere\""
+      }
+    }
+  },
+  "layout.place_v_top": {
+    "code": "Lipgloss.place_vertical(5, :top, \"ab\\nc\")",
+    "results": {
+      "*": "ab\nc\n  \n  \n  "
+    }
+  },
+  "layout.place_v_center": {
+    "code": "Lipgloss.place_vertical(5, :center, \"ab\\nc\")",
+    "results": {
+      "*": "  \nab\nc\n  \n  "
+    }
+  },
+  "layout.place_v_bottom": {
+    "code": "Lipgloss.place_vertical(5, :bottom, \"ab\\nc\")",
+    "results": {
+      "*": "  \n  \n  \nab\nc"
+    }
+  },
+  "layout.place_v_float": {
+    "code": "Lipgloss.place_vertical(6, 0.6, \"x\")",
+    "results": {
+      "*": " \n \nx\n \n \n "
+    }
+  },
+  "layout.place_v_smaller": {
+    "code": "Lipgloss.place_vertical(1, :bottom, \"a\\nb\\nc\")",
+    "results": {
+      "*": "a\nb\nc"
+    }
+  },
+  "layout.place_v_empty": {
+    "code": "Lipgloss.place_vertical(3, :top, \"\")",
+    "results": {
+      "*": "\n\n"
+    }
+  },
+  "layout.place_v_non_string": {
+    "code": "Lipgloss.place_vertical(3, :top, 1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "layout.width_ascii": {
+    "code": "Lipgloss.width(\"hello\")",
+    "results": {
+      "*": 5
+    }
+  },
+  "layout.height_ascii": {
+    "code": "Lipgloss.height(\"hello\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_ascii": {
+    "code": "Lipgloss.size(\"hello\")",
+    "results": {
+      "*": [
+        5,
+        1
+      ]
+    }
+  },
+  "layout.width_empty": {
+    "code": "Lipgloss.width(\"\")",
+    "results": {
+      "*": 0
+    }
+  },
+  "layout.height_empty": {
+    "code": "Lipgloss.height(\"\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_empty": {
+    "code": "Lipgloss.size(\"\")",
+    "results": {
+      "*": [
+        0,
+        1
+      ]
+    }
+  },
+  "layout.width_multiline": {
+    "code": "Lipgloss.width(\"ab\\ncdef\\ng\")",
+    "results": {
+      "*": 4
+    }
+  },
+  "layout.height_multiline": {
+    "code": "Lipgloss.height(\"ab\\ncdef\\ng\")",
+    "results": {
+      "*": 3
+    }
+  },
+  "layout.size_multiline": {
+    "code": "Lipgloss.size(\"ab\\ncdef\\ng\")",
+    "results": {
+      "*": [
+        4,
+        3
+      ]
+    }
+  },
+  "layout.width_ansi": {
+    "code": "Lipgloss.width(\"\\e[31mred\\e[0m\")",
+    "results": {
+      "*": 3
+    }
+  },
+  "layout.height_ansi": {
+    "code": "Lipgloss.height(\"\\e[31mred\\e[0m\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_ansi": {
+    "code": "Lipgloss.size(\"\\e[31mred\\e[0m\")",
+    "results": {
+      "*": [
+        3,
+        1
+      ]
+    }
+  },
+  "layout.width_ansi_256": {
+    "code": "Lipgloss.width(\"\\e[38;5;196mx\\e[0m\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.height_ansi_256": {
+    "code": "Lipgloss.height(\"\\e[38;5;196mx\\e[0m\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_ansi_256": {
+    "code": "Lipgloss.size(\"\\e[38;5;196mx\\e[0m\")",
+    "results": {
+      "*": [
+        1,
+        1
+      ]
+    }
+  },
+  "layout.width_osc_link": {
+    "code": "Lipgloss.width(\"\\e]8;;http://x\\alink\\e]8;;\\a\")",
+    "results": {
+      "*": 4
+    }
+  },
+  "layout.height_osc_link": {
+    "code": "Lipgloss.height(\"\\e]8;;http://x\\alink\\e]8;;\\a\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_osc_link": {
+    "code": "Lipgloss.size(\"\\e]8;;http://x\\alink\\e]8;;\\a\")",
+    "results": {
+      "*": [
+        4,
+        1
+      ]
+    }
+  },
+  "layout.width_cjk": {
+    "code": "Lipgloss.width(\"日本語\")",
+    "results": {
+      "*": 6
+    }
+  },
+  "layout.height_cjk": {
+    "code": "Lipgloss.height(\"日本語\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_cjk": {
+    "code": "Lipgloss.size(\"日本語\")",
+    "results": {
+      "*": [
+        6,
+        1
+      ]
+    }
+  },
+  "layout.width_emoji": {
+    "code": "Lipgloss.width(\"😀\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_emoji": {
+    "code": "Lipgloss.height(\"😀\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_emoji": {
+    "code": "Lipgloss.size(\"😀\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_emoji_zwj": {
+    "code": "Lipgloss.width(\"👨‍👩‍👧\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_emoji_zwj": {
+    "code": "Lipgloss.height(\"👨‍👩‍👧\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_emoji_zwj": {
+    "code": "Lipgloss.size(\"👨‍👩‍👧\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_flag": {
+    "code": "Lipgloss.width(\"🇯🇵\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_flag": {
+    "code": "Lipgloss.height(\"🇯🇵\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_flag": {
+    "code": "Lipgloss.size(\"🇯🇵\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_skin_tone": {
+    "code": "Lipgloss.width(\"👍🏽\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_skin_tone": {
+    "code": "Lipgloss.height(\"👍🏽\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_skin_tone": {
+    "code": "Lipgloss.size(\"👍🏽\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_combining": {
+    "code": "Lipgloss.width(\"é\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.height_combining": {
+    "code": "Lipgloss.height(\"é\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_combining": {
+    "code": "Lipgloss.size(\"é\")",
+    "results": {
+      "*": [
+        1,
+        1
+      ]
+    }
+  },
+  "layout.width_zero_width": {
+    "code": "Lipgloss.width(\"a​b\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_zero_width": {
+    "code": "Lipgloss.height(\"a​b\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_zero_width": {
+    "code": "Lipgloss.size(\"a​b\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_tab": {
+    "code": "Lipgloss.width(\"a\\tb\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_tab": {
+    "code": "Lipgloss.height(\"a\\tb\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_tab": {
+    "code": "Lipgloss.size(\"a\\tb\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_trailing_newline": {
+    "code": "Lipgloss.width(\"a\\n\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.height_trailing_newline": {
+    "code": "Lipgloss.height(\"a\\n\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.size_trailing_newline": {
+    "code": "Lipgloss.size(\"a\\n\")",
+    "results": {
+      "*": [
+        1,
+        2
+      ]
+    }
+  },
+  "layout.width_only_newlines": {
+    "code": "Lipgloss.width(\"\\n\\n\")",
+    "results": {
+      "*": 0
+    }
+  },
+  "layout.height_only_newlines": {
+    "code": "Lipgloss.height(\"\\n\\n\")",
+    "results": {
+      "*": 3
+    }
+  },
+  "layout.size_only_newlines": {
+    "code": "Lipgloss.size(\"\\n\\n\")",
+    "results": {
+      "*": [
+        0,
+        3
+      ]
+    }
+  },
+  "layout.width_crlf": {
+    "code": "Lipgloss.width(\"ab\\r\\ncd\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_crlf": {
+    "code": "Lipgloss.height(\"ab\\r\\ncd\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.size_crlf": {
+    "code": "Lipgloss.size(\"ab\\r\\ncd\")",
+    "results": {
+      "*": [
+        2,
+        2
+      ]
+    }
+  },
+  "layout.width_fullwidth": {
+    "code": "Lipgloss.width(\"ＡＢ\")",
+    "results": {
+      "*": 4
+    }
+  },
+  "layout.height_fullwidth": {
+    "code": "Lipgloss.height(\"ＡＢ\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_fullwidth": {
+    "code": "Lipgloss.size(\"ＡＢ\")",
+    "results": {
+      "*": [
+        4,
+        1
+      ]
+    }
+  },
+  "layout.width_box_drawing": {
+    "code": "Lipgloss.width(\"┌─┐\")",
+    "results": {
+      "*": 3
+    }
+  },
+  "layout.height_box_drawing": {
+    "code": "Lipgloss.height(\"┌─┐\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_box_drawing": {
+    "code": "Lipgloss.size(\"┌─┐\")",
+    "results": {
+      "*": [
+        3,
+        1
+      ]
+    }
+  },
+  "layout.width_mixed": {
+    "code": "Lipgloss.width(\"a日\\n😀bc\")",
+    "results": {
+      "*": 4
+    }
+  },
+  "layout.height_mixed": {
+    "code": "Lipgloss.height(\"a日\\n😀bc\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.size_mixed": {
+    "code": "Lipgloss.size(\"a日\\n😀bc\")",
+    "results": {
+      "*": [
+        4,
+        2
+      ]
+    }
+  },
+  "layout.width_styled": {
+    "code": "Lipgloss.width(Lipgloss::Style.new.border(:normal).padding(1).render(\"hi\"))",
+    "results": {
+      "*": 6
+    }
+  },
+  "layout.height_styled": {
+    "code": "Lipgloss.height(Lipgloss::Style.new.border(:normal).padding(1).render(\"hi\"))",
+    "results": {
+      "*": 5
+    }
+  },
+  "layout.size_styled": {
+    "code": "Lipgloss.size(Lipgloss::Style.new.border(:normal).padding(1).render(\"hi\"))",
+    "results": {
+      "*": [
+        6,
+        5
+      ]
+    }
+  },
+  "layout.width_control": {
+    "code": "Lipgloss.width(\"a\\x01b\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_control": {
+    "code": "Lipgloss.height(\"a\\x01b\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_control": {
+    "code": "Lipgloss.size(\"a\\x01b\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_variation_selector": {
+    "code": "Lipgloss.width(\"☀️\")",
+    "results": {
+      "*": 2
+    }
+  },
+  "layout.height_variation_selector": {
+    "code": "Lipgloss.height(\"☀️\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_variation_selector": {
+    "code": "Lipgloss.size(\"☀️\")",
+    "results": {
+      "*": [
+        2,
+        1
+      ]
+    }
+  },
+  "layout.width_hangul": {
+    "code": "Lipgloss.width(\"한글\")",
+    "results": {
+      "*": 4
+    }
+  },
+  "layout.height_hangul": {
+    "code": "Lipgloss.height(\"한글\")",
+    "results": {
+      "*": 1
+    }
+  },
+  "layout.size_hangul": {
+    "code": "Lipgloss.size(\"한글\")",
+    "results": {
+      "*": [
+        4,
+        1
+      ]
+    }
+  },
+  "layout.width_non_string": {
+    "code": "Lipgloss.width(5)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "layout.height_nil": {
+    "code": "Lipgloss.height(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected String)"
+      }
+    }
+  },
+  "layout.size_symbol": {
+    "code": "Lipgloss.size(:a)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Symbol (expected String)"
+      }
+    }
+  },
+  "layout.position_constants": {
+    "code": "[Lipgloss::TOP, Lipgloss::BOTTOM, Lipgloss::LEFT, Lipgloss::RIGHT, Lipgloss::CENTER]",
+    "results": {
+      "*": [
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.5
+      ]
+    }
+  },
+  "layout.position_module_constants": {
+    "code": "[Lipgloss::Position::TOP, Lipgloss::Position::BOTTOM, Lipgloss::Position::LEFT, Lipgloss::Position::RIGHT, Lipgloss::Position::CENTER]",
+    "results": {
+      "*": [
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.5
+      ]
+    }
+  },
+  "layout.position_symbols": {
+    "code": "Lipgloss::Position::SYMBOLS.transform_keys(&:to_s)",
+    "results": {
+      "*": {
+        "top": 0.0,
+        "bottom": 1.0,
+        "left": 0.0,
+        "right": 1.0,
+        "center": 0.5
+      }
+    }
+  },
+  "layout.position_resolve_symbol": {
+    "code": "Lipgloss::Position.resolve(:right)",
+    "results": {
+      "*": 1.0
+    }
+  },
+  "layout.position_resolve_string": {
+    "code": "Lipgloss::Position.resolve(\"center\")",
+    "results": {
+      "*": 0.5
+    }
+  },
+  "layout.position_resolve_integer": {
+    "code": "Lipgloss::Position.resolve(1)",
+    "results": {
+      "*": 1.0
+    }
+  },
+  "layout.position_resolve_rational": {
+    "code": "Lipgloss::Position.resolve(1r / 4)",
+    "results": {
+      "*": 0.25
+    }
+  },
+  "layout.position_resolve_unknown": {
+    "code": "Lipgloss::Position.resolve(:nope)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: :nope"
+      }
+    }
+  },
+  "layout.position_resolve_unknown_string": {
+    "code": "Lipgloss::Position.resolve(\"nope\")",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Unknown position: \"nope\""
+      }
+    }
+  },
+  "layout.position_resolve_nil": {
+    "code": "Lipgloss::Position.resolve(nil)",
+    "results": {
+      "*": {
+        "error": "ArgumentError",
+        "message": "Position must be a Symbol or Numeric, got NilClass"
+      }
+    }
+  }
+}

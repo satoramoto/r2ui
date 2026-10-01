@@ -1,0 +1,481 @@
+{
+  "list.basic": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").render",
+    "results": {
+      "*": "• Apple\n• Banana\n• Cherry"
+    }
+  },
+  "list.to_s": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").to_s",
+    "results": {
+      "*": "• Apple\n• Banana\n• Cherry"
+    }
+  },
+  "list.empty": {
+    "code": "Lipgloss::List.new.render",
+    "results": {
+      "*": ""
+    }
+  },
+  "list.single": {
+    "code": "Lipgloss::List.new(\"one\").render",
+    "results": {
+      "*": "• one"
+    }
+  },
+  "list.items": {
+    "code": "Lipgloss::List.new.items([\"a\", \"b\", \"c\"]).render",
+    "results": {
+      "*": "• a\n• b\n• c"
+    }
+  },
+  "list.items_append": {
+    "code": "Lipgloss::List.new(\"a\").items([\"b\", \"c\"]).render",
+    "results": {
+      "*": "• a\n• b\n• c"
+    }
+  },
+  "list.items_empty": {
+    "code": "Lipgloss::List.new(\"a\").items([]).render",
+    "results": {
+      "*": "• a"
+    }
+  },
+  "list.item": {
+    "code": "Lipgloss::List.new.item(\"a\").item(\"b\").render",
+    "results": {
+      "*": "• a\n• b"
+    }
+  },
+  "list.item_after_new": {
+    "code": "Lipgloss::List.new(\"a\").item(\"b\").render",
+    "results": {
+      "*": "• a\n• b"
+    }
+  },
+  "list.immutable": {
+    "code": "l = Lipgloss::List.new(\"a\"); l.item(\"b\"); l.render",
+    "results": {
+      "*": "• a\n• b"
+    }
+  },
+  "list.multiline_items": {
+    "code": "Lipgloss::List.new(\"line1\\nline2\", \"single\").render",
+    "results": {
+      "*": "• line1\n  line2\n• single"
+    }
+  },
+  "list.wide_items": {
+    "code": "Lipgloss::List.new(\"日本語\", \"😀 emoji\", \"한글\").render",
+    "results": {
+      "*": "• 日本語\n• 😀 emoji\n• 한글"
+    }
+  },
+  "list.ansi_items": {
+    "code": "Lipgloss::List.new(\"\\e[31mred\\e[0m\", \"plain\").render",
+    "results": {
+      "*": "• \u001b[31mred\u001b[0m\n• plain"
+    }
+  },
+  "list.styled_items": {
+    "code": "Lipgloss::List.new(Lipgloss::Style.new.bold(true).render(\"bold\"), Lipgloss::Style.new.border(:normal).render(\"box\")).render",
+    "results": {
+      "true_color": "• \u001b[1mbold\u001b[0m\n• ┌───┐\n  │box│\n  └───┘",
+      "ansi256": "• \u001b[1mbold\u001b[0m\n• ┌───┐\n  │box│\n  └───┘",
+      "ansi": "• \u001b[1mbold\u001b[0m\n• ┌───┐\n  │box│\n  └───┘",
+      "ascii": "• bold\n• ┌───┐\n  │box│\n  └───┘",
+      "true_color_light": "• \u001b[1mbold\u001b[0m\n• ┌───┐\n  │box│\n  └───┘"
+    }
+  },
+  "list.empty_string_item": {
+    "code": "Lipgloss::List.new(\"\", \"b\").render",
+    "results": {
+      "*": "• \n• b"
+    }
+  },
+  "list.non_string_new": {
+    "code": "Lipgloss::List.new(\"a\", 1).render",
+    "results": {
+      "*": ""
+    }
+  },
+  "list.non_string_item": {
+    "code": "Lipgloss::List.new.item(1)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type Integer (expected String)"
+      }
+    }
+  },
+  "list.nil_item": {
+    "code": "Lipgloss::List.new.item(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected String)"
+      }
+    }
+  },
+  "list.items_not_array": {
+    "code": "Lipgloss::List.new.items(\"a\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Array)"
+      }
+    }
+  },
+  "list.items_nested_array": {
+    "code": "Lipgloss::List.new(\"x\").items([[\"a\"]]).render",
+    "results": {
+      "*": "• x"
+    }
+  },
+  "list.items_with_list": {
+    "code": "Lipgloss::List.new.items([Lipgloss::List.new(\"a\")]).render",
+    "results": {
+      "*": "• • a"
+    }
+  },
+  "list.class_of_chain": {
+    "code": "Lipgloss::List.new.item(\"a\").class.name",
+    "results": {
+      "*": "Lipgloss::List"
+    }
+  },
+  "list.enum_bullet": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:bullet).render",
+    "results": {
+      "*": "• Apple\n• Banana\n• Cherry"
+    }
+  },
+  "list.enum_bullet_many": {
+    "code": "Lipgloss::List.new.items((1..12).map { |i| \"item #{i}\" }).enumerator(:bullet).render",
+    "results": {
+      "*": "• item 1\n• item 2\n• item 3\n• item 4\n• item 5\n• item 6\n• item 7\n• item 8\n• item 9\n• item 10\n• item 11\n• item 12"
+    }
+  },
+  "list.enum_bullet_nested": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").item(Lipgloss::List.new(\"x\", \"y\").enumerator(:bullet)).item(\"c\").enumerator(:bullet).render",
+    "results": {
+      "*": "• a\n• b\n  • x\n  • y\n• c"
+    }
+  },
+  "list.enum_bullet_multiline": {
+    "code": "Lipgloss::List.new(\"one\\ntwo\", \"three\").enumerator(:bullet).render",
+    "results": {
+      "*": "• one\n  two\n• three"
+    }
+  },
+  "list.enum_arabic": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:arabic).render",
+    "results": {
+      "*": "1. Apple\n2. Banana\n3. Cherry"
+    }
+  },
+  "list.enum_arabic_many": {
+    "code": "Lipgloss::List.new.items((1..12).map { |i| \"item #{i}\" }).enumerator(:arabic).render",
+    "results": {
+      "*": " 1. item 1\n 2. item 2\n 3. item 3\n 4. item 4\n 5. item 5\n 6. item 6\n 7. item 7\n 8. item 8\n 9. item 9\n10. item 10\n11. item 11\n12. item 12"
+    }
+  },
+  "list.enum_arabic_nested": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").item(Lipgloss::List.new(\"x\", \"y\").enumerator(:arabic)).item(\"c\").enumerator(:arabic).render",
+    "results": {
+      "*": "1. a\n2. b\n  1. x\n  2. y\n3. c"
+    }
+  },
+  "list.enum_arabic_multiline": {
+    "code": "Lipgloss::List.new(\"one\\ntwo\", \"three\").enumerator(:arabic).render",
+    "results": {
+      "*": "1. one\n   two\n2. three"
+    }
+  },
+  "list.enum_alphabet": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:alphabet).render",
+    "results": {
+      "*": "A. Apple\nB. Banana\nC. Cherry"
+    }
+  },
+  "list.enum_alphabet_many": {
+    "code": "Lipgloss::List.new.items((1..12).map { |i| \"item #{i}\" }).enumerator(:alphabet).render",
+    "results": {
+      "*": "A. item 1\nB. item 2\nC. item 3\nD. item 4\nE. item 5\nF. item 6\nG. item 7\nH. item 8\nI. item 9\nJ. item 10\nK. item 11\nL. item 12"
+    }
+  },
+  "list.enum_alphabet_nested": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").item(Lipgloss::List.new(\"x\", \"y\").enumerator(:alphabet)).item(\"c\").enumerator(:alphabet).render",
+    "results": {
+      "*": "A. a\nB. b\n  A. x\n  B. y\nC. c"
+    }
+  },
+  "list.enum_alphabet_multiline": {
+    "code": "Lipgloss::List.new(\"one\\ntwo\", \"three\").enumerator(:alphabet).render",
+    "results": {
+      "*": "A. one\n   two\nB. three"
+    }
+  },
+  "list.enum_roman": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:roman).render",
+    "results": {
+      "*": "  I. Apple\n II. Banana\nIII. Cherry"
+    }
+  },
+  "list.enum_roman_many": {
+    "code": "Lipgloss::List.new.items((1..12).map { |i| \"item #{i}\" }).enumerator(:roman).render",
+    "results": {
+      "*": "   I. item 1\n  II. item 2\n III. item 3\n  IV. item 4\n   V. item 5\n  VI. item 6\n VII. item 7\nVIII. item 8\n  IX. item 9\n   X. item 10\n  XI. item 11\n XII. item 12"
+    }
+  },
+  "list.enum_roman_nested": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").item(Lipgloss::List.new(\"x\", \"y\").enumerator(:roman)).item(\"c\").enumerator(:roman).render",
+    "results": {
+      "*": "  I. a\n II. b\n   I. x\n  II. y\nIII. c"
+    }
+  },
+  "list.enum_roman_multiline": {
+    "code": "Lipgloss::List.new(\"one\\ntwo\", \"three\").enumerator(:roman).render",
+    "results": {
+      "*": " I. one\n    two\nII. three"
+    }
+  },
+  "list.enum_dash": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:dash).render",
+    "results": {
+      "*": "- Apple\n- Banana\n- Cherry"
+    }
+  },
+  "list.enum_dash_many": {
+    "code": "Lipgloss::List.new.items((1..12).map { |i| \"item #{i}\" }).enumerator(:dash).render",
+    "results": {
+      "*": "- item 1\n- item 2\n- item 3\n- item 4\n- item 5\n- item 6\n- item 7\n- item 8\n- item 9\n- item 10\n- item 11\n- item 12"
+    }
+  },
+  "list.enum_dash_nested": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").item(Lipgloss::List.new(\"x\", \"y\").enumerator(:dash)).item(\"c\").enumerator(:dash).render",
+    "results": {
+      "*": "- a\n- b\n  - x\n  - y\n- c"
+    }
+  },
+  "list.enum_dash_multiline": {
+    "code": "Lipgloss::List.new(\"one\\ntwo\", \"three\").enumerator(:dash).render",
+    "results": {
+      "*": "- one\n  two\n- three"
+    }
+  },
+  "list.enum_asterisk": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:asterisk).render",
+    "results": {
+      "*": "* Apple\n* Banana\n* Cherry"
+    }
+  },
+  "list.enum_asterisk_many": {
+    "code": "Lipgloss::List.new.items((1..12).map { |i| \"item #{i}\" }).enumerator(:asterisk).render",
+    "results": {
+      "*": "* item 1\n* item 2\n* item 3\n* item 4\n* item 5\n* item 6\n* item 7\n* item 8\n* item 9\n* item 10\n* item 11\n* item 12"
+    }
+  },
+  "list.enum_asterisk_nested": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").item(Lipgloss::List.new(\"x\", \"y\").enumerator(:asterisk)).item(\"c\").enumerator(:asterisk).render",
+    "results": {
+      "*": "* a\n* b\n  * x\n  * y\n* c"
+    }
+  },
+  "list.enum_asterisk_multiline": {
+    "code": "Lipgloss::List.new(\"one\\ntwo\", \"three\").enumerator(:asterisk).render",
+    "results": {
+      "*": "* one\n  two\n* three"
+    }
+  },
+  "list.enum_alphabet_27": {
+    "code": "Lipgloss::List.new.items((1..28).map(&:to_s)).enumerator(:alphabet).render",
+    "results": {
+      "*": " A. 1\n B. 2\n C. 3\n D. 4\n E. 5\n F. 6\n G. 7\n H. 8\n I. 9\n J. 10\n K. 11\n L. 12\n M. 13\n N. 14\n O. 15\n P. 16\n Q. 17\n R. 18\n S. 19\n T. 20\n U. 21\n V. 22\n W. 23\n X. 24\n Y. 25\n Z. 26\nAA. 27\nAB. 28"
+    }
+  },
+  "list.enum_roman_large": {
+    "code": "Lipgloss::List.new.items((1..40).map(&:to_s)).enumerator(:roman).render",
+    "results": {
+      "*": "      I. 1\n     II. 2\n    III. 3\n     IV. 4\n      V. 5\n     VI. 6\n    VII. 7\n   VIII. 8\n     IX. 9\n      X. 10\n     XI. 11\n    XII. 12\n   XIII. 13\n    XIV. 14\n     XV. 15\n    XVI. 16\n   XVII. 17\n  XVIII. 18\n    XIX. 19\n     XX. 20\n    XXI. 21\n   XXII. 22\n  XXIII. 23\n   XXIV. 24\n    XXV. 25\n   XXVI. 26\n  XXVII. 27\n XXVIII. 28\n   XXIX. 29\n    XXX. 30\n   XXXI. 31\n  XXXII. 32\n XXXIII. 33\n  XXXIV. 34\n   XXXV. 35\n  XXXVI. 36\n XXXVII. 37\nXXXVIII. 38\n  XXXIX. 39\n     XL. 40"
+    }
+  },
+  "list.enum_unknown": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:nope).render",
+    "results": {
+      "*": "• Apple\n• Banana\n• Cherry"
+    }
+  },
+  "list.enum_string": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(\"roman\").render",
+    "results": {
+      "*": "• Apple\n• Banana\n• Cherry"
+    }
+  },
+  "list.enum_nil": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(nil).render",
+    "results": {
+      "*": "• Apple\n• Banana\n• Cherry"
+    }
+  },
+  "list.enum_override": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:roman).enumerator(:dash).render",
+    "results": {
+      "*": "- Apple\n- Banana\n- Cherry"
+    }
+  },
+  "list.enumerator_style": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator_style(Lipgloss::Style.new.foreground(\"#ff0000\")).render",
+    "results": {
+      "true_color": "\u001b[38;2;255;0;0m•\u001b[0mApple\n\u001b[38;2;255;0;0m•\u001b[0mBanana\n\u001b[38;2;255;0;0m•\u001b[0mCherry",
+      "ansi256": "\u001b[38;5;196m•\u001b[0mApple\n\u001b[38;5;196m•\u001b[0mBanana\n\u001b[38;5;196m•\u001b[0mCherry",
+      "ansi": "\u001b[91m•\u001b[0mApple\n\u001b[91m•\u001b[0mBanana\n\u001b[91m•\u001b[0mCherry",
+      "ascii": "•Apple\n•Banana\n•Cherry",
+      "true_color_light": "\u001b[38;2;255;0;0m•\u001b[0mApple\n\u001b[38;2;255;0;0m•\u001b[0mBanana\n\u001b[38;2;255;0;0m•\u001b[0mCherry"
+    }
+  },
+  "list.enumerator_style_padding": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:arabic).enumerator_style(Lipgloss::Style.new.padding_right(2)).render",
+    "results": {
+      "*": "1.  Apple\n2.  Banana\n3.  Cherry"
+    }
+  },
+  "list.enumerator_style_width": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:roman).enumerator_style(Lipgloss::Style.new.width(6).align(:right)).render",
+    "results": {
+      "*": "    I.Apple\n   II.Banana\n  III.Cherry"
+    }
+  },
+  "list.enumerator_style_bold": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator_style(Lipgloss::Style.new.bold(true)).render",
+    "results": {
+      "true_color": "\u001b[1m•\u001b[0mApple\n\u001b[1m•\u001b[0mBanana\n\u001b[1m•\u001b[0mCherry",
+      "ansi256": "\u001b[1m•\u001b[0mApple\n\u001b[1m•\u001b[0mBanana\n\u001b[1m•\u001b[0mCherry",
+      "ansi": "\u001b[1m•\u001b[0mApple\n\u001b[1m•\u001b[0mBanana\n\u001b[1m•\u001b[0mCherry",
+      "ascii": "•Apple\n•Banana\n•Cherry",
+      "true_color_light": "\u001b[1m•\u001b[0mApple\n\u001b[1m•\u001b[0mBanana\n\u001b[1m•\u001b[0mCherry"
+    }
+  },
+  "list.item_style": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.foreground(\"#00ff00\")).render",
+    "results": {
+      "true_color": "• \u001b[38;2;0;255;0mApple\u001b[0m\n• \u001b[38;2;0;255;0mBanana\u001b[0m\n• \u001b[38;2;0;255;0mCherry\u001b[0m",
+      "ansi256": "• \u001b[38;5;46mApple\u001b[0m\n• \u001b[38;5;46mBanana\u001b[0m\n• \u001b[38;5;46mCherry\u001b[0m",
+      "ansi": "• \u001b[92mApple\u001b[0m\n• \u001b[92mBanana\u001b[0m\n• \u001b[92mCherry\u001b[0m",
+      "ascii": "• Apple\n• Banana\n• Cherry",
+      "true_color_light": "• \u001b[38;2;0;255;0mApple\u001b[0m\n• \u001b[38;2;0;255;0mBanana\u001b[0m\n• \u001b[38;2;0;255;0mCherry\u001b[0m"
+    }
+  },
+  "list.item_style_padding": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.padding_left(1)).render",
+    "results": {
+      "*": "•  Apple\n•  Banana\n•  Cherry"
+    }
+  },
+  "list.item_style_bg": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.background(\"4\").padding(0, 1)).render",
+    "results": {
+      "true_color": "• \u001b[44m \u001b[0m\u001b[44mApple\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mBanana\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mCherry\u001b[0m\u001b[44m \u001b[0m",
+      "ansi256": "• \u001b[44m \u001b[0m\u001b[44mApple\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mBanana\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mCherry\u001b[0m\u001b[44m \u001b[0m",
+      "ansi": "• \u001b[44m \u001b[0m\u001b[44mApple\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mBanana\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mCherry\u001b[0m\u001b[44m \u001b[0m",
+      "ascii": "•  Apple \n•  Banana \n•  Cherry ",
+      "true_color_light": "• \u001b[44m \u001b[0m\u001b[44mApple\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mBanana\u001b[0m\u001b[44m \u001b[0m\n• \u001b[44m \u001b[0m\u001b[44mCherry\u001b[0m\u001b[44m \u001b[0m"
+    }
+  },
+  "list.item_style_border": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.border(:rounded)).render",
+    "results": {
+      "*": "• ╭─────╮\n  │Apple│\n  ╰─────╯\n• ╭──────╮\n  │Banana│\n  ╰──────╯\n• ╭──────╮\n  │Cherry│\n  ╰──────╯"
+    }
+  },
+  "list.item_style_width": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").item_style(Lipgloss::Style.new.width(10)).render",
+    "results": {
+      "*": "• Apple     \n• Banana    \n• Cherry    "
+    }
+  },
+  "list.both_styles": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator(:arabic).enumerator_style(Lipgloss::Style.new.foreground(\"99\").margin_right(1)).item_style(Lipgloss::Style.new.foreground(\"212\")).render",
+    "results": {
+      "true_color": "\u001b[38;5;99m1.\u001b[0m \u001b[38;5;212mApple\u001b[0m\n\u001b[38;5;99m2.\u001b[0m \u001b[38;5;212mBanana\u001b[0m\n\u001b[38;5;99m3.\u001b[0m \u001b[38;5;212mCherry\u001b[0m",
+      "ansi256": "\u001b[38;5;99m1.\u001b[0m \u001b[38;5;212mApple\u001b[0m\n\u001b[38;5;99m2.\u001b[0m \u001b[38;5;212mBanana\u001b[0m\n\u001b[38;5;99m3.\u001b[0m \u001b[38;5;212mCherry\u001b[0m",
+      "ansi": "\u001b[94m1.\u001b[0m \u001b[95mApple\u001b[0m\n\u001b[94m2.\u001b[0m \u001b[95mBanana\u001b[0m\n\u001b[94m3.\u001b[0m \u001b[95mCherry\u001b[0m",
+      "ascii": "1. Apple\n2. Banana\n3. Cherry",
+      "true_color_light": "\u001b[38;5;99m1.\u001b[0m \u001b[38;5;212mApple\u001b[0m\n\u001b[38;5;99m2.\u001b[0m \u001b[38;5;212mBanana\u001b[0m\n\u001b[38;5;99m3.\u001b[0m \u001b[38;5;212mCherry\u001b[0m"
+    }
+  },
+  "list.styles_nested": {
+    "code": "Lipgloss::List.new(\"a\").item(Lipgloss::List.new(\"b\", \"c\").item_style(Lipgloss::Style.new.italic(true))).item_style(Lipgloss::Style.new.bold(true)).render",
+    "results": {
+      "true_color": "• \u001b[1ma\u001b[0m\n  • \u001b[3mb\u001b[0m\n  • \u001b[3mc\u001b[0m",
+      "ansi256": "• \u001b[1ma\u001b[0m\n  • \u001b[3mb\u001b[0m\n  • \u001b[3mc\u001b[0m",
+      "ansi": "• \u001b[1ma\u001b[0m\n  • \u001b[3mb\u001b[0m\n  • \u001b[3mc\u001b[0m",
+      "ascii": "• a\n  • b\n  • c",
+      "true_color_light": "• \u001b[1ma\u001b[0m\n  • \u001b[3mb\u001b[0m\n  • \u001b[3mc\u001b[0m"
+    }
+  },
+  "list.enumerator_style_bad": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").enumerator_style(\"red\")",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type String (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "list.item_style_bad": {
+    "code": "Lipgloss::List.new(\"Apple\", \"Banana\", \"Cherry\").item_style(nil)",
+    "results": {
+      "*": {
+        "error": "TypeError",
+        "message": "wrong argument type nil (expected Lipgloss::Style)"
+      }
+    }
+  },
+  "list.nested": {
+    "code": "Lipgloss::List.new(\"A\", \"B\").item(Lipgloss::List.new(\"B1\", \"B2\")).item(\"C\").render",
+    "results": {
+      "*": "• A\n• B\n  • B1\n  • B2\n• C"
+    }
+  },
+  "list.nested_first": {
+    "code": "Lipgloss::List.new.item(Lipgloss::List.new(\"x\", \"y\")).item(\"z\").render",
+    "results": {
+      "*": "• \n  • x\n  • y\n• z"
+    }
+  },
+  "list.nested_deep": {
+    "code": "Lipgloss::List.new(\"1\").item(Lipgloss::List.new(\"1.1\").item(Lipgloss::List.new(\"1.1.1\", \"1.1.2\"))).item(\"2\").render",
+    "results": {
+      "*": "• 1\n  • 1.1\n    • 1.1.1\n    • 1.1.2\n• 2"
+    }
+  },
+  "list.nested_empty": {
+    "code": "Lipgloss::List.new(\"a\").item(Lipgloss::List.new).item(\"b\").render",
+    "results": {
+      "*": "• a\n• b"
+    }
+  },
+  "list.nested_only": {
+    "code": "Lipgloss::List.new.item(Lipgloss::List.new(\"inner\")).render",
+    "results": {
+      "*": "• \n  • inner"
+    }
+  },
+  "list.nested_mixed_enums": {
+    "code": "Lipgloss::List.new(\"a\", \"b\").enumerator(:roman).item(Lipgloss::List.new(\"c\", \"d\").enumerator(:alphabet)).item(\"e\").render",
+    "results": {
+      "*": "  I. a\n II. b\n  A. c\n  B. d\nIII. e"
+    }
+  },
+  "list.nested_styled_enum": {
+    "code": "Lipgloss::List.new(\"a\").item(Lipgloss::List.new(\"b\").enumerator_style(Lipgloss::Style.new.foreground(\"1\"))).render",
+    "results": {
+      "true_color": "• a\n  \u001b[31m•\u001b[0mb",
+      "ansi256": "• a\n  \u001b[31m•\u001b[0mb",
+      "ansi": "• a\n  \u001b[31m•\u001b[0mb",
+      "ascii": "• a\n  •b",
+      "true_color_light": "• a\n  \u001b[31m•\u001b[0mb"
+    }
+  }
+}
