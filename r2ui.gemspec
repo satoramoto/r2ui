@@ -15,11 +15,11 @@ Gem::Specification.new do |spec|
   spec.license = "MIT"
   spec.metadata = {
     "source_code_uri" => spec.homepage,
-    "changelog_uri" => "#{spec.homepage}/commits/main"
+    "changelog_uri" => "#{spec.homepage}/blob/main/CHANGELOG.md"
   }
   spec.required_ruby_version = ">= 3.3"
 
-  spec.files = Dir["lib/**/*.rb", "exe/*", "README.md", "LICENSE.txt"]
+  spec.files = Dir["lib/**/*.rb", "lib/**/LICENSE*", "exe/*", "README.md", "CHANGELOG.md", "LICENSE.txt"]
   spec.bindir = "exe"
   spec.executables = ["r2ui"]
   spec.require_paths = ["lib"]
