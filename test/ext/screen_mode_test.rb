@@ -66,7 +66,7 @@ class ScreenModeTest < Minitest::Test
 
     assert_kind_of Bubbletea::EnterAltScreenCommand, ctx.enter_alt_screen
     assert_kind_of Bubbletea::ExitAltScreenCommand, ctx.exit_alt_screen
-    assert_equal [Bubbletea::EnterAltScreenCommand, Bubbletea::ExitAltScreenCommand], ctx.commands.map(&:class)
+    assert_equal [Bubbletea::EnterAltScreenCommand, Bubbletea::ExitAltScreenCommand], ctx.commands.commands.map(&:class)
   end
 
   INLINE_APP = <<~RUBY
