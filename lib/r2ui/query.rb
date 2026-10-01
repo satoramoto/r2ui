@@ -54,13 +54,15 @@ module R2UI
         value = case c.aggregate
                 when :sum then values.compact.sum
                 when :count then rows.size
+                when :min then values.compact.min
+                when :max then values.compact.max
                 else values.uniq.size == 1 ? values.first : nil
                 end
         [c.key, value]
       end
     end
 
-    # Each node's summed columns hold its whole subtree; other columns hold its own value.
+    # Each node's summed columns hold its whole subtree; other columns (:min and :max included) hold its own value.
     def tree(rows)
       by_id = rows.to_h { |r| [@resource.identify(r), r] }
       kids = Hash.new { |h, k| h[k] = [] }
@@ -100,6 +102,7 @@ module R2UI
 
       sorted = lines.sort_by do |line|
         v = line.values[@sort_key]
+        v = v.to_f if v.is_a?(Time) # an :age column sorts by the Time itself, oldest first
         v.nil? ? [1, 0] : [0, v.is_a?(Numeric) ? v : v.to_s.downcase]
       end
       return sorted unless @sort_dir == :desc

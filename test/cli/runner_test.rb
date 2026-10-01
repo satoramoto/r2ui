@@ -145,6 +145,62 @@ class CLIRunnerTest < Minitest::Test
     assert_empty result.out
   end
 
+  def test_exit_code_sets_the_code_and_after_run_still_runs
+    R2UI::CLI.extension(:runner_test_hooks) { after_run { say "after #{exit_code}" } }
+    result = run_cli(tool { exit_code(3) })
+    assert_equal 3, result.code
+    assert_equal "after 3\n", result.out
+    assert_equal 0, run_cli(tool { say "ok" }).code
+  end
+
+  def test_exit_code_needs_an_integer
+    result = run_cli(tool { exit_code("3") })
+    assert_equal 1, result.code
+    assert_includes result.err, "exit_code expects an Integer"
+  end
+
+  def test_on_exit_sees_the_final_code_on_every_way_out
+    seen = []
+    R2UI::CLI.extension(:runner_test_hooks) { on_exit { |code| seen << code } }
+    program = R2UI.cli "tool" do
+      option :mode
+      argument :name, required: false
+      run do
+        case options[:mode]
+        when "code" then exit_code(4)
+        when "halt" then halt(5)
+        when "abort" then abort!("no", code: 6)
+        when "boom" then raise "boom"
+        when "ctrl-c" then raise Interrupt
+        end
+      end
+    end
+    [[], %w[--mode code], %w[--mode halt], %w[--mode abort], %w[--mode boom], %w[--mode ctrl-c],
+     %w[--help], %w[a b]].each { |argv| run_cli(program, *argv) }
+    assert_equal [0, 4, 5, 6, 1, 130, 0, 2], seen
+    run_cli(program, "--nope") # a parse error: no Context yet, so no on_exit
+    assert_equal 8, seen.size
+  end
+
+  def test_on_exit_runs_when_the_command_calls_exit
+    seen = []
+    R2UI::CLI.extension(:runner_test_hooks) { on_exit { |code| seen << code } }
+    assert_raises(SystemExit) { run_cli(tool { exit 9 }) }
+    assert_equal [9], seen
+  end
+
+  def test_on_exit_cannot_change_the_code_and_its_errors_are_reported
+    R2UI::CLI.extension(:runner_test_hooks) do
+      on_exit { |_code| halt 42 }
+      on_exit { |_code| raise "telemetry down" }
+      on_exit { |code| say "bye #{code}" }
+    end
+    result = run_cli(tool { exit_code(3) })
+    assert_equal 3, result.code
+    assert_equal "bye 3\n", result.out
+    assert_includes result.err, "✖ telemetry down"
+  end
+
   def test_before_run_can_halt
     R2UI::CLI.extension(:runner_test_hooks) { before_run { halt 7 if options[:skip] } }
     program = R2UI.cli "tool" do

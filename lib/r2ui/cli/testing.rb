@@ -17,6 +17,8 @@ module R2UI
     # By default the shell is a pipe: no colour, no live redraw, prompts read `input` line by
     # line, exactly what CI sees. `tty: true` makes it look like a terminal (live regions draw
     # their escape codes into `out`; prompts still read `input`, as lines, unless `interactive:`).
+    # `color: true` styles the output even though the test process's stdout is a pipe. The shell
+    # is `width:` x `height:` (80 x env LINES, else 24), e.g. how tall a dashboard snapshot is.
     module Testing
       Result = Data.define(:code, :out, :err) do
         def success? = code.zero?
@@ -24,9 +26,9 @@ module R2UI
 
       module_function
 
-      def test_shell(input: "", tty: false, interactive: false, color: false, env: {}, width: 80)
+      def test_shell(input: "", tty: false, interactive: false, color: false, env: {}, width: 80, height: nil)
         Shell.new(input: StringIO.new(input), output: StringIO.new, error: StringIO.new, env:, tty:,
-                  interactive:, color:, width:)
+                  interactive:, color:, width:, height:)
       end
 
       def run_cli(program, *argv, **shell_options)

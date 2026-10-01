@@ -170,6 +170,65 @@ class DashboardPipeTest < Minitest::Test
   def load_dsl = require("r2ui")
 end
 
+# `dashboard(name, registry:, ticks:)`: a registry built without touching R2UI.registry.
+class DashboardRegistryTest < Minitest::Test
+  include R2UI::CLI::Testing
+
+  def setup
+    require "r2ui"
+    R2UI.reset!
+    @fetches = 0
+    fetches = -> { @fetches += 1 }
+    @registry = R2UI::Registry.new.tap do |r|
+      r.add_resource(R2UI::DSL::Resource.build(:ship) do
+        source { [{ name: "gamma", fetch: fetches.call }] }
+        refresh every: 0.01
+        index do
+          column :name
+          column :fetch
+        end
+      end)
+    end
+  end
+
+  def teardown = R2UI.reset!
+
+  def program(**options)
+    registry = @registry
+    R2UI::CLI::Program.build("tool") { run { dashboard(:ship, registry:, **options) } }
+  end
+
+  def test_snapshot_uses_the_given_registry
+    result = run_cli(program, width: 50)
+    assert_equal 0, result.code, result.err
+    assert_includes result.out, "gamma"
+    assert_equal 1, @fetches
+    assert_raises(R2UI::Error) { R2UI.registry.resource(:ship) }
+  end
+
+  def test_ticks_samples_that_many_times_before_the_frame
+    result = run_cli(program(ticks: 3), width: 50)
+    assert_equal 0, result.code, result.err
+    assert_equal 3, @fetches
+    assert_match(/gamma\s+3/, result.out)
+  end
+
+  def test_bad_ticks_is_an_error
+    result = run_cli(program(ticks: 0), width: 50)
+    assert_equal 1, result.code
+    assert_includes result.err, "ticks: must be a positive Integer"
+  end
+
+  def test_test_shell_height_sets_the_frame_height
+    short = run_cli(program, width: 50, height: 8).out
+    tall = run_cli(program, width: 50, height: 16).out
+    # The last row is the status line, empty in plain text.
+    assert_equal 8, short.split("\n", -1).size
+    assert_equal 16, tall.split("\n", -1).size
+    assert_equal 24, run_cli(program, width: 50).out.split("\n", -1).size
+  end
+end
+
 # On a terminal: the dashboard runs full screen until the user quits, then the terminal is back.
 class DashboardTerminalTest < Minitest::Test
   include DashboardTestFile

@@ -228,6 +228,18 @@ class CLIParserTest < Minitest::Test
     assert_includes assert_ok(run_cli(program)).out, "port=8080"
   end
 
+  def test_string_default_goes_through_a_callable_type
+    since = ->(s) { Integer(s.delete_suffix("h")) * 3600 }
+    program = R2UI.cli "tool" do
+      option :since, since, default: "24h"
+      option :window, since, default: 60
+      run { say "since=#{options[:since].inspect} window=#{options[:window].inspect}" }
+    end
+    assert_includes assert_ok(run_cli(program)).out, "since=86400 window=60"
+    assert_includes assert_ok(run_cli(program, "--since", "2h")).out, "since=7200"
+    assert_includes run_cli(program, "--help").out, "default: 24h"
+  end
+
   def test_required_option_must_be_given
     program = R2UI.cli "tool" do
       option :token, required: true

@@ -13,6 +13,11 @@ module R2UI
     #   interactive?  prompts may take keys: stdin and stdout are terminals and TERM isn't
     #                 "dumb" (or `interactive:`)
     #   color?        style output: NO_COLOR unset, and FORCE_COLOR set or tty? (or `color:`)
+    #   width/height  `width:` / `height:`, else the terminal's size, else COLUMNS / LINES, else 80x24
+    #
+    # Colour follows color?, not Lipgloss's process-wide profile (which is "no colour" whenever the
+    # process's stdout is piped): `paint`, and any Lipgloss rendering wrapped in `colored { }`,
+    # come out styled when color? is on even in a pipe or a test.
     #
     # Off a terminal, helpers print one stable line per event (no spinners, no cursor movement,
     # no colour) and prompts fall back to reading a line (docs/cli.md, "On and off a terminal").
@@ -21,7 +26,7 @@ module R2UI
       attr_writer :color
 
       def initialize(input: $stdin, output: $stdout, error: $stderr, env: ENV, tty: nil,
-                     interactive: nil, color: nil, width: nil, theme: Theme.new)
+                     interactive: nil, color: nil, width: nil, height: nil, theme: Theme.new)
         @input = input
         @output = output
         @error = error
@@ -30,6 +35,7 @@ module R2UI
         @interactive = interactive
         @color = color
         @width = width
+        @height = height
         @theme = theme
         @live = nil
       end
@@ -64,7 +70,9 @@ module R2UI
         @width || winsize&.last || positive(env["COLUMNS"]) || 80
       end
 
-      def height = winsize&.first || positive(env["LINES"]) || 24
+      def height
+        @height || winsize&.first || positive(env["LINES"]) || 24
+      end
 
       # Styles `text` with theme styles (:success, :error, :warn, :info, :accent, :muted, :heading,
       # ...) when color? is on; plain text otherwise. Line by line, so lines keep their widths.
@@ -72,8 +80,15 @@ module R2UI
         text = text.to_s
         return text if styles.empty? || !color?
 
-        text.split("\n", -1).map { |line| line.empty? ? line : theme.render(line, styles) }.join("\n")
+        colored do
+          text.split("\n", -1).map { |line| line.empty? ? line : theme.render(line, styles) }.join("\n")
+        end
       end
+
+      # Runs the block (Lipgloss rendering) with Lipgloss's colour on when color? is, even if its
+      # profile, detected once from the process's stdout, has none; returns the block's value.
+      # Lipgloss's renderer is restored afterwards.
+      def colored(&) = color? ? LipglossColour.forced(&) : yield
 
       # A theme symbol (✔ ✖ ⚠ ℹ ○ –), painted in its own style.
       def symbol(name) = paint(theme.symbol(name), name)
@@ -131,6 +146,53 @@ module R2UI
       end
 
       def present?(value) = !value.nil? && !value.empty?
+    end
+
+    # Swaps Lipgloss's default renderer for one with the 16-colour ANSI profile (the theme uses
+    # palette numbers) while any thread is inside `forced`, when the default one has no colour;
+    # the last one out puts the original back.
+    module LipglossColour
+      @lock = Mutex.new
+      @depth = 0
+      @saved = nil
+
+      class << self
+        def forced
+          enter
+          begin
+            yield
+          ensure
+            leave
+          end
+        end
+
+        private
+
+        def enter
+          renderer = Compat::Gloss::Renderer
+          @lock.synchronize do
+            if @depth.zero?
+              current = renderer.default
+              @saved = nil
+              if current.color_profile.to_sym == :ascii
+                @saved = current
+                renderer.default = renderer.new(current.output).tap { |r| r.color_profile = :ansi }
+              end
+            end
+            @depth += 1
+          end
+        end
+
+        def leave
+          @lock.synchronize do
+            @depth -= 1
+            if @depth.zero? && @saved
+              Compat::Gloss::Renderer.default = @saved
+              @saved = nil
+            end
+          end
+        end
+      end
     end
 
     # Named styles as lipgloss options (the same vocabulary as the dashboard DSL's `theme`), and

@@ -33,7 +33,7 @@ module R2UI
       # the feed's rows directly.
       def command(feed)
         proc do
-          feed.refresh!
+          feed.refresh!(expire: true)
           nil
         end
       end

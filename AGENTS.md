@@ -19,6 +19,7 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 |---|---|
 | `bundle exec rake test` | After any change in `lib/` or `conformance/lib/` (~15 s: the compat and harness tests drive real ptys) |
 | `bundle exec ruby -Itest -Ilib test/query_test.rb` | Targeted: one file |
+| `bundle exec ruby -Itest -Ilib test/composition_test.rb` (and `source_test.rb`, `history_test.rb`, `app_v03_test.rb`, `widgets_table_test.rb`) | Targeted: the 0.3 core (registry composition, shared sources, history, app helpers, table widths) |
 | `bundle exec ruby -Itest -Ilib test/ext/<file>_test.rb` | Targeted: one DSL extension while working on it |
 | `bundle exec ruby -Itest -Ilib test/compat/bubbletea/<file>_test.rb` | Targeted: one compat test file while working in `lib/r2ui/compat/` |
 | `bundle exec ruby -Itest -Ilib test/conformance/harness_test.rb` | Targeted: the harness (`vt_test.rb` for the decoder) while working in `conformance/lib/` |
@@ -39,7 +40,7 @@ CI (`.github/workflows/ci.yml`) runs `bundle exec rake test` on every PR; it is 
 
 `factory/FACTORY.md` describes how this work is run (lanes, stations, which files each lane owns); `factory/LOG.md` records each run.
 
-**Shared files** (change only through a small contract PR): `lib/r2ui/drop_in.rb`, `lib/r2ui/compat/load_path/`, `lib/r2ui.rb`, `lib/r2ui/extension.rb`, `lib/r2ui/context.rb`, `lib/r2ui/component.rb`, `docs/dsl.md`, `lib/r2ui/cli.rb`, `lib/r2ui/cli/*.rb` (the CLI core; not `cli/ext/`), `docs/cli.md`, `r2ui.gemspec`, `Gemfile`, `Rakefile`, `.github/workflows/ci.yml`, this file.
+**Shared files** (change only through a small contract PR): `lib/r2ui/drop_in.rb`, `lib/r2ui/compat/load_path/`, `lib/r2ui.rb`, `lib/r2ui/extension.rb`, `lib/r2ui/context.rb`, `lib/r2ui/component.rb`, `lib/r2ui/registry.rb`, `lib/r2ui/source.rb`, `lib/r2ui/dsl/`, `lib/r2ui/feed.rb`, `lib/r2ui/history.rb`, `lib/r2ui/format.rb` (the formats both products use), `lib/r2ui/query.rb`, `lib/r2ui/app.rb`, `lib/r2ui/renderer.rb`, `lib/r2ui/widgets/table.rb`, `lib/r2ui/cli/ext/format.rb`, `docs/dsl.md`, `docs/v03.md`, `lib/r2ui/cli.rb`, `lib/r2ui/cli/*.rb` (the CLI core; not `cli/ext/`), `docs/cli.md`, `r2ui.gemspec`, `Gemfile`, `Rakefile`, `.github/workflows/ci.yml`, this file.
 
 ## Review checklist
 

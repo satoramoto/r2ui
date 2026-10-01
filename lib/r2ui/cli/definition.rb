@@ -46,7 +46,7 @@ module R2UI
 
       def default_value
         value = default.respond_to?(:call) ? default.call : default
-        value = convert(value) if value.is_a?(String) && type != :string && !type.respond_to?(:call)
+        value = convert(value) if value.is_a?(String) && type != :string
         many && value.nil? ? [] : value.dup
       end
 

@@ -17,6 +17,9 @@ module R2UI
     #         --[no-]force  Skip the checks
     #     -h, --help        Show help
     #
+    # The first line is the command's summary; a description follows it after a blank line (with
+    # only one of them, that one).
+    #
     # Headings bold, names in the accent colour, defaults muted, when the shell has colour; the
     # same text without escapes otherwise. Extensions put lines on top with `help_header` (e.g.
     # "deployer 1.4.0") and append sections with `help_section`.
@@ -34,8 +37,7 @@ module R2UI
           text = hook.block.call(@command, @shell)
           text.nil? || text.to_s.empty? ? nil : text.to_s.chomp
         end
-        about = @command.description || @command.summary
-        sections << about if about
+        sections.concat([@command.summary, @command.description].compact.map { |text| text.to_s.chomp }.uniq)
         sections << section("Usage", [INDENT + usage])
         sections << table("Arguments", @command.arguments.map { |a| [a.name.to_s.tr("_", "-"), describe_argument(a)] })
         sections << table("Commands", visible_commands.map { |c| [[c.name, *c.aliases].join(", "), c.summary.to_s] })
