@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "minitest/mock"
 
 # s28-help: a panel showing Bubbles::Help for the app's key hints.
 class HelpTest < Minitest::Test
@@ -66,6 +67,63 @@ class HelpTest < Minitest::Test
     app = define(height: 1)
 
     assert_match(/help • r refresh/, app.frame(120, 10).plain_lines.join("\n"))
+  end
+
+  def test_full_help_lists_actions_and_navigation_keys
+    Fixtures.define_processes
+    R2UI.resource(:process, extend: true) { action(:kill, key: "K") { |_p| nil } }
+    R2UI.dashboard do
+      row { panel :process }
+      row(height: 8) { panel(:keys, resource: nil) { help } }
+    end
+    app = R2UI::App.new(R2UI.registry)
+
+    refute(keys_lines(app, 200, 20).any? { |l| l.include?("K Kill") }, "short help is the status-bar hints")
+    app.press("?")
+    full = keys_lines(app, 200, 20)
+    assert(full.any? { |l| l.include?("K Kill") })
+    assert(full.any? { |l| l.include?("↑/↓ j/k move") })
+    assert(full.any? { |l| l.include?("q quit") })
+  end
+
+  HINT_SETS = [
+    [%w[? help], %w[r refresh], %w[tab panel], ["[ ]", "scope"], %w[q quit]],
+    [%w[a one]],
+    [],
+    [["", "no key"], %w[x], ["y", ""], %w[k up], ["↑/↓ j/k", "move"], %w[pgup/pgdn page], %w[z zoom]],
+    R2UI::Renderer::HINT_PAIRS + R2UI::App::NAVIGATION_PAIRS
+  ].freeze
+
+  def test_builtin_rendering_matches_bubbles_help_byte_for_byte
+    HINT_SETS.each do |pairs|
+      [0, 1, 7, 20, 40, 200].each do |width|
+        [1, 2, 3, 5].each do |height|
+          [false, true].each do |full|
+            help = Bubbles::Help.new
+            help.width = width
+            help.show_all = full
+            expected = help.view(R2UI::Ext::Help.keymap(pairs, height))
+            actual = R2UI::Ext::Help.render(pairs, width:, column_height: height, full:)
+            assert_equal expected, actual, "pairs=#{pairs.inspect} width=#{width} height=#{height} full=#{full}"
+          end
+        end
+      end
+    end
+  end
+
+  def test_it_draws_without_bubbles
+    reference = define(height: 6)
+    expected_short = keys_lines(reference)
+    reference.press("?")
+    expected_full = keys_lines(reference)
+    R2UI.reset!
+    R2UI::Component.stub(:bubbles?, false) do
+      app = define(height: 6)
+      short = keys_lines(app)
+      app.press("?")
+      assert_equal [expected_short, expected_full], [short, keys_lines(app)]
+      assert_match(/\? help • r refresh/, short.first)
+    end
   end
 
   def test_question_mark_is_left_alone_without_a_help_panel

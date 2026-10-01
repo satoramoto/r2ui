@@ -64,6 +64,27 @@ class CLIFormatTest < Minitest::Test
     assert_equal "-1.5 MB", CLI.bytes(-1_500_000)
   end
 
+  # ---- ibytes ----
+
+  def test_ibytes_binary_units_like_the_dashboard
+    assert_equal "999B", CLI.ibytes(999)
+    assert_equal "1.0K", CLI.ibytes(1000)
+    assert_equal "1.5K", CLI.ibytes(1536)
+    assert_equal "10K", CLI.ibytes(10_240)
+    assert_equal "1.0M", CLI.ibytes(1_024_000)
+    assert_equal "-2.0K", CLI.ibytes(-2048)
+  end
+
+  # ---- HumanFormat delegates (back compat) ----
+
+  def test_human_format_delegates
+    hf = CLI::Ext::HumanFormat
+    assert_equal "1m 15s", hf.duration(75.2)
+    assert_equal "1.5 MB", hf.bytes(1_500_000)
+    assert_equal "2 boxes", hf.plural(2, "box")
+    assert_equal "1,234", hf.delimit(1234)
+  end
+
   # ---- plural ----
 
   def test_plural

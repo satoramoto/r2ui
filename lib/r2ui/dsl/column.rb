@@ -16,6 +16,19 @@ module R2UI
 
       def read(row) = reader ? reader.call(row) : Value.fetch(row, key)
 
+      # `sparkline: true` plots the history r2ui records for this column. `sparkline: :attr` (or a
+      # lambda given the row) plots a series the row carries instead.
+      def history_sparkline? = sparkline == true
+
+      # The series a row carries for this column's sparkline ([] when it has none).
+      def series(row)
+        values = case sparkline
+                 when Symbol, String then Value.fetch(row, sparkline.to_sym)
+                 when Proc then sparkline.call(row)
+                 end
+        Array(values).map(&:to_f)
+      end
+
       def numeric? = Format.numeric?(format)
 
       def render(value) = Format.call(format, value)

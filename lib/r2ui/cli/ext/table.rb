@@ -31,6 +31,12 @@
 # already-painted text line up. `align:` maps a column (0-based index, or its header) to :left,
 # :right or :center. With no rows only the header prints; with neither, nothing. Writes to stdout
 # through the Shell (above a running Live region) and returns nil.
+#
+#   lines = table_lines(rows, headers: nil, align: nil, boxed: shell.live?)
+#
+# returns the same table as an Array of Strings (one per line, no newlines) without printing it,
+# e.g. to show it in a Live region: `boxed: true` the Lipgloss table, `boxed: false` plain columns.
+# Colour follows the shell (Shell#color?), in a pipe too.
 module R2UI
   module CLI
     module Ext
@@ -115,9 +121,11 @@ module R2UI
             style = row == Lipgloss::Table::HEADER_ROW ? head : cell
             (side = align[column]) ? style.align(ALIGNMENTS.fetch(side)) : style
           end
-          out = table.render
-          out = table.width(shell.width).render if out.lines.any? { |line| width(line.chomp) > shell.width }
-          out.split("\n")
+          shell.colored do
+            out = table.render
+            out = table.width(shell.width).render if out.lines.any? { |line| width(line.chomp) > shell.width }
+            out.split("\n")
+          end
         end
       end
     end
@@ -125,15 +133,18 @@ module R2UI
     extension :table do
       helpers do
         def table(rows, headers: nil, align: nil)
+          table_lines(rows, headers:, align:).each { |line| shell.puts(line) }
+          nil
+        end
+
+        def table_lines(rows, headers: nil, align: nil, boxed: shell.live?)
           headers, rows = Ext::Tabulate.normalize(rows, headers)
           align = Ext::Tabulate.alignments(align, headers)
-          lines = if shell.live?
-                    Ext::Tabulate.boxed(shell, headers, rows, align)
-                  else
-                    Ext::Tabulate.plain(headers, rows, align)
-                  end
-          lines.each { |line| shell.puts(line) }
-          nil
+          if boxed
+            Ext::Tabulate.boxed(shell, headers, rows, align)
+          else
+            Ext::Tabulate.plain(headers, rows, align)
+          end
         end
       end
     end

@@ -2,14 +2,16 @@
 
 module R2UI
   # Fetches one resource on its refresh interval in a background thread and records history.
+  # A resource reading a shared source (`source from:`) gets it through `sources` (R2UI::Sources).
   class Feed
     SINGLE = :record
 
     attr_reader :resource, :history
 
-    def initialize(resource)
+    def initialize(resource, sources: nil)
       @resource = resource
-      @history = History.new
+      @sources = sources
+      @history = History.new(capacity: resource.history_size)
       @lock = Mutex.new
       @rows = []
       @error = nil
@@ -20,6 +22,15 @@ module R2UI
     def error = @lock.synchronize { @error }
     def version = @lock.synchronize { @version }
 
+    # Seconds between fetches: the resource's `refresh every:`, else its shared source's interval,
+    # else 1.
+    def interval
+      return @resource.refresh_interval if @resource.refresh_interval
+      return @sources.interval(@resource.source_from) if @resource.source_from && @sources
+
+      @resource.interval
+    end
+
     # History id for a row: its key, or :record when the resource returns a single record.
     def series_id(row) = @resource.key ? @resource.identify(row) : SINGLE
 
@@ -28,7 +39,7 @@ module R2UI
         loop do
           refresh!
           on_update&.call
-          sleep @resource.interval
+          sleep interval
         end
       end
       self
@@ -39,8 +50,11 @@ module R2UI
       @thread&.join(1)
     end
 
-    def refresh!
-      rows = @resource.fetch
+    # Fetches now. `expire: true` also drops a shared source's cached value first (a manual
+    # refresh wants new data, not the value another feed fetched a moment ago).
+    def refresh!(expire: false)
+      @sources.expire(@resource.source_from) if expire && @resource.source_from && @sources
+      rows = @resource.fetch(@sources)
       @lock.synchronize do
         record(rows)
         @rows = rows

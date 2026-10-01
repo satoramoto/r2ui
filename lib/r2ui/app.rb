@@ -14,6 +14,8 @@ module R2UI
     # Where the focused component takes keys among the `on` handlers: those with priority >= 50 run
     # before it, the rest after.
     COMPONENT_PRIORITY = 50
+    # Table navigation keys, for help screens (`key_pairs`; the status bar leaves them out).
+    NAVIGATION_PAIRS = [["↑/↓ j/k", "move"], ["pgup/pgdn", "page"], ["home/end", "first/last"]].freeze
 
     attr_reader :registry, :dashboard, :feeds, :focus, :state, :width, :height, :components
 
@@ -21,11 +23,13 @@ module R2UI
       @registry = registry
       @dashboard = registry.screen(name)
       resources = @dashboard.panels.filter_map(&:resource).uniq.map { |r| registry.resource(r) }
-      @feeds = resources.to_h { |r| [r.name, Feed.new(r)] }
+      resources.filter_map(&:source_from).each { |s| registry.source(s) } # unknown sources fail here
+      @sources = Sources.new(registry)
+      @feeds = resources.to_h { |r| [r.name, Feed.new(r, sources: @sources)] }
       @states = @dashboard.panels.to_h do |p|
         [p, p.table && p.resource && PanelState.new(registry.resource(p.resource), p.table)]
       end
-      @focus = @dashboard.panels.find(&:table) || @dashboard.panels.first
+      @focus = initial_focus
       @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item))
       @mode = :normal
       @zoomed = false
@@ -67,8 +71,11 @@ module R2UI
       [self, ctx.commands]
     end
 
-    def view
-      width, height = frame_size
+    # The frame as a String. Bubbletea calls it with no arguments (the terminal size). Tests can pass
+    # `width:`/`height:` to draw at that size (frame_size hooks still apply) without sending a
+    # WindowSizeMessage; view_override hooks run either way, so overlays show.
+    def view(width: nil, height: nil)
+      width, height = frame_size(width || @width, height || @height)
       ctx = Context.new(self)
       ctx.width = width
       ctx.height = height
@@ -93,12 +100,21 @@ module R2UI
     def flash(text)
       @flash = text
       @flash_at = Time.now
+      @flash_count = flash_count + 1
     end
 
-    def selected_rows
-      return [] unless state_for_focus
+    # How many times `flash` has been called (an action leaves a handler's own flash in place).
+    def flash_count = @flash_count || 0
 
-      lines[state_for_focus.selected]&.rows || []
+    # Rows under the selection of a table panel: `panel` is a panel name (Symbol), a DSL::Panel, or
+    # nil for the focused panel. [] for a panel without a table or a selection. Reads the lines the
+    # panel showed in the last drawn frame, so a test calls `frame` (or `view`) first.
+    def selected_rows(panel = nil)
+      panel = resolve_panel(panel)
+      state = @states[panel]
+      return [] unless state
+
+      panel_lines(panel)[state.selected]&.rows || []
     end
 
     # Panel => Rect where each panel was drawn in the last frame.
@@ -136,33 +152,47 @@ module R2UI
 
     # Status-bar hints as [key, label] pairs: extensions' first, then the core's.
     def hint_pairs(ctx = Context.new(self))
-      Extensions.hooks(:hints).flat_map { |h| ctx.call(h.block) || [] } + Renderer::HINT_PAIRS
+      extension_hints(ctx) + Renderer::HINT_PAIRS
+    end
+
+    # Every key as [key, label] pairs, for help screens: extensions' hints, the focused table
+    # panel's resource actions, the navigation keys, then the core's status-bar hints.
+    def key_pairs(ctx = Context.new(self))
+      actions = state_for_focus ? resource.actions.map { |a| [a.key.to_s, a.label] } : []
+      extension_hints(ctx) + actions + NAVIGATION_PAIRS + Renderer::HINT_PAIRS
     end
 
     def snapshot(width:, height:, ticks: 1)
       ticks.times do |i|
-        sleep(@feeds.values.map { |f| f.resource.interval }.min) if i.positive?
+        sleep(@feeds.values.map(&:interval).min) if i.positive?
         @feeds.each_value(&:refresh!)
       end
       frame(width, height).plain_lines.join("\n")
     end
 
     # Feeds keys without a terminal, as if typed: core names (:up, "q") or Bubbletea names
-    # ("ctrl+r"). Returns the commands they produced.
+    # ("ctrl+r"). Returns the commands they produced. Table keys and actions act on the lines the
+    # focused panel showed in the last drawn frame, so call `frame` (or `view`) before pressing them.
     def press(*keys) = keys.filter_map { |k| update(Keys.message(k)).last }
 
-    # [width, height] to draw at: the terminal size, changed by extensions' `frame_size`.
-    def frame_size
+    # [width, height] to draw at: the terminal size (or the size given), changed by extensions'
+    # `frame_size`.
+    def frame_size(width = @width, height = @height)
       ctx = Context.new(self)
-      Extensions.hooks(:frame_size).reduce([@width, @height]) { |size, h| ctx.call(h.block, *size) }
+      Extensions.hooks(:frame_size).reduce([width, height]) { |size, h| ctx.call(h.block, *size) }
+    end
+
+    # Canvas styles merged from every extension's `styles` hook (later ones win), or nil if none.
+    def styles(ctx = Context.new(self))
+      merged = Extensions.hooks(:styles).reduce({}) { |acc, h| acc.merge(ctx.call(h.block) || {}) }
+      merged.empty? ? nil : merged
     end
 
     def frame(width, height)
       ctx = Context.new(self)
       build_components(ctx)
-      styles = Extensions.hooks(:styles).reduce({}) { |acc, h| acc.merge(ctx.call(h.block) || {}) }
       @renderer.render(@dashboard, width:, height:, focus: @focus, zoomed: @zoomed, prompt: prompt(ctx),
-                                   hints: hints(ctx), styles: styles.empty? ? nil : styles)
+                                   hints: hints(ctx), styles: styles(ctx))
     end
 
     private
@@ -188,10 +218,19 @@ module R2UI
 
     def after_update(ctx) = Extensions.hooks(:after_update).each { |h| ctx.call(h.block) }
 
+    # The dashboard's `focus :name` panel, else the first panel with a table, else the first panel.
+    def initial_focus
+      if (name = @dashboard.initial_focus)
+        return @dashboard.panel(name) || raise(Error, "dashboard #{@dashboard.name}: focus #{name}: no such panel")
+      end
+
+      @dashboard.panels.find(&:table) || @dashboard.panels.first
+    end
+
     def handled?(ctx, hooks, message) = hooks.any? { |h| h.match?(message) && ctx.handle(h.block, message) }
 
     def core_key(ctx, key)
-      ctx.quit if handle(key) == :quit
+      ctx.quit if handle(key, ctx) == :quit
     end
 
     # --- components ---
@@ -267,11 +306,12 @@ module R2UI
       @components.each { |c| set_component_focus(ctx, c, c.equal?(active)) if c.focusable? }
     end
 
-    def draw_item(panel, item, width, height)
+    def draw_item(panel, item, width, height, rows = [])
       ctx = Context.new(self)
       ctx.panel = panel
       ctx.width = width
       ctx.height = height
+      ctx.rows = rows
       drawer = Extensions.hooks(:panel_item).find { |h| h.match?(item) }
       return ctx.call(drawer.block, item) if drawer
 
@@ -281,6 +321,17 @@ module R2UI
     # --- core keys and status bar ---
 
     def state_for_focus = @states[@focus]
+
+    # A DSL::Panel from a panel name, a panel, or nil (the focused panel).
+    def resolve_panel(panel)
+      case panel
+      when nil then @focus
+      when DSL::Panel then panel
+      else @dashboard.panel(panel) || raise(Error, "no panel #{panel.inspect}")
+      end
+    end
+
+    def extension_hints(ctx) = Extensions.hooks(:hints).flat_map { |h| ctx.call(h.block) || [] }
 
     def lines = @renderer.lines.fetch(@focus, [])
 
@@ -303,28 +354,28 @@ module R2UI
 
     def hints(ctx) = hint_pairs(ctx).map { |key, label| "#{key} #{label}" }.join("  ")
 
-    def handle(key)
+    def handle(key, ctx)
       return :quit if key == :interrupt
 
       case @mode
       when :search then search_key(key)
-      when Array then confirm_key(key)
-      else normal_key(key)
+      when Array then confirm_key(key, ctx)
+      else normal_key(key, ctx)
       end
     end
 
-    def normal_key(key)
+    def normal_key(key, ctx)
       case key
       when "q" then return :quit
       when :tab then cycle_focus(1)
       when :back_tab then cycle_focus(-1)
       when "z" then @zoomed = !@zoomed
       end
-      table_key(key) if state_for_focus
+      table_key(key, ctx) if state_for_focus
       nil
     end
 
-    def table_key(key)
+    def table_key(key, ctx)
       state = state_for_focus
       case key
       when :up, "k" then state.move(-1, lines.size)
@@ -342,7 +393,7 @@ module R2UI
       when :enter, " " then state.toggle(lines[state.selected])
       else
         action = resource.actions.find { |a| a.key == key }
-        start_action(action) if action
+        start_action(action, ctx) if action
       end
     end
 
@@ -358,24 +409,46 @@ module R2UI
       end
     end
 
-    def start_action(action)
+    def start_action(action, ctx)
       rows = lines[state_for_focus.selected]&.rows
       return if rows.nil? || rows.empty?
 
-      action.confirm ? @mode = [:confirm, action, rows] : run_action(action, rows)
+      action.confirm ? @mode = [:confirm, action, rows] : run_action(action, rows, ctx)
     end
 
-    def confirm_key(key)
+    def confirm_key(key, ctx)
       _, action, rows = @mode
       @mode = :normal
-      run_action(action, rows) if key == "y"
+      run_action(action, rows, ctx) if key == "y"
     end
 
-    def run_action(action, rows)
-      rows.each { |row| action.handler.call(row) }
-      flash("#{action.label}: #{rows.size} done")
+    # Runs the handler on the update's Context (so it can flash, read state, return or enqueue
+    # commands): once per row, carrying on past failing rows, or once with every row for
+    # `batch: true`. Flashes a summary unless the handler flashed something itself.
+    def run_action(action, rows, ctx)
+      flashes = flash_count
+      summary = action.batch ? run_batch_action(action, rows, ctx) : run_row_action(action, rows, ctx)
+      flash(summary) if flash_count == flashes
+    end
+
+    def run_batch_action(action, rows, ctx)
+      ctx.call(action.handler, rows)
+      "#{action.label}: #{rows.size} done"
     rescue StandardError => e
-      flash("#{action.label} failed: #{e.message}")
+      "#{action.label} failed: #{e.message}"
+    end
+
+    def run_row_action(action, rows, ctx)
+      errors = rows.filter_map do |row|
+        ctx.call(action.handler, row)
+        nil
+      rescue StandardError => e
+        e
+      end
+      return "#{action.label}: #{rows.size} done" if errors.empty?
+      return "#{action.label} failed: #{errors.first.message}" if errors.size == rows.size
+
+      "#{action.label}: #{rows.size - errors.size} done, #{errors.size} failed: #{errors.first.message}"
     end
 
     def cycle_focus(step)

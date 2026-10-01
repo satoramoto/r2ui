@@ -10,6 +10,8 @@ module R2UI
     attr_reader :app, :message
     # Set while drawing a panel item.
     attr_accessor :panel, :width, :height
+    # While drawing a panel item: the panel's resource rows ([] for a panel without a resource).
+    attr_accessor :rows
 
     def initialize(app, message = nil)
       @app = app
@@ -36,8 +38,12 @@ module R2UI
     # The focused panel (a DSL::Panel).
     def focus = app.focus
 
-    # Rows under the selection in the focused table panel ([] if none).
-    def selected_rows = app.selected_rows
+    # While drawing a panel item: the panel's first row (its record), or nil.
+    def record = rows&.first
+
+    # Rows under the selection of a table panel (a name or DSL::Panel; nil: the focused panel),
+    # [] if none. From the last drawn frame (App#selected_rows).
+    def selected_rows(panel = nil) = app.selected_rows(panel)
 
     # The hosted model of the component item named `name` (see R2UI::Component), or nil.
     def component(name) = app.component(name)

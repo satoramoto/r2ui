@@ -111,6 +111,56 @@ class CLIShellTest < Minitest::Test
     assert_equal 42, shell(width: 42, env: { "COLUMNS" => "120" }).width
   end
 
+  def test_height
+    assert_equal 24, shell.height
+    assert_equal 50, shell(env: { "LINES" => "50" }).height
+    assert_equal 30, shell(height: 30, env: { "LINES" => "50" }).height
+  end
+
+  def test_test_shell_size
+    s = R2UI::CLI::Testing.test_shell(width: 100, height: 40)
+    assert_equal [100, 40], [s.width, s.height]
+    assert_equal 24, R2UI::CLI::Testing.test_shell.height
+  end
+
+  # ---- colour follows the shell, not Lipgloss's profile ----
+
+  def with_ascii
+    R2UI::Compat::Gloss::Renderer.color_profile = :ascii # what a piped stdout detects
+    yield
+  ensure
+    R2UI::Compat::Gloss::Renderer.color_profile = nil
+  end
+
+  def test_paint_colours_with_color_even_when_lipgloss_has_no_colour
+    with_ascii do
+      renderer = R2UI::Compat::Gloss::Renderer.default
+      assert_equal "\e[32mok\e[0m", shell(color: true).paint("ok", :success)
+      assert_equal "ok", shell(color: false).paint("ok", :success)
+      assert_same renderer, R2UI::Compat::Gloss::Renderer.default
+      assert_equal :ascii, R2UI::Compat::Gloss::Renderer.color_profile.to_sym
+      assert_equal "x", Lipgloss::Style.new.bold(true).render("x")
+    end
+  end
+
+  def test_run_cli_with_color_produces_escape_codes
+    program = R2UI.cli("tool") { run { say shell.paint("done", :success) } }
+    with_ascii do
+      assert_includes R2UI::CLI::Testing.run_cli(program, tty: true, color: true).out, "\e[32mdone"
+      refute_includes R2UI::CLI::Testing.run_cli(program, tty: true).out, "\e["
+    end
+  end
+
+  def test_colored_nests_and_restores
+    with_ascii do
+      s = shell(color: true)
+      inner = s.colored { s.colored { Lipgloss::Style.new.bold(true).render("x") } }
+      assert_equal "\e[1mx\e[0m", inner
+      assert_equal "x", Lipgloss::Style.new.bold(true).render("x")
+      assert_equal "y", shell(color: false).colored { Lipgloss::Style.new.bold(true).render("y") }
+    end
+  end
+
   # ---- paint and symbols ----
 
   def test_paint_is_identity_without_colour

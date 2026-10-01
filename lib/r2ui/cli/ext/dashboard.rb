@@ -29,6 +29,12 @@
 #   │beta                    down                    │
 #   ╰────────────────────────────────────────────────╯
 #
+# `registry:` (an R2UI::Registry) shows that registry's dashboards and resources instead of the
+# global R2UI.registry, on a terminal and in the snapshot alike (a tool or a test that builds
+# its definitions without touching R2UI.registry). `ticks:` is how many samples the snapshot takes
+# before drawing (default 1; rate columns need 2), waiting the resources' refresh interval between
+# them, like `r2ui --snapshot --ticks`.
+#
 # A missing file, or a name no dashboard or resource has, is an error (exit 1, "✖ message").
 module R2UI
   module CLI
@@ -66,10 +72,10 @@ module R2UI
         end
 
         # R2UI.run(name) on the shell's terminal (R2UI.run itself always uses $stdin/$stdout).
-        def run(shell, name)
-          return R2UI.run(name) if shell.input.equal?($stdin) && shell.output.equal?($stdout)
+        def run(shell, name, registry = nil)
+          return R2UI.run(name) if registry.nil? && shell.input.equal?($stdin) && shell.output.equal?($stdout)
 
-          app = R2UI::App.new(R2UI.registry, name)
+          app = R2UI::App.new(registry || R2UI.registry, name)
           begin
             ShellRunner.new(app, shell).run
           ensure
@@ -77,25 +83,34 @@ module R2UI
           end
         end
 
-        def snapshot(shell, name, height)
-          shell.puts(R2UI.snapshot(name, width: shell.width, height: height || shell.height))
+        def snapshot(shell, name, height, registry: nil, ticks: 1)
+          app = R2UI::App.new(registry || R2UI.registry, name)
+          begin
+            shell.puts(app.snapshot(width: shell.width, height: height || shell.height, ticks:))
+          ensure
+            app.stop
+          end
         end
       end
     end
 
     extension :dashboard do
       helpers do
-        def dashboard(name = nil, file: nil, height: nil)
+        def dashboard(name = nil, file: nil, height: nil, registry: nil, ticks: 1)
           Ext::OpenDashboard.load_dsl
+          unless ticks.is_a?(Integer) && ticks.positive?
+            raise ArgumentError, "dashboard ticks: must be a positive Integer, got #{ticks.inspect}"
+          end
+
           if file
             location = caller_locations(1, 1).first
             caller_file = location && (location.absolute_path || location.path)
             load Ext::OpenDashboard.resolve(file, caller_file && File.dirname(File.expand_path(caller_file)))
           end
           if shell.interactive?
-            Ext::OpenDashboard.run(shell, name)
+            Ext::OpenDashboard.run(shell, name, registry)
           else
-            Ext::OpenDashboard.snapshot(shell, name, height)
+            Ext::OpenDashboard.snapshot(shell, name, height, registry:, ticks:)
           end
           nil
         end

@@ -61,15 +61,30 @@ module R2UI
           return [fit("#{prefix}#{body}#{suffix}", width, :right), line.label ? :bold : :plain]
         end
 
-        value = line.values[col.key]
-        value = "×#{line.count}" if col.aggregate == :count && line.label
-        text = value.is_a?(String) && col.aggregate == :count ? value : col.render(value)
+        value, text = value_text(line, col)
         if col.sparkline && @spark
           text_w = width - SPARK_WIDTH - 1
           text = "#{Sparkline.line(@spark.call(line, col), SPARK_WIDTH).rjust(SPARK_WIDTH)} #{align(text, text_w, col.align)}"
           return [text, :plain]
         end
         [align(fit(text, width, Format.truncate_from(col.format)), width, col.align), style_for(col, value)]
+      end
+
+      # [raw value, rendered text] for a non-label cell.
+      def value_text(line, col)
+        value = line.values[col.key]
+        value = "×#{line.count}" if col.aggregate == :count && line.label
+        [value, value.is_a?(String) && col.aggregate == :count ? value : col.render(value)]
+      end
+
+      # How wide this cell's text is untruncated: what `cell` would draw given unlimited room.
+      def cell_need(line, col)
+        if col.key == @label_key && (line.label || line.depth.positive? || line.expandable?)
+          return label_parts(line, col).sum(&:length)
+        end
+
+        text_need = value_text(line, col)[1].length
+        col.sparkline && @spark ? SPARK_WIDTH + 1 + text_need : text_need
       end
 
       # [indent and tree marker, the value (truncated to fit), count suffix]
@@ -93,7 +108,8 @@ module R2UI
         end
       end
 
-      # Fixed-width columns get their width; text columns share the rest. Drops columns that don't fit.
+      # Fixed-width columns get their width; text columns share the rest by need (see `share`).
+      # Drops columns from the right while the text columns can't get MIN_TEXT each.
       def widths(total)
         cols = @resource.columns
         fixed = cols.to_h do |c|
@@ -111,9 +127,55 @@ module R2UI
 
           fixed.delete(fixed.keys.last)
         end
-        flexible = fixed.count { |_, w| w.nil? }
+        flexible = fixed.filter_map { |c, w| c if w.nil? }
         spare = total - fixed.values.compact.sum - (fixed.size - 1)
-        fixed.to_h { |c, w| [c, w || [spare / [flexible, 1].max, 1].max] }
+        given = share(spare, needs(flexible))
+        fixed.to_h { |c, w| [c, w || given.fetch(c)] }
+      end
+
+      # Each flexible column's need: its header (plus the sort marker) or its widest cell, in one pass over lines.
+      def needs(cols)
+        need = cols.to_h { |c| [c, c.label.length + 1] }
+        return need if cols.empty?
+
+        @lines.each do |line|
+          cols.each do |c|
+            n = cell_need(line, c)
+            need[c] = n if n > need[c]
+          end
+        end
+        need
+      end
+
+      # Splits `spare` between columns by need. If every need fits, each gets its need and the leftover is
+      # shared equally; otherwise water-fill: columns needing less than an equal share get their need, the
+      # rest split what remains equally. Remainders go to the leftmost columns; never below 1.
+      def share(spare, need)
+        cols = need.keys
+        return {} if cols.empty?
+
+        if need.values.sum <= spare
+          return even(spare - need.values.sum, cols).to_h { |c, extra| [c, need[c] + extra] }
+        end
+
+        given = {}
+        rest = cols.sort_by.with_index { |c, i| [need[c], i] }
+        left = spare
+        while (c = rest.first) && need[c] <= left / rest.size
+          given[c] = need[c]
+          left -= need[c]
+          rest.shift
+        end
+        even(left, cols & rest).each { |c, w| given[c] = [w, 1].max }
+        cols.to_h { |c| [c, given.fetch(c)] }
+      end
+
+      # `amount` split equally across `cols` (leftmost get the remainder), as [[col, width], ...].
+      def even(amount, cols)
+        return [] if cols.empty?
+
+        base, extra = amount.divmod(cols.size)
+        cols.each_with_index.map { |c, i| [c, base + (i < extra ? 1 : 0)] }
       end
 
       def draw_footer(canvas, rect)

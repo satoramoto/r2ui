@@ -72,7 +72,9 @@ exe/r2ui --snapshot examples/agents.rb   # print one frame and exit
 
 ## Formats
 
-`:text`, `:id`, `:integer`, `:number`, `:percent`, `:bytes`, `:bytes_per_sec`, `:ratio`, `:short_path`. The format decides display, alignment, how grouped lines aggregate (`:sum`, `:count` or a single shared value) and how search operands are parsed (`500M`, `5%`).
+`:text`, `:id`, `:integer`, `:number`, `:percent`, `:bytes` (binary, "1.5G"), `:si_bytes` (decimal, "1.6 GB"), `:bytes_per_sec`, `:duration` (seconds, "1m 15s"), `:age` (a Time, shown as the time since), `:ratio`, `:short_path`. The format decides display, alignment, how grouped lines aggregate (`:sum`, `:count`, `:min`, `:max` or a single shared value) and how search operands are parsed (`500M`, `5%`, `5m`). `R2UI::Format` holds them for the CLI toolkit too.
+
+An app can spread its definitions over files (`R2UI.panel`, `extend: true`) and share one data source between resources (`R2UI.source`); see docs/dsl.md, "Composing an app".
 
 ## Drop-in for Bubble Tea
 

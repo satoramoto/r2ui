@@ -190,13 +190,15 @@ Errors and warnings go to stderr; data goes to stdout, so `tool | jq` stays clea
 | `helpers { def h(...) ... end }` | Adds helpers (to `Helpers`, so to every `Context`, to scripts and to `R2UI::CLI`). A name that exists raises (Kernel's private ones, like `warn`, may be replaced) |
 | `setup { }` | Runs on the root's `Builder` after the `R2UI.cli` block: add options or commands the tool asked for |
 | `after_parse { }` | On the Context after argv is parsed, before option defaults, required checks and positional arguments (`args` is still empty): `options[:x] = ... unless given?(:x)`; `halt` here skips every check |
-| `before_run { }` / `after_run { }` | On the Context around the `run` block; `halt` ends early |
+| `before_run { }` / `after_run { }` | On the Context around the `run` block; `halt` ends early. A `run` block that called `exit_code(n)` still gets its `after_run` hooks, and the tool then exits n |
+| `on_exit { \|code\| }` | On every way out once argv has parsed (normal return, `exit_code`, `--help`, `halt`, `abort!`, errors, ctrl+c, `exit`), with the final code; it can't change it, and an exception in it is reported on stderr (0.3) |
 | `help_header { \|command, shell\| String }` | Lines shown first in `--help`, above the description (nil for none) |
 | `help_section { \|command, shell\| [heading, lines] }` | Appends a section to `--help` (nil for none) |
 | `on_error(Klass) { \|error\| }` | On the Context when an error escapes; return an Integer to make it the exit code and skip the core's report |
 
-Building blocks for stories: `Shell` (`puts`, `err_puts`, `paint`, `symbol`, `width`, `live?`,
-`interactive?`, `input_tty?`), `Theme`, `Live` (`run`, `refresh`, `println`, `clear` to erase
+Building blocks for stories: `Shell` (`puts`, `err_puts`, `paint`, `symbol`, `width`, `height`,
+`live?`, `interactive?`, `input_tty?`, `colored { }` to render Lipgloss styles by the shell's
+`color?` rather than the process-wide profile), `Theme`, `Live` (`run`, `refresh`, `println`, `clear` to erase
 instead of leaving the last frame, `Live.spinner`; a view that raises is re-raised from `run`
 after the terminal is restored), `Prompt.run(shell, model)`, `Prompt::Model` (`key(name, msg)`
 returning `submit(value)` or nil, `view`, and `component =` to host a bubbles model: ctrl+c/esc
@@ -287,8 +289,26 @@ open. "Adds" are the names the story owns: helpers, or keywords on the command b
 
 Every story may also add `examples/cli/<file>.rb`, a runnable example.
 
+## 0.3 changes (agentmon's feedback, docs/v03.md)
+
+- **Formats have one home**, `R2UI::Format` (`lib/r2ui/format.rb`, loaded by both products):
+  `duration`, `plural`, `delimit`, `si_bytes` (decimal) and `bytes` (binary, the dashboard's).
+  The `bytes` helper stays decimal; `ibytes` is the binary one; `R2UI::CLI::Ext::HumanFormat`
+  delegates.
+- `table_lines(rows, headers:, align:, boxed: shell.live?)` returns the table's lines (for a `Live`
+  region); `table` prints them.
+- `dashboard(name, file:, height:, registry:, ticks:)`: any `R2UI::Registry`, and several samples
+  before a snapshot.
+- `exit_code(n)` on the Context, and the `on_exit` hook (above).
+- `test_shell`/`run_cli`/`with_shell(height:)`; `run_cli(tty: true, color: true)` prints colour
+  even when the test process's stdout is a pipe.
+- Help shows a command's summary, then its description; a String `default:` of an option with a
+  callable type goes through the callable; "did you mean" catches short-word typos.
+- New stories (ids `v01-cli-...`) are listed in docs/v03.md.
+
 ## Follow-ups (not stories yet)
 
+- Help could render negatable flags as `--[no-]name` (declined for 0.3; cosmetic).
 - One theme for both products: the CLI `Theme` and the dashboard's s18 `theme` use the same lipgloss
   options; once s18 lands, a shared `R2UI::Theme` (contract change) lets a tool style both alike.
 - `--quiet` needs the Shell to know about verbosity (a core change), so it isn't a story yet.

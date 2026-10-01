@@ -9,9 +9,14 @@ module R2UI
     #        R2UI_TRACE=1 adds the backtrace)
     #   2    a usage error: unknown/missing/bad option, argument or command, plus a --help hint
     #   130  ctrl+c (Interrupt)
-    #   n    abort!(code: n), halt(n), or an on_error hook returning n
+    #   n    exit_code(n) (after_run hooks still run), abort!(code: n), halt(n), or an on_error
+    #        hook returning n
     #
     # A closed stdout (`tool | head`) ends quietly with 0.
+    #
+    # Once argv has parsed, on_exit hooks run on every way out (a normal return, exit_code, --help,
+    # halt, abort!, errors, ctrl+c, `exit`) with the final code. They can't change it; an exception
+    # in one is reported on stderr and the code stays.
     class Runner
       def initialize(program, shell:)
         @program = program
@@ -19,6 +24,17 @@ module R2UI
       end
 
       def call(argv)
+        code = execute(argv)
+      rescue SystemExit => e
+        code = e.status
+        raise
+      ensure
+        on_exit(code) if @context && code
+      end
+
+      private
+
+      def execute(argv)
         parser = Parser.new(@program)
         invocation = parser.parse(argv)
         @context = Context.new(shell: @shell, command: invocation.command, options: invocation.options,
@@ -32,7 +48,7 @@ module R2UI
         run_hooks(:before_run)
         @context.call(invocation.command.action)
         run_hooks(:after_run)
-        0
+        @context.exit_code
       rescue Halt => e
         e.code
       rescue Interrupt
@@ -44,7 +60,20 @@ module R2UI
         report(e)
       end
 
-      private
+      def on_exit(code)
+        Extensions.hooks(:on_exit).each do |hook|
+          @context.call(hook.block, code)
+        rescue Halt
+          nil
+        rescue StandardError => e
+          begin
+            @shell.err_puts("#{@shell.symbol(:error)} #{e.message}")
+            trace(e)
+          rescue StandardError
+            nil
+          end
+        end
+      end
 
       def help(command)
         @shell.print(Help.new(command, @shell).to_s)

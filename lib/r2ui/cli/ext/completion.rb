@@ -93,7 +93,36 @@ module R2UI
         def unknown(kind)
           message = "unknown shell '#{kind}' (expected #{SHELLS.keys[0..-2].join(", ")} or #{SHELLS.keys.last})"
           guess = DidYouMean::SpellChecker.new(dictionary: SHELLS.keys).correct(kind).first if defined?(DidYouMean)
+          guess ||= near(kind.to_s.downcase)
           guess ? "#{message}. Did you mean '#{guess}'?" : message
+        end
+
+        # DidYouMean's threshold is too strict for 3-4 letter words (`zhs`, `bsah`, `fsih`): a
+        # shell with the same letters, one edit away (words up to 4 letters), or one swap away.
+        def near(word)
+          SHELLS.keys.find { |name| name.chars.sort == word.chars.sort } ||
+            SHELLS.keys.find { |name| word.size <= 4 && distance(word, name) <= 1 } ||
+            SHELLS.keys.find { |name| transposition?(word, name) }
+        end
+
+        def transposition?(a, b)
+          return false unless a.size == b.size
+
+          diff = (0...a.size).reject { |i| a[i] == b[i] }
+          diff.size == 2 && diff[1] == diff[0] + 1 && a[diff[0]] == b[diff[1]] && a[diff[1]] == b[diff[0]]
+        end
+
+        # Levenshtein distance.
+        def distance(a, b)
+          row = (0..b.size).to_a
+          a.each_char.with_index(1) do |ca, i|
+            previous = row.dup
+            row[0] = i
+            b.each_char.with_index(1) do |cb, j|
+              row[j] = [previous[j] + 1, row[j - 1] + 1, previous[j - 1] + (ca == cb ? 0 : 1)].min
+            end
+          end
+          row[b.size]
         end
 
         def setup_lines(shell, name)

@@ -47,6 +47,51 @@ Resource feeds still fetch in their own threads; the runner redraws at `fps` and
 latest rows. Panels can have no resource (`panel :clock, resource: nil do ... end`) and then hold
 only extension items.
 
+## Composing an app (0.3)
+
+An app spreads its definitions over many files, in any load order (docs/v03.md has why):
+
+```ruby
+R2UI.source(:sample, every: 2) { |previous| Probe.sample(previous) }   # fetched once per 2 s per app
+
+R2UI.resource :process do
+  source(from: :sample) { |s| s[:processes] }    # derive rows from the shared value
+  refresh history: 900                            # sparkline points kept (default 120)
+  column :cpu_time, format: :duration             # also :age (a Time), :si_bytes; aggregates :min/:max
+  column :pressure, sparkline: :pressure_trend    # plot a series the row carries
+end
+R2UI.resource(:process, extend: true) { action(:kill, key: "K", batch: true) { |rows| ... } }
+
+R2UI.dashboard :main do
+  focus :process                                  # initial focus (default: first table panel)
+  row :top, height: 14                            # a named row, filled from other files
+  row(:main) { panel :process }
+end
+R2UI.panel :memory, row: :top, order: 10, resource: :memory do
+  view { "#{record&.used} used" }                 # `rows` / `record`: the panel's data
+end
+R2UI.panel :detail, row: :top, order: 20, width: 40, resource: nil do
+  view { selected_rows(:process).first.to_s }     # any table panel's selection
+end
+```
+
+- `R2UI.resource` / `R2UI.dashboard` / `R2UI.source` with a name defined elsewhere raise; `extend:
+  true` adds to it, `replace: true` replaces it, and the same file loaded twice replaces itself.
+  A block that raises leaves the registry as it was.
+- `R2UI.dashboard(name, extend: true) { ... }` runs the block on the same builder: `row :top do
+  panel ... end` adds to the named row. Rows and panels take `order:` (default 0, then declaration
+  order). A row without panels takes no space. A panel name used twice on a dashboard raises.
+- `R2UI.with_registry { load "ui.rb" }` loads definitions into a fresh registry (returned);
+  `App.new(registry)` and the CLI's `dashboard(registry:)` show it.
+- `panel ..., width: 40` is a fixed width; span panels share the rest of the row.
+- Actions: the handler runs on a Context (it can `flash`, read `state`); a per-row action carries
+  on past a failing row; `batch: true` gets every selected row at once.
+- Tables size text columns by what they hold (header and widest cell), not equally.
+- App helpers: `app.selected_rows(panel = nil)` (from the last drawn frame, like actions),
+  `app.view(width:, height:)` (with `view_override`s), `app.styles`, `app.key_pairs` (every key:
+  extension hints, the focused panel's actions, navigation, the core's).
+- `help` no longer needs the bubbles gem; its full view lists `app.key_pairs`.
+
 ## The extension point
 
 `R2UI.extension(name) { ... }` (`lib/r2ui/extension.rb`). Files in `lib/r2ui/ext/*.rb` load
@@ -71,7 +116,8 @@ automatically, in name order, from `lib/r2ui.rb`.
 | `styles { { style => "SGR" } }` | Canvas palette (`:title`, `:border`, `:focus`, `:selected`, `:accent`, ...) |
 
 The `Context` every block runs on: `app`, `message`, `state` (the app's user Hash), `store(name)`
-(an extension's private Hash), `dashboard`, `focus`, `selected_rows`, `component(name)` (a hosted
+(an extension's private Hash), `dashboard`, `focus`, `selected_rows(panel = nil)`, `rows` and
+`record` (while a panel item draws: its panel's data), `component(name)` (a hosted
 model), `focus_component(name or nil)` (key focus within the focused panel), `flash`,
 `quit`, `command(cmd)` (enqueue any Bubbletea command or a Proc; returns it), `call(block, *args)`
 (run a user block here; a returned command is enqueued), `pass`. A block may also just return a
@@ -151,6 +197,9 @@ Inline programs (s13) say `inline height: 8`; a program that draws everything it
 `screen { |width, height| "..." }` and has no rows.
 
 ## Story list
+
+The 0.3 stories (ids `v01-...`: overlay, testing, wrap, stat-grid, detail, cli-json, cli-tree-of)
+are in docs/v03.md, with the same rules.
 
 Done here (first articles): **s01-every**, **s02-view**. Everything else is open. "Adds" are the
 names the story owns: keywords on a builder (`dashboard`, `panel`, ...) and Context helpers.

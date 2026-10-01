@@ -69,9 +69,20 @@ class CLIHelpTest < Minitest::Test
     assert_equal help_for("deploy", "--help"), help_for("help", "deploy")
   end
 
+  def test_root_with_summary_and_description_shows_both
+    program = R2UI.cli "tool" do
+      summary "Do things"
+      description "Does things to\nother things."
+      run {}
+    end
+    assert run_cli(program, "--help").out.start_with?("Do things\n\nDoes things to\nother things.\n\nUsage\n")
+    only = R2UI.cli("tool") { description "Just this"; run {} }
+    assert run_cli(only, "--help").out.start_with?("Just this\n\nUsage\n")
+  end
+
   def test_subcommand_help_sections
     out = help_for("deploy", "--help")
-    assert out.start_with?("Deploy an app to the fleet\n\n")
+    assert out.start_with?("Deploy an app\n\nDeploy an app to the fleet\n\nUsage\n")
     assert_includes out, "Usage\n  deployer deploy <app> [sha] [options]"
     assert_includes out, "Arguments\n"
     assert_match(/^  app +App to deploy$/, out)

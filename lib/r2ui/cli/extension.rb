@@ -18,7 +18,12 @@ module R2UI
     #   after_parse { }                    on the Context, argv parsed, before defaults, required
     #                                      checks and positional arguments (`args` is empty here)
     #   before_run { }                     on the Context, before the command's run block
-    #   after_run { }                      on the Context, after it returned normally
+    #   after_run { }                      on the Context, after it returned normally (also after
+    #                                      exit_code(n))
+    #   on_exit { |code| }                 on the Context, on every way out once argv parsed
+    #                                      (return, exit_code, --help, halt, abort!, errors, ctrl+c)
+    #                                      with the final code; can't change it, and an exception
+    #                                      in it is reported on stderr without changing it
     #   help_header { |command, shell| }   returns a String (or nil) shown first in --help
     #   help_section { |command, shell| }  returns [heading, lines] (or nil) to append to --help
     #   on_error(Klass) { |error| }        on the Context when an error escapes; returning an Integer
@@ -52,6 +57,8 @@ module R2UI
       def before_run(&block) = hook(:before_run, nil, block)
 
       def after_run(&block) = hook(:after_run, nil, block)
+
+      def on_exit(&block) = hook(:on_exit, nil, block)
 
       def help_section(&block) = hook(:help_section, nil, block)
 

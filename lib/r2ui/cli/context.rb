@@ -9,6 +9,7 @@ module R2UI
     #   options[:env]         options by name (defaults filled in); given?(:env) if typed
     #   abort!("msg", code: 1)   "✖ msg" on stderr, exit 1 (no message: just the exit code)
     #   halt(0)               stop now, quietly, with that code
+    #   exit_code(3)          end with 3 once the command returns (after_run hooks still run)
     #   usage_error!("msg")   like a bad option: message, "--help" hint, exit 2
     class Context
       include Helpers
@@ -32,6 +33,15 @@ module R2UI
       def abort!(message = nil, code: 1) = raise(Abort.new(message, code:))
 
       def halt(code = 0) = raise(Halt.new(code))
+
+      # exit_code(3) sets the code the run ends with once the command and its after_run hooks
+      # return (halt, abort! and errors still win); exit_code reads it (0 until set).
+      def exit_code(code = nil)
+        return @exit_code || 0 if code.nil?
+        raise ArgumentError, "exit_code expects an Integer, got #{code.inspect}" unless code.is_a?(Integer)
+
+        @exit_code = code
+      end
 
       def usage_error!(message) = raise(UsageError, message)
 

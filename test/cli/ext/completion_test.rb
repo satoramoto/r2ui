@@ -107,6 +107,15 @@ class CompletionCommandTest < Minitest::Test
     assert_equal "", result.out
   end
 
+  def test_short_typos_suggest_the_shell
+    { "zhs" => "zsh", "bsah" => "bash", "fsih" => "fish", "zs" => "zsh", "bahs" => "bash" }.each do |typo, shell|
+      result = run_cli(tool, "completion", typo)
+      assert_equal 2, result.code
+      assert_includes result.err, "Did you mean '#{shell}'?", typo
+    end
+    refute_includes run_cli(tool, "completion", "powershell").err, "Did you mean"
+  end
+
   def test_missing_shell_is_a_usage_error
     result = run_cli(tool, "completion")
     assert_equal 2, result.code

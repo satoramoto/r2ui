@@ -47,6 +47,15 @@ module R2UI
       end
     end
 
+    # True if the bubbles gem is (or can be) loaded, as require_bubbles! loads it; false instead of
+    # raising when it can't. For extensions that can draw without it.
+    def bubbles?
+      require_bubbles!
+      true
+    rescue Error
+      false
+    end
+
     # [model, command] from an init/update result (a pair, a bare command, or nil).
     def split(model, result)
       return result if result.is_a?(Array) && result.size == 2 && !Context.command?(result.first)

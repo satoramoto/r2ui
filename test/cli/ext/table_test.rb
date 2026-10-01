@@ -182,6 +182,37 @@ class CLITableTest < Minitest::Test
     refute_includes shell.output.string, "\e"
   end
 
+  # ---- table_lines ----
+
+  def test_table_lines_returns_plain_lines_without_printing
+    lines, shell = with_shell { CLI.table_lines(ROWS, headers: HEADERS, align: { "Size" => :right }) }
+    assert_equal ["Name   Version    Size", "rails  7.1.0     12 kB", "pg     1.5      1.2 MB"], lines
+    assert_equal "", shell.output.string
+  end
+
+  def test_table_lines_boxed_matches_what_table_prints
+    lines, shell = with_shell(tty: true) { CLI.table_lines(ROWS, headers: HEADERS) }
+    assert_equal "", shell.output.string
+    assert_equal "╭───────┬─────────┬────────╮", lines.first
+    _, printed = with_shell(tty: true) { CLI.table(ROWS, headers: HEADERS) }
+    assert_equal lines.join("\n") + "\n", printed.output.string
+  end
+
+  def test_table_lines_boxed_option_overrides_the_shell
+    boxed, = with_shell { CLI.table_lines(ROWS, headers: HEADERS, boxed: true) }
+    assert_equal "│ rails │ 7.1.0   │ 12 kB  │", boxed[3]
+    plain, = with_shell(tty: true) { CLI.table_lines(ROWS, boxed: false) }
+    assert_equal ["rails  7.1.0  12 kB", "pg     1.5    1.2 MB"], plain
+  end
+
+  def test_terminal_header_is_bold_even_when_lipgloss_has_no_colour
+    R2UI::Compat::Gloss::Renderer.color_profile = :ascii
+    result = run_cli(R2UI.cli("tool") { run { table(ROWS, headers: HEADERS) } }, tty: true, color: true)
+    assert_match(/\e\[[0-9;]*1[0-9;]*m\s*Name/, result.out)
+  ensure
+    R2UI::Compat::Gloss::Renderer.color_profile = nil
+  end
+
   def test_terminal_dumb_is_plain
     _, shell = with_shell(tty: true, env: { "TERM" => "dumb" }) { CLI.table(ROWS, headers: HEADERS) }
     assert_equal "Name   Version  Size\n", shell.output.string.lines.first

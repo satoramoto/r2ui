@@ -15,7 +15,8 @@ module R2UI
     attr_reader :rects
 
     # `draw_item` draws items the core doesn't know (extension items): called with
-    # (panel, item, width, height), it returns a String, or nil if no extension draws that item.
+    # (panel, item, width, height, rows) — rows: the panel's resource rows, [] without a resource —
+    # it returns a String, or nil if no extension draws that item.
     def initialize(registry, feeds, states, draw_item: nil)
       @registry = registry
       @feeds = feeds
@@ -56,14 +57,26 @@ module R2UI
       end
     end
 
+    # Panels with a `width` get it (shrunk proportionally if together they're wider than the row);
+    # the others split what's left by `span`. The last panel takes the rounding remainder.
     def split(rect, panels)
-      total = panels.sum(&:span)
+      widths = panel_widths(rect.width, panels)
       x = rect.x
       panels.each_with_index.map do |panel, i|
-        w = i == panels.size - 1 ? rect.x + rect.width - x : (rect.width * panel.span / total)
+        w = i == panels.size - 1 ? rect.x + rect.width - x : widths[i]
         r = rect.with(x:, width: w)
         x += w
         [r, panel]
+      end
+    end
+
+    def panel_widths(total, panels)
+      fixed = panels.filter_map(&:width).sum
+      scale = fixed > total ? total.fdiv(fixed) : 1
+      spare = [total - (fixed * scale).floor, 0].max
+      spans = panels.reject(&:width).sum(&:span)
+      panels.map do |panel|
+        panel.width ? (panel.width * scale).floor : spare * panel.span / spans
       end
     end
 
@@ -89,10 +102,10 @@ module R2UI
         inner = case item
                 when DSL::Gauge then draw_gauge(canvas, inner, needs(resource, panel), record, item)
                 when DSL::Stat then draw_stats(canvas, inner, needs(resource, panel), record, item)
-                when DSL::Sparkline then draw_sparkline(canvas, inner, needs(resource, panel), feed, item)
+                when DSL::Sparkline then draw_sparkline(canvas, inner, needs(resource, panel), feed, record, item)
                 when DSL::Table
                   draw_table(canvas, inner, needs(resource, panel), feed, rows, panel, state, focused, item)
-                else draw_extension_item(canvas, inner, panel, item)
+                else draw_extension_item(canvas, inner, panel, item, rows)
                 end
       end
     end
@@ -108,8 +121,8 @@ module R2UI
       resource || raise(Error, "panel #{panel.name} has no resource for its gauge/stat/sparkline/table")
     end
 
-    def draw_extension_item(canvas, rect, panel, item)
-      text = @draw_item&.call(panel, item, rect.width, rect.height)
+    def draw_extension_item(canvas, rect, panel, item, rows)
+      text = @draw_item&.call(panel, item, rect.width, rect.height, rows)
       raise Error, "panel #{panel.name}: no extension draws #{item.class}" if text.nil?
 
       lines = text.to_s.split("\n")
@@ -138,10 +151,10 @@ module R2UI
       rest
     end
 
-    def draw_sparkline(canvas, rect, resource, feed, item)
+    def draw_sparkline(canvas, rect, resource, feed, record, item)
       area, rest = rect.take(item.height + 1)
       column = column_for(resource, item.attr)
-      values = feed.history[Feed::SINGLE, column.key]
+      values = item.series ? record_series(record, item.series) : feed.history[Feed::SINGLE, column.key]
       label, chart = area.take(1)
       canvas.write(label.x, label.y, item.label || column.label, :muted)
       now = column.render(values.last)
@@ -156,7 +169,13 @@ module R2UI
       lines = lines.first(item.limit) if item.limit
       @lines[panel] = lines
       label_key = state.grouping && !state.grouping.tree? && resource.column(state.grouping.by) ? state.grouping.by : nil
-      spark = ->(line, col) { feed.history.sum(line.rows.map { |r| feed.series_id(r) }, col.key) }
+      spark = lambda do |line, col|
+        if col.history_sparkline?
+          feed.history.sum(line.rows.map { |r| feed.series_id(r) }, col.key)
+        else
+          History.sum(line.rows.map { |r| col.series(r) })
+        end
+      end
       Widgets::Table.new(resource, lines, state:, focused:, label_key:, spark:).draw(canvas, rect)
       rect.with(height: 0)
     end
@@ -166,6 +185,15 @@ module R2UI
       canvas.fill(Rect.new(x: 0, y:, width:, height: 1), " ", :reverse)
       canvas.write(1, y, left, :reverse, max: width - 2)
       canvas.write(width - hints.length - 1, y, hints, :reverse) if left.length + hints.length + 4 <= width
+    end
+
+    # The values a record carries for a sparkline's `series:` (an attribute or a lambda given the
+    # record); [] without a record.
+    def record_series(record, series)
+      return [] unless record
+
+      values = series.respond_to?(:call) ? series.call(record) : Value.fetch(record, series.to_sym)
+      Array(values).map(&:to_f)
     end
 
     def column_for(resource, key)
