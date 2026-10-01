@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/border/rounded_padded_box: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;125;86;243m╭────────────╮\e[0m"
+"\e[38;2;125;86;243m│\e[0m            \e[38;2;125;86;243m│\e[0m"
+"\e[38;2;125;86;243m│\e[0m  Hello,    \e[38;2;125;86;243m│\e[0m"
+"\e[38;2;125;86;243m│\e[0m  lipgloss  \e[38;2;125;86;243m│\e[0m"
+"\e[38;2;125;86;243m│\e[0m            \e[38;2;125;86;243m│\e[0m"
+"\e[38;2;125;86;243m╰────────────╯\e[0m"

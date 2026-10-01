@@ -1,0 +1,2 @@
+# Case ids under bubbles/ that must pass `bin/conformance check --ratchet`. One per line.
+# Add an id once r2ui passes it; never remove one to make CI green.
