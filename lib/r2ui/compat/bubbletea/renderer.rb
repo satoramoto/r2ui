@@ -108,9 +108,13 @@ module R2UI
           "\e[#{n.positive? ? n : ""}K"
         end
 
+        # Upstream ignores stdout write errors, so a hangup (EIO/EPIPE) or a
+        # closed stream doesn't raise into the program; see Terminal.write.
         def emit(bytes)
           @output.write(bytes)
           @output.flush
+        rescue IOError, SystemCallError
+          nil
         end
       end
     end
