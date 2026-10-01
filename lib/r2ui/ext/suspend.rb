@@ -50,6 +50,7 @@ module R2UI
       pass if blocks.empty?
 
       blocks.each { |block| call(block) }
+      nil # not `blocks`: a handler's returned Procs would run again as background commands
     end
   end
 end
