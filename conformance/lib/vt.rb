@@ -60,11 +60,16 @@ module Conformance
     ZERO_WIDTH = /\A[\p{Mn}\p{Me}​-‏⁠︀-️\u{E0100}-\u{E01EF}]\z/
 
     attr_reader :cols, :rows, :title
+    # Counters for output that a snapshot can't show: non-blank rows scrolled off the top of the
+    # screen, and characters that wrapped onto the next row because a row overflowed the width.
+    attr_accessor :scrolled_off, :wrapped
 
     def initialize(cols:, rows:)
       @cols = cols
       @rows = rows
       @title = nil
+      @scrolled_off = 0
+      @wrapped = 0
       @style_cache = {}
       @reply = +""
       full_reset
@@ -111,11 +116,13 @@ module Conformance
       runs
     end
 
-    def snapshot
+    # title: true adds the last window title set by OSC 0/2 ("-" when none was set).
+    def snapshot(title: false)
       w = @rows.to_s.size
       m = modes
       out = ["alt_screen: #{@alt_active ? "on" : "off"}  cursor: #{@cursor_visible ? "visible" : "hidden"}  " \
              "modes: #{m.empty? ? "-" : m.join(" ")}"]
+      out << "title: #{@title.nil? ? "-" : @title.inspect}" if title
       lines.each_with_index { |line, i| out << "#{(i + 1).to_s.rjust(w)}|#{line}" }
       runs = style_runs
       if runs.empty?
@@ -127,7 +134,39 @@ module Conformance
       "#{out.join("\n")}\n"
     end
 
+    # The terminal was resized (the pty's winsize changed). Like xterm: rows and columns are cut
+    # or padded with blanks; when rows shrink, lines leave from the top only as far as needed to
+    # keep the cursor on screen, the rest from the bottom. Margins reset to the full screen.
+    def resize(cols, rows)
+      return if cols == @cols && rows == @rows
+
+      @cols = cols
+      top_drop = (@row - (rows - 1)).clamp(0, [@rows - rows, 0].max)
+      [@main, @alt].each do |grid|
+        grid.shift(top_drop) if grid.equal?(@grid)
+        grid.pop while grid.size > rows
+        grid.push(blank_row) while grid.size < rows
+        grid.each { |row| fit_row(row) }
+      end
+      @row -= top_drop
+      @rows = rows
+      @top = 0
+      @bottom = rows - 1
+      @row = @row.clamp(0, rows - 1)
+      @col = @col.clamp(0, cols - 1)
+      @wrap_pending = false
+      @tabs = Array.new(cols) { |c| @tabs.fetch(c) { (c % 8).zero? } }
+    end
+
     private
+
+    def fit_row(row)
+      if row.size > @cols
+        row.slice!(@cols..)
+        row[@cols - 1] = blank_cell(DEFAULT_PEN) if row[@cols - 1][2] == 2 # half a wide char
+      end
+      row.push(blank_cell(DEFAULT_PEN)) while row.size < @cols
+    end
 
     # ---- state -------------------------------------------------------------
 
@@ -633,11 +672,13 @@ module Conformance
 
       @last_char = ch
       if @wrap_pending
+        @wrapped += 1
         @col = 0
         index
       end
       if w == 2 && @col == @cols - 1
         if @autowrap
+          @wrapped += 1
           @col = 0
           index
         else
@@ -890,7 +931,8 @@ module Conformance
 
     def scroll_up(n)
       [n, @bottom - @top + 1].min.times do
-        @grid.delete_at(@top)
+        gone = @grid.delete_at(@top)
+        @scrolled_off += 1 if @top.zero? && gone.any? { |cell| cell[0] != " " || cell[1] != DEFAULT_PEN }
         @grid.insert(@bottom, blank_row)
       end
     end

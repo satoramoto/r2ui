@@ -7,15 +7,18 @@ module R2UI
     Sparkline = Data.define(:attr, :label, :height)
     Table = Data.define(:scope, :group_by, :sort, :limit)
 
-    Panel = Data.define(:name, :resource, :span, :title, :items) do
+    # `resource` is nil for a panel that shows only extension items (a text input, a spinner, ...).
+    # `options` holds keyword options the core doesn't know, for extensions to read.
+    Panel = Data.define(:name, :resource, :span, :title, :items, :options) do
       def table = items.find { |i| i.is_a?(Table) }
     end
 
     Row = Data.define(:height, :panels)
 
     # A screen made of rows of panels. Each panel shows one resource.
+    # Extensions record their own declarations (timers, key bindings, ...) under `declarations`.
     class Dashboard
-      attr_reader :name, :title, :rows
+      attr_reader :name, :title, :rows, :declarations
 
       def self.build(name, &block)
         dashboard = new(name)
@@ -32,9 +35,13 @@ module R2UI
         @name = name.to_sym
         @title = name.to_s.tr("_", " ").capitalize
         @rows = []
+        @declarations = Hash.new { |h, k| h[k] = [] }
       end
 
       def panels = rows.flat_map(&:panels)
+
+      # Everything an extension declared under `key`, in order ([] if none).
+      def declared(key) = declarations.fetch(key, [])
 
       class Builder
         def initialize(dashboard) = @d = dashboard
@@ -47,6 +54,14 @@ module R2UI
           builder.instance_eval(&block)
           @d.rows << Row.new(height:, panels: builder.panels)
         end
+
+        private
+
+        # For extension keywords: record `value` under `key` on the dashboard. Returns `value`.
+        def declare(key, value)
+          @d.declarations[key] << value
+          value
+        end
       end
 
       class RowBuilder
@@ -55,10 +70,15 @@ module R2UI
         def initialize = @panels = []
 
         # `span:` is a relative width; panels in a row split it by their spans.
-        def panel(name, resource: name, span: 1, title: nil, &block)
+        # `resource: nil` makes a panel with no data source (extension items only).
+        def panel(name, resource: name, span: 1, title: nil, **options, &block)
           items = PanelBuilder.new.tap { |b| b.instance_eval(&block) if block }.items
-          items = [Table.new(scope: nil, group_by: nil, sort: nil, limit: nil)] if items.empty?
-          @panels << Panel.new(name:, resource:, span:, title:, items:)
+          if items.empty?
+            raise Error, "panel #{name} has no resource and nothing to show" unless resource
+
+            items = [Table.new(scope: nil, group_by: nil, sort: nil, limit: nil)]
+          end
+          @panels << Panel.new(name:, resource:, span:, title:, items:, options:)
         end
       end
 
@@ -75,6 +95,14 @@ module R2UI
 
         def table(scope: nil, group_by: nil, sort: nil, limit: nil)
           @items << Table.new(scope:, group_by:, sort:, limit:)
+        end
+
+        private
+
+        # For extension keywords: add an item (any object) to the panel. Returns it.
+        def item(value)
+          @items << value
+          value
         end
       end
     end

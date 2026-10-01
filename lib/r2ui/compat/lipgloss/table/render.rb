@@ -241,7 +241,12 @@ module R2UI
 
           cells << ((brender(@b.right) + "\n") * height) if t.border_right
 
-          cells.map! { |cell| cell.sub(/\n+\z/, "") }
+          # Right-trim newlines with a byte scan; /\n+\z/ backtracks quadratically.
+          cells.map! do |cell|
+            i = cell.bytesize
+            i -= 1 while i.positive? && cell.getbyte(i - 1) == 10
+            i == cell.bytesize ? cell : cell.byteslice(0, i)
+          end
 
           s = +""
           s << Layout.join_horizontal(0.0, cells) << "\n"

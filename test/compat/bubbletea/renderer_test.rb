@@ -83,6 +83,25 @@ class CompatTeaRendererTest < Minitest::Test
     assert_equal 2, io.flushes
   end
 
+  # Upstream ignores stdout write errors, so a hung-up or closed terminal
+  # never raises out of render or clear.
+  def test_ignores_write_errors_after_hangup
+    [Errno::EIO, Errno::EPIPE, IOError].each do |error|
+      io = Object.new
+      io.define_singleton_method(:write) { |_| raise error }
+      io.define_singleton_method(:flush) { self }
+      renderer = Renderer.new(io)
+      assert_nil renderer.render("a\nb")
+      assert_nil renderer.clear
+    end
+
+    reader, writer = IO.pipe
+    writer.close
+    assert_nil Renderer.new(writer).render("a")
+  ensure
+    reader&.close
+  end
+
   def test_rejects_null_bytes_like_the_c_glue
     assert_raises(ArgumentError) { Renderer.new(StringIO.new).render("a\0b") }
   end
@@ -160,8 +179,16 @@ class CompatTeaRendererTest < Minitest::Test
     def available?
       return @available if defined?(@available)
 
-      @available = !Gem::Specification.find_all_by_name("bubbletea", "0.1.4").empty? ||
-                   ruby(%(gem "bubbletea", "0.1.4"; require "bubbletea")).last.success?
+      @available = !env.nil?
+    end
+
+    # Where the real gem loads: in this bundle (as the parent finds gems), else outside it.
+    def env
+      return @env if defined?(@env)
+
+      @env = %i[bundled unbundled].find do |mode|
+        ruby_in(mode, %(gem "bubbletea", "0.1.4"; require "bubbletea")).last.success?
+      end
     end
 
     def run(jobs)
@@ -179,9 +206,11 @@ class CompatTeaRendererTest < Minitest::Test
       end
     end
 
-    def ruby(code, *args)
+    def ruby(code, *args) = ruby_in(env || :unbundled, code, *args)
+
+    def ruby_in(mode, code, *args)
       call = -> { Open3.capture2e(RbConfig.ruby, "-e", code, *args) }
-      defined?(Bundler) ? Bundler.with_unbundled_env(&call) : call.call
+      mode == :unbundled && defined?(Bundler) ? Bundler.with_unbundled_env(&call) : call.call
     end
   end
 end

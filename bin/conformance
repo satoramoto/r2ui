@@ -6,6 +6,7 @@
 #
 #   bin/conformance record [filter...]           run cases on the real gems, write goldens
 #   bin/conformance check [--ratchet] [filter...] run cases on r2ui/drop_in, compare to goldens
+#   bin/conformance ratchet [filter...]          run cases on r2ui, add passing ones to conformance/ratchet/
 #   bin/conformance list [filter...]             list case ids
 #
 # Filters match case ids by substring. -j N sets parallel jobs (default: CPU count).
@@ -13,7 +14,7 @@
 
 require_relative "../conformance/lib/harness"
 
-USAGE = "usage: bin/conformance (record|check [--ratchet]|list) [-j N] [filter...]"
+USAGE = "usage: bin/conformance (record|check [--ratchet]|ratchet|list) [-j N] [filter...]"
 
 args = ARGV.dup
 command = args.shift
@@ -39,6 +40,7 @@ when "record"
   abort "no cases match #{filters.join(' ')}" if selected.empty?
   failed = 0
   Conformance.run_all(selected, :real, jobs: jobs).each do |c, text, error|
+    c.warnings.each { |w| warn "warning: #{w}" }
     if error
       failed += 1
       puts "ERROR #{c.id}\n#{error.gsub(/^/, '  ')}"
@@ -63,22 +65,27 @@ when "check"
   abort "no cases match #{filters.join(' ')}" if selected.empty?
   listed = Conformance.ratchet
   listed_ids = listed.map(&:first)
-  problems = 0
-  unknown = listed.reject { |id, _| all.any? { |c| c.id == id } }
-  unknown.each do |id, file|
-    puts "UNKNOWN #{id} (listed in conformance/ratchet/#{file}, no such case)"
-    problems += 1
-  end
+  conceded = Conformance.concessions.to_h { |id, _file, reason| [id, reason] }
+  ledger_problems = Conformance.ledger_problems(listed, Conformance.concessions, all.map(&:id))
+  ledger_problems.each { |p| puts p }
+  problems = ledger_problems.size
   passing_unlisted = []
-  passed = failed = 0
+  passed = failed = conceded_count = 0
   Conformance.run_all(selected, :r2ui, jobs: jobs).each do |c, text, error|
     golden = c.golden
     ok = golden && !error && strip_header(golden) == text
     gating = !ratchet || listed_ids.include?(c.id)
     if ok
       passed += 1
-      puts "PASS #{c.id}"
-      passing_unlisted << c.id if ratchet && !gating
+      puts "PASS #{c.id}#{conceded.key?(c.id) ? '  (conceded, but passes: drop it from conformance/concessions/)' : ''}"
+      passing_unlisted << c.id if ratchet && !gating && !conceded.key?(c.id)
+      next
+    end
+    # A concession records that r2ui differs from upstream on purpose: reported, never a failure.
+    # A crash or leaked upstream gem (error) is still a failure.
+    if conceded.key?(c.id) && golden && !error
+      conceded_count += 1
+      puts "CONCEDED #{c.id}  # #{conceded[c.id]}"
       next
     end
     failed += 1
@@ -94,15 +101,36 @@ when "check"
       puts Conformance.diff(strip_header(golden), text).gsub(/^/, "  ")
     end
   end
-  puts "#{passed} passed, #{failed} failed"
+  puts "#{passed} passed, #{failed} failed, #{conceded_count} conceded"
   if ratchet
     puts "#{listed_ids.size} in ratchet, #{problems} ratchet failures"
     unless passing_unlisted.empty?
-      puts "Passing but not in the ratchet (add them to conformance/ratchet/<area>.txt):"
+      puts "Passing but not in the ratchet (add them with `bin/conformance ratchet`):"
       passing_unlisted.each { |id| puts "  #{id}" }
     end
   end
   exit(problems.zero? ? 0 : 1)
+
+when "ratchet"
+  abort "no cases match #{filters.join(' ')}" if selected.empty?
+  listed_ids = Conformance.ratchet.map(&:first).to_set
+  conceded_ids = Conformance.concessions.map(&:first).to_set
+  passing = Hash.new { |h, k| h[k] = [] }
+  failed = 0
+  Conformance.run_all(selected, :r2ui, jobs: jobs).each do |c, text, error|
+    golden = c.golden
+    if golden && !error && strip_header(golden) == text
+      passing[c.area] << c.id unless listed_ids.include?(c.id) || conceded_ids.include?(c.id)
+    else
+      failed += 1
+    end
+  end
+  added = passing.sort.sum do |area, ids|
+    new_ids = Conformance.add_to_ratchet(File.join(Conformance::RATCHET, "#{area}.txt"), ids)
+    new_ids.each { |id| puts "ADDED #{id}  (conformance/ratchet/#{area}.txt)" }
+    new_ids.size
+  end
+  puts "#{added} added to the ratchet, #{failed} not passing (left out)"
 
 else
   abort USAGE

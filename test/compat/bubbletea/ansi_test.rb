@@ -156,8 +156,16 @@ class CompatTeaAnsiTest < Minitest::Test
     def available?
       return @available if defined?(@available)
 
-      @available = !Gem::Specification.find_all_by_name("bubbletea", "0.1.4").empty? ||
-                   ruby(%(gem "bubbletea", "0.1.4"; require "bubbletea")).last.success?
+      @available = !env.nil?
+    end
+
+    # Where the real gem loads: in this bundle (as the parent finds gems), else outside it.
+    def env
+      return @env if defined?(@env)
+
+      @env = %i[bundled unbundled].find do |mode|
+        ruby_in(mode, %(gem "bubbletea", "0.1.4"; require "bubbletea")).last.success?
+      end
     end
 
     def run(jobs)
@@ -175,9 +183,11 @@ class CompatTeaAnsiTest < Minitest::Test
       end
     end
 
-    def ruby(code, *args)
+    def ruby(code, *args) = ruby_in(env || :unbundled, code, *args)
+
+    def ruby_in(mode, code, *args)
       call = -> { Open3.capture2e(RbConfig.ruby, "-e", code, *args) }
-      defined?(Bundler) ? Bundler.with_unbundled_env(&call) : call.call
+      mode == :unbundled && defined?(Bundler) ? Bundler.with_unbundled_env(&call) : call.call
     end
   end
 end

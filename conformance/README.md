@@ -4,8 +4,9 @@ Measures r2ui's drop-in (`require "r2ui/drop_in"`) against the upstream Charm ge
 
 ```
 bin/conformance record [filter...]             # run cases on the real gems, (re)write goldens
-bin/conformance check [filter...]              # run cases on r2ui, diff against goldens; fails on any failure
+bin/conformance check [filter...]              # run cases on r2ui, diff against goldens; fails on any failure (conceded cases excepted)
 bin/conformance check --ratchet [filter...]    # fails only if a case listed in conformance/ratchet/ fails
+bin/conformance ratchet [filter...]            # run cases on r2ui, add every passing one to conformance/ratchet/
 bin/conformance list [filter...]               # list case ids
 ```
 
@@ -18,6 +19,7 @@ Filters match case ids by substring (`bin/conformance check lipgloss/border`). `
 | `cases/<area>/.../<name>.rb` | One case. Its id is the path without `cases/` and `.rb`, e.g. `lipgloss/border/rounded_padded_box`; its area is the first directory |
 | `golden/<id>.txt` | Recorded output for each case. Written only by `bin/conformance record` |
 | `ratchet/<area>.txt` | Case ids that must pass, one per line (`#` comments). Starts empty |
+| `concessions/<area>.txt` | Case ids where r2ui differs from upstream on purpose, `<id>  # reason` per line. See [Concessions](#concessions) |
 | `lib/` | The harness: `harness.rb` (cases, goldens, ratchet), `pty_runner.rb` (pty + input), `vt.rb` (terminal decoder), `child.rb` (runs one case in the pty) |
 
 ## Writing a case
@@ -59,7 +61,7 @@ steps:
   - keys: [up, up, k]            # each key sent separately, waiting for idle after each
     snapshot: three
   - keys: [q]
-    exit: true                   # wait for the program to exit; the snapshot records the exit status
+    exit: true                   # optional: wait for the program to exit; the snapshot records the exit status
     snapshot: quit
 ```
 
@@ -67,13 +69,26 @@ Step keys (all optional, applied in this order):
 
 | Key | Does |
 |---|---|
-| `keys: [..]` | Sends each key, waiting for idle after each. Names: `up down left right home end pgup pgdown insert delete enter tab shift+tab esc backspace space ctrl+a`..`ctrl+z`; anything else is sent literally (`q`, `hello`) |
+| `resize: 60x10` | Resizes the pty (the program gets SIGWINCH, so bubbletea sends a `WindowSizeMessage`) and the decoded screen, then waits for idle. Later snapshots have the new size |
+| `keys: [..]` | Sends each key, waiting for idle after each. Names: `up down left right home end pgup pgdown insert delete enter tab shift+tab esc backspace space ctrl+a`..`ctrl+z`; anything else is sent literally, as **one write** (`q`, `hello`). Upstream bubbletea makes one event from the first character of a read and drops the rest, so `keys: [hello]` is not five key presses: list them, `keys: [h, e, l, l, o]` |
 | `input: "..."` | Sends raw bytes in one write (YAML double quotes allow `"\e[A"`), then waits for idle |
 | `wait_for: "text"` | Waits until some screen row contains the text, then for idle |
-| `exit: true` | Waits for the program to exit |
-| `snapshot: name` | Records the screen under this name |
+| `exit: true` | Waits for the program to exit and records its exit status in the snapshot. Not required: after the last step the harness kills the program anyway |
+| `snapshot: name` | Records the screen under this name. An empty name (`snapshot:` with nothing after it) is an error |
 
 A step that is just a string is a snapshot name.
+
+Quote YAML scalars that YAML would otherwise read as something else: `keys: ["!", "?", "*", "&", "#", "[", "{", ":", "-", "yes", "no", "on", "off", "1"]`. Unquoted, `!` is a tag, `#` starts a comment, `yes` is a boolean and `1` an integer.
+
+Case options (top level of the YAML, besides `steps:`):
+
+| Key | Does |
+|---|---|
+| `size: 40x8` | Terminal size, default `80x24` |
+| `quiet: 0.5` | Seconds of silence that count as idle (default 0.3) |
+| `window_title: true` | Each snapshot gets a `title:` line with the last window title set by OSC 0 or OSC 2 (`-` if none). Off by default so goldens without it never change |
+
+**Warnings, not snapshot lines.** A snapshot only shows what is on screen. If non-blank rows scrolled off the top, or a row overflowed the width and wrapped, before a snapshot, `record` prints a `warning:` on stderr naming the case and snapshot. The golden is unchanged; usually the fix is a bigger `size:`.
 
 **The gauge** is the screen, not the bytes: everything the program writes is decoded by `lib/vt.rb` (an xterm-like decoder: cursor movement, erase, scrolling and margins, SGR, alt screen, wide characters) into a grid of cells. A snapshot lists each row's text, then the styled runs, then alt-screen, cursor visibility and tracked modes (mouse, bracketed paste, focus). Two renderers that draw the same screen with different escape codes give the same snapshot. Cursor position is not compared.
 
@@ -100,7 +115,23 @@ Both run each case as `ruby [-I lib -r r2ui/drop_in] conformance/lib/child.rb <c
 
 ## Ratchet
 
-`ratchet/<area>.txt` lists the cases that must keep passing. When a lane makes a case pass, it adds the id; `check --ratchet` (run in CI on every PR) then fails if that case regresses, and lists cases that pass but aren't listed yet. Listing an id that has no case is also a failure.
+`ratchet/<area>.txt` lists the cases that must keep passing. When a lane makes a case pass, it runs `bin/conformance ratchet [filter]`: that runs the matching cases on r2ui and adds every passing id that isn't listed or conceded to its area's file, in sorted position, leaving comments in place. Cases that don't pass are left out; the command never removes an id. `check --ratchet` (run in CI on every PR) then fails if a listed case regresses, and lists cases that pass but aren't listed yet. Listing an id that has no case is also a failure.
+
+## Concessions
+
+A **concession** is the factory's way of accepting a documented nonconforming part: a case where r2ui differs from the upstream gem on purpose, because upstream is wrong in a way no program should depend on. For example, upstream bubbletea makes one event from a multi-byte read and drops the rest, and garbles bracketed paste; r2ui delivers every event and the whole paste.
+
+`concessions/<area>.txt` lists them, one per line, with the reason after `#`:
+
+```
+bubbletea/keys/one_write_one_event  # upstream drops all but the first event of a read; r2ui keeps them all
+```
+
+- The golden stays what upstream does (it is still recorded, never edited), so the difference stays visible: `bin/conformance check <id>` shows it.
+- `check` reports a conceded case that differs from its golden as `CONCEDED <id>  # reason`, not as a failure, and it doesn't change the exit code. A conceded case that errors (crashes, times out, loads an upstream gem) still fails. One that passes is reported as `PASS` with a hint to drop the concession.
+- `check --ratchet` never requires a conceded case and doesn't suggest adding it to the ratchet.
+- A case is in the ratchet or conceded, never both. An id with no case, or a line without a reason, fails `check` like an unknown ratchet id.
+- Concede only after the golden shows upstream's behaviour is the bug, and say what r2ui does instead.
 
 ## Mistake-proofing
 

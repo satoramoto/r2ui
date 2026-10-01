@@ -229,6 +229,53 @@ class CompatTeaInputTest < Minitest::Test
                     "paste" => true }, key(-1, [113], false, "q")], events
   end
 
+  # --- Decoder: a paste spread over several reads (issue #4) ---
+
+  def feed_all(*chunks)
+    decoder = Input::Decoder.new
+    chunks.flat_map { |chunk| decoder.feed(chunk) }
+  end
+
+  def test_decoder_long_paste_over_many_reads
+    text = "line one\r#{'x' * 600}\rlast"
+    bytes = "a\e[200~#{text}\e[201~b".b
+    chunks = bytes.chars.each_slice(256).map(&:join)
+    events = feed_all(*chunks)
+    assert_equal [key(-1, [97], false, "a"), Input.paste_event(text.b), key(-1, [98], false, "b")], events
+  end
+
+  def test_decoder_holds_open_paste_until_end_marker
+    decoder = Input::Decoder.new
+    assert_equal [], decoder.feed("\e[200~ab")
+    assert_equal [], decoder.feed("c\e[20")
+    assert_equal [Input.paste_event("abc"), key(-1, [113], false, "q")], decoder.feed("1~q")
+  end
+
+  def test_decoder_start_marker_split_across_reads
+    ["\e[2", "\e[20", "\e[200"].each do |head|
+      tail = "\e[200~"[head.size..]
+      assert_equal [key(-1, [120], false, "x"), Input.paste_event("hi")],
+                   feed_all("x#{head}", "#{tail}hi\e[201~"), head.inspect
+    end
+  end
+
+  def test_decoder_does_not_hold_esc_or_alt_bracket
+    decoder = Input::Decoder.new
+    assert_equal [key(27, nil, false, "esc")], decoder.feed("\e")
+    assert_equal [key(-1, [91], true, "alt+[")], decoder.feed("\e[")
+  end
+
+  def test_decoder_held_prefix_that_is_not_a_paste_decodes_as_keys
+    assert_equal [key(-11, nil, false, "insert")], feed_all("\e[2", "~")
+  end
+
+  def test_decoder_flush_emits_held_bytes
+    decoder = Input::Decoder.new
+    decoder.feed("\e[200~abc")
+    assert_equal [Input.paste_event("abc")], decoder.flush
+    assert_equal [], decoder.flush
+  end
+
   # --- through Bubbletea.parse_event ---
 
   def tea_message(bytes)

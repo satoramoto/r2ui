@@ -1,0 +1,12 @@
+# Case ids under bubbletea/ where r2ui differs from the upstream gem on purpose (see the
+# README's "Concessions"). One per line, with the reason: `<id>  # why r2ui differs`.
+# `bin/conformance check` reports these as CONCEDED, never as failures.
+bubbletea/keys/alt_non_printable  # upstream drops the byte after ESC (enter, DEL, ESC, UTF-8); r2ui delivers esc then that key
+bubbletea/keys/arrows_ss3  # upstream reads ESC O A as alt+O and drops the rest; r2ui keeps the rest of the read
+bubbletea/keys/csi_unknown  # upstream reads an unknown CSI as alt+[ and drops the rest; r2ui keeps the rest of the read
+bubbletea/keys/one_write_one_event  # upstream drops all but the first event of a read; r2ui delivers every event
+bubbletea/mouse_paste_focus/focus_prefix_wins  # upstream drops the bytes after a focus/blur prefix; r2ui delivers them as keys
+bubbletea/mouse_paste_focus/mouse_malformed  # upstream reads a malformed SGR mouse as alt+[ and drops the rest; r2ui keeps the rest
+bubbletea/mouse_paste_focus/mouse_x10_not_parsed  # upstream reads X10 mouse as alt+[ and drops the rest; r2ui keeps the rest of the read
+bubbletea/mouse_paste_focus/paste_markers_separate  # upstream garbles a bracketed paste split across reads; r2ui delivers the whole paste
+bubbletea/mouse_paste_focus/paste_single_write  # upstream garbles bracketed paste into alt+[; r2ui delivers the whole paste
