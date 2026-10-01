@@ -1,0 +1,70 @@
+# conformance golden for bubbles/table/selection_move: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x10
+== two_down
+alt_screen: off  cursor: hidden  modes: -
+ 1|Name       Len
+ 2|───────────────
+ 3|Alpha      5
+ 4|Bravo      5
+ 5|Charlie    7
+ 6|Delta      5
+ 7|Echo       4
+ 8|cursor=2 row=["Charlie", "7"]
+ 9|
+10|
+styles:
+ 1:1-10 bold
+ 1:12-15 bold
+ 5:1-10 reverse
+ 5:12-15 reverse
+== one_up
+alt_screen: off  cursor: hidden  modes: -
+ 1|Name       Len
+ 2|───────────────
+ 3|Alpha      5
+ 4|Bravo      5
+ 5|Charlie    7
+ 6|Delta      5
+ 7|Echo       4
+ 8|cursor=1 row=["Bravo", "5"]
+ 9|
+10|
+styles:
+ 1:1-10 bold
+ 1:12-15 bold
+ 4:1-10 reverse
+ 4:12-15 reverse
+== clamped_bottom
+alt_screen: off  cursor: hidden  modes: -
+ 1|Name       Len
+ 2|───────────────
+ 3|Alpha      5
+ 4|Bravo      5
+ 5|Charlie    7
+ 6|Delta      5
+ 7|Echo       4
+ 8|cursor=4 row=["Echo", "4"]
+ 9|
+10|
+styles:
+ 1:1-10 bold
+ 1:12-15 bold
+ 7:1-10 reverse
+ 7:12-15 reverse
+== clamped_top
+alt_screen: off  cursor: hidden  modes: -
+ 1|Name       Len
+ 2|───────────────
+ 3|Alpha      5
+ 4|Bravo      5
+ 5|Charlie    7
+ 6|Delta      5
+ 7|Echo       4
+ 8|cursor=0 row=["Alpha", "5"]
+ 9|
+10|
+styles:
+ 1:1-10 bold
+ 1:12-15 bold
+ 3:1-10 reverse
+ 3:12-15 reverse

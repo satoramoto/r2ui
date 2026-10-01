@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/pgup_pgdown: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== paging
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"pgup" type=-8 runes=[] alt=false char=nil flags=
+ 3|"pgdown" type=-9 runes=[] alt=false char=nil flags=
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

@@ -1,0 +1,58 @@
+# conformance golden for bubbles/list/jump_end_home: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== end
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Grape
+ 4|  Honeydew
+ 5|  Kiwi
+ 6|> Lemon
+ 7|
+ 8|○ ● ○
+ 9|
+10|
+styles:
+ 6:1-7 reverse
+== home
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 3:1-7 reverse
+== capital_g
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Grape
+ 4|  Honeydew
+ 5|  Kiwi
+ 6|> Lemon
+ 7|
+ 8|○ ● ○
+ 9|
+10|
+styles:
+ 6:1-7 reverse
+== lower_g
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 3:1-7 reverse

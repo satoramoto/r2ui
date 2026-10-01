@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/tree/nested: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"Project"
+"├── src"
+"│   ├── main.rb"
+"│   └── helper.rb"
+"└── README"

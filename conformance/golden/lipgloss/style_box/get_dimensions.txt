@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_box/get_dimensions: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[0, 12, 3]"

@@ -1,0 +1,98 @@
+# conformance golden for bubbles/table/page_keys: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x9
+== pgdown
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 2      20
+4|Row 3      30
+5|Row 4      40
+6|Row 5      50
+7|cursor=4
+8|
+9|
+styles:
+1:1-10 bold
+1:12-16 bold
+6:1-10 reverse
+6:12-16 reverse
+== f
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 6      60
+4|Row 7      70
+5|Row 8      80
+6|Row 9      90
+7|cursor=8
+8|
+9|
+styles:
+1:1-10 bold
+1:12-16 bold
+6:1-10 reverse
+6:12-16 reverse
+== space_clamped
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 9      90
+4|Row 10     100
+5|Row 11     110
+6|Row 12     120
+7|cursor=11
+8|
+9|
+styles:
+1:1-10 bold
+1:12-16 bold
+6:1-10 reverse
+6:12-16 reverse
+== pgup
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 8      80
+4|Row 9      90
+5|Row 10     100
+6|Row 11     110
+7|cursor=7
+8|
+9|
+styles:
+1:1-10 bold
+1:12-16 bold
+3:1-10 reverse
+3:12-16 reverse
+== b
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 4      40
+4|Row 5      50
+5|Row 6      60
+6|Row 7      70
+7|cursor=3
+8|
+9|
+styles:
+1:1-10 bold
+1:12-16 bold
+3:1-10 reverse
+3:12-16 reverse
+== b_clamped
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 1      10
+4|Row 2      20
+5|Row 3      30
+6|Row 4      40
+7|cursor=0
+8|
+9|
+styles:
+1:1-10 bold
+1:12-16 bold
+3:1-10 reverse
+3:12-16 reverse

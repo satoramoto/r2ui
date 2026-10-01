@@ -1,0 +1,10 @@
+# conformance golden for bubbles/help/full_uneven_columns: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x5
+== uneven
+alt_screen: off  cursor: hidden  modes: -
+1|a one    d four    e five
+2|b two        a one
+3|c three
+4|
+5|
+styles: none

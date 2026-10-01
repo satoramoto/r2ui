@@ -1,0 +1,29 @@
+# conformance golden for bubbletea/commands/exec_without_message: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|other keys: 0
+2|
+3|
+4|
+5|
+6|
+styles: none
+== after_exec
+alt_screen: off  cursor: hidden  modes: -
+1|[ran] keys: 0
+2|
+3|
+4|
+5|
+6|
+styles: none
+== still_alive
+alt_screen: off  cursor: hidden  modes: -
+1|other keys: 1
+2|
+3|
+4|
+5|
+6|
+styles: none

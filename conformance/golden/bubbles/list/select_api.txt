@@ -1,0 +1,92 @@
+# conformance golden for bubbles/list/select_api: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x14
+== select_9
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 7
+ 4|  Item 8
+ 5|  Item 9
+ 6|> Item 10
+ 7|
+ 8|● ○ ○
+ 9|sel=9 item=Item 10
+10|
+11|
+12|
+13|
+14|
+styles:
+ 6:1-9 reverse
+== select_clamped_high
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 9
+ 4|  Item 10
+ 5|  Item 11
+ 6|> Item 12
+ 7|
+ 8|● ○ ○
+ 9|sel=11 item=Item 12
+10|
+11|
+12|
+13|
+14|
+styles:
+ 6:1-9 reverse
+== select_clamped_low
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Item 1
+ 4|  Item 2
+ 5|  Item 3
+ 6|  Item 4
+ 7|
+ 8|● ○ ○
+ 9|sel=0 item=Item 1
+10|
+11|
+12|
+13|
+14|
+styles:
+ 3:1-8 reverse
+== next_twice
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 1
+ 4|  Item 2
+ 5|> Item 3
+ 6|  Item 4
+ 7|
+ 8|● ○ ○
+ 9|sel=2 item=Item 3
+10|
+11|
+12|
+13|
+14|
+styles:
+ 5:1-8 reverse
+== prev_once
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Item 1
+ 4|> Item 2
+ 5|  Item 3
+ 6|  Item 4
+ 7|
+ 8|● ○ ○
+ 9|sel=1 item=Item 2
+10|
+11|
+12|
+13|
+14|
+styles:
+ 4:1-8 reverse

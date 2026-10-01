@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/commands/proc_returns_command: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== exited
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|waiting to quit
+2|
+3|
+4|
+5|
+styles: none

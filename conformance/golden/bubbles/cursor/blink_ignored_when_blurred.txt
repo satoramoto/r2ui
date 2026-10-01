@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/blink_ignored_when_blurred: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[true, true, true]"

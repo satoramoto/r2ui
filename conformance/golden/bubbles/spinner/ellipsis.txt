@@ -1,0 +1,8 @@
+# conformance golden for bubbles/spinner/ellipsis: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x3
+== final
+alt_screen: off  cursor: hidden  modes: -
+1|Loading..| ticks=6 done
+2|
+3|
+styles: none

@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/tree/nested_deep: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"a"
+"├── b"
+"│   ├── c"
+"│   │   └── leaf"
+"│   └── b2"
+"└── a2"

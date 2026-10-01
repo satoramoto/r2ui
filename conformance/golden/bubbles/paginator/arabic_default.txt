@@ -1,0 +1,16 @@
+# conformance golden for bubbles/paginator/arabic_default: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== initial
+alt_screen: off  cursor: hidden  modes: -
+1|[1/1] type=arabic per_page=10
+2|
+3|
+4|
+styles: none
+== ninety_five_items
+alt_screen: off  cursor: hidden  modes: -
+1|[1/10] type=arabic per_page=10
+2|
+3|
+4|
+styles: none

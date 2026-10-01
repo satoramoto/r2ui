@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/place/place_whitespace_chars: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"........."
+"...ab...."
+"...cd...."
+"........."
+"........."

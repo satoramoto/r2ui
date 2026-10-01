@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/offset_rows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─╮"
+"│A│"
+"├─┤"
+"│3│"
+"│4│"
+"╰─╯"

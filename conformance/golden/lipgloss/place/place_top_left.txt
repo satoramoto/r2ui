@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/place/place_top_left: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"ab    "
+"cd    "
+"      "

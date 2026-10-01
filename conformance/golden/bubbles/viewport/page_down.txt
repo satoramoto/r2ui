@@ -1,0 +1,24 @@
+# conformance golden for bubbles/viewport/page_down: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 44x8
+== page1
+alt_screen: off  cursor: hidden  modes: -
+1|line 06
+2|line 07
+3|line 08
+4|line 09
+5|line 10
+6|y=5 pct=71 top=false bottom=false
+7|
+8|
+styles: none
+== page2_clamped
+alt_screen: off  cursor: hidden  modes: -
+1|line 08
+2|line 09
+3|line 10
+4|line 11
+5|line 12
+6|y=7 pct=100 top=false bottom=true
+7|
+8|
+styles: none

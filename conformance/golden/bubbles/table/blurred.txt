@@ -1,0 +1,78 @@
+# conformance golden for bubbles/table/blurred: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x9
+== focused_moved
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Len
+2|───────────────
+3|Alpha      5
+4|Bravo      5
+5|Charlie    7
+6|Delta      5
+7|focused=true cursor=1
+8|
+9|
+styles:
+1:1-10 bold
+1:12-15 bold
+4:1-10 reverse
+4:12-15 reverse
+== blurred
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Len
+2|───────────────
+3|Alpha      5
+4|Bravo      5
+5|Charlie    7
+6|Delta      5
+7|focused=false cursor=1
+8|
+9|
+styles:
+1:1-10 bold
+1:12-15 bold
+== blurred_ignores_keys
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Len
+2|───────────────
+3|Alpha      5
+4|Bravo      5
+5|Charlie    7
+6|Delta      5
+7|focused=false cursor=1
+8|
+9|
+styles:
+1:1-10 bold
+1:12-15 bold
+== refocused
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Len
+2|───────────────
+3|Alpha      5
+4|Bravo      5
+5|Charlie    7
+6|Delta      5
+7|focused=true cursor=1
+8|
+9|
+styles:
+1:1-10 bold
+1:12-15 bold
+4:1-10 reverse
+4:12-15 reverse
+== moves_again
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Len
+2|───────────────
+3|Alpha      5
+4|Bravo      5
+5|Charlie    7
+6|Delta      5
+7|focused=true cursor=2
+8|
+9|
+styles:
+1:1-10 bold
+1:12-15 bold
+5:1-10 reverse
+5:12-15 reverse

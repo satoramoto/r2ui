@@ -1,0 +1,23 @@
+# conformance golden for bubbletea/options/report_focus_messages: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: 1004
+1|events:
+2|
+3|
+4|
+styles: none
+== blurred
+alt_screen: off  cursor: hidden  modes: 1004
+1|events: blur
+2|
+3|
+4|
+styles: none
+== focused
+alt_screen: off  cursor: hidden  modes: 1004
+1|events: blur,focus
+2|
+3|
+4|
+styles: none

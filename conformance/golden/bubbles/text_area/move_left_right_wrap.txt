@@ -1,0 +1,54 @@
+# conformance golden for bubbles/text_area/move_left_right_wrap: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x7
+== wrapped_up
+alt_screen: off  cursor: hidden  modes: -
+1|abc
+2|de
+3|~
+4|~
+5|row=0 col=3
+6|
+7|
+styles:
+1:4-4 reverse
+3:1-1 fg=8
+4:1-1 fg=8
+== wrapped_down
+alt_screen: off  cursor: hidden  modes: -
+1|abc
+2|de
+3|~
+4|~
+5|row=1 col=0
+6|
+7|
+styles:
+2:1-1 reverse
+3:1-1 fg=8
+4:1-1 fg=8
+== line_end
+alt_screen: off  cursor: hidden  modes: -
+1|abc
+2|de
+3|~
+4|~
+5|row=1 col=2
+6|
+7|
+styles:
+2:3-3 reverse
+3:1-1 fg=8
+4:1-1 fg=8
+== noop_at_buffer_end
+alt_screen: off  cursor: hidden  modes: -
+1|abc
+2|de
+3|~
+4|~
+5|row=1 col=2
+6|
+7|
+styles:
+2:3-3 reverse
+3:1-1 fg=8
+4:1-1 fg=8

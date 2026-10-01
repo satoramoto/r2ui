@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/set_mode: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[:blink, true, :static, true, :hide, true, :hide, false, :blink]"

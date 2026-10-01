@@ -1,0 +1,16 @@
+# conformance golden for bubbles/help/disabled_bindings_hidden: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x4
+== short
+alt_screen: off  cursor: hidden  modes: -
+1|a shown • b also shown
+2|
+3|
+4|
+styles: none
+== full
+alt_screen: off  cursor: hidden  modes: -
+1|a shown    b also shown
+2|
+3|
+4|
+styles: none

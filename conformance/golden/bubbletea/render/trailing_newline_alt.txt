@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/render/trailing_newline_alt: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x6
+== start
+alt_screen: on  cursor: hidden  modes: -
+1|one
+2|two
+3|
+4|
+5|
+6|
+styles: none

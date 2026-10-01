@@ -1,0 +1,46 @@
+# conformance golden for bubbles/file_picker/custom_cursor_char: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x14
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|→  one.txt 3.0B
+ 4|   three.txt 3.0B
+ 5|   two.txt 3.0B
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles:
+ 1:1-6 fg=4
+ 3:4-10 bold
+ 3:12-15 fg=8
+ 4:14-17 fg=8
+ 5:12-15 fg=8
+== moved
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|   one.txt 3.0B
+ 4|→  three.txt 3.0B
+ 5|   two.txt 3.0B
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles:
+ 1:1-6 fg=4
+ 3:12-15 fg=8
+ 4:4-12 bold
+ 4:14-17 fg=8
+ 5:12-15 fg=8

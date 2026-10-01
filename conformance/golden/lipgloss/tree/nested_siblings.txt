@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/tree/nested_siblings: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"Project"
+"├── a"
+"│   ├── a1"
+"│   └── a2"
+"└── b"
+"    └── b1"

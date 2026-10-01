@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_luv_gray_ramp: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#000000\", \"#3b3b3b\", \"#777777\", \"#b9b9b9\", \"#ffffff\"]"

@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/initial_blink_command: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[false, false]"

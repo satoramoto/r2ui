@@ -1,0 +1,24 @@
+# conformance golden for bubbles/viewport/styled_content_lines: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|bold head
+2|red text
+3|plain
+4|
+5|
+6|
+styles:
+1:1-9 bold
+2:1-8 fg=#ff0000
+== scrolled
+alt_screen: off  cursor: hidden  modes: -
+1|red text
+2|plain
+3|0123456789AB
+4|
+5|
+6|
+styles:
+1:1-8 fg=#ff0000
+3:1-12 bold

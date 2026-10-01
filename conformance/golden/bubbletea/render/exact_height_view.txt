@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/render/exact_height_view: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x5
+== start
+alt_screen: on  cursor: hidden  modes: -
+1|row 1
+2|row 2
+3|row 3
+4|row 4
+5|row 5
+styles: none

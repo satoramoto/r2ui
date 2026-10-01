@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_luv_midpoint: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"#b7b6b7"

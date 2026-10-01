@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/commands/sequence_stops_at_quit: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== exited
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|seen: before
+2|
+3|
+4|
+5|
+styles: none

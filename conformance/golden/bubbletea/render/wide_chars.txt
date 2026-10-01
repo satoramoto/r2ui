@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/render/wide_chars: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x5
+== start
+alt_screen: on  cursor: hidden  modes: -
+1|ab你好cd
+2|世界|
+3|plain|
+4|
+5|
+styles: none

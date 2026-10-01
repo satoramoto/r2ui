@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/alphabet: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"A. one"
+"B. two"
+"C. three"

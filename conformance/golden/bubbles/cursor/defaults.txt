@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/defaults: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[:blink, 0.53, \"\", false, true, nil, nil, 0.53]"

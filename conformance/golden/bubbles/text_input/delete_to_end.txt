@@ -1,0 +1,18 @@
+# conformance golden for bubbles/text_input/delete_to_end: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== moved
+alt_screen: off  cursor: hidden  modes: -
+1|> hello world
+2|value=[hello world] pos=6
+3|
+4|
+styles:
+1:9-9 reverse
+== killed
+alt_screen: off  cursor: hidden  modes: -
+1|> hello
+2|value=[hello ] pos=6
+3|
+4|
+styles:
+1:9-9 reverse

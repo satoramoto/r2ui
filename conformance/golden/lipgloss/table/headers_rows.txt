@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/headers_rows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─────┬───╮"
+"│Name │Age│"
+"├─────┼───┤"
+"│Alice│30 │"
+"│Bob  │4  │"
+"╰─────┴───╯"

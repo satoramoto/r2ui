@@ -1,0 +1,23 @@
+# conformance golden for bubbletea/options/mouse_wheel_message: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x4
+== start
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|events:
+2|
+3|
+4|
+styles: none
+== up
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|events: wheel:b4
+2|
+3|
+4|
+styles: none
+== down
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|events: wheel:b4 wheel:b5
+2|
+3|
+4|
+styles: none

@@ -1,0 +1,20 @@
+# conformance golden for bubbles/stopwatch/reset_command_zeroes: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== one_and_half
+alt_screen: off  cursor: hidden  modes: -
+1|0:01.50 running=true
+2|
+3|
+styles: none
+== reset
+alt_screen: off  cursor: hidden  modes: -
+1|0:00.00 running=true
+2|
+3|
+styles: none
+== after_reset_tick
+alt_screen: off  cursor: hidden  modes: -
+1|0:00.50 running=true
+2|
+3|
+styles: none

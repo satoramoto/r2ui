@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/bold_only: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[1mHello\e[0m"

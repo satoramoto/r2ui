@@ -1,0 +1,20 @@
+# conformance golden for bubbles/timer/tick_foreign_id_and_stale_tag_ignored: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== foreign_ignored
+alt_screen: off  cursor: hidden  modes: -
+1|1m2s
+2|
+3|
+styles: none
+== stale_ignored
+alt_screen: off  cursor: hidden  modes: -
+1|1m2s
+2|
+3|
+styles: none
+== matching_counts
+alt_screen: off  cursor: hidden  modes: -
+1|1m1s
+2|
+3|
+styles: none

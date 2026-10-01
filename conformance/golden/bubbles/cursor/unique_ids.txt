@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/unique_ids: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[true, true]"

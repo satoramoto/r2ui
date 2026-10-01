@@ -1,0 +1,13 @@
+# conformance golden for bubbletea/mouse_paste_focus/mouse_motion_no_button: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x8
+== hover
+alt_screen: off  cursor: hidden  modes: 1003 1006
+1|events:
+2|mouse 11,2 button=3 action=2 shift=false alt=false ctrl=false motion,right
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none

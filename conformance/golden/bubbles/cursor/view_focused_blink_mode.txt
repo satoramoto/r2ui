@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/view_focused_blink_mode: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[7ma\e[0m"

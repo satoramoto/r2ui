@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/join/h_ragged_widths: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"a     |x"
+"longer y"
+"bc      "

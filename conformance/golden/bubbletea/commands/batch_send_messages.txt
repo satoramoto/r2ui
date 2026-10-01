@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/commands/batch_send_messages: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== all_three
+alt_screen: off  cursor: hidden  modes: -
+1|seen: a,b,c
+2|
+3|
+4|
+5|
+styles: none

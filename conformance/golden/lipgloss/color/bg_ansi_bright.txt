@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/bg_ansi_bright: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[100mx\e[0m|\e[101mx\e[0m|\e[102mx\e[0m|\e[103mx\e[0m|\e[104mx\e[0m|\e[105mx\e[0m|\e[106mx\e[0m|\e[107mx\e[0m"

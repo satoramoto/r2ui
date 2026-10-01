@@ -1,0 +1,28 @@
+# conformance golden for bubbles/viewport/styled_border: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|╭────────────────────╮
+ 2|│ line 01            │
+ 3|│ line 02            │
+ 4|│ line 03            │
+ 5|│ line 04            │
+ 6|│ line 05            │
+ 7|│ line 06            │
+ 8|╰────────────────────╯
+ 9|
+10|
+styles: none
+== scrolled
+alt_screen: off  cursor: hidden  modes: -
+ 1|╭────────────────────╮
+ 2|│ line 03            │
+ 3|│ line 04            │
+ 4|│ line 05            │
+ 5|│ line 06            │
+ 6|│ line 07            │
+ 7|│ line 08            │
+ 8|╰────────────────────╯
+ 9|
+10|
+styles: none

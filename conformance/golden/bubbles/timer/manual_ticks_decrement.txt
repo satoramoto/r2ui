@@ -1,0 +1,20 @@
+# conformance golden for bubbles/timer/manual_ticks_decrement: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|1m2s running=true out=false
+2|
+3|
+styles: none
+== one
+alt_screen: off  cursor: hidden  modes: -
+1|1m1s running=true out=false
+2|
+3|
+styles: none
+== three
+alt_screen: off  cursor: hidden  modes: -
+1|59s running=true out=false
+2|
+3|
+styles: none

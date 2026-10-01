@@ -1,0 +1,36 @@
+# conformance golden for bubbletea/render/final_frame_shrunk_inline: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|a1
+2|a2
+3|a3
+4|a4
+5|
+6|
+7|
+8|
+styles: none
+== shrunk
+alt_screen: off  cursor: hidden  modes: -
+1|last
+2|frame
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none
+== after_quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|last
+2|frame
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none

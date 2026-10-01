@@ -1,0 +1,47 @@
+# conformance golden for bubbletea/commands/puts_above_view: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|view n=0
+2|
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none
+== one
+alt_screen: off  cursor: hidden  modes: -
+1|printed 1
+2|view n=1
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none
+== three
+alt_screen: off  cursor: hidden  modes: -
+1|printed 1
+2|printed 2
+3|printed 3
+4|view n=3
+5|
+6|
+7|
+8|
+styles: none
+== quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|printed 1
+2|printed 2
+3|printed 3
+4|view n=3
+5|
+6|
+7|
+8|
+styles: none

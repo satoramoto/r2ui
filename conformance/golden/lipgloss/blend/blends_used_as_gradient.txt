@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blends_used_as_gradient: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;255;0;0mA\e[0m\e[38;2;191;0;64mB\e[0m\e[38;2;128;0;128mC\e[0m\e[38;2;64;0;191mD\e[0m\e[38;2;0;0;255mE\e[0m"

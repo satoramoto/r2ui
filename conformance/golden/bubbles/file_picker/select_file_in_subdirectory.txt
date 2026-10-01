@@ -1,0 +1,28 @@
+# conformance golden for bubbles/file_picker/select_file_in_subdirectory: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== selected_last_in_docs
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>/docs
+ 2|
+ 3|   .. rwxr-xr-x
+ 4|   deep/ rwxr-xr-x
+ 5|   notes.txt 2.0K rw-r--r--
+ 6|>  readme.md 12.0B rw-r--r--
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|cursor=3 did=true path="<root>/docs/readme.md"
+14|
+styles:
+ 1:1-11 fg=4
+ 3:7-15 fg=8
+ 4:4-8 fg=4
+ 4:10-18 fg=8
+ 5:14-17 fg=8
+ 5:19-27 fg=8
+ 6:4-12 bold
+ 6:14-18 fg=8
+ 6:20-28 fg=8

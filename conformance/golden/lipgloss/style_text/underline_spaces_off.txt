@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/underline_spaces_off: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[4;4ma\e[0m \e[4;4mb\e[0m \e[4;4mc\e[0m"

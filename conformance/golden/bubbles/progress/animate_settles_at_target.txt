@@ -1,0 +1,11 @@
+# conformance golden for bubbles/progress/animate_settles_at_target: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== settled
+alt_screen: off  cursor: hidden  modes: -
+1|████████████░░░░░░░░░░░░░  50%
+2|target=0.5 animating=false
+3|
+4|
+styles:
+1:1-12 fg=#7571f9
+1:13-25 fg=#606060

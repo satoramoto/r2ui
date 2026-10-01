@@ -1,0 +1,26 @@
+# conformance golden for bubbles/text_input/typing: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|>
+2|value=[] pos=0
+3|
+4|
+styles:
+1:3-3 reverse
+== hi
+alt_screen: off  cursor: hidden  modes: -
+1|> hi
+2|value=[hi] pos=2
+3|
+4|
+styles:
+1:5-5 reverse
+== hi_there
+alt_screen: off  cursor: hidden  modes: -
+1|> hi there
+2|value=[hi there] pos=8
+3|
+4|
+styles:
+1:11-11 reverse

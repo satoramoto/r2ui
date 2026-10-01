@@ -1,0 +1,7 @@
+# conformance golden for lipgloss/table/wrap_false_truncates: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─────┬────────────────╮"
+"│Name │Notes           │"
+"├─────┼────────────────┤"
+"│Alice│likes long walk…│"
+"│Bob  │short           │"
+"╰─────┴────────────────╯"

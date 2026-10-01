@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/set_string_then_render: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[4;4mS\e[0m\e[4;4mt\e[0m\e[4;4mo\e[0m\e[4;4mr\e[0m\e[4;4me\e[0m\e[4;4md\e[0m\e[4m \e[0m\e[4;4mA\e[0m\e[4;4mr\e[0m\e[4;4mg\e[0m"

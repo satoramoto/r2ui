@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/style_box/width_wraps_long: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"the quick "
+"brown fox "
+"jumps over"

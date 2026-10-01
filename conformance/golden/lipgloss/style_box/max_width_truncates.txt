@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/style_box/max_width_truncates: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"abcde"
+"xy   "

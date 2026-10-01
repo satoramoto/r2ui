@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/border/side_left_only: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"│Box"

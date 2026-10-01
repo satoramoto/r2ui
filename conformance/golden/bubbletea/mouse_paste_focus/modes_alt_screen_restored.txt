@@ -1,0 +1,25 @@
+# conformance golden for bubbletea/mouse_paste_focus/modes_alt_screen_restored: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x8
+== running
+alt_screen: on  cursor: hidden  modes: 1002 1006
+1|events:
+2|mouse 2,2 button=0 action=0 shift=false alt=false ctrl=false press
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none
+== after_quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|
+2|
+3|
+4|
+5|
+6|
+7|
+8|
+styles: none

@@ -1,0 +1,34 @@
+# conformance golden for bubbles/text_input/validate: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|>
+2|error=none
+3|
+4|
+styles:
+1:3-3 reverse
+== valid
+alt_screen: off  cursor: hidden  modes: -
+1|> 12
+2|error=none
+3|
+4|
+styles:
+1:5-5 reverse
+== invalid
+alt_screen: off  cursor: hidden  modes: -
+1|> 12x
+2|error=digits only
+3|
+4|
+styles:
+1:6-6 reverse
+== valid_again
+alt_screen: off  cursor: hidden  modes: -
+1|> 12
+2|error=none
+3|
+4|
+styles:
+1:5-5 reverse

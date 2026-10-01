@@ -1,0 +1,32 @@
+# conformance golden for bubbles/file_picker/show_hidden: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|>  docs/ rwxr-xr-x
+ 4|   src/ rwxr-xr-x
+ 5|   .hidden 1.0B rw-r--r--
+ 6|   alpha.txt 5.0B rw-r--r--
+ 7|   beta.rb 1.5K rw-r--r--
+ 8|   Gamma.md 0 B rw-r--r--
+ 9|
+10|
+11|
+12|
+13|cursor=0 did=false path=nil
+14|
+styles:
+ 1:1-6 fg=4
+ 3:4-7 bold
+ 3:10-18 fg=8
+ 4:4-7 fg=4
+ 4:9-17 fg=8
+ 5:12-15 fg=8
+ 5:17-25 fg=8
+ 6:14-17 fg=8
+ 6:19-27 fg=8
+ 7:12-15 fg=8
+ 7:17-25 fg=8
+ 8:13-15 fg=8
+ 8:17-25 fg=8

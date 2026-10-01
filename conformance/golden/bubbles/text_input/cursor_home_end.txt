@@ -1,0 +1,42 @@
+# conformance golden for bubbles/text_input/cursor_home_end: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|> hello world
+2|value=[hello world] pos=11
+3|
+4|
+styles:
+1:14-14 reverse
+== home
+alt_screen: off  cursor: hidden  modes: -
+1|> hello world
+2|value=[hello world] pos=0
+3|
+4|
+styles:
+1:3-3 reverse
+== end
+alt_screen: off  cursor: hidden  modes: -
+1|> hello world
+2|value=[hello world] pos=11
+3|
+4|
+styles:
+1:14-14 reverse
+== ctrl_a
+alt_screen: off  cursor: hidden  modes: -
+1|> hello world
+2|value=[hello world] pos=0
+3|
+4|
+styles:
+1:3-3 reverse
+== ctrl_e
+alt_screen: off  cursor: hidden  modes: -
+1|> hello world
+2|value=[hello world] pos=11
+3|
+4|
+styles:
+1:14-14 reverse

@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/strikethrough: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[9mH\e[0m\e[9me\e[0m\e[9ml\e[0m\e[9ml\e[0m\e[9mo\e[0m\e[9m \e[0m\e[9mW\e[0m\e[9mo\e[0m\e[9mr\e[0m\e[9ml\e[0m\e[9md\e[0m"

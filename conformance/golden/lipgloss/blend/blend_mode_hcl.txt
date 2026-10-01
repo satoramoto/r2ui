@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_mode_hcl: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"#fb0080"

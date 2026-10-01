@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/place/place_styled_content: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"          "
+"    \e[1;38;2;4;181;117mhi\e[0m    "
+"          "

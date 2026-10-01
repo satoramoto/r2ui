@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/home_end: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== home_end
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"home" type=-6 runes=[] alt=false char=nil flags=
+ 3|"end" type=-7 runes=[] alt=false char=nil flags=
+ 4|"home" type=-6 runes=[] alt=false char=nil flags=
+ 5|"end" type=-7 runes=[] alt=false char=nil flags=
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

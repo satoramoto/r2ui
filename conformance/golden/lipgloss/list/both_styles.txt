@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/both_styles: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;255;0;0m1.\e[0m\e[3;38;2;0;255;0mRed\e[0m"
+"\e[38;2;255;0;0m2.\e[0m\e[3;38;2;0;255;0mGreen\e[0m"
+"\e[38;2;255;0;0m3.\e[0m\e[3;38;2;0;255;0mBlue\e[0m"

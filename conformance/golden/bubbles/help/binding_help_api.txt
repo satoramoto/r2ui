@@ -1,0 +1,10 @@
+# conformance golden for bubbles/help/binding_help_api: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 90x5
+== api
+alt_screen: off  cursor: hidden  modes: -
+1|keys=["enter"] help=["⏎", "select"] help?=true enabled?=true
+2|keys=["a", "b"] help=["a", ""] help?=false enabled?=true
+3|keys=["c"] help=["", ""] help?=false enabled?=false
+4|
+5|
+styles: none

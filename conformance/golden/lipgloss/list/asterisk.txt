@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/list/asterisk: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"* a"
+"* b"
+"* c"

@@ -1,0 +1,10 @@
+# conformance golden for lipgloss/list/roman: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"   I. item 1"
+"  II. item 2"
+" III. item 3"
+"  IV. item 4"
+"   V. item 5"
+"  VI. item 6"
+" VII. item 7"
+"VIII. item 8"
+"  IX. item 9"

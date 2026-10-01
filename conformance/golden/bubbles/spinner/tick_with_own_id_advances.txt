@@ -1,0 +1,14 @@
+# conformance golden for bubbles/spinner/tick_with_own_id_advances: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|[|] none
+2|
+3|
+styles: none
+== advanced
+alt_screen: off  cursor: hidden  modes: -
+1|[/] cmd
+2|
+3|
+styles: none

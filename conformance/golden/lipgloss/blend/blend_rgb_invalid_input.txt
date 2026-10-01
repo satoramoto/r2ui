@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_rgb_invalid_input: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#zzz\", \"#112233\"]"

@@ -1,0 +1,9 @@
+# conformance golden for bubbles/timer/real_countdown_whole_seconds: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x3
+== done
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|0s timeout_msg=true
+2|
+3|
+styles: none
