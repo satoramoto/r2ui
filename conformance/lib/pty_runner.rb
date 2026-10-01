@@ -87,8 +87,26 @@ module Conformance
       @exit_status
     end
 
-    def snapshot
-      @lock.synchronize { @vt.snapshot }
+    # Resizes the pty (the kernel sends the program SIGWINCH) and the decoded screen, then waits
+    # for idle.
+    def resize(cols, rows)
+      @lock.synchronize { @vt.resize(cols, rows) }
+      @master.winsize = [rows, cols]
+      @mark = now
+      wait_quiet
+    end
+
+    def snapshot(title: false)
+      @lock.synchronize { @vt.snapshot(title: title) }
+    end
+
+    # Returns [rows scrolled off the top, characters wrapped past the width] since the last call.
+    def take_overflow
+      @lock.synchronize do
+        counts = [@vt.scrolled_off, @vt.wrapped]
+        @vt.scrolled_off = @vt.wrapped = 0
+        counts
+      end
     end
 
     def snapshot_lines
