@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/unset_attrs: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"plain"

@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/list/item_style: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"• \e[1mRed\e[0m"
+"• \e[1mGreen\e[0m"

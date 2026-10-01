@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/complete_to_h: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"{true_color: \"#0000FF\", ansi256: \"21\", ansi: \"12\"}"

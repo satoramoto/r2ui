@@ -1,0 +1,18 @@
+# conformance golden for bubbles/text_input/suggestions_disabled: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== a
+alt_screen: off  cursor: hidden  modes: -
+1|> a
+2|value=[a]
+3|
+4|
+styles:
+1:4-4 reverse
+== tab_does_nothing
+alt_screen: off  cursor: hidden  modes: -
+1|> a
+2|value=[a]
+3|
+4|
+styles:
+1:4-4 reverse

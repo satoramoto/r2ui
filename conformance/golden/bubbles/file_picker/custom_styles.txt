@@ -1,0 +1,101 @@
+# conformance golden for bubbles/file_picker/custom_styles: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== dir_selected
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|>  sub/ rwxr-xr-x
+ 4|   a.txt 10.0B rw-r--r--
+ 5|   b.txt 2.0K rw-r--r--
+ 6|   c.bin 30.0B rw-r--r--
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles:
+ 1:1-6 fg=#00aaff
+ 3:1-2 fg=#ff0066
+ 3:4-6 bold fg=#ffcc00
+ 3:9-17 italic
+ 4:1-2 fg=#ff0066
+ 4:4-8 fg=#cccccc
+ 4:10-14 fg=#777777
+ 4:16-24 italic
+ 5:1-2 fg=#ff0066
+ 5:4-8 fg=#cccccc
+ 5:10-13 fg=#777777
+ 5:15-23 italic
+ 6:1-2 fg=#ff0066
+ 6:4-8 faint
+ 6:10-14 fg=#777777
+ 6:16-24 italic
+== file_selected
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|   sub/ rwxr-xr-x
+ 4|>  a.txt 10.0B rw-r--r--
+ 5|   b.txt 2.0K rw-r--r--
+ 6|   c.bin 30.0B rw-r--r--
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles:
+ 1:1-6 fg=#00aaff
+ 3:1-2 fg=#ff0066
+ 3:4-7 fg=#00aaff
+ 3:9-17 italic
+ 4:1-2 fg=#ff0066
+ 4:4-8 bold fg=#ffcc00
+ 4:10-14 fg=#777777
+ 4:16-24 italic
+ 5:1-2 fg=#ff0066
+ 5:4-8 fg=#cccccc
+ 5:10-13 fg=#777777
+ 5:15-23 italic
+ 6:1-2 fg=#ff0066
+ 6:4-8 faint
+ 6:10-14 fg=#777777
+ 6:16-24 italic
+== disabled_file_selected
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|   sub/ rwxr-xr-x
+ 4|   a.txt 10.0B rw-r--r--
+ 5|   b.txt 2.0K rw-r--r--
+ 6|>  c.bin 30.0B rw-r--r--
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+styles:
+ 1:1-6 fg=#00aaff
+ 3:1-2 fg=#ff0066
+ 3:4-7 fg=#00aaff
+ 3:9-17 italic
+ 4:1-2 fg=#ff0066
+ 4:4-8 fg=#cccccc
+ 4:10-14 fg=#777777
+ 4:16-24 italic
+ 5:1-2 fg=#ff0066
+ 5:4-8 fg=#cccccc
+ 5:10-13 fg=#777777
+ 5:15-23 italic
+ 6:1-2 fg=#ff0066
+ 6:4-8 faint
+ 6:10-14 fg=#777777
+ 6:16-24 italic

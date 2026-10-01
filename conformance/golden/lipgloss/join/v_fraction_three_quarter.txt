@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/join/v_fraction_three_quarter: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"abcdefghi"
+"     xy  "

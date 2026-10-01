@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/tree/item_style: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"R"
+"├── \e[1ma\e[0m"
+"└── \e[1mb\e[0m"

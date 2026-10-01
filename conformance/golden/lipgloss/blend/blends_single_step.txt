@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blends_single_step: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#123456\"]"

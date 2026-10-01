@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/list/single_item: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"1. only"

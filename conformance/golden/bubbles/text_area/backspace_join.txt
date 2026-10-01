@@ -1,0 +1,43 @@
+# conformance golden for bubbles/text_area/backspace_join: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x7
+== char_deleted
+alt_screen: off  cursor: hidden  modes: -
+1|abc
+2|de
+3|~
+4|~
+5|row=1 col=2 lines=2
+6|
+7|
+styles:
+2:3-3 reverse
+3:1-1 fg=8
+4:1-1 fg=8
+== joined
+alt_screen: off  cursor: hidden  modes: -
+1|abcde
+2|~
+3|~
+4|~
+5|row=0 col=3 lines=1
+6|
+7|
+styles:
+1:4-4 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+4:1-1 fg=8
+== noop_at_buffer_start
+alt_screen: off  cursor: hidden  modes: -
+1|abcde
+2|~
+3|~
+4|~
+5|row=0 col=0 lines=1
+6|
+7|
+styles:
+1:1-1 reverse
+2:1-1 fg=8
+3:1-1 fg=8
+4:1-1 fg=8

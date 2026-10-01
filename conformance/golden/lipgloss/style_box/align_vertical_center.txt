@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/style_box/align_vertical_center: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"  "
+"  "
+"ab"
+"  "
+"  "

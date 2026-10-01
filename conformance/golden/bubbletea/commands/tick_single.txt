@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/commands/tick_single: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== fired_once
+alt_screen: off  cursor: hidden  modes: -
+1|fired: [42]
+2|
+3|
+4|
+5|
+styles: none

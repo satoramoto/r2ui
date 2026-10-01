@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/render/long_line_inline: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|0123456789abcdefghi
+2|short
+3|
+4|
+5|
+6|
+styles: none

@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/style_box/margin_all: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"    "
+" ab "
+"    "

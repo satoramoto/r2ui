@@ -1,0 +1,33 @@
+# Wide (CJK) characters occupy two cells each and the lines around them stay aligned.
+require "bubbletea"
+
+VIEWS = ["ab你好cd\n世界|\nplain|"].freeze
+
+class Views
+  include Bubbletea::Model
+
+  def initialize
+    @i = 0
+  end
+
+  def init = [self, nil]
+
+  def update(message)
+    return [self, nil] unless message.is_a?(Bubbletea::KeyMessage)
+
+    case message.to_s
+    when "n" then @i = [@i + 1, VIEWS.size - 1].min
+    when "q" then return [self, Bubbletea.quit]
+    end
+    [self, nil]
+  end
+
+  def view = VIEWS[@i]
+end
+
+Bubbletea.run(Views.new, alt_screen: true)
+
+__END__
+size: 20x5
+steps:
+  - snapshot: start

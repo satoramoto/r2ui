@@ -1,0 +1,9 @@
+# conformance golden for bubbles/progress/narrower_than_percent_text: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|  50%
+2| 100%
+3|
+4|
+styles: none

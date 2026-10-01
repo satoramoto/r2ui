@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/options/fps_low: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x4
+== final
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|presses: 3
+2|
+3|
+4|
+styles: none

@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/fg_bg_attrs_combined: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[1;3;4;38;2;255;255;255;48;2;136;0;0;4mA\e[0m\e[1;3;4;38;2;255;255;255;48;2;136;0;0;4ml\e[0m\e[1;3;4;38;2;255;255;255;48;2;136;0;0;4me\e[0m\e[1;3;4;38;2;255;255;255;48;2;136;0;0;4mr\e[0m\e[1;3;4;38;2;255;255;255;48;2;136;0;0;4mt\e[0m"

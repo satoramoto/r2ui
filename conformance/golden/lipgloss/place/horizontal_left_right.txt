@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/place/horizontal_left_right: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"ab    "
+"cd    "
+"--"
+"    ab"
+"    cd"

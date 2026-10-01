@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/combo_padding_width: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╔══════════════╗"
+"║  Box         ║"
+"╚══════════════╝"

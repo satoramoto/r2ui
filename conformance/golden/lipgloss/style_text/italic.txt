@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/italic: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[3mHello\e[0m"

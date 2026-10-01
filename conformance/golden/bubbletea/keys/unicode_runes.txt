@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/unicode_runes: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== unicode
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"é" type=-1 runes=[233] alt=false char="é" flags=runes
+ 3|"λ" type=-1 runes=[955] alt=false char="λ" flags=runes
+ 4|"日" type=-1 runes=[26085] alt=false char="日" flags=runes
+ 5|"😀" type=-1 runes=[128512] alt=false char="😀" flags=runes
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

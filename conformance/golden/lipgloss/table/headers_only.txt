@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/table/headers_only: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭───┬───╮"
+"│One│Two│"
+"├───┼───┤"
+"╰───┴───╯"

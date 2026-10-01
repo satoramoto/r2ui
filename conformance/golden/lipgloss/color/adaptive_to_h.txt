@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/adaptive_to_h: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[{light: \"#111\", dark: \"#eee\"}, {light: {true_color: \"#123456\", ansi256: \"25\", ansi: \"4\"}, dark: {true_color: \"#123456\", ansi256: \"25\", ansi: \"4\"}}]"

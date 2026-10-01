@@ -1,0 +1,20 @@
+# conformance golden for bubbles/timer/toggle_command: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|1m2s running=true
+2|
+3|
+styles: none
+== toggled_off
+alt_screen: off  cursor: hidden  modes: -
+1|1m2s running=false
+2|
+3|
+styles: none
+== toggled_on
+alt_screen: off  cursor: hidden  modes: -
+1|1m2s running=true
+2|
+3|
+styles: none

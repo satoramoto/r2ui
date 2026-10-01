@@ -1,0 +1,2 @@
+# conformance golden for bubbletea/keys/value_name_override: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"custom\", \"custom\", \"named\", \"named\", true]"

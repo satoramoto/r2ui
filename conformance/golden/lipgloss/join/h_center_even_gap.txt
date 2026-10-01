@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/join/h_center_even_gap: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"a  "
+"b  "
+"cxy"
+"d  "

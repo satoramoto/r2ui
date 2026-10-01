@@ -1,0 +1,35 @@
+# conformance golden for bubbles/viewport/goto_bottom_G: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 44x8
+== bottom_G
+alt_screen: off  cursor: hidden  modes: -
+1|line 16
+2|line 17
+3|line 18
+4|line 19
+5|line 20
+6|y=15 pct=100 top=false bottom=true
+7|
+8|
+styles: none
+== top_g
+alt_screen: off  cursor: hidden  modes: -
+1|line 01
+2|line 02
+3|line 03
+4|line 04
+5|line 05
+6|y=0 pct=0 top=true bottom=false
+7|
+8|
+styles: none
+== bottom_end
+alt_screen: off  cursor: hidden  modes: -
+1|line 16
+2|line 17
+3|line 18
+4|line 19
+5|line 20
+6|y=15 pct=100 top=false bottom=true
+7|
+8|
+styles: none

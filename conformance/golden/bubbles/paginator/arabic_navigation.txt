@@ -1,0 +1,30 @@
+# conformance golden for bubbles/paginator/arabic_navigation: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|[1/4] page=0
+2|
+3|
+4|
+styles: none
+== page_three
+alt_screen: off  cursor: hidden  modes: -
+1|[3/4] page=2 next=true
+2|
+3|
+4|
+styles: none
+== last_page_stops
+alt_screen: off  cursor: hidden  modes: -
+1|[4/4] page=3 next=false
+2|
+3|
+4|
+styles: none
+== first_page_stops
+alt_screen: off  cursor: hidden  modes: -
+1|[1/4] page=0 prev=false
+2|
+3|
+4|
+styles: none

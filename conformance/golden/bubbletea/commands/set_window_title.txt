@@ -1,0 +1,18 @@
+# conformance golden for bubbletea/commands/set_window_title: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|titled again: false
+2|
+3|
+4|
+5|
+styles: none
+== retitled
+alt_screen: off  cursor: hidden  modes: -
+1|titled again: true
+2|
+3|
+4|
+5|
+styles: none

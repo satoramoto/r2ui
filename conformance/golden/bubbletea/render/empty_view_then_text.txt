@@ -1,0 +1,26 @@
+# conformance golden for bubbletea/render/empty_view_then_text: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 20x5
+== empty
+alt_screen: on  cursor: hidden  modes: -
+1|
+2|
+3|
+4|
+5|
+styles: none
+== text
+alt_screen: on  cursor: hidden  modes: -
+1|hello
+2|world
+3|
+4|
+5|
+styles: none
+== empty_again
+alt_screen: on  cursor: hidden  modes: -
+1|
+2|
+3|
+4|
+5|
+styles: none

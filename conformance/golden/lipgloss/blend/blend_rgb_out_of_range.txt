@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_rgb_out_of_range: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#7f7f7f\", \"#818181\"]"

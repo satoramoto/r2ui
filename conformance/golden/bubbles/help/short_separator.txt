@@ -1,0 +1,8 @@
+# conformance golden for bubbles/help/short_separator: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x3
+== pipes
+alt_screen: off  cursor: hidden  modes: -
+1|a add | b back | c copy
+2|
+3|
+styles: none

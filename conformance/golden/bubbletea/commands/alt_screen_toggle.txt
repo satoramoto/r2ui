@@ -1,0 +1,26 @@
+# conformance golden for bubbletea/commands/alt_screen_toggle: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== from_init
+alt_screen: on  cursor: hidden  modes: -
+1|toggle demo, keys=0
+2|
+3|
+4|
+5|
+styles: none
+== left
+alt_screen: off  cursor: hidden  modes: -
+1|toggle demo, keys=1
+2|
+3|
+4|
+5|
+styles: none
+== back
+alt_screen: on  cursor: hidden  modes: -
+1|toggle demo, keys=2
+2|
+3|
+4|
+5|
+styles: none

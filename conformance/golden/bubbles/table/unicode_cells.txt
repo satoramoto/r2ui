@@ -1,0 +1,17 @@
+# conformance golden for bubbles/table/unicode_cells: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== unicode
+alt_screen: off  cursor: hidden  modes: -
+1|Città    Temp
+2|───────────────
+3|Zürich   12°C
+4|São Pau… 24°C
+5|Oslo     -3°C
+6|
+7|
+8|
+styles:
+1:1-8 bold
+1:10-15 bold
+3:1-8 reverse
+3:10-15 reverse

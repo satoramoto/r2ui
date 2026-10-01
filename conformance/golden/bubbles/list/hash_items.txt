@@ -1,0 +1,45 @@
+# conformance golden for bubbles/list/hash_items: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Raspberry Pi
+ 4|  Arduino
+ 5|  Teensy
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:1-14 reverse
+== second
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Raspberry Pi
+ 4|> Arduino
+ 5|  Teensy
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 4:1-9 reverse
+== filtered
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: ar
+ 4|
+ 5|> Arduino
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:11-11 reverse
+ 5:1-9 reverse

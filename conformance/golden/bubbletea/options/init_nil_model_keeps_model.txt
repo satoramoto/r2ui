@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/options/init_nil_model_keeps_model: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== greeted
+alt_screen: off  cursor: hidden  modes: -
+1|greeted: true
+2|
+3|
+4|
+5|
+styles: none

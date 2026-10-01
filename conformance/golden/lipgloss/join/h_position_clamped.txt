@@ -1,0 +1,8 @@
+# conformance golden for lipgloss/join/h_position_clamped: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"axy"
+"b  "
+"c  "
+"--"
+"a  "
+"b  "
+"cxy"

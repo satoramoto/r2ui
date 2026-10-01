@@ -1,0 +1,24 @@
+# conformance golden for bubbles/viewport/percent_midway: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== pct_50
+alt_screen: off  cursor: hidden  modes: -
+1|line 04
+2|line 05
+3|line 06
+4|line 07
+5|line 08
+6|y=3 pct=50.0 total=11
+7|
+8|
+styles: none
+== pct_67
+alt_screen: off  cursor: hidden  modes: -
+1|line 05
+2|line 06
+3|line 07
+4|line 08
+5|line 09
+6|y=4 pct=66.7 total=11
+7|
+8|
+styles: none

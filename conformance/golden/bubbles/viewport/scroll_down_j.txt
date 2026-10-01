@@ -1,0 +1,24 @@
+# conformance golden for bubbles/viewport/scroll_down_j: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 44x8
+== one
+alt_screen: off  cursor: hidden  modes: -
+1|line 02
+2|line 03
+3|line 04
+4|line 05
+5|line 06
+6|y=1 pct=7 top=false bottom=false
+7|
+8|
+styles: none
+== three
+alt_screen: off  cursor: hidden  modes: -
+1|line 04
+2|line 05
+3|line 06
+4|line 07
+5|line 08
+6|y=3 pct=20 top=false bottom=false
+7|
+8|
+styles: none

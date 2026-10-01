@@ -1,0 +1,36 @@
+# conformance golden for bubbles/table/ragged_rows: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== ragged
+alt_screen: off  cursor: hidden  modes: -
+1|A     B     C
+2|─────────────────
+3|a1
+4|a2    b2    c2
+5|a3    b3
+6|
+7|
+8|
+styles:
+1:1-5 bold
+1:7-11 bold
+1:13-17 bold
+3:1-5 reverse
+3:7-11 reverse
+3:13-17 reverse
+== second
+alt_screen: off  cursor: hidden  modes: -
+1|A     B     C
+2|─────────────────
+3|a1
+4|a2    b2    c2
+5|a3    b3
+6|
+7|
+8|
+styles:
+1:1-5 bold
+1:7-11 bold
+1:13-17 bold
+4:1-5 reverse
+4:7-11 reverse
+4:13-17 reverse

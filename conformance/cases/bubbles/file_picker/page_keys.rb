@@ -1,0 +1,51 @@
+# pgdown/J move the selection by the picker height and pgup/K move back, clamped at both ends.
+require "bubbletea"
+require "bubbles"
+require "tmpdir"
+
+class App
+  include Bubbletea::Model
+
+  def initialize(root)
+    @root = root
+    @picker = Bubbles::FilePicker.new(directory: root)
+    @picker.height = 4
+    @picker.show_permissions = false
+  end
+
+  def init = [self, nil]
+
+  def update(message)
+    if message.is_a?(Bubbletea::KeyMessage)
+      return [self, Bubbletea.quit] if message.to_s == "q"
+
+      @picker, command = @picker.update(message)
+      return [self, command]
+    end
+    [self, nil]
+  end
+
+  def view = "#{@picker.view.gsub(@root, '<root>')}\ncursor=#{@picker.cursor}"
+end
+
+Dir.mktmpdir("r2ui-fp") do |dir|
+  root = File.realpath(dir)
+  (1..10).each { |i| File.write(File.join(root, format("file%02d.txt", i)), "x" * i) }
+  Bubbletea.run(App.new(root))
+end
+
+__END__
+size: 50x9
+steps:
+  - keys: [pgdown]
+    snapshot: page1
+  - keys: [J]
+    snapshot: page2
+  - keys: [pgdown]
+    snapshot: clamped_end
+  - keys: [pgup]
+    snapshot: back1
+  - keys: [K, K, K]
+    snapshot: clamped_start
+  - keys: [q]
+    exit: true

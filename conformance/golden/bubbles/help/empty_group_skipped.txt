@@ -1,0 +1,8 @@
+# conformance golden for bubbles/help/empty_group_skipped: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x3
+== two_columns
+alt_screen: off  cursor: hidden  modes: -
+1|a alpha    b beta
+2|
+3|
+styles: none

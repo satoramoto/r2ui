@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_hcl_ramp: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#ff0000\", \"#f96000\", \"#e69100\", \"#c4ba00\", \"#91df00\", \"#00ff00\"]"

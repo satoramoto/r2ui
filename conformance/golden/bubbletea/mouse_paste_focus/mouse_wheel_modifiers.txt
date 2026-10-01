@@ -1,0 +1,13 @@
+# conformance golden for bubbletea/mouse_paste_focus/mouse_wheel_modifiers: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x8
+== wheel_mods
+alt_screen: off  cursor: hidden  modes: 1002 1006
+1|events:
+2|mouse 8,8 button=4 action=0 shift=false alt=false ctrl=true press,wheel
+3|mouse 8,8 button=5 action=0 shift=true alt=false ctrl=false press,wheel
+4|
+5|
+6|
+7|
+8|
+styles: none

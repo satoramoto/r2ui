@@ -1,0 +1,17 @@
+# conformance golden for bubbletea/keys/alt_letters: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x12
+== alt_chars
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"alt+a" type=-1 runes=[97] alt=true char="a" flags=runes
+ 3|"alt+Z" type=-1 runes=[90] alt=true char="Z" flags=runes
+ 4|"alt+1" type=-1 runes=[49] alt=true char="1" flags=runes
+ 5|"alt+ " type=-1 runes=[32] alt=true char=" " flags=runes
+ 6|"alt+~" type=-1 runes=[126] alt=true char="~" flags=runes
+ 7|"alt+x" type=-1 runes=[120] alt=true char="x" flags=runes
+ 8|
+ 9|
+10|
+11|
+12|
+styles: none

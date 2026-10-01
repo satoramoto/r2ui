@@ -1,0 +1,11 @@
+# conformance golden for bubbles/timer/format_hours: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|1h2m5s
+2|1h0m0s
+3|10h0m0s
+4|23h59m59s
+5|
+6|
+styles: none

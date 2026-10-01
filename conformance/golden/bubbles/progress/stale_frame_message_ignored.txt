@@ -1,0 +1,10 @@
+# conformance golden for bubbles/progress/stale_frame_message_ignored: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== ignored
+alt_screen: off  cursor: hidden  modes: -
+1|░░░░░░░░░░░░░░░░░░░░░░░░░   0%
+2|target=0.8 no-cmd
+3|
+4|
+styles:
+1:1-25 fg=#606060

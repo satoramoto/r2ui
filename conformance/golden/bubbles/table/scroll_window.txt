@@ -1,0 +1,77 @@
+# conformance golden for bubbles/table/scroll_window: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== top
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 1      10
+4|Row 2      20
+5|Row 3      30
+6|Row 4      40
+7|
+8|
+styles:
+1:1-10 bold
+1:12-16 bold
+3:1-10 reverse
+3:12-16 reverse
+== last_visible
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 1      10
+4|Row 2      20
+5|Row 3      30
+6|Row 4      40
+7|
+8|
+styles:
+1:1-10 bold
+1:12-16 bold
+6:1-10 reverse
+6:12-16 reverse
+== scrolled_one
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 2      20
+4|Row 3      30
+5|Row 4      40
+6|Row 5      50
+7|
+8|
+styles:
+1:1-10 bold
+1:12-16 bold
+6:1-10 reverse
+6:12-16 reverse
+== scrolled_four
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 5      50
+4|Row 6      60
+5|Row 7      70
+6|Row 8      80
+7|
+8|
+styles:
+1:1-10 bold
+1:12-16 bold
+6:1-10 reverse
+6:12-16 reverse
+== scrolled_back
+alt_screen: off  cursor: hidden  modes: -
+1|Name       Val
+2|────────────────
+3|Row 3      30
+4|Row 4      40
+5|Row 5      50
+6|Row 6      60
+7|
+8|
+styles:
+1:1-10 bold
+1:12-16 bold
+3:1-10 reverse
+3:12-16 reverse

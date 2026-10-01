@@ -1,0 +1,21 @@
+# conformance golden for bubbletea/keys/digits_punctuation: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x16
+== chars
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"0" type=-1 runes=[48] alt=false char="0" flags=runes
+ 3|"9" type=-1 runes=[57] alt=false char="9" flags=runes
+ 4|"!" type=-1 runes=[33] alt=false char="!" flags=runes
+ 5|"~" type=-1 runes=[126] alt=false char="~" flags=runes
+ 6|"[" type=-1 runes=[91] alt=false char="[" flags=runes
+ 7|"]" type=-1 runes=[93] alt=false char="]" flags=runes
+ 8|"/" type=-1 runes=[47] alt=false char="/" flags=runes
+ 9|"?" type=-1 runes=[63] alt=false char="?" flags=runes
+10|"\\" type=-1 runes=[92] alt=false char="\\" flags=runes
+11|"\"" type=-1 runes=[34] alt=false char="\"" flags=runes
+12|"'" type=-1 runes=[39] alt=false char="'" flags=runes
+13|"<" type=-1 runes=[60] alt=false char="<" flags=runes
+14|
+15|
+16|
+styles: none

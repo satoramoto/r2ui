@@ -1,0 +1,46 @@
+# conformance golden for bubbles/viewport/horizontal_scroll: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|0123456789
+2|abcdefghij
+3|short
+4|x=0
+5|
+6|
+7|
+8|
+styles: none
+== right1
+alt_screen: off  cursor: hidden  modes: -
+1|456789ABCD
+2|efghijklmn
+3|t
+4|x=4
+5|
+6|
+7|
+8|
+styles: none
+== clamped_right
+alt_screen: off  cursor: hidden  modes: -
+1|ABCDEFGHIJ
+2|klmnopqrst
+3|
+4|x=10
+5|
+6|
+7|
+8|
+styles: none
+== left1
+alt_screen: off  cursor: hidden  modes: -
+1|6789ABCDEF
+2|ghijklmnop
+3|
+4|x=6
+5|
+6|
+7|
+8|
+styles: none

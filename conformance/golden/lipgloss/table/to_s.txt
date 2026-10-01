@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/table/to_s: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[true, \"╭─╮\\n│A│\\n├─┤\\n│x│\\n╰─╯\"]"

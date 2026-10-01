@@ -1,0 +1,10 @@
+# conformance golden for bubbletea/commands/send_message_immediate: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== delivered
+alt_screen: off  cursor: hidden  modes: -
+1|got hello: true
+2|
+3|
+4|
+5|
+styles: none

@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/tree/enumerator_style: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"R"
+"\e[38;2;255;0;0m├──\e[0ma"
+"\e[38;2;255;0;0m└──\e[0mb"

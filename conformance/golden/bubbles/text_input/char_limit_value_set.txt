@@ -1,0 +1,10 @@
+# conformance golden for bubbles/text_input/char_limit_value_set: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== truncated
+alt_screen: off  cursor: hidden  modes: -
+1|> abcd
+2|value=[abcd] pos=4
+3|
+4|
+styles:
+1:7-7 reverse

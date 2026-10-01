@@ -1,0 +1,11 @@
+# conformance golden for bubbletea/keys/typing_sequence: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x6
+== typed
+alt_screen: off  cursor: hidden  modes: -
+1|text: "hi there"
+2|names: h i space t x backspace h e r e enter
+3|
+4|
+5|
+6|
+styles: none

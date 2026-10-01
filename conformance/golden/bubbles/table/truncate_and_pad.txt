@@ -1,0 +1,32 @@
+# conformance golden for bubbles/table/truncate_and_pad: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x8
+== truncated
+alt_screen: off  cursor: hidden  modes: -
+1|A very … Ok
+2|───────────────
+3|Short    tiny
+4|Exactly8 exact…
+5|Much to… x
+6|
+7|
+8|
+styles:
+1:1-8 bold
+1:10-15 bold
+3:1-8 reverse
+3:10-15 reverse
+== last_selected
+alt_screen: off  cursor: hidden  modes: -
+1|A very … Ok
+2|───────────────
+3|Short    tiny
+4|Exactly8 exact…
+5|Much to… x
+6|
+7|
+8|
+styles:
+1:1-8 bold
+1:10-15 bold
+5:1-8 reverse
+5:10-15 reverse

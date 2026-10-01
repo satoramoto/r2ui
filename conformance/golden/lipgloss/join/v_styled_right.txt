@@ -1,0 +1,3 @@
+# conformance golden for lipgloss/join/v_styled_right: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;60;60;60mwide block\e[0m"
+"        \e[1;38;2;4;181;117mhi\e[0m"

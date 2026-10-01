@@ -1,0 +1,19 @@
+# conformance golden for bubbletea/commands/quit_on_key: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x5
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|press q
+2|
+3|
+4|
+5|
+styles: none
+== quit
+exit: 0
+alt_screen: off  cursor: visible  modes: -
+1|press q
+2|
+3|
+4|
+5|
+styles: none

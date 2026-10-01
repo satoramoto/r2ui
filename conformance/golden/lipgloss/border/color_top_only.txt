@@ -1,0 +1,4 @@
+# conformance golden for lipgloss/border/color_top_only: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;2;255;135;0m┌───┐\e[0m"
+"│Box│"
+"└───┘"

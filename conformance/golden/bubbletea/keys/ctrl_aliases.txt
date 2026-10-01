@@ -1,0 +1,15 @@
+# conformance golden for bubbletea/keys/ctrl_aliases: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 80x10
+== aliases
+alt_screen: off  cursor: hidden  modes: -
+ 1|keys:
+ 2|"ctrl+h" type=8 runes=[] alt=false char=nil flags=ctrl
+ 3|"ctrl+j" type=10 runes=[] alt=false char=nil flags=ctrl
+ 4|"tab" type=9 runes=[] alt=false char=nil flags=ctrl,tab
+ 5|"enter" type=13 runes=[] alt=false char=nil flags=ctrl,enter
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles: none

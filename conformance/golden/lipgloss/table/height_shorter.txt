@@ -1,0 +1,6 @@
+# conformance golden for lipgloss/table/height_shorter: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"╭─╮"
+"│A│"
+"├─┤"
+"│…│"
+"╰─╯"

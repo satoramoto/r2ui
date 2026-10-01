@@ -1,0 +1,26 @@
+# conformance golden for bubbles/text_input/delete_backspace: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== end_deleted
+alt_screen: off  cursor: hidden  modes: -
+1|> abcd
+2|value=[abcd] pos=4
+3|
+4|
+styles:
+1:7-7 reverse
+== middle_deleted
+alt_screen: off  cursor: hidden  modes: -
+1|> acd
+2|value=[acd] pos=1
+3|
+4|
+styles:
+1:4-4 reverse
+== noop_at_start
+alt_screen: off  cursor: hidden  modes: -
+1|> acd
+2|value=[acd] pos=0
+3|
+4|
+styles:
+1:3-3 reverse

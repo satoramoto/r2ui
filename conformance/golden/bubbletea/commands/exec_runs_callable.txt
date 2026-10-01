@@ -1,0 +1,20 @@
+# conformance golden for bubbletea/commands/exec_runs_callable: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x6
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|state: idle
+2|
+3|
+4|
+5|
+6|
+styles: none
+== after_exec
+alt_screen: off  cursor: hidden  modes: -
+1|state: returned
+2|
+3|
+4|
+5|
+6|
+styles: none

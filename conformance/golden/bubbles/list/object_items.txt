@@ -1,0 +1,45 @@
+# conformance golden for bubbles/list/object_items: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Alpha
+ 4|  Beta
+ 5|  Gamma
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:1-7 reverse
+== filter_by_value
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: greek
+ 4|
+ 5|> Alpha
+ 6|  Beta
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:14-14 reverse
+ 5:1-7 reverse
+== applied
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|Filter: greek
+ 4|
+ 5|> Alpha
+ 6|  Beta
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 5:1-7 reverse

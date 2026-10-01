@@ -1,0 +1,8 @@
+# conformance golden for bubbles/stopwatch/initial_zero: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|0:00.00 running=false elapsed=0.0
+2|
+3|
+styles: none

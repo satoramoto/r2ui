@@ -1,0 +1,20 @@
+# conformance golden for bubbles/paginator/page_flags: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 50x3
+== first
+alt_screen: off  cursor: hidden  modes: -
+1|page=0 prev?=false next?=true
+2|
+3|
+styles: none
+== middle
+alt_screen: off  cursor: hidden  modes: -
+1|page=1 prev?=true next?=true
+2|
+3|
+styles: none
+== last
+alt_screen: off  cursor: hidden  modes: -
+1|page=2 prev?=true next?=false
+2|
+3|
+styles: none

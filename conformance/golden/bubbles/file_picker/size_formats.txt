@@ -1,0 +1,39 @@
+# conformance golden for bubbles/file_picker/size_formats: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 70x14
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|<root>
+ 2|
+ 3|>  f0 0 B rw-r--r--
+ 4|   f1 1.0B rw-------
+ 5|   f1023 1023B rwxr-xr-x
+ 6|   f1024 1.0K r--r--r--
+ 7|   f102400 100K rw-rw-r--
+ 8|   f150000 146K rw-rw-rw-
+ 9|   f1536 1.5K rw-r-----
+10|   f1m 1.0M rwx------
+11|   f2500k 2.4M rwxr-x--x
+12|
+13|
+14|
+styles:
+ 1:1-6 fg=4
+ 3:4-5 bold
+ 3:7-9 fg=8
+ 3:11-19 fg=8
+ 4:7-10 fg=8
+ 4:12-20 fg=8
+ 5:10-14 fg=8
+ 5:16-24 fg=8
+ 6:10-13 fg=8
+ 6:15-23 fg=8
+ 7:12-15 fg=8
+ 7:17-25 fg=8
+ 8:12-15 fg=8
+ 8:17-25 fg=8
+ 9:10-13 fg=8
+ 9:15-23 fg=8
+10:8-11 fg=8
+10:13-21 fg=8
+11:11-14 fg=8
+11:16-24 fg=8

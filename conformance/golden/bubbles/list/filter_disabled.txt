@@ -1,0 +1,16 @@
+# conformance golden for bubbles/list/filter_disabled: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== after_slash
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|
+ 9|
+10|
+styles:
+ 3:1-7 reverse

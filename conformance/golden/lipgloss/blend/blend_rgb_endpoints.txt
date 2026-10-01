@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/blend/blend_rgb_endpoints: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"#336699\", \"#cc9933\"]"

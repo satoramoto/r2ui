@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/underline: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[4;4mH\e[0m\e[4;4me\e[0m\e[4;4ml\e[0m\e[4;4ml\e[0m\e[4;4mo\e[0m\e[4m \e[0m\e[4;4mW\e[0m\e[4;4mo\e[0m\e[4;4mr\e[0m\e[4;4ml\e[0m\e[4;4md\e[0m"

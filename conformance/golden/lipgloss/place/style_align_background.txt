@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/place/style_align_background: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[48;2;60;60;60m   \e[0m\e[48;2;60;60;60mab\e[0m\e[48;2;60;60;60m   \e[0m"

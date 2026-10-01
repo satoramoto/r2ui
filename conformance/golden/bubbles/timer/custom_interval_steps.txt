@@ -1,0 +1,20 @@
+# conformance golden for bubbles/timer/custom_interval_steps: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x3
+== one
+alt_screen: off  cursor: hidden  modes: -
+1|2m30s interval=30.0
+2|
+3|
+styles: none
+== two
+alt_screen: off  cursor: hidden  modes: -
+1|2m0s interval=30.0
+2|
+3|
+styles: none
+== six_is_out
+alt_screen: off  cursor: hidden  modes: -
+1|0s interval=30.0
+2|
+3|
+styles: none

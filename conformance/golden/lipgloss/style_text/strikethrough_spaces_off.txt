@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/style_text/strikethrough_spaces_off: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[9ma\e[0m \e[9mb\e[0m \e[9mc\e[0m"

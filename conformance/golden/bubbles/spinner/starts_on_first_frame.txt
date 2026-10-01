@@ -1,0 +1,8 @@
+# conformance golden for bubbles/spinner/starts_on_first_frame: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|[⠋] idle
+2|
+3|
+styles: none

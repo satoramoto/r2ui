@@ -1,0 +1,36 @@
+# conformance golden for bubbles/progress/increment_and_decrement: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 40x4
+== plus_quarter
+alt_screen: off  cursor: hidden  modes: -
+1|██████░░░░░░░░░░░░░░░░░░░  25%
+2|target=0.25 animating=false
+3|
+4|
+styles:
+1:1-6 fg=#7571f9
+1:7-25 fg=#606060
+== clamped_one
+alt_screen: off  cursor: hidden  modes: -
+1|█████████████████████████ 100%
+2|target=1.0 animating=false
+3|
+4|
+styles:
+1:1-25 fg=#7571f9
+== minus_half
+alt_screen: off  cursor: hidden  modes: -
+1|█████████████░░░░░░░░░░░░  50%
+2|target=0.5 animating=false
+3|
+4|
+styles:
+1:1-13 fg=#7571f9
+1:14-25 fg=#606060
+== clamped_zero
+alt_screen: off  cursor: hidden  modes: -
+1|░░░░░░░░░░░░░░░░░░░░░░░░░   0%
+2|target=0.0 animating=false
+3|
+4|
+styles:
+1:1-25 fg=#606060

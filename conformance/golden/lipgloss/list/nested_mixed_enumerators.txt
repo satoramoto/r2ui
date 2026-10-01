@@ -1,0 +1,5 @@
+# conformance golden for lipgloss/list/nested_mixed_enumerators: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"1. a"
+"  - x"
+"  - y"
+"2. b"

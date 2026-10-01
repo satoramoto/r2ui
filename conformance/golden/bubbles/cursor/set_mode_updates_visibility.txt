@@ -1,0 +1,2 @@
+# conformance golden for bubbles/cursor/set_mode_updates_visibility: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"[\"\\e[7mm\\e[0m\", \"m\", \"\\e[7mm\\e[0m\"]"

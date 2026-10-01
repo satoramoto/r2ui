@@ -1,0 +1,10 @@
+# conformance golden for bubbles/progress/static_50: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 60x3
+== start
+alt_screen: off  cursor: hidden  modes: -
+1|██████████████████░░░░░░░░░░░░░░░░░  50%
+2|
+3|
+styles:
+1:1-18 fg=#7571f9
+1:19-35 fg=#606060

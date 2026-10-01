@@ -1,0 +1,2 @@
+# conformance golden for lipgloss/color/fg_ansi256_cube: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+"\e[38;5;16mx\e[0m|\e[38;5;21mx\e[0m|\e[38;5;46mx\e[0m|\e[38;5;82mx\e[0m|\e[38;5;196mx\e[0m|\e[38;5;201mx\e[0m|\e[38;5;231mx\e[0m"

@@ -1,0 +1,72 @@
+# conformance golden for bubbles/list/move_down_up: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 30x10
+== two_down
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Apple
+ 4|  Banana
+ 5|> Cherry
+ 6|  Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 5:1-8 reverse
+== one_up
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Apple
+ 4|> Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 4:1-8 reverse
+== j_twice
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|> Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 6:1-6 reverse
+== k_once
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|  Apple
+ 4|  Banana
+ 5|> Cherry
+ 6|  Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 5:1-8 reverse
+== clamped_at_top
+alt_screen: off  cursor: hidden  modes: -
+ 1|List
+ 2|
+ 3|> Apple
+ 4|  Banana
+ 5|  Cherry
+ 6|  Date
+ 7|
+ 8|● ○ ○
+ 9|
+10|
+styles:
+ 3:1-7 reverse

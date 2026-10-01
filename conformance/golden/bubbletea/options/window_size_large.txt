@@ -1,0 +1,35 @@
+# conformance golden for bubbletea/options/window_size_large: recorded from the upstream gems by `bin/conformance record`. Never edit by hand.
+size: 100x30
+== start
+alt_screen: off  cursor: hidden  modes: -
+ 1|size: 100x30
+ 2|
+ 3|
+ 4|
+ 5|
+ 6|
+ 7|
+ 8|
+ 9|
+10|
+11|
+12|
+13|
+14|
+15|
+16|
+17|
+18|
+19|
+20|
+21|
+22|
+23|
+24|
+25|
+26|
+27|
+28|
+29|
+30|
+styles: none
