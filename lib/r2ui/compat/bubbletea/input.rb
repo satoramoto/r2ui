@@ -102,29 +102,79 @@ module R2UI
           [size, key_event(KEY_RUNES, [char.ord], false, char)]
         end
 
-        # Decodes every event in one read chunk, in order, plus bracketed paste.
+        # Decodes every event in one complete input, in order, plus bracketed
+        # paste. A paste with no end marker takes the rest of the input.
         def parse_all(bytes)
-          data = bytes.b
-          events = []
-          pos = 0
-          while pos < data.bytesize
-            rest = data.byteslice(pos, data.bytesize - pos)
-            if rest.start_with?(PASTE_START)
-              body = rest.byteslice(PASTE_START.bytesize, rest.bytesize - PASTE_START.bytesize)
-              stop = body.index(PASTE_END)
-              text = stop ? body.byteslice(0, stop) : body
-              events << paste_event(text)
-              pos += PASTE_START.bytesize + text.bytesize + (stop ? PASTE_END.bytesize : 0)
-              next
-            end
+          decoder = Decoder.new
+          decoder.feed(bytes) + decoder.flush
+        end
 
-            consumed, event = parse(rest)
-            break if consumed <= 0
+        # Decodes a stream of read chunks. An open bracketed paste, or a
+        # paste start marker cut off at the end of a chunk, is held until the
+        # following chunks complete it, so a paste of any length arrives as
+        # one paste event.
+        class Decoder
+          # Shortest chunk tail held as a possible split start marker. A lone
+          # "\e" or "\e[" is a real key press (esc, alt+[) and is never held.
+          MIN_HELD_PREFIX = 3
 
-            events << event if event
-            pos += consumed
+          def initialize
+            @pending = "".b
           end
-          events
+
+          # Events completed by this chunk; held bytes wait for the next one.
+          def feed(bytes)
+            data = @pending + bytes.b
+            @pending = "".b
+            events = []
+            pos = 0
+            while pos < data.bytesize
+              rest = data.byteslice(pos, data.bytesize - pos)
+              if rest.start_with?(PASTE_START)
+                body = pos + PASTE_START.bytesize
+                stop = data.index(PASTE_END, body)
+                unless stop
+                  @pending = rest
+                  break
+                end
+
+                events << Input.paste_event(data.byteslice(body, stop - body))
+                pos = stop + PASTE_END.bytesize
+                next
+              end
+
+              if rest.bytesize >= MIN_HELD_PREFIX && rest.bytesize < PASTE_START.bytesize &&
+                 PASTE_START.start_with?(rest)
+                @pending = rest
+                break
+              end
+
+              consumed, event = Input.parse(rest)
+              break if consumed <= 0
+
+              events << event if event
+              pos += consumed
+            end
+            events
+          end
+
+          # Events for whatever is held, as if the input ended here: an open
+          # paste becomes a paste of what arrived, a partial marker plain keys.
+          def flush
+            data = @pending
+            @pending = "".b
+            return [] if data.empty?
+            return [Input.paste_event(data.byteslice(PASTE_START.bytesize, data.bytesize))] if data.start_with?(PASTE_START)
+
+            events = []
+            pos = 0
+            while pos < data.bytesize
+              consumed, event = Input.parse(data.byteslice(pos, data.bytesize - pos))
+              events << event if event
+              pos += consumed
+            end
+            events
+          end
         end
 
         def key_event(key_type, runes, alt, name)
