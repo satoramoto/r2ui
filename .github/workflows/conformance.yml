@@ -1,0 +1,63 @@
+name: Conformance
+
+# The conformance harness (conformance/README.md). Both jobs need the upstream gems; they ship
+# prebuilt native binaries for x86_64-linux-gnu, so ubuntu-latest installs them without Go.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  UPSTREAM_GEMS: bubbletea:0.1.4 lipgloss:0.2.2 bubbles:0.1.1 harmonica:0.1.1
+
+jobs:
+  ratchet:
+    name: r2ui passes the ratchet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      # bubbles/harmonica are pure Ruby and run on top of r2ui; installing them pulls in the real
+      # bubbletea/lipgloss too, which r2ui/drop_in shadows.
+      - run: gem install --no-document $UPSTREAM_GEMS
+      - run: bin/conformance check --ratchet
+
+  ratchet-only-grows:
+    name: no id removed from the ratchet
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      # Any id line (not a comment or blank) present on the base and gone from the PR fails.
+      - env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          ids() { sed 's/#.*//; s/^[[:space:]]*//; s/[[:space:]]*$//' | grep -v '^$' | sort -u; }
+          git archive "$BASE_SHA" conformance/ratchet | tar -x -O --wildcards '*.txt' | ids > base.ids || true
+          cat conformance/ratchet/*.txt | ids > head.ids
+          removed=$(comm -23 base.ids head.ids)
+          if [ -n "$removed" ]; then
+            echo "These ids were removed from conformance/ratchet (the ratchet only grows):"
+            echo "$removed"
+            exit 1
+          fi
+
+  goldens:
+    name: goldens match the upstream gems
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      - run: gem install --no-document $UPSTREAM_GEMS
+      # Re-record every golden from the real gems; any difference from the committed files (an
+      # edited, stale, missing or orphaned golden) fails the job.
+      - run: bin/conformance record
+      - run: git add -N conformance/golden && git diff --exit-code -- conformance/golden
