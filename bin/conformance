@@ -6,6 +6,7 @@
 #
 #   bin/conformance record [filter...]           run cases on the real gems, write goldens
 #   bin/conformance check [--ratchet] [filter...] run cases on r2ui/drop_in, compare to goldens
+#   bin/conformance ratchet [filter...]          run cases on r2ui, add passing ones to conformance/ratchet/
 #   bin/conformance list [filter...]             list case ids
 #
 # Filters match case ids by substring. -j N sets parallel jobs (default: CPU count).
@@ -13,7 +14,7 @@
 
 require_relative "../conformance/lib/harness"
 
-USAGE = "usage: bin/conformance (record|check [--ratchet]|list) [-j N] [filter...]"
+USAGE = "usage: bin/conformance (record|check [--ratchet]|ratchet|list) [-j N] [filter...]"
 
 args = ARGV.dup
 command = args.shift
@@ -104,11 +105,32 @@ when "check"
   if ratchet
     puts "#{listed_ids.size} in ratchet, #{problems} ratchet failures"
     unless passing_unlisted.empty?
-      puts "Passing but not in the ratchet (add them to conformance/ratchet/<area>.txt):"
+      puts "Passing but not in the ratchet (add them with `bin/conformance ratchet`):"
       passing_unlisted.each { |id| puts "  #{id}" }
     end
   end
   exit(problems.zero? ? 0 : 1)
+
+when "ratchet"
+  abort "no cases match #{filters.join(' ')}" if selected.empty?
+  listed_ids = Conformance.ratchet.map(&:first).to_set
+  conceded_ids = Conformance.concessions.map(&:first).to_set
+  passing = Hash.new { |h, k| h[k] = [] }
+  failed = 0
+  Conformance.run_all(selected, :r2ui, jobs: jobs).each do |c, text, error|
+    golden = c.golden
+    if golden && !error && strip_header(golden) == text
+      passing[c.area] << c.id unless listed_ids.include?(c.id) || conceded_ids.include?(c.id)
+    else
+      failed += 1
+    end
+  end
+  added = passing.sort.sum do |area, ids|
+    new_ids = Conformance.add_to_ratchet(File.join(Conformance::RATCHET, "#{area}.txt"), ids)
+    new_ids.each { |id| puts "ADDED #{id}  (conformance/ratchet/#{area}.txt)" }
+    new_ids.size
+  end
+  puts "#{added} added to the ratchet, #{failed} not passing (left out)"
 
 else
   abort USAGE

@@ -113,6 +113,18 @@ class HarnessTest < Minitest::Test
     end
   end
 
+  def test_add_to_ratchet_keeps_comments_and_order
+    Dir.mktmpdir do |dir|
+      path = File.join(dir, "bubbletea.txt")
+      File.write(path, "# header\nbubbletea/b\nbubbletea/d  # note\n")
+      added = Conformance.add_to_ratchet(path, %w[bubbletea/e bubbletea/a bubbletea/b bubbletea/c])
+      assert_equal %w[bubbletea/a bubbletea/c bubbletea/e], added
+      assert_equal "# header\nbubbletea/a\nbubbletea/b\nbubbletea/c\nbubbletea/d  # note\nbubbletea/e\n",
+                   File.read(path)
+      assert_empty Conformance.add_to_ratchet(path, %w[bubbletea/a])
+    end
+  end
+
   def test_child_fails_when_real_gem_is_loaded_under_r2ui
     Dir.mktmpdir do |dir|
       fake = File.join(dir, "gems", "lipgloss-9.9.9", "lib")
