@@ -17,6 +17,8 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 | `bundle exec rake test` | After any change in `lib/` (well under a second) |
 | `bundle exec ruby -Itest -Ilib test/query_test.rb` | Targeted: one file |
 | `exe/r2ui --snapshot --width 140 --height 45 examples/agents.rb` | After changing drawing or the example; prints one real frame |
+| `bin/conformance check --ratchet [filter]` | After any change in `lib/r2ui/compat/`; fails if a case in `conformance/ratchet/` fails (CI runs it). `bin/conformance check <filter>` diffs any case against its golden |
+| `bin/conformance record <filter>` | After adding or changing a case in `conformance/cases/`; needs the upstream gems installed. Case authors only; implementers never re-record. See `conformance/README.md` |
 
 The interactive mode needs a terminal; tests drive it through `App#press` and `App#frame` instead.
 
