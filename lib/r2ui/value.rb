@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # Rows can be hashes, Data/Struct objects or ActiveRecord models; read them all the same way.
   module Value
     module_function

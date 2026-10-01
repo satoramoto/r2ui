@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module DSL
     Gauge = Data.define(:attr, :of, :label)
     Stat = Data.define(:attrs)

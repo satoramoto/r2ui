@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # The "/" search. Space-separated terms, all must match:
   #   codex          free text, case-insensitive, against the resource's `filter` attributes
   #   cpu>5          comparison on a column, operand parsed by its format ("mem>=500M")

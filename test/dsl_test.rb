@@ -3,7 +3,7 @@
 require "test_helper"
 
 class DslTest < Minitest::Test
-  def setup = Paneful.reset!
+  def setup = R2UI.reset!
 
   def test_resource_records_declarations
     resource = Fixtures.define_processes
@@ -20,13 +20,13 @@ class DslTest < Minitest::Test
   end
 
   def test_resource_without_source_is_an_error
-    error = assert_raises(Paneful::Error) { Paneful.resource(:empty) { scope :all } }
+    error = assert_raises(R2UI::Error) { R2UI.resource(:empty) { scope :all } }
     assert_match(/source/, error.message)
   end
 
   def test_tree_grouping_needs_parent_key
-    error = assert_raises(Paneful::Error) do
-      Paneful.resource(:t) do
+    error = assert_raises(R2UI::Error) do
+      R2UI.resource(:t) do
         source { [] }
         group_by :parent, tree: true
       end
@@ -35,7 +35,7 @@ class DslTest < Minitest::Test
   end
 
   def test_refresh_accepts_anything_with_to_f
-    resource = Paneful.resource(:r) do
+    resource = R2UI.resource(:r) do
       source { [] }
       refresh every: Rational(1, 2)
     end
@@ -44,7 +44,7 @@ class DslTest < Minitest::Test
 
   def test_dashboard_layout
     Fixtures.define_processes
-    dashboard = Paneful.dashboard do
+    dashboard = R2UI.dashboard do
       row height: 10 do
         panel :busy, resource: :process, span: 2 do
           table scope: :all, group_by: :name, limit: 3
@@ -58,11 +58,11 @@ class DslTest < Minitest::Test
     assert_equal :process, busy.resource
     assert_equal 2, busy.span
     assert_equal :name, busy.table.group_by
-    assert_instance_of Paneful::DSL::Table, full.table
+    assert_instance_of R2UI::DSL::Table, full.table
   end
 
   def test_screen_defaults_to_first_resource
     Fixtures.define_processes
-    assert_equal :process, Paneful.registry.screen.panels.first.resource
+    assert_equal :process, R2UI.registry.screen.panels.first.resource
   end
 end

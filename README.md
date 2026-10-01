@@ -1,11 +1,11 @@
-# Paneful
+# R2UI
 
-ActiveAdmin-style DSL for terminal dashboards. You declare resources, scopes, groupings, columns and actions; Paneful draws the tables, gauges and sparklines, and handles keys, search, sorting and folding.
+ActiveAdmin-style DSL for terminal dashboards. You declare resources, scopes, groupings, columns and actions; R2UI draws the tables, gauges and sparklines, and handles keys, search, sorting and folding.
 
 Pure Ruby, no runtime dependencies.
 
 ```ruby
-Paneful.resource :process do
+R2UI.resource :process do
   source { MyProbe.processes }        # any array of hashes, Data/Struct objects or models
   refresh every: 2                    # seconds, or an ActiveSupport::Duration
   key :pid, parent: :ppid             # identity, plus parent for tree grouping
@@ -32,7 +32,7 @@ Paneful.resource :process do
   end
 end
 
-Paneful.dashboard do
+R2UI.dashboard do
   row height: 15 do
     panel :memory, span: 1 do
       gauge :used, of: :total
@@ -50,8 +50,8 @@ end
 ## Run it
 
 ```sh
-exe/paneful examples/agents.rb              # interactive
-exe/paneful --snapshot examples/agents.rb   # print one frame and exit
+exe/r2ui examples/agents.rb              # interactive
+exe/r2ui --snapshot examples/agents.rb   # print one frame and exit
 ```
 
 `examples/agents.rb` is a macOS monitor for Claude and Codex runs. It groups processes by agent session (the outermost `claude`/`codex` process, or the desktop app), by working directory, by name or as a tree. It also breaks memory down the way Activity Monitor does: app, wired and compressed memory, compression ratio, swap, swap-out and compression rates, and memory pressure.

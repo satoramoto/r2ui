@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   Rect = Data.define(:x, :y, :width, :height) do
     def inner = Rect.new(x: x + 1, y: y + 1, width: [width - 2, 0].max, height: [height - 2, 0].max)
     def bottom = y + height

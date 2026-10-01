@@ -2,7 +2,7 @@
 
 require "set"
 
-module Paneful
+module R2UI
   # One table line: a row, a group of rows, or a tree node with its subtree rolled up.
   Line = Data.define(:id, :label, :values, :depth, :rows, :children, :collapsed) do
     def count = rows.size

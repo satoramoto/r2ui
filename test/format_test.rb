@@ -3,7 +3,7 @@
 require "test_helper"
 
 class FormatTest < Minitest::Test
-  F = Paneful::Format
+  F = R2UI::Format
 
   def test_bytes
     assert_equal "512B", F.call(:bytes, 512)
@@ -31,11 +31,11 @@ class FormatTest < Minitest::Test
   end
 
   def test_keys
-    assert_equal [:up, "q", :tab, :back_tab, :escape], Paneful::Keys.parse("\e[Aq\t\e[Z\e")
+    assert_equal [:up, "q", :tab, :back_tab, :escape], R2UI::Keys.parse("\e[Aq\t\e[Z\e")
   end
 
   def test_sparkline
-    assert_equal "▁▅█", Paneful::Widgets::Sparkline.line([0, 5, 10], 3)
-    assert_equal "▁▁", Paneful::Widgets::Sparkline.line([0, 0], 5)
+    assert_equal "▁▅█", R2UI::Widgets::Sparkline.line([0, 5, 10], 3)
+    assert_equal "▁▁", R2UI::Widgets::Sparkline.line([0, 0], 5)
   end
 end

@@ -2,7 +2,7 @@
 
 require "io/console"
 
-module Paneful
+module R2UI
   # Raw mode, alternate screen, line-diffed redraws. Always restores the terminal on exit.
   class Terminal
     def initialize(input: $stdin, output: $stdout)

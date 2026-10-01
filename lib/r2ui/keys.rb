@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # Splits raw terminal input into key names (:up, :tab, "q", ...).
   module Keys
     SEQUENCES = {

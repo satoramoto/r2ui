@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "minitest/autorun"
-require "paneful"
+require "r2ui"
 
 module Fixtures
   Proc = Data.define(:pid, :ppid, :name, :cwd, :cpu, :rss)
@@ -18,7 +18,7 @@ module Fixtures
   module_function
 
   def define_processes(rows = ROWS)
-    Paneful.resource :process do
+    R2UI.resource :process do
       source { rows }
       key :pid, parent: :ppid
       scope(:agents, default: true) { |p| p.pid >= 10 }

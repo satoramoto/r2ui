@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # Column formats: how a value is shown, aligned, aggregated and parsed back from a search.
   module Format
     NUMERIC = %i[bytes bytes_per_sec percent number integer ratio].freeze

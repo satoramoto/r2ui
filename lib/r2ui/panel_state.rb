@@ -2,7 +2,7 @@
 
 require "set"
 
-module Paneful
+module R2UI
   # What the viewer has chosen for one table panel: scope, grouping, sort, search, selection.
   class PanelState
     attr_accessor :search

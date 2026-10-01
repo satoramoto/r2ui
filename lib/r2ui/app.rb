@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # The running program: feeds, panel focus, key handling and the draw loop.
   class App
     FRAME = 0.25

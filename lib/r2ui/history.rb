@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # Recent values per (series id, attribute), for sparklines.
   class History
     def initialize(capacity: 120)

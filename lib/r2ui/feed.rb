@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # Fetches one resource on its refresh interval in a background thread and records history.
   class Feed
     SINGLE = :record

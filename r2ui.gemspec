@@ -1,21 +1,26 @@
 # frozen_string_literal: true
 
-require_relative "lib/paneful/version"
+require_relative "lib/r2ui/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "paneful"
-  spec.version = Paneful::VERSION
+  spec.name = "r2ui"
+  spec.version = R2UI::VERSION
   spec.authors = ["Ryan Gavin"]
   spec.email = ["ryan.michael.gavin@gmail.com"]
 
   spec.summary = "ActiveAdmin-style DSL for terminal dashboards"
   spec.description = "Declare resources, scopes, groupings, columns and actions; " \
-                     "Paneful draws the tables, charts and key bindings in your terminal."
+                     "R2UI draws the tables, charts and key bindings in your terminal."
+  spec.homepage = "https://github.com/satoramoto/r2ui"
   spec.license = "MIT"
+  spec.metadata = {
+    "source_code_uri" => spec.homepage,
+    "changelog_uri" => "#{spec.homepage}/commits/main"
+  }
   spec.required_ruby_version = ">= 3.3"
 
   spec.files = Dir["lib/**/*.rb", "exe/*", "README.md", "LICENSE.txt"]
   spec.bindir = "exe"
-  spec.executables = ["paneful"]
+  spec.executables = ["r2ui"]
   spec.require_paths = ["lib"]
 end

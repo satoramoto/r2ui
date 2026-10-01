@@ -4,12 +4,12 @@ require "test_helper"
 
 class QueryTest < Minitest::Test
   def setup
-    Paneful.reset!
+    R2UI.reset!
     @resource = Fixtures.define_processes
     @rows = Fixtures::ROWS
   end
 
-  def query(**) = Paneful::Query.new(@resource, @rows, **).lines
+  def query(**) = R2UI::Query.new(@resource, @rows, **).lines
 
   def test_scope_and_default_sort
     lines = query(scope: @resource.default_scope)

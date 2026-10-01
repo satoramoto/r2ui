@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module Widgets
     # "Used ▕██████░░░░▏ 21G / 32G 67%" on one line.
     module Gauge

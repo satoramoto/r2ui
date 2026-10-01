@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   class Registry
     attr_reader :resources, :dashboards
 

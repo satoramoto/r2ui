@@ -4,9 +4,9 @@ require "test_helper"
 
 class AppTest < Minitest::Test
   def setup
-    Paneful.reset!
+    R2UI.reset!
     Fixtures.define_processes
-    Paneful.resource :memory do
+    R2UI.resource :memory do
       source { { used: 24 * 1024**3, total: 32 * 1024**3, pressure: 36.0 } }
       attribute :used, format: :bytes
       attribute :total, format: :bytes
@@ -14,10 +14,10 @@ class AppTest < Minitest::Test
     end
     @killed = []
     killed = @killed
-    Paneful.registry.resource(:process).actions << Paneful::DSL::Action.new(
+    R2UI.registry.resource(:process).actions << R2UI::DSL::Action.new(
       name: :kill, label: "Kill", key: "K", confirm: true, handler: ->(p) { killed << p.pid }
     )
-    Paneful.dashboard do
+    R2UI.dashboard do
       row height: 6 do
         panel :memory do
           gauge :used, of: :total
@@ -29,7 +29,7 @@ class AppTest < Minitest::Test
   end
 
   def app
-    @app ||= Paneful::App.new(Paneful.registry).tap { |a| a.snapshot(width: 100, height: 20) }
+    @app ||= R2UI::App.new(R2UI.registry).tap { |a| a.snapshot(width: 100, height: 20) }
   end
 
   def text = app.frame(100, 20).plain_lines.join("\n")

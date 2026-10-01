@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module Widgets
     # Label on the left, formatted value on the right, one per line.
     module Stat

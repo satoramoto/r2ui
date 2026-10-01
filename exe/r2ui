@@ -1,16 +1,16 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# paneful FILE [SCREEN]                 run the dashboards defined in FILE
-# paneful --snapshot FILE [SCREEN]      print one frame as plain text and exit
+# r2ui FILE [SCREEN]                 run the dashboards defined in FILE
+# r2ui --snapshot FILE [SCREEN]      print one frame as plain text and exit
 #   --width N --height N --ticks N      snapshot size, and how many refreshes to take first
 
 require "optparse"
-require_relative "../lib/paneful"
+require_relative "../lib/r2ui"
 
 options = { snapshot: false, width: 120, height: 40, ticks: 2 }
 parser = OptionParser.new do |o|
-  o.banner = "Usage: paneful [--snapshot] FILE [SCREEN]"
+  o.banner = "Usage: r2ui [--snapshot] FILE [SCREEN]"
   o.on("--snapshot", "Print one frame and exit") { options[:snapshot] = true }
   o.on("--width N", Integer) { |n| options[:width] = n }
   o.on("--height N", Integer) { |n| options[:height] = n }
@@ -21,7 +21,7 @@ abort(parser.banner) unless file
 
 load File.expand_path(file)
 if options[:snapshot]
-  puts Paneful.snapshot(screen, width: options[:width], height: options[:height], ticks: options[:ticks])
+  puts R2UI.snapshot(screen, width: options[:width], height: options[:height], ticks: options[:ticks])
 else
-  Paneful.run(screen)
+  R2UI.run(screen)
 end

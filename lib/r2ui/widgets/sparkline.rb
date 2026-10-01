@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module Widgets
     module Sparkline
       BARS = %w[▁ ▂ ▃ ▄ ▅ ▆ ▇ █].freeze

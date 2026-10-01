@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module DSL
     Scope = Data.define(:name, :label, :default, :filter) do
       def call(rows) = filter ? rows.select(&filter) : rows
@@ -13,7 +13,7 @@ module Paneful
 
     Action = Data.define(:name, :label, :key, :confirm, :handler)
 
-    # A resource definition. Built by Resource::Builder from the block given to Paneful.resource.
+    # A resource definition. Built by Resource::Builder from the block given to R2UI.resource.
     class Resource
       attr_reader :name, :title, :source, :interval, :key, :parent_key, :scopes, :groupings, :columns,
                   :searchable, :actions

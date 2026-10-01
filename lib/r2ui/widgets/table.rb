@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module Widgets
     # The index table: header, sort marker, grouped/tree labels, inline sparklines, selection.
     class Table

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module DSL
     # One attribute of a resource: how to read it, show it and roll it up.
     Column = Data.define(:key, :label, :format, :sparkline, :aggregate, :width, :align, :sort, :reader) do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   module Widgets
     # A bordered panel with a title on the top edge. Returns the inner rect.
     module Box

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 # What Claude and Codex runs cost this Mac.
-#   exe/paneful examples/agents.rb
+#   exe/r2ui examples/agents.rb
 
 require_relative "agents/probe"
 
-Paneful.resource :process do
+R2UI.resource :process do
   source { AgentProbe.processes }
   refresh every: 2
   key :pid, parent: :ppid
@@ -34,7 +34,7 @@ Paneful.resource :process do
   end
 end
 
-Paneful.resource :memory do
+R2UI.resource :memory do
   source { AgentProbe.memory }
   refresh every: 1
 
@@ -51,7 +51,7 @@ Paneful.resource :memory do
   attribute :pressure, label: "Memory pressure", format: :percent
 end
 
-Paneful.dashboard do
+R2UI.dashboard do
   title "Agents"
 
   row height: 15 do

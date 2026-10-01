@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Paneful
+module R2UI
   # Lays out a dashboard and draws every panel into a canvas.
   class Renderer
     HINTS = "tab panel  [ ] scope  g group  s/S sort  / search  ⏎ fold  z zoom  q quit"
