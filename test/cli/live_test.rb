@@ -111,6 +111,47 @@ class CLILiveTest < Minitest::Test
     assert screen(s.output.string).cursor_visible?
   end
 
+  def test_clear_erases_the_region_instead_of_leaving_it
+    s = test_shell(tty: true)
+    s.puts "before"
+    live = Live.new(s) { "one\ntwo" }
+    live.run { live.clear = true }
+    vt = screen(s.output.string)
+    assert_equal ["before"], text(vt)
+    assert vt.cursor_visible?
+    assert_equal [1, 0], vt.cursor
+
+    s = test_shell(tty: true)
+    Live.new(s, clear: true) { "gone" }.run { nil }
+    assert_empty text(screen(s.output.string))
+  end
+
+  def test_a_view_that_raises_on_the_ticker_is_raised_from_run_with_the_cursor_restored
+    s = test_shell(tty: true)
+    calls = 0
+    live = Live.new(s, fps: 200) do
+      calls += 1
+      raise ArgumentError, "bad view" if calls > 1
+
+      "ok"
+    end
+    error = assert_raises(ArgumentError) { live.run { sleep 0.05 } }
+    assert_equal "bad view", error.message
+    refute live.running?
+    assert_nil s.live
+    assert screen(s.output.string).cursor_visible?
+  end
+
+  def test_stop_restores_the_cursor_when_the_last_draw_raises
+    s = test_shell(tty: true)
+    fail_now = false
+    live = Live.new(s, fps: 1) { fail_now ? raise("last frame") : "ok" }
+    assert_raises(RuntimeError) { live.run { fail_now = true } }
+    refute live.running?
+    assert_nil s.live
+    assert s.output.string.end_with?(Live::SHOW_CURSOR)
+  end
+
   def test_refresh_redraws_now
     s = test_shell(tty: true)
     label = "before"

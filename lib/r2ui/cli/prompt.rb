@@ -52,27 +52,42 @@ module R2UI
       end
 
       # A base for prompt models: Bubbletea::Model plus the shared answer/interrupt bookkeeping.
-      # Subclasses implement `key(name, msg)` and `view`; call `submit(value)` to answer.
+      #
+      # - ctrl+c and esc cancel (Prompt.run then raises Interrupt), before anything else sees them.
+      # - Other keys go to `key(name, msg)`; return `submit(value)` to answer, or nil to pass the
+      #   key on to the hosted component.
+      # - `self.component = Bubbles::TextInput.new` hosts a bubbles model: its `init` runs with the
+      #   prompt's, and it gets every message the prompt doesn't handle (keys `key` passes on, blink
+      #   and other ticks, window size), its commands going out with the prompt's.
+      # Subclasses implement `view` (and usually `key`).
       class Model
         include Bubbletea::Model
 
         attr_reader :value, :shell
+        attr_accessor :component
 
         def initialize(shell)
           @shell = shell
           @done = false
           @interrupted = false
+          @component = nil
         end
 
-        def init = [self, nil]
+        def init
+          return [self, nil] unless component.respond_to?(:init)
+
+          [self, adopt(component.init)]
+        end
 
         def update(message)
-          return [self, nil] unless message.is_a?(Bubbletea::KeyMessage)
+          if message.is_a?(Bubbletea::KeyMessage)
+            name = message.to_s
+            return cancel if %w[ctrl+c esc].include?(name)
 
-          name = message.to_s
-          return cancel if %w[ctrl+c esc].include?(name)
-
-          key(name, message) || [self, nil]
+            result = key(name, message)
+            return result if result
+          end
+          forward(message)
         end
 
         def done? = @done
@@ -80,6 +95,26 @@ module R2UI
         def interrupted? = @interrupted
 
         private
+
+        # Prompts that only use a component may leave this out.
+        def key(_name, _message) = nil
+
+        # Sends a message to the hosted component; keeps the model it returns.
+        def forward(message)
+          return [self, nil] unless component
+
+          [self, adopt(component.update(message))]
+        end
+
+        # [model, cmd] or a bare cmd from a component's init/update → the cmd, keeping the model.
+        def adopt(result)
+          if result.is_a?(Array) && result.size == 2 && !result.first.is_a?(Bubbletea::Command)
+            @component = result.first unless result.first.nil?
+            result.last
+          else
+            result
+          end
+        end
 
         def submit(value)
           @value = value

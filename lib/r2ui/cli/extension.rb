@@ -15,9 +15,11 @@ module R2UI
     #   dsl(:command) { def kw ... end }   keywords on Builder (`definition`, `declare`), at definition
     #   helpers { def h ... end }          methods on Helpers (so on every Context too)
     #   setup { }                          on the root's Builder, after the R2UI.cli block
-    #   after_parse { }                    on the Context, argv parsed, before defaults/required checks
+    #   after_parse { }                    on the Context, argv parsed, before defaults, required
+    #                                      checks and positional arguments (`args` is empty here)
     #   before_run { }                     on the Context, before the command's run block
     #   after_run { }                      on the Context, after it returned normally
+    #   help_header { |command, shell| }   returns a String (or nil) shown first in --help
     #   help_section { |command, shell| }  returns [heading, lines] (or nil) to append to --help
     #   on_error(Klass) { |error| }        on the Context when an error escapes; returning an Integer
     #                                      makes it the exit code and skips the core's report
@@ -52,6 +54,8 @@ module R2UI
       def after_run(&block) = hook(:after_run, nil, block)
 
       def help_section(&block) = hook(:help_section, nil, block)
+
+      def help_header(&block) = hook(:help_header, nil, block)
 
       def on_error(matcher = StandardError, &block) = hook(:on_error, matcher, block)
 

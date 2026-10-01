@@ -167,6 +167,26 @@ class CLIRunnerTest < Minitest::Test
     assert_equal "token=typed given=true\n", run_cli(program, "--token", "typed").out
   end
 
+  # A --version-style hook halts before required options and arguments are checked.
+  def test_after_parse_halt_skips_argument_and_required_checks
+    R2UI::CLI.extension(:runner_test_fill) do
+      after_parse { (say("tool 1.0") || halt(0)) if options[:version] }
+    end
+    program = R2UI.cli "tool" do
+      flag :version
+      option :token, required: true
+      argument :app
+      run { say "ran #{args[:app]}" }
+    end
+    result = run_cli(program, "--version")
+    assert_equal [0, "tool 1.0\n", ""], [result.code, result.out, result.err]
+    result = run_cli(program, "--token", "t")
+    assert_equal 2, result.code
+    assert_includes result.err, "missing argument <app>"
+    assert_includes result.err, "Run 'tool --help' for usage."
+    assert_equal "ran api\n", run_cli(program, "api", "--token", "t").out
+  end
+
   def test_on_error_returning_an_integer_replaces_the_report
     R2UI::CLI.extension(:runner_test_errors) do
       on_error(KeyError) do |error|

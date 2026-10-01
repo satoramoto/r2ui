@@ -18,7 +18,8 @@ module R2UI
     #     -h, --help        Show help
     #
     # Headings bold, names in the accent colour, defaults muted, when the shell has colour; the
-    # same text without escapes otherwise. Extensions append sections with `help_section`.
+    # same text without escapes otherwise. Extensions put lines on top with `help_header` (e.g.
+    # "deployer 1.4.0") and append sections with `help_section`.
     class Help
       INDENT = "  "
       GAP = "  "
@@ -29,7 +30,10 @@ module R2UI
       end
 
       def to_s
-        sections = []
+        sections = Extensions.hooks(:help_header).filter_map do |hook|
+          text = hook.block.call(@command, @shell)
+          text.nil? || text.to_s.empty? ? nil : text.to_s.chomp
+        end
         about = @command.description || @command.summary
         sections << about if about
         sections << section("Usage", [INDENT + usage])

@@ -28,27 +28,38 @@ module R2UI
 
       attr_reader :shell, :frame
 
+      # When true, `stop` erases the region instead of leaving its last frame (a spinner that
+      # disappears on success). Set it at any time before the region stops.
+      attr_accessor :clear
+
       # `view` gets the frame number (it ticks at `fps`) and returns the region's lines.
-      def initialize(shell, fps: FPS, &view)
+      def initialize(shell, fps: FPS, clear: false, &view)
         raise ArgumentError, "Live needs a view block" unless view
 
         @shell = shell
         @fps = fps
+        @clear = clear
         @view = view
         @lock = Monitor.new
         @frame = 0
         @running = false
         @lines = 0
+        @error = nil
       end
 
       def live? = shell.live?
 
       def running? = @running
 
-      # Draws while the block runs; returns the block's value.
+      # Draws while the block runs; returns the block's value. If the view raised while the
+      # ticker was drawing, that error is raised here once the terminal is restored.
       def run
         start
-        yield self
+        value = yield self
+        stop
+        raise @error if @error
+
+        value
       ensure
         stop
       end
@@ -62,6 +73,7 @@ module R2UI
         shell.live = self
         refresh
         @ticker = Thread.new do
+          Thread.current.report_on_exception = false
           loop do
             sleep(1.0 / @fps)
             @lock.synchronize do
@@ -69,6 +81,8 @@ module R2UI
               draw
             end
           end
+        rescue StandardError => e
+          @error = e # the ticker stops; `run` (or the next refresh) surfaces it
         end
         self
       end
@@ -93,17 +107,20 @@ module R2UI
         nil
       end
 
-      # Draws the last frame, leaves it in the scrollback and shows the cursor again.
+      # Draws the last frame and leaves it in the scrollback (or erases the region when `clear`),
+      # then shows the cursor again. The terminal is restored even if the last draw raises or a
+      # second ctrl+c arrives while the ticker stops; that error then propagates.
       def stop
         return unless @running
 
-        @ticker&.kill
-        @ticker&.join
-        @lock.synchronize do
-          draw
+        begin
+          @ticker&.kill
+          @ticker&.join
+          @lock.synchronize { @clear ? erase : (draw unless @error) }
+        ensure
           @running = false
           shell.live = nil
-          shell.output.write("\n#{SHOW_CURSOR}")
+          shell.output.write(@clear ? SHOW_CURSOR : "\n#{SHOW_CURSOR}")
           shell.output.flush if shell.output.respond_to?(:flush)
         end
         nil
@@ -112,6 +129,8 @@ module R2UI
       private
 
       def draw
+        raise @error if @error
+
         view = @view.call(@frame).to_s
         @renderer.render(view)
         @lines = [view.empty? ? 1 : view.split("\n", -1).size, shell.height].min

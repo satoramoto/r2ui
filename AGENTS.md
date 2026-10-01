@@ -22,7 +22,7 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 | `bundle exec ruby -Itest -Ilib test/ext/<file>_test.rb` | Targeted: one DSL extension while working on it |
 | `bundle exec ruby -Itest -Ilib test/compat/bubbletea/<file>_test.rb` | Targeted: one compat test file while working in `lib/r2ui/compat/` |
 | `bundle exec ruby -Itest -Ilib test/conformance/harness_test.rb` | Targeted: the harness (`vt_test.rb` for the decoder) while working in `conformance/lib/` |
-| `bundle exec ruby -Itest -Ilib test/cli/<file>_test.rb` | Targeted: the CLI core (`parser`, `help`, `runner`, `shell`, `live`) while working in `lib/r2ui/cli/` |
+| `bundle exec ruby -Itest -Ilib test/cli/<file>_test.rb` | Targeted: the CLI core (`parser`, `help`, `runner`, `shell`, `live`, `prompt`) while working in `lib/r2ui/cli/` |
 | `bundle exec ruby -Itest -Ilib test/cli/ext/<file>_test.rb` | Targeted: one CLI story while working on it |
 | `ruby examples/cli/deployer.rb deploy api --env production --force` (and again piped through `\| cat`) | After changing CLI output; shows the terminal and the plain rendering |
 | `exe/r2ui --snapshot --width 140 --height 45 examples/agents.rb` | After changing drawing or the example; prints one real frame |

@@ -161,4 +161,16 @@ class CLIHelpTest < Minitest::Test
     assert_operator out.index("Options"), :<, out.index("Examples")
     refute_includes help_for("--help"), "Examples"
   end
+
+  def test_help_header_hook_puts_lines_first
+    R2UI::CLI.extension(:help_test_header) do
+      help_header { |command, _shell| "deployer 1.4.0" if command.root? }
+    end
+    out = help_for("--help")
+    assert_equal "deployer 1.4.0", out.lines.first.chomp
+    assert_equal "Ship apps to the fleet", out.lines[2].chomp
+    refute_includes help_for("deploy", "--help"), "1.4.0"
+  ensure
+    R2UI::CLI::Extensions.remove(:help_test_header)
+  end
 end

@@ -104,8 +104,8 @@ In `run` (a `Context`, `lib/r2ui/cli/context.rb`): `args[:app]`, `options[:env]`
 
 **Help** is generated (`lib/r2ui/cli/help.rb`): `deployer --help`, `-h`, `deployer help deploy`,
 `deployer deploy --help`; a group run without a subcommand prints its help. Sections: the
-description, Usage, Arguments, Commands, Options (with choices, defaults, `required`), then any
-extension's `help_section`. Headings bold and names in the accent colour on a terminal; plain
+extensions' `help_header` lines, the description, Usage, Arguments, Commands, Options (with
+choices, defaults, `required`), then any extension's `help_section`. Headings bold and names in the accent colour on a terminal; plain
 text in a pipe.
 
 **Exit codes** (`lib/r2ui/cli/runner.rb`): 0 success (and help); 1 an error (`CLI::Error`,
@@ -114,9 +114,11 @@ error (unknown/missing/bad command, option or argument, with "Did you mean 'depl
 "Run 'deployer deploy --help' for usage." hint); 130 ctrl+c; `abort!(code:)`/`halt(n)` choose. A
 closed stdout (`deployer status | head -1`) ends quietly with 0.
 
-**How a command runs:** parse argv → `after_parse` hooks (fill options from env, config) →
-defaults and required checks → `before_run` hooks → the `run` block → `after_run` hooks. An
-escaping error goes to the `on_error` hooks, then the core's report.
+**How a command runs:** parse argv (commands and options; unknown ones are usage errors here) →
+`after_parse` hooks (fill options from env or config; `--version` halts here) → option defaults,
+required options, then positional arguments (missing/unexpected/bad ones are usage errors here)
+→ `before_run` hooks → the `run` block → `after_run` hooks. An escaping error goes to the
+`on_error` hooks, then the core's report.
 
 ## Inline helpers
 
@@ -145,7 +147,7 @@ The `Shell` decides, once, from its IOs and the environment:
 | Shell | True when | Used for |
 |---|---|---|
 | `live?` | stdout is a terminal and `TERM` isn't `dumb` | redrawing in place (spinners, task lists, progress) |
-| `interactive?` | stdin and stdout are terminals | inline prompts that take keys |
+| `interactive?` | stdin and stdout are terminals and `TERM` isn't `dumb` | inline prompts that take keys |
 | `input_tty?` | stdin is a terminal | asking a line on stderr when stdout is piped |
 | `color?` | `NO_COLOR` unset, and `FORCE_COLOR` set or `live?` | styling text |
 
@@ -187,14 +189,18 @@ Errors and warnings go to stderr; data goes to stdout, so `tool | jq` stays clea
 | `dsl(:command) { def kw(...) ... end }` | Adds keywords to the command `Builder` (root and subcommands). Inside, `definition` is the `Command`, `declare(key, value)` records plain data on it (`command.declared(key)`). A keyword that already exists raises |
 | `helpers { def h(...) ... end }` | Adds helpers (to `Helpers`, so to every `Context`, to scripts and to `R2UI::CLI`). A name that exists raises (Kernel's private ones, like `warn`, may be replaced) |
 | `setup { }` | Runs on the root's `Builder` after the `R2UI.cli` block: add options or commands the tool asked for |
-| `after_parse { }` | On the Context after argv is parsed, before defaults and required checks: `options[:x] = ... unless given?(:x)` |
+| `after_parse { }` | On the Context after argv is parsed, before option defaults, required checks and positional arguments (`args` is still empty): `options[:x] = ... unless given?(:x)`; `halt` here skips every check |
 | `before_run { }` / `after_run { }` | On the Context around the `run` block; `halt` ends early |
+| `help_header { \|command, shell\| String }` | Lines shown first in `--help`, above the description (nil for none) |
 | `help_section { \|command, shell\| [heading, lines] }` | Appends a section to `--help` (nil for none) |
 | `on_error(Klass) { \|error\| }` | On the Context when an error escapes; return an Integer to make it the exit code and skip the core's report |
 
 Building blocks for stories: `Shell` (`puts`, `err_puts`, `paint`, `symbol`, `width`, `live?`,
-`interactive?`, `input_tty?`), `Theme`, `Live` (`run`, `refresh`, `println`, `Live.spinner`),
-`Prompt.run(shell, model)`, `Prompt::Model` (`key(name, msg)`, `submit(value)`, `view`),
+`interactive?`, `input_tty?`), `Theme`, `Live` (`run`, `refresh`, `println`, `clear` to erase
+instead of leaving the last frame, `Live.spinner`; a view that raises is re-raised from `run`
+after the terminal is restored), `Prompt.run(shell, model)`, `Prompt::Model` (`key(name, msg)`
+returning `submit(value)` or nil, `view`, and `component =` to host a bubbles model: ctrl+c/esc
+cancel in the base, every other message and unhandled key goes to the component),
 `Prompt.read_line(shell, prompt)`. A story's private classes live in `R2UI::CLI::Ext::<Name>`.
 
 **The reference parts.** `lib/r2ui/cli/ext/tasks.rb` (output: a `Live` region on a terminal, one
@@ -232,7 +238,7 @@ open. "Adds" are the names the story owns: helpers, or keywords on the command b
 
 | Id | Capability | Adds | Acceptance criteria | Files |
 |---|---|---|---|---|
-| c01-commands | Commands, arguments, typed options, help, exit codes | `R2UI.cli`; keywords `summary`, `description`, `command`, `aliases`, `argument`, `option`, `flag`, `run`, `hidden`; helper `say` | Done. The keyword table, "Help" and "Exit codes" above hold; parse errors are usage errors with "did you mean"; options inherit down groups; help is plain off a terminal. | `lib/r2ui/cli.rb`, `lib/r2ui/cli/{shell,live,definition,builder,parser,help,helpers,context,extension,prompt,runner,testing}.rb`, `test/cli/{parser,help,runner,shell,live}_test.rb` |
+| c01-commands | Commands, arguments, typed options, help, exit codes | `R2UI.cli`; keywords `summary`, `description`, `command`, `aliases`, `argument`, `option`, `flag`, `run`, `hidden`; helper `say` | Done. The keyword table, "Help" and "Exit codes" above hold; parse errors are usage errors with "did you mean"; options inherit down groups; help is plain off a terminal. | `lib/r2ui/cli.rb`, `lib/r2ui/cli/{shell,live,definition,builder,parser,help,helpers,context,extension,prompt,runner,testing}.rb`, `test/cli/{parser,help,runner,shell,live,prompt}_test.rb` |
 | c02-tasks | npm-style task list | helpers `tasks`, `step` | Done. See the file header: pending ○ / spinner / ✔ ✖ – with timings, redrawn in place; one line per finished step off a terminal; failure skips the rest and re-raises; `skip!`, `detail=`; `say` prints above. | `lib/r2ui/cli/ext/tasks.rb`, `test/cli/ext/tasks_test.rb` |
 | c03-confirm | Yes/no prompt | helper `confirm` | Done. Inline Yes/No toggle on a terminal leaving "✔ Q · Yes"; ctrl+c/esc → Interrupt; off a terminal y/yes/n/no lines, empty/EOF → default, re-asks a person, errors on a pipe's unreadable answer. | `lib/r2ui/cli/ext/confirm.rb`, `test/cli/ext/confirm_test.rb` |
 

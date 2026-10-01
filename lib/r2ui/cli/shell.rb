@@ -10,7 +10,8 @@ module R2UI
     #
     #   tty?          stdout is a terminal (or `tty:` says so)
     #   live?         redraw in place: tty? and TERM isn't "dumb"
-    #   interactive?  prompts may take keys: stdin and stdout are terminals (or `interactive:`)
+    #   interactive?  prompts may take keys: stdin and stdout are terminals and TERM isn't
+    #                 "dumb" (or `interactive:`)
     #   color?        style output: NO_COLOR unset, and FORCE_COLOR set or tty? (or `color:`)
     #
     # Off a terminal, helpers print one stable line per event (no spinners, no cursor movement,
@@ -40,7 +41,7 @@ module R2UI
       def interactive?
         return @interactive unless @interactive.nil?
 
-        tty? && input_tty?
+        tty? && input_tty? && env["TERM"] != "dumb"
       end
 
       # Stdin is a terminal. With stdout piped (`tool | tee log`) prompts ask a line on stderr.

@@ -67,6 +67,8 @@ class CLIShellTest < Minitest::Test
     s = shell(tty: true, env: { "TERM" => "dumb" })
     assert s.tty?
     refute s.live?
+    refute s.interactive?
+    assert shell(tty: true, interactive: true, env: { "TERM" => "dumb" }).interactive?
   end
 
   # ---- color? ----

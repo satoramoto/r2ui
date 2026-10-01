@@ -6,11 +6,12 @@ module R2UI
     # mean" when a near name exists. Options may come anywhere after the command that owns them
     # (or an ancestor that declared them); `--` ends options.
     #
-    # Parsing happens in two steps so extensions can fill options in between (the runner's
-    # `after_parse` hooks): `parse` reads argv; `finish` applies defaults and checks required ones.
+    # Parsing happens in two steps so extensions can act in between (the runner's `after_parse`
+    # hooks): `parse` reads argv (commands and options); `finish` applies defaults, checks
+    # required options and reads the positional arguments.
     class Parser
       # `options` holds the given options (converted); `given` their names.
-      Invocation = Struct.new(:command, :options, :given, :args, :help, :argv, keyword_init: true)
+      Invocation = Struct.new(:command, :options, :given, :args, :positionals, :help, :argv, keyword_init: true)
 
       NEGATIVE_NUMBER = /\A-\d+(\.\d+)?\z/
 
@@ -52,14 +53,15 @@ module R2UI
           end
         end
 
-        args = help ? {} : arguments(command, positionals)
-        Invocation.new(command:, options:, given: options.keys, args:, help:, argv:)
+        Invocation.new(command:, options:, given: options.keys, args: {}, positionals:, help:, argv:)
       rescue UsageError => e
         e.command ||= command
         raise
       end
 
-      # Defaults for options still missing, then required checks.
+      # After the `after_parse` hooks: defaults for options still missing, required checks, then
+      # the positional arguments (filled into `invocation.args` in place, so a Context holding it
+      # sees them). A hook that halts (`--version`) never meets these checks.
       def finish(invocation)
         options = invocation.options
         invocation.command.all_options.each do |option|
@@ -72,7 +74,11 @@ module R2UI
 
           options[option.name] = value
         end
+        invocation.args.replace(arguments(invocation.command, invocation.positionals))
         invocation
+      rescue UsageError => e
+        e.command ||= invocation.command
+        raise
       end
 
       private
