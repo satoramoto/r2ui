@@ -12,7 +12,9 @@ on:
     branches: [main]
 
 concurrency:
-  group: publish
+  # One group per release branch: a single shared group keeps only one pending
+  # run, so a third queued publish would evict the second.
+  group: publish-${{ github.event.pull_request.head.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -24,6 +26,7 @@ jobs:
   publish:
     if: >-
       github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
       (startsWith(github.event.pull_request.head.ref, 'release/') ||
        startsWith(github.event.pull_request.head.ref, 'hotfix/'))
     runs-on: ubuntu-latest

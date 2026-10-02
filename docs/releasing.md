@@ -19,18 +19,20 @@ User-facing changes go under `## Unreleased` at the top of CHANGELOG.md, in the 
 1. Actions → **Release** → Run workflow. Leave "Use workflow from" on `develop`, enter the version (for example `0.2.0`, no `v`) and pick `release`.
 2. The workflow (`.github/workflows/release.yml`) checks the version is `X.Y.Z`, newer than the latest release on RubyGems and the tags, not already tagged and not already in progress. It then creates `release/X.Y.Z` from develop, sets `lib/r2ui/version.rb`, moves the `## Unreleased` entries under `## X.Y.Z`, opens the PR "Release X.Y.Z" into main and starts CI and conformance on the branch.
 3. Review the PR. Push any last fixes to `release/X.Y.Z` (they reach develop through the back-merge).
-4. Merge the PR. `.github/workflows/publish.yml` then:
+   The PR is opened with `GITHUB_TOKEN`, which doesn't trigger `pull_request` workflows, so the Release workflow dispatches CI and conformance itself. Their results show on the head commit (commit status / Actions tab), not as `pull_request` checks in the PR's checks list.
+4. Merge the PR with **Create a merge commit**. Don't squash or rebase: the main→develop back-merge relies on the release commits being ancestors of main. `.github/workflows/publish.yml` then:
    - checks `version.rb` matches the branch and that RubyGems doesn't already have that version (if it does, it fails without publishing anything);
    - tags the merge commit `vX.Y.Z`;
    - builds the gem and pushes it to RubyGems with trusted publishing (no API key);
    - creates the GitHub Release `vX.Y.Z` with the `.gem` attached and the changelog section as notes;
    - merges main into develop, or opens a "Merge vX.Y.Z back into develop" PR when it can't push (a conflict, usually in CHANGELOG.md, or branch protection on develop).
+5. Expect the back-merge PR: develop usually has new `## Unreleased` entries, so CHANGELOG.md conflicts. Resolve it locally: check out develop, `git merge origin/main`, keep develop's `## Unreleased` section above main's `## X.Y.Z` section (dropping entries that moved into `## X.Y.Z`), commit and push to the PR's branch (or straight to develop), then merge the PR with a merge commit.
 
 ## Cut a hotfix
 
 1. Actions → **Release** → Run workflow, enter the patch version (for example `0.2.1`) and pick `hotfix`.
 2. The workflow creates `hotfix/0.2.1` from main with the version bumped and an empty `## 0.2.1` section, and opens a **draft** PR into main.
-3. Push the fix to `hotfix/0.2.1`, with its entry under `## 0.2.1` in CHANGELOG.md. Mark the PR ready and merge it; publishing runs as for a release. Publishing fails if the `## 0.2.1` section is empty.
+3. Push the fix to `hotfix/0.2.1`, with its entry under `## 0.2.1` in CHANGELOG.md. Mark the PR ready and merge it with **Create a merge commit**; publishing runs as for a release. Publishing fails if the `## 0.2.1` section is empty.
 
 ## When something fails
 
