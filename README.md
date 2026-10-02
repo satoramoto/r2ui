@@ -111,6 +111,10 @@ bubbles itself is still installed as a gem (`gem install bubbles`); bubbletea an
 
 **How conformance is measured.** The upstream gems are the spec. Each case in `conformance/cases/` is a small program or lipgloss call; `bin/conformance record` runs it on the real gems in a pty and saves the decoded screen (text, styles, alt screen, cursor and mouse/paste modes) as a golden, and `bin/conformance check` runs it on r2ui and diffs. Cases listed in `conformance/ratchet/` must keep passing; CI runs `bin/conformance check --ratchet` on every PR and re-records the goldens from the real gems to catch stale ones. Where r2ui differs on purpose, the case is listed in `conformance/concessions/` with the reason (for example, r2ui keeps every key from a multi-key read and delivers long pastes whole, where upstream drops or splits them). See [conformance/README.md](conformance/README.md).
 
+## Contributing and releases
+
+Open PRs against `develop`; `main` holds released code only. Releases and hotfixes are cut from GitHub Actions; see [docs/releasing.md](docs/releasing.md).
+
 ## Next: active_tui
 
 A Rails engine on top of the same DSL: `ActiveTui.register Order do ... end` reads columns, scopes and associations from the model, `source` defaults to the relation, and actions become model methods. This gem stays Rails-free.

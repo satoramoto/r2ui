@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.2.0
+Add entries under `## Unreleased`. The Release workflow moves them under the version's heading when it cuts a release (see docs/releasing.md).
+
+## Unreleased
 
 - **Pure-Ruby drop-in for Bubble Tea.** `require "r2ui/drop_in"` makes `require "bubbletea"` and `require "lipgloss"` load r2ui's own versions of bubbletea 0.1.4 and lipgloss 0.2.2: no native extensions, no Go toolchain, no runtime dependencies.
 - **bubbles runs unchanged.** bubbles 0.1.1 (and other pure-Ruby gems built on bubbletea/lipgloss) loads on top of the drop-in as-is.
