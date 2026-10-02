@@ -52,7 +52,9 @@ Reviewers flag only real bugs and these rules, never style:
 
 ## Releasing
 
-Bump `lib/r2ui/version.rb`, then `bin/gem-push`: it builds the gem and runs `op run --env-file=.env -- gem push`. `.env` (gitignored; template in `.env.example`) holds a 1Password reference for `GEM_HOST_API_KEY`, resolved for that one command. It asks for Touch ID (and a one-time code if MFA is on), so the owner runs it, not an agent.
+Git-flow: `develop` is the integration branch (feature PRs target it), `main` only holds released code, tags are `vX.Y.Z` on main. The owner releases from GitHub (Actions → Release → Run workflow); merging the release PR runs `.github/workflows/publish.yml`, which tags, publishes to RubyGems by trusted publishing and creates the GitHub Release. Agents never run these, create tags or publish. Add user-facing changes under `## Unreleased` in CHANGELOG.md. See [docs/releasing.md](docs/releasing.md).
+
+`bin/gem-push` (1Password-backed `gem push`, Touch ID) is the owner's manual fallback only.
 
 ## Rules
 

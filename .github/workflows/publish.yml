@@ -1,0 +1,122 @@
+name: Publish
+
+# Runs when a release/X.Y.Z or hotfix/X.Y.Z PR merges into main: tags vX.Y.Z on the merge commit,
+# builds the gem, pushes it to RubyGems with trusted publishing (OIDC, no API key), creates the
+# GitHub Release with the gem and the changelog section, and merges main back into develop.
+# RubyGems' trusted publisher for r2ui names this file (publish.yml) and the "release"
+# environment. See docs/releasing.md.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+concurrency:
+  # One group per release branch: a single shared group keeps only one pending
+  # run, so a third queued publish would evict the second.
+  group: publish-${{ github.event.pull_request.head.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  publish:
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (startsWith(github.event.pull_request.head.ref, 'release/') ||
+       startsWith(github.event.pull_request.head.ref, 'hotfix/'))
+    runs-on: ubuntu-latest
+    environment: release
+    env:
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Read the version from the branch name
+        run: |
+          version="${HEAD_REF#*/}"
+          if ! [[ "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "::error::branch '$HEAD_REF' isn't release/X.Y.Z or hotfix/X.Y.Z"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+
+      - name: Check the version matches and isn't already published
+        run: |
+          code=$(ruby -Ilib -e 'require "r2ui/version"; print R2UI::VERSION')
+          if [ "$code" != "$VERSION" ]; then
+            echo "::error::lib/r2ui/version.rb says $code but the branch is $HEAD_REF"
+            exit 1
+          fi
+          status=$(curl -sS -o /dev/null -w '%{http_code}' "https://rubygems.org/api/v2/rubygems/r2ui/versions/$VERSION.json")
+          if [ "$status" = 200 ]; then
+            echo "::error::r2ui $VERSION is already on RubyGems; refusing to publish it again"
+            exit 1
+          elif [ "$status" != 404 ]; then
+            echo "::error::couldn't ask RubyGems whether $VERSION exists (HTTP $status)"
+            exit 1
+          fi
+          tagged=$(git rev-parse -q --verify "refs/tags/v$VERSION^{commit}" || true)
+          if [ -n "$tagged" ] && [ "$tagged" != "$MERGE_SHA" ]; then
+            echo "::error::tag v$VERSION already exists on $tagged, not on this merge ($MERGE_SHA)"
+            exit 1
+          fi
+
+      - name: Extract the release notes from CHANGELOG.md
+        run: |
+          ruby -e '
+            version = ENV.fetch("VERSION")
+            notes = File.read("CHANGELOG.md")[/^## #{Regexp.escape(version)}[ \t]*\n(.*?)(?=^## |\z)/m, 1].to_s.strip
+            abort "::error::CHANGELOG.md has no entries under \"## #{version}\"" if notes.empty?
+            File.write(File.join(ENV.fetch("RUNNER_TEMP"), "notes.md"), notes + "\n")
+          '
+
+      - name: Build the gem
+        run: gem build r2ui.gemspec --output "r2ui-$VERSION.gem"
+
+      - name: Tag the merge commit
+        run: |
+          if git rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null; then
+            echo "v$VERSION already points at this commit (re-run after a later step failed)"
+          else
+            git tag "v$VERSION" "$MERGE_SHA"
+            git push origin "refs/tags/v$VERSION"
+          fi
+
+      - name: Get a short-lived RubyGems key through trusted publishing
+        uses: rubygems/configure-rubygems-credentials@v1
+
+      - name: Push the gem to RubyGems
+        run: gem push "r2ui-$VERSION.gem"
+
+      - name: Create the GitHub Release
+        run: |
+          gh release create "v$VERSION" "r2ui-$VERSION.gem" \
+            --verify-tag --title "r2ui $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+
+      - name: Merge main back into develop
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch develop
+          if git merge --no-ff -m "Merge v$VERSION (main) into develop" "$MERGE_SHA" && git push origin develop; then
+            echo "Merged main into develop"
+          else
+            git merge --abort 2> /dev/null || true
+            echo "::warning::couldn't merge main into develop directly (conflict or protected branch); opening a PR"
+            gh pr create --base develop --head main --title "Merge v$VERSION back into develop" \
+              --body "Brings the v$VERSION release commit(s) from main into develop. Resolve any conflicts (usually CHANGELOG.md) keeping develop's new Unreleased entries."
+          fi
