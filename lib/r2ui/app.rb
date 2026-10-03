@@ -16,6 +16,8 @@ module R2UI
     COMPONENT_PRIORITY = 50
 
     attr_reader :registry, :dashboard, :feeds, :focus, :state, :width, :height, :components
+    # The app's animation state (R2UI::Motion): tweens, pulses and ages evaluated while drawing.
+    attr_reader :motion
 
     def initialize(registry, name = nil)
       @registry = registry
@@ -26,7 +28,8 @@ module R2UI
         [p, p.table && p.resource && PanelState.new(registry.resource(p.resource), p.table)]
       end
       @focus = @dashboard.panels.find(&:table) || @dashboard.panels.first
-      @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item))
+      @motion = Motion.new
+      @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item), motion: @motion)
       @mode = :normal
       @zoomed = false
       @state = {}

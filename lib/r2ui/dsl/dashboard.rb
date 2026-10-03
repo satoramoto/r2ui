@@ -5,7 +5,11 @@ module R2UI
     Gauge = Data.define(:attr, :of, :label)
     Stat = Data.define(:attrs)
     Sparkline = Data.define(:attr, :label, :height)
-    Table = Data.define(:scope, :group_by, :sort, :limit)
+    # `motion`: marks moved/new lines in a left gutter and keeps the selection on its line across
+    # re-sorts (needs the app's Motion).
+    Table = Data.define(:scope, :group_by, :sort, :limit, :motion) do
+      def initialize(scope: nil, group_by: nil, sort: nil, limit: nil, motion: false) = super
+    end
 
     # `resource` is nil for a panel that shows only extension items (a text input, a spinner, ...).
     # `options` holds keyword options the core doesn't know, for extensions to read.
@@ -48,7 +52,8 @@ module R2UI
 
         def title(text) = @d.instance_variable_set(:@title, text)
 
-        # `height:` in terminal lines; rows without one share the remaining space.
+        # `height:` in terminal lines (or a callable returning them, evaluated each frame); rows
+        # without one share the remaining space.
         def row(height: nil, &block)
           builder = RowBuilder.new
           builder.instance_eval(&block)
@@ -93,8 +98,8 @@ module R2UI
 
         def sparkline(attr, label: nil, height: 3) = @items << Sparkline.new(attr:, label:, height:)
 
-        def table(scope: nil, group_by: nil, sort: nil, limit: nil)
-          @items << Table.new(scope:, group_by:, sort:, limit:)
+        def table(scope: nil, group_by: nil, sort: nil, limit: nil, motion: false)
+          @items << Table.new(scope:, group_by:, sort:, limit:, motion:)
         end
 
         private

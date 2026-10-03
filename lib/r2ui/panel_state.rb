@@ -7,6 +7,9 @@ module R2UI
   class PanelState
     attr_accessor :search
     attr_reader :sort, :selected, :offset, :collapsed
+    # For tables with motion: the id of the selected line in the last frame, each line id's index
+    # in the last frame (nil before the first), and the gutter mark (:up, :down, :new) per line id.
+    attr_reader :selected_id, :positions, :marks
 
     def initialize(resource, table = nil)
       @resource = resource
@@ -17,6 +20,41 @@ module R2UI
       @selected = 0
       @offset = 0
       @collapsed = Set.new
+      @selected_id = nil
+      @positions = nil
+      @marks = {}
+    end
+
+    # Keeps the selection on the same line when lines re-sort: if the line selected last frame is
+    # now at another index, the selection moves there. Then remembers the selected line's id.
+    def follow_selection(lines)
+      if @selected_id && (index = lines.index { |l| l.id == @selected_id }) && index != @selected
+        @selected = index
+      end
+      @selected_id = lines[@selected.clamp(0, [lines.size - 1, 0].max)]&.id
+    end
+
+    # Records where each line is this frame. Lines that moved since the last frame get an :up or
+    # :down mark, lines not there before a :new mark; the first frame (or one after the view
+    # changed: scope, grouping, sort, search) marks nothing. Returns the new marks ({id => kind}).
+    def track_positions(lines)
+      signature = [@scope_index, @group_index, @sort, @search]
+      current = {}
+      lines.each_with_index { |line, i| current[line.id] = i }
+      changes = {}
+      if @positions && signature == @positions_signature
+        current.each do |id, i|
+          before = @positions[id]
+          if before.nil? then changes[id] = :new
+          elsif before != i then changes[id] = i < before ? :up : :down
+          end
+        end
+      end
+      @positions = current
+      @positions_signature = signature
+      @marks.select! { |id, _| current.key?(id) }
+      @marks.merge!(changes)
+      changes
     end
 
     def scope = @scope_index && @resource.scopes[@scope_index]
@@ -55,6 +93,7 @@ module R2UI
 
     def move(delta, count)
       @selected = (@selected + delta).clamp(0, [count - 1, 0].max)
+      @selected_id = nil
     end
 
     def toggle(line)
@@ -82,6 +121,7 @@ module R2UI
 
     def reset_position
       @selected = 0
+      @selected_id = nil
       @offset = 0
     end
 

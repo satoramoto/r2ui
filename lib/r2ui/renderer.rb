@@ -16,11 +16,13 @@ module R2UI
 
     # `draw_item` draws items the core doesn't know (extension items): called with
     # (panel, item, width, height), it returns a String, or nil if no extension draws that item.
-    def initialize(registry, feeds, states, draw_item: nil)
+    # `motion` (an R2UI::Motion) animates tables declared with `motion: true`.
+    def initialize(registry, feeds, states, draw_item: nil, motion: nil)
       @registry = registry
       @feeds = feeds
       @states = states
       @draw_item = draw_item
+      @motion = motion
       @lines = {}
       @rects = {}
     end
@@ -42,14 +44,24 @@ module R2UI
 
     private
 
+    # Fixed heights (an Integer, or a callable returning one each frame) are clamped so the rows
+    # never exceed the body; rows without one share what is left.
     def rows_layout(dashboard, body)
-      fixed = dashboard.rows.sum { |r| r.height || 0 }
-      flexible = dashboard.rows.count { |r| r.height.nil? }
-      share = flexible.zero? ? 0 : (body.height - fixed) / flexible
+      room = body.height
+      heights = dashboard.rows.map do |row|
+        h = row.height.respond_to?(:call) ? row.height.call : row.height
+        next nil if h.nil?
+
+        h = Integer(h).clamp(0, room)
+        room -= h
+        h
+      end
+      flexible = heights.count(&:nil?)
+      share = flexible.zero? ? 0 : room / flexible
       y = body.y
       dashboard.rows.each_with_index.flat_map do |row, i|
         last = i == dashboard.rows.size - 1
-        h = last ? body.bottom - y : (row.height || share)
+        h = last ? body.bottom - y : (heights[i] || share)
         rect = Rect.new(x: body.x, y:, width: body.width, height: [h, 0].max)
         y += rect.height
         split(rect, row.panels)
@@ -73,7 +85,7 @@ module R2UI
       feed = resource && @feeds.fetch(resource.name)
       state = @states[panel]
       inner = Widgets::Box.draw(canvas, rect, title: panel_title(panel, resource), focused:,
-                                              tabs: state ? state.scope_tabs : [])
+                                              tabs: state ? state.scope_tabs : [], style: border_style(panel))
       return if inner.empty?
 
       if (error = feed&.error)
@@ -95,6 +107,12 @@ module R2UI
                 else draw_extension_item(canvas, inner, panel, item)
                 end
       end
+    end
+
+    # `panel(..., border_style: -> { ... })`: a style for the border and title, or nil for the default.
+    def border_style(panel)
+      style = panel.options[:border_style]
+      style.respond_to?(:call) ? style.call : style
     end
 
     def panel_title(panel, resource)
@@ -155,9 +173,12 @@ module R2UI
                                         sort: state.sort, collapsed: state.collapsed).lines
       lines = lines.first(item.limit) if item.limit
       @lines[panel] = lines
+      motion = item.motion ? @motion : nil
+      state.follow_selection(lines) if motion
       label_key = state.grouping && !state.grouping.tree? && resource.column(state.grouping.by) ? state.grouping.by : nil
       spark = ->(line, col) { feed.history.sum(line.rows.map { |r| feed.series_id(r) }, col.key) }
-      Widgets::Table.new(resource, lines, state:, focused:, label_key:, spark:).draw(canvas, rect)
+      Widgets::Table.new(resource, lines, state:, focused:, label_key:, spark:, motion:, motion_key: panel.name)
+                    .draw(canvas, rect)
       rect.with(height: 0)
     end
 

@@ -6,10 +6,13 @@ module R2UI
     module Box
       module_function
 
-      def draw(canvas, rect, title: nil, focused: false, tabs: [])
+      # `style` (a palette Symbol or SGR String) colours the border and title instead of the
+      # :focus/:border and :title defaults.
+      def draw(canvas, rect, title: nil, focused: false, tabs: [], style: nil)
         return rect if rect.width < 2 || rect.height < 2
 
-        style = focused ? :focus : :border
+        title_style = style || :title
+        style ||= focused ? :focus : :border
         right = rect.x + rect.width - 1
         canvas.write(rect.x, rect.y, "╭#{"─" * (rect.width - 2)}╮", style)
         (rect.height - 2).times do |i|
@@ -21,7 +24,7 @@ module R2UI
         x = rect.x + 2
         max = right - 1
         if title
-          canvas.write(x, rect.y, " #{title} ", :title, max: max - x)
+          canvas.write(x, rect.y, " #{title} ", title_style, max: max - x)
           x += title.length + 3
         end
         tabs.each do |label, active|

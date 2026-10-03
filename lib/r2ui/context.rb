@@ -31,6 +31,9 @@ module R2UI
     # Private runtime state for one extension (timers it scheduled, component models, ...).
     def store(name) = app.store(name)
 
+    # The app's animation state (R2UI::Motion), for panel items that tween, pulse or age values.
+    def motion = app.motion
+
     def dashboard = app.dashboard
 
     # The focused panel (a DSL::Panel).
