@@ -83,6 +83,24 @@ class CompatTeaRendererTest < Minitest::Test
     assert_equal 2, io.flushes
   end
 
+  # r2ui addition: DEC 2026 synchronized output around each emitted frame, only when asked.
+  def test_synchronized_wraps_each_emitted_frame
+    io = RecordingIO.new
+    renderer = Renderer.new(io, synchronized: true)
+    renderer.render("a\nb")
+    renderer.render("a\nb")
+    renderer.render("c")
+    assert_equal ["\e[?2026h\ra\e[K\r\nb\e[K\r\e[?2026l",
+                  "\e[?2026h\e[A\rc\e[K\r\n\e[2K\e[A\r\e[?2026l"], io.writes, "an unchanged frame writes nothing"
+
+    plain = RecordingIO.new
+    renderer = Renderer.new(plain)
+    renderer.render("a")
+    renderer.synchronized = true
+    renderer.render("b")
+    assert_equal ["\ra\e[K\r", "\e[?2026h\rb\e[K\r\e[?2026l"], plain.writes, "off by default, as upstream"
+  end
+
   # Upstream ignores stdout write errors, so a hung-up or closed terminal
   # never raises out of render or clear.
   def test_ignores_write_errors_after_hangup

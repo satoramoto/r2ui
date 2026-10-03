@@ -23,6 +23,7 @@ module R2UI
       @selected_id = nil
       @positions = nil
       @marks = {}
+      @column_keys = table&.columns&.select { |k| resource.column(k) }
     end
 
     # Keeps the selection on the same line when lines re-sort: if the line selected last frame is
@@ -79,9 +80,12 @@ module R2UI
       reset_position
     end
 
-    # Next column; numbers sort descending first, text ascending.
+    # Next column (of the table's `columns:` when it picks some); numbers sort descending first,
+    # text ascending.
     def cycle_sort
-      keys = @resource.columns.map(&:key)
+      keys = @column_keys || @resource.columns.map(&:key)
+      return if keys.empty?
+
       current = keys.index(@sort&.first)
       key = keys[current.nil? ? 0 : (current + 1) % keys.size]
       @sort = [key, @resource.column(key).numeric? ? :desc : :asc]

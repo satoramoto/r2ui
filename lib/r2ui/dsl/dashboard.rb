@@ -6,9 +6,12 @@ module R2UI
     Stat = Data.define(:attrs)
     Sparkline = Data.define(:attr, :label, :height)
     # `motion`: marks moved/new lines in a left gutter and keeps the selection on its line across
-    # re-sorts (needs the app's Motion).
-    Table = Data.define(:scope, :group_by, :sort, :limit, :motion) do
-      def initialize(scope: nil, group_by: nil, sort: nil, limit: nil, motion: false) = super
+    # re-sorts (needs the app's Motion). `columns`: an Array of column keys to draw, in that order
+    # (nil: all of the resource's index columns).
+    Table = Data.define(:scope, :group_by, :sort, :limit, :motion, :columns) do
+      def initialize(scope: nil, group_by: nil, sort: nil, limit: nil, motion: false, columns: nil)
+        super(scope:, group_by:, sort:, limit:, motion:, columns: columns && Array(columns).map(&:to_sym).freeze)
+      end
     end
 
     # `resource` is nil for a panel that shows only extension items (a text input, a spinner, ...).
@@ -98,8 +101,8 @@ module R2UI
 
         def sparkline(attr, label: nil, height: 3) = @items << Sparkline.new(attr:, label:, height:)
 
-        def table(scope: nil, group_by: nil, sort: nil, limit: nil, motion: false)
-          @items << Table.new(scope:, group_by:, sort:, limit:, motion:)
+        def table(scope: nil, group_by: nil, sort: nil, limit: nil, motion: false, columns: nil)
+          @items << Table.new(scope:, group_by:, sort:, limit:, motion:, columns:)
         end
 
         private

@@ -15,15 +15,19 @@ module R2UI
 
       # `spark` is called with (line, column) and returns that line's recent values. `motion` (an
       # R2UI::Motion) turns on the gutter marks; `motion_key` tells tables sharing a Motion apart.
-      def initialize(resource, lines, state:, focused:, label_key: nil, spark: nil, motion: nil, motion_key: nil)
+      # `columns` (Column objects) draws only those, in that order; default all of the resource's.
+      def initialize(resource, lines, state:, focused:, label_key: nil, spark: nil, motion: nil, motion_key: nil,
+                     columns: nil)
         @resource = resource
+        @columns = columns || resource.columns
         @lines = lines
         @state = state
         @focused = focused
         @spark = spark
         @motion = motion
         @motion_key = motion_key || state.object_id
-        @label_key = label_key || resource.columns.find { |c| !c.numeric? && c.format != :id }&.key
+        label_key = nil if label_key && @columns.none? { |c| c.key == label_key }
+        @label_key = label_key || @columns.find { |c| !c.numeric? && c.format != :id }&.key
       end
 
       def draw(canvas, rect)
@@ -141,7 +145,7 @@ module R2UI
       def label_parts(line, col)
         if line.label
           body = Format.call(col.format, line.label)
-          counted = @resource.columns.any? { |c| c.aggregate == :count }
+          counted = @columns.any? { |c| c.aggregate == :count }
           ["", body.empty? ? "(none)" : body, counted ? "" : " ×#{line.count}"]
         else
           marker = if line.expandable? then line.collapsed ? "▸ " : "▾ " else "  " end
@@ -161,8 +165,7 @@ module R2UI
       # Fixed-width columns get their width; text columns share the rest. Drops columns that don't
       # fit: the lowest priority first, the last declared among equals.
       def widths(total)
-        cols = @resource.columns
-        fixed = cols.to_h do |c|
+        fixed = @columns.to_h do |c|
           w = c.width || Format.default_width(c.format)
           w &&= [w, c.label.length + 1].max
           w += spark_width(c) + 1 if w && c.sparkline

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Copied unchanged from bubbletea 0.1.4 (https://github.com/marcoroth/bubbletea-ruby).
+# Copied from bubbletea 0.1.4 (https://github.com/marcoroth/bubbletea-ruby); r2ui's changes are
+# marked "r2ui:".
 # Copyright (c) 2025 Marco Roth. MIT License; see LICENSE-bubbletea.txt in this directory.
 # Bubbletea::Program, which this drives, is r2ui's pure-Ruby replacement (native.rb).
 
@@ -18,6 +19,8 @@ module Bubbletea
       fps: 60,
       input_timeout: 10,
       without_renderer: false,
+      # r2ui: wrap each frame in DEC 2026 synchronized output (not an upstream option).
+      synchronized: false,
     }.freeze
 
     def initialize(model, **options)
@@ -31,6 +34,7 @@ module Bubbletea
       @width = 80
       @height = 24
       @resize_pending = false
+      @repaint = false
       @previous_winch_handler = nil
       @in_alt_screen = false
     end
@@ -38,6 +42,9 @@ module Bubbletea
     def run
       setup_terminal
       @renderer_id = @program.create_renderer unless @options[:without_renderer]
+      if @renderer_id && @options[:synchronized]
+        R2UI::Compat::Tea.renderer(@renderer_id)&.synchronized = true
+      end
 
       update_terminal_size
       @running = true
@@ -149,7 +156,10 @@ module Bubbletea
         now = Time.now
 
         if now - last_frame >= frame_duration
-          render
+          # r2ui: a model with `frame_due?` (R2UI::App) skips frame slots where nothing changed;
+          # a resize always repaints.
+          render if @repaint || !@model.respond_to?(:frame_due?) || @model.frame_due?
+          @repaint = false
           last_frame = now
         end
       end
@@ -171,6 +181,7 @@ module Bubbletea
       @height = new_height
 
       @program.renderer_set_size(@renderer_id, @width, @height) if @renderer_id
+      @repaint = true
 
       handle_message(WindowSizeMessage.new(width: @width, height: @height))
     end

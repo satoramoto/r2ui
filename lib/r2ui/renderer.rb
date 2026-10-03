@@ -177,9 +177,17 @@ module R2UI
       state.follow_selection(lines) if motion
       label_key = state.grouping && !state.grouping.tree? && resource.column(state.grouping.by) ? state.grouping.by : nil
       spark = ->(line, col) { feed.history.sum(line.rows.map { |r| feed.series_id(r) }, col.key) }
-      Widgets::Table.new(resource, lines, state:, focused:, label_key:, spark:, motion:, motion_key: panel.name)
+      Widgets::Table.new(resource, lines, state:, focused:, label_key:, spark:, motion:, motion_key: panel.name,
+                                          columns: table_columns(resource, panel, item))
                     .draw(canvas, rect)
       rect.with(height: 0)
+    end
+
+    # `table(columns: [...])`: those index columns, in that order (nil: all of them).
+    def table_columns(resource, panel, item)
+      item.columns&.map do |key|
+        resource.column(key) || raise(Error, "panel #{panel.name}: #{resource.name} has no column #{key.inspect}")
+      end
     end
 
     def draw_status(canvas, y, width, focus, prompt, hints)
