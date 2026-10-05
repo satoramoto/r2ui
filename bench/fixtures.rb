@@ -51,57 +51,56 @@ module Bench
 
     attr_reader :tick
 
+    # Everything a tick shows is computed here, in `advance!` (outside the bench's timed stages), so
+    # drawing only reads it.
     def initialize(seed: 7)
       @seed = seed
       @tick = 0
       base = Random.new(seed)
       @base = Array.new(PROCESSES) { (base.rand**3) * 60 }
       @mem = Array.new(PROCESSES) { (base.rand**2) * 900 * (1024**2) }
-      @series = {}
+      @series = SIGNALS.keys.to_h { |name| [name, Array.new(HISTORY) { |i| sample(name, i - HISTORY + 1) }] }
+      build
     end
+
+    attr_reader :processes, :sessions
 
     def advance!
       @tick += 1
-      @processes = @sessions = nil
-      @series.clear
+      @series.each { |name, list| list.shift && list.push(sample(name, @tick)) }
+      build
     end
 
-    def processes
-      @processes ||= begin
-        rng = Random.new((@seed * 100_003) + @tick)
-        Array.new(PROCESSES) do |i|
-          Proc.new(pid: 2000 + (i * 37), name: NAMES[i % NAMES.size], session: SESSIONS[i % SESSIONS.size],
-                   cpu: (@base[i] * (0.4 + (rng.rand * 1.2))).round(1), footprint: (@mem[i] * (0.9 + (rng.rand * 0.2))).round,
-                   run_wait: (rng.rand * 4).round(1), pagein_rate: (rng.rand * 2).round(1),
-                   read_rate: i % 5 == 0 ? (rng.rand * 80_000).round : 0, write_rate: i % 7 == 0 ? (rng.rand * 40_000).round : 0)
-        end
+    def value(name) = @series.fetch(name).last
+
+    # The last HISTORY samples of a signal, newest last (a new Array each tick).
+    def series(name) = @series.fetch(name)
+
+    private
+
+    def build
+      @series = @series.transform_values(&:dup)
+      rng = Random.new((@seed * 100_003) + @tick)
+      @processes = Array.new(PROCESSES) do |i|
+        Proc.new(pid: 2000 + (i * 37), name: NAMES[i % NAMES.size], session: SESSIONS[i % SESSIONS.size],
+                 cpu: (@base[i] * (0.4 + (rng.rand * 1.2))).round(1), footprint: (@mem[i] * (0.9 + (rng.rand * 0.2))).round,
+                 run_wait: (rng.rand * 4).round(1), pagein_rate: (rng.rand * 2).round(1),
+                 read_rate: i % 5 == 0 ? (rng.rand * 80_000).round : 0, write_rate: i % 7 == 0 ? (rng.rand * 40_000).round : 0)
       end
-    end
-
-    def sessions
-      @sessions ||= processes.group_by(&:session).each_with_index.map do |(label, procs), i|
+      @sessions = @processes.group_by(&:session).each_with_index.map do |(label, procs), i|
         Session.new(sid: i, label:, processes: procs.size, cpu: procs.sum(&:cpu).round(1), footprint: procs.sum(&:footprint),
                     age: 600 + (i * 3700) + @tick)
       end
     end
 
-    def value(name) = series(name).last
-
-    # The last HISTORY samples of a signal, newest last.
-    def series(name)
-      @series[name] ||= begin
-        _, max, typical = SIGNALS.fetch(name)
-        ((@tick - HISTORY + 1)..@tick).map { |t| sample(name, t, max, typical) }
-      end
-    end
-
-    private
-
-    def sample(name, tick, max, typical)
+    # A deterministic sample: a slow wave plus hashed noise.
+    def sample(name, tick)
+      _, max, typical = SIGNALS.fetch(name)
       return typical if name == :ncpu
 
-      wave = Math.sin((tick / 9.0) + name.hash.abs % 7) * 0.35
-      noise = Random.new((@seed * 7919) + (tick * 31) + SIGNALS.keys.index(name)).rand * 0.3
+      index = SIGNALS.keys.index(name)
+      wave = Math.sin((tick / 9.0) + index) * 0.35
+      noise = ((((tick + 1000) * 2_654_435_761) ^ (index * 40_503) ^ @seed) % 1000) / 1000.0 * 0.3
       v = typical * (1 + wave + noise - 0.15)
       max ? v.clamp(0, max) : [v, 0].max
     end

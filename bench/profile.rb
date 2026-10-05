@@ -10,6 +10,7 @@
 # and writes a vernier profile per run to bench/results/profiles/<fixture>-<scenario>.json: open it
 # at https://vernier.prof or https://profiler.firefox.com for the flame graph.
 
+require "fileutils"
 require "optparse"
 require "stackprof"
 require "vernier"
