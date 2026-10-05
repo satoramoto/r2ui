@@ -81,7 +81,7 @@ jobs:
         run: gem build r2ui.gemspec --output "r2ui-$VERSION.gem"
 
       - name: Get a short-lived RubyGems key through trusted publishing
-        uses: rubygems/configure-rubygems-credentials@v1
+        uses: rubygems/configure-rubygems-credentials@v2.1.0 # no floating major tag
 
       - name: Push the gem to RubyGems
         run: gem push "r2ui-$VERSION.gem"
