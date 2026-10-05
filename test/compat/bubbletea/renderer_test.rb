@@ -101,6 +101,115 @@ class CompatTeaRendererTest < Minitest::Test
     assert_equal ["\ra\e[K\r", "\e[?2026h\rb\e[K\r\e[?2026l"], plain.writes, "off by default, as upstream"
   end
 
+  # r2ui addition: line_diff writes only the lines that changed, in the alt screen.
+  def diffing(io, width: 10, height: 5, **options)
+    renderer = Renderer.new(io, line_diff: true, **options)
+    renderer.set_size(width, height)
+    renderer.alt_screen = true
+    renderer
+  end
+
+  def test_line_diff_writes_only_changed_lines
+    io = RecordingIO.new
+    renderer = diffing(io)
+    renderer.render("a\nb\nc\nd")
+    renderer.render("a\nb\nc\nd")
+    renderer.render("a\nB\nc\nd")
+    renderer.render("x\nB\nc\nD")
+    renderer.render("x\nY\nZ\nD")
+    assert_equal ["\e[Ha\e[K\r\nb\e[K\r\nc\e[K\r\nd\e[K", "\e[2HB\e[K", "\e[Hx\e[K\e[4HD\e[K",
+                  "\e[2HY\e[K\r\nZ\e[K"], io.writes, "an unchanged frame writes nothing"
+    assert_equal io.writes.size, io.flushes
+  end
+
+  def test_line_diff_truncates_wide_changed_lines_and_keeps_sync
+    io = RecordingIO.new
+    renderer = diffing(io, width: 4, synchronized: true)
+    renderer.render("ab\ncd")
+    renderer.render("ab\n日本語テキ")
+    renderer.render("ab\n\e[31mredred\e[0m")
+    assert_equal ["\e[2H日本\e[K".b, "\e[2H\e[31mredr\e[0m\e[K"], io.writes.drop(1).map { |w| w.delete_prefix("\e[?2026h").delete_suffix("\e[?2026l") }
+    assert io.writes.all? { |w| w.start_with?("\e[?2026h") && w.end_with?("\e[?2026l") }
+  end
+
+  def test_line_diff_redraws_whole_after_anything_that_may_disturb_the_screen
+    full = "\e[Ha\e[K\r\nb\e[K"
+    {
+      "a line-count change" => ->(r) { r.render("a\nb\nc") && nil },
+      "a resize" => ->(r) { r.set_size(11, 5) },
+      "clear" => ->(r) { r.clear },
+      "alt_screen=" => ->(r) { r.alt_screen = true }
+    }.each do |name, disturb|
+      io = RecordingIO.new
+      renderer = diffing(io)
+      renderer.render("x\nb")
+      disturb.call(renderer)
+      io.writes.clear
+      renderer.render("a\nb")
+      expected = name == "a line-count change" ? full + "\r\n\e[2K" : full
+      assert_equal [expected], io.writes, name
+    end
+
+    io = RecordingIO.new
+    renderer = diffing(io)
+    renderer.render("x\nb")
+    renderer.set_size(10, 5)
+    renderer.render("a\nb")
+    assert_equal "\e[Ha\e[K", io.writes.last, "a set_size without a change keeps the diff"
+  end
+
+  def test_line_diff_off_or_inline_writes_what_upstream_does
+    [Renderer.new(StringIO.new(+"".b)), Renderer.new(StringIO.new(+"".b), line_diff: true)].each do |renderer|
+      renderer.set_size(10, 5)
+      renderer.render("a\nb")
+      renderer.render("a\nc")
+      assert_equal "\ra\e[K\r\nb\e[K\r\e[A\ra\e[K\r\nc\e[K\r", renderer.instance_variable_get(:@output).string
+    end
+    io = StringIO.new(+"".b)
+    renderer = Renderer.new(io)
+    renderer.set_size(10, 5)
+    renderer.alt_screen = true
+    renderer.render("a\nb")
+    renderer.render("a\nc")
+    assert_equal "\e[Ha\e[K\r\nb\e[K\e[Ha\e[K\r\nc\e[K", io.string
+  end
+
+  # The diffing renderer leaves the same screen as the whole-frame one, frame after frame.
+  def test_line_diff_screens_match_full_redraws
+    require_relative "../../../conformance/lib/vt"
+    rng = Random.new(42)
+    words = ["", "ok", "日本語", "\e[1;32mgreen\e[0m", "a much longer line than the width", "x" * 12, "é"]
+    rows = 6
+    frame = Array.new(rows) { words.sample(random: rng) }
+    frames = Array.new(80) do |n|
+      count = n % 17 == 16 ? rows - 1 : rows # now and then one line fewer
+      frame = Array.new(count) { |i| rng.rand < 0.2 ? words.sample(random: rng) : (frame[i] || "") }
+      frame.join("\n")
+    end
+
+    screens = [false, true].map do |diff|
+      io = StringIO.new(+"".b)
+      renderer = Renderer.new(io, line_diff: diff)
+      renderer.set_size(12, rows)
+      renderer.alt_screen = true
+      vt = Conformance::VT.new(cols: 12, rows:)
+      vt.feed("\e[?1049h")
+      frames.each_with_index.map do |view, n|
+        if n == 40
+          vt.resize(14, rows)
+          renderer.set_size(14, rows)
+        end
+        renderer.render(view)
+        vt.feed(io.string)
+        io.truncate(0)
+        io.rewind
+        vt.snapshot
+      end
+    end
+    assert_equal screens[0], screens[1]
+    refute_equal screens[1].first, screens[1].last, "the frames changed the screen"
+  end
+
   # Upstream ignores stdout write errors, so a hung-up or closed terminal
   # never raises out of render or clear.
   def test_ignores_write_errors_after_hangup

@@ -133,14 +133,15 @@ class ExtensionTest < Minitest::Test
     assert_match(/all good/, status)
     assert_match(/r refresh  tab panel/, status)
     assert_match(/\e\[0;31m╭/, app.frame(120, 4).ansi_lines.first)
-    assert_equal({ alt_screen: true, fps: 20, synchronized: true, mouse_cell_motion: true }, app.program_options)
+    assert_equal({ alt_screen: true, fps: 20, synchronized: true, line_diff: true, mouse_cell_motion: true },
+                 app.program_options)
   end
 
   def test_program_options_override_the_frame_rate_and_keep_synchronized_output
     extension(:test_fps) { program_options { { fps: 30 } } }
     R2UI.dashboard { row { panel(:p, resource: nil) { view { "" } } } }
 
-    assert_equal({ alt_screen: true, fps: 30, synchronized: true }, app.program_options)
+    assert_equal({ alt_screen: true, fps: 30, synchronized: true, line_diff: true }, app.program_options)
   end
 
   def test_setup_seeds_state_and_view_override_replaces_the_dashboard
@@ -249,5 +250,48 @@ class ExtensionTest < Minitest::Test
     assert_kind_of Bubbletea::QuitCommand, app.press("q").first, "a blurred component leaves keys to the core"
   ensure
     app.stop
+  end
+
+  # --- the hooks list is cached; every change shows up on the next call ---
+
+  def hook_names(kind) = R2UI::Extensions.hooks(kind).map { |h| [h.extension, h.priority] }
+
+  def test_hooks_list_follows_registering_adding_and_removing
+    ours = ->(kind) { hook_names(kind).select { |name, _| name.to_s.start_with?("test_cache") } }
+    extension(:test_cache_a) { on(Ping, priority: 0) { nil } }
+    assert_equal [[:test_cache_a, 0]], ours.call(:on)
+    assert_same R2UI::Extensions.hooks(:on), R2UI::Extensions.hooks(:on), "cached between changes"
+    assert_predicate R2UI::Extensions.hooks(:on), :frozen?
+
+    b = extension(:test_cache_b) { on(Ping, priority: -5) { nil } }
+    extension(:test_cache_c) { on(Ping, priority: 50) { nil } }
+    assert_equal [[:test_cache_c, 50], [:test_cache_a, 0], [:test_cache_b, -5]], ours.call(:on),
+                 "a registered extension shows up: priority first"
+
+    b.on(Ping, priority: 50) { nil }
+    assert_equal [[:test_cache_c, 50], [:test_cache_b, 50], [:test_cache_a, 0], [:test_cache_b, -5]], ours.call(:on),
+                 "a hook added later shows up, after equal priorities loaded before it"
+
+    assert_empty ours.call(:status)
+    b.status { "b" }
+    assert_equal [[:test_cache_b, 0]], ours.call(:status), "another kind is invalidated too"
+
+    R2UI::Extensions.remove(:test_cache_c)
+    assert_equal [[:test_cache_b, 50], [:test_cache_a, 0], [:test_cache_b, -5]], ours.call(:on)
+
+    b.remove!
+    assert_equal [[:test_cache_a, 0]], ours.call(:on), "remove! drops the hooks"
+    assert_empty ours.call(:status)
+  end
+
+  def test_hooks_list_drops_an_extension_whose_block_raised
+    hook_names(:on)
+    assert_raises(RuntimeError) do
+      extension(:test_cache_broken) do
+        on(Ping) { nil }
+        raise "boom"
+      end
+    end
+    refute(hook_names(:on).any? { |name, _| name == :test_cache_broken })
   end
 end

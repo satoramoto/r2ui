@@ -10,8 +10,9 @@ module R2UI
 
     FLASH_SECONDS = 3
     # Runner options; extensions change them with `program_options`. `synchronized` wraps each
-    # frame in DEC 2026 synchronized output, so terminals paint it at once.
-    PROGRAM_OPTIONS = { alt_screen: true, fps: 20, synchronized: true }.freeze
+    # frame in DEC 2026 synchronized output, so terminals paint it at once; `line_diff` writes only
+    # the lines that changed since the last frame (dashboards run in the alt screen).
+    PROGRAM_OPTIONS = { alt_screen: true, fps: 20, synchronized: true, line_diff: true }.freeze
     # Seconds after which a frame is due even if nothing changed (clocks, ages, "3s ago" texts).
     IDLE_FRAME = 1.0
     # How often `view` forgets motion keys nothing evaluates any more.

@@ -55,7 +55,10 @@ module Bench
       @app.motion.clock = -> { @clock.now }
       @app.update(Bubbletea::WindowSizeMessage.new(width:, height:))
       @sink = Sink.new
-      @renderer = R2UI::Compat::Tea::Renderer.new(@sink, synchronized: true)
+      # The renderer options a dashboard runs with (R2UI::App::PROGRAM_OPTIONS).
+      options = R2UI::App::PROGRAM_OPTIONS
+      @renderer = R2UI::Compat::Tea::Renderer.new(@sink, synchronized: options[:synchronized] ? true : false,
+                                                         line_diff: options[:line_diff] ? true : false)
       @renderer.set_size(width, height)
       @renderer.alt_screen = true
       @vt = Conformance::VT.new(cols: width, rows: height)

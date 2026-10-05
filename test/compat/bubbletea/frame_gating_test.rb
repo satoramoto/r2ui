@@ -4,7 +4,7 @@ require "test_helper"
 require "r2ui/compat/bubbletea/renderer"
 
 # r2ui additions to the Runner: a model with `frame_due?` (R2UI::App) is drawn only in frame slots
-# where it says so, a resize always repaints, and `synchronized:` reaches the renderer.
+# where it says so, a resize always repaints, and `synchronized:` and `line_diff:` reach the renderer.
 class CompatFrameGatingTest < Minitest::Test
   Tea = R2UI::Compat::Tea
 
@@ -37,8 +37,8 @@ class CompatFrameGatingTest < Minitest::Test
       nil
     end
 
-    def renderer_set_size(*) = nil
-    def renderer_set_alt_screen(*) = nil
+    def renderer_set_size(id, width, height) = Tea.renderer(id).set_size(width, height)
+    def renderer_set_alt_screen(id, enabled) = Tea.renderer(id).alt_screen = enabled
     def method_missing(*) = nil
     def respond_to_missing?(*) = true
   end
@@ -94,5 +94,21 @@ class CompatFrameGatingTest < Minitest::Test
   def test_synchronized_option_reaches_the_renderer
     assert_includes drive(Model.new(false), synchronized: true).output.string, "\e[?2026h"
     refute_includes drive(Model.new(false)).output.string, "\e[?2026h"
+  end
+
+  # A model whose second line changes every frame: with line_diff only that line is rewritten.
+  class TickingModel < PlainModel
+    def initialize = @frames = 0
+    def view = "head\n#{@frames += 1}"
+  end
+
+  def test_line_diff_option_reaches_the_renderer
+    on = drive(TickingModel.new, line_diff: true)
+    assert_operator on.renders, :>=, 12
+    assert_equal 1, on.output.string.scan("head").size, "the unchanged line is written once"
+    assert_includes on.output.string, "\e[2H"
+
+    off = drive(TickingModel.new)
+    assert_equal off.renders, off.output.string.scan("head").size, "off: every frame redraws whole"
   end
 end
