@@ -108,6 +108,7 @@ module R2UI
         end
       end
       @hooks.clear
+      Extensions.changed!
     end
 
     private
@@ -116,6 +117,8 @@ module R2UI
       raise ArgumentError, "#{kind} needs a block" unless block
 
       @hooks[kind] << Hook.new(extension: name, matcher:, priority:, order: Extensions.next_order, block:)
+      Extensions.changed!
+      @hooks[kind]
     end
 
     def add_module(target, mod)
@@ -136,6 +139,7 @@ module R2UI
     @all = {}
     @order = 0
     @lock = Mutex.new
+    @sorted = {} # kind => frozen sorted hooks; replaced (not cleared) on any change
 
     class << self
       def register(name, &block)
@@ -144,6 +148,7 @@ module R2UI
 
         extension = Extension.new(name)
         @all[name] = extension
+        changed!
         begin
           extension.instance_eval(&block) if block
         rescue StandardError
@@ -159,19 +164,33 @@ module R2UI
 
       # Unregisters an extension and removes its keywords and helpers (for tests).
       def remove(name)
-        @all.delete(name.to_sym)&.remove!
+        removed = @all.delete(name.to_sym)
+        changed!
+        removed&.remove!
       end
 
-      # Hooks of one kind across all extensions: highest priority first, then load order.
+      # Hooks of one kind across all extensions: highest priority first, then load order. Cached
+      # until an extension or hook is added or removed; the list is frozen (callers only read it).
       def hooks(kind)
-        @all.values.flat_map { |e| e.hooks.fetch(kind, []) }.sort_by { |h| [-h.priority, h.order] }
+        sorted = @sorted
+        sorted[kind] || (sorted[kind] = sort_hooks(kind))
       end
+
+      # Drops the cached hook lists (an extension or hook was added or removed). A list being
+      # built concurrently lands in the dropped cache, never in the new one.
+      def changed! = @sorted = {}
 
       def next_order = @lock.synchronize { @order += 1 }
 
       # Loads every file in `dir` (default lib/r2ui/ext/), sorted by name.
       def load_all(dir = File.expand_path("ext", __dir__))
         Dir[File.join(dir, "*.rb")].sort.each { |file| require file }
+      end
+
+      private
+
+      def sort_hooks(kind)
+        @all.values.flat_map { |e| e.hooks.fetch(kind, []) }.sort_by { |h| [-h.priority, h.order] }.freeze
       end
     end
   end

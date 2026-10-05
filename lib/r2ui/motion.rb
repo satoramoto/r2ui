@@ -40,16 +40,30 @@ module R2UI
     # "#rrggbb" between two "#rrggbb" colours (t in 0..1, plain RGB lerp).
     def self.mix_hex(from_hex, to_hex, t)
       t = t.to_f.clamp(0.0, 1.0)
-      a = rgb(from_hex)
-      b = rgb(to_hex)
-      format("#%02x%02x%02x", *a.zip(b).map { |x, y| lerp(x, y, t).round.clamp(0, 255) })
+      ar, ag, ab = rgb(from_hex)
+      br, bg, bb = rgb(to_hex)
+      format("#%02x%02x%02x", lerp(ar, br, t).round.clamp(0, 255), lerp(ag, bg, t).round.clamp(0, 255),
+             lerp(ab, bb, t).round.clamp(0, 255))
     end
 
+    RGB_CACHE_LIMIT = 4096
+    @rgb_cache = {}
+
+    # [r, g, b] (frozen) for "#rrggbb" or "#rgb". Memoized (bounded).
     def self.rgb(hex)
+      cached = @rgb_cache[hex]
+      return cached if cached
+
+      @rgb_cache.clear if @rgb_cache.size >= RGB_CACHE_LIMIT
+      @rgb_cache[hex] = parse_rgb(hex)
+    end
+
+    def self.parse_rgb(hex)
       h = hex.to_s.delete_prefix("#")
       h = h.chars.map { |c| c * 2 }.join if h.length == 3
-      [h[0, 2], h[2, 2], h[4, 2]].map { |p| p.to_i(16) }
+      [h[0, 2], h[2, 2], h[4, 2]].map { |p| p.to_i(16) }.freeze
     end
+    private_class_method :parse_rgb
 
     def now = @clock.call
 

@@ -40,8 +40,11 @@ module R2UI
         draw_header(canvas, cols, layout)
         body = rect.with(y: rect.y + 1, height: rect.height - 1)
         @state.scroll_to_selection(body.height, @lines.size)
-        @lines.drop(@state.offset).first(body.height).each_with_index do |line, i|
-          index = @state.offset + i
+        offset = @state.offset
+        last = [@lines.size, offset + body.height].min
+        (offset...last).each do |index|
+          line = @lines[index]
+          i = index - offset
           selected = @focused && index == @state.selected
           canvas.fill(body.with(y: body.y + i, height: 1), " ", :selected) if selected
           draw_line(canvas, cols.x, body.y + i, line, layout, selected)
@@ -90,37 +93,42 @@ module R2UI
 
       def draw_line(canvas, x, y, line, layout, selected)
         layout.each do |col, w|
-          at = x
-          cell(line, col, w).each do |text, style|
-            left = x + w - at
-            break if left <= 0
-
-            canvas.write(at, y, text, selected ? :selected : style, max: left)
-            at += text.length
-          end
+          draw_cell(canvas, x, y, line, col, w, selected)
           x += w + 1
         end
       end
 
-      # [[text, style], ...] segments filling the cell.
-      def cell(line, col, width)
+      # Draws one cell: one segment, or the sparkline, a space and the number for spark columns.
+      def draw_cell(canvas, x, y, line, col, width, selected)
+        stop = x + width
         if col.key == @label_key && (line.label || line.depth.positive? || line.expandable?)
           prefix, body, suffix = label_parts(line, col)
           body = fit(body, [width - prefix.length - suffix.length, 1].max, Format.truncate_from(col.format))
-          return [[fit("#{prefix}#{body}#{suffix}", width, :right), line.label ? :bold : :plain]]
+          text = fit("#{prefix}#{body}#{suffix}", width, :right)
+          return segment(canvas, x, stop, y, text, selected ? :selected : (line.label ? :bold : :plain))
         end
 
         value = line.values[col.key]
         value = "×#{line.count}" if col.aggregate == :count && line.label
         text = value.is_a?(String) && col.aggregate == :count ? value : col.render(value)
-        return spark_cell(line, col, width, value, text) if col.sparkline && @spark
+        return draw_spark(canvas, x, stop, y, line, col, width, value, text, selected) if col.sparkline && @spark
 
-        [[align(fit(text, width, Format.truncate_from(col.format)), width, col.align),
-          custom_style(col, value, line) || style_for(col, value)]]
+        text = align(fit(text, width, Format.truncate_from(col.format)), width, col.align)
+        style = custom_style(col, value, line) || style_for(col, value)
+        segment(canvas, x, stop, y, text, selected ? :selected : style)
+      end
+
+      # Writes `text` at `at` if the cell (ending before `stop`) has room left; the next x, or nil.
+      def segment(canvas, at, stop, y, text, style)
+        left = stop - at
+        return if left <= 0
+
+        canvas.write(at, y, text, style, max: left)
+        at + text.length
       end
 
       # The sparkline and the number, each in its own style.
-      def spark_cell(line, col, width, value, text)
+      def draw_spark(canvas, x, stop, y, line, col, width, value, text, selected)
         values = @spark.call(line, col)
         spark_w = spark_width(col)
         if col.sparkline == :braille
@@ -128,13 +136,16 @@ module R2UI
           chart = Glyphs.braille_line(values.size < 2 ? values.map { 0 } : values, spark_w, max: col.spark_max)
           default = :accent
         else
-          chart = Sparkline.line(values, spark_w, max: col.spark_max).rjust(spark_w)
+          chart = Sparkline.line(values, spark_w, max: col.spark_max)
+          chart = chart.rjust(spark_w) if chart.length < spark_w
           default = :plain
         end
         spark_style = col.spark_style.respond_to?(:call) ? col.spark_style.call(values, line) : col.spark_style
-        text_w = width - spark_w - 1
-        [[chart, spark_style || default], [" ", :plain],
-         [align(text, text_w, col.align), custom_style(col, value, line) || :plain]]
+        text = align(text, width - spark_w - 1, col.align)
+        text_style = custom_style(col, value, line) || :plain
+        at = segment(canvas, x, stop, y, chart, selected ? :selected : (spark_style || default))
+        at &&= segment(canvas, at, stop, y, " ", selected ? :selected : :plain)
+        segment(canvas, at, stop, y, text, selected ? :selected : text_style) if at
       end
 
       def custom_style(col, value, line) = col.style&.call(value, line)
@@ -197,7 +208,11 @@ module R2UI
         from == :left ? "…#{text[-(width - 1)..]}" : "#{text[0, width - 1]}…"
       end
 
-      def align(text, width, side) = side == :right ? text.rjust(width) : text.ljust(width)
+      def align(text, width, side)
+        return text if text.length >= width
+
+        side == :right ? text.rjust(width) : text.ljust(width)
+      end
     end
   end
 end
