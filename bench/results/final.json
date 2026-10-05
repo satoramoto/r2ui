@@ -1,0 +1,380 @@
+{
+  "ruby": "ruby 3.4.3 (2025-04-14 revision d0b7e5b6a0) +PRISM [arm64-darwin24]",
+  "at": "2026-10-05T01:19:24Z",
+  "frames": 60,
+  "warmup": 30,
+  "modes": {
+    "off": {
+      "dense": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 2.406,
+              "ms_p95": 2.865,
+              "allocs": 4348
+            },
+            "ansi": {
+              "ms_median": 0.507,
+              "ms_p95": 0.647,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.004,
+              "ms_p95": 0.008,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 2.949,
+            "ms_p95": 3.368,
+            "allocs": 4506
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "4f2a8baabeeb33ac",
+          "views": "a780f75bf2382188"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 3.147,
+              "ms_p95": 4.031,
+              "allocs": 5350
+            },
+            "ansi": {
+              "ms_median": 0.533,
+              "ms_p95": 0.688,
+              "allocs": 159
+            },
+            "output": {
+              "ms_median": 1.31,
+              "ms_p95": 1.543,
+              "allocs": 162
+            }
+          },
+          "total": {
+            "ms_median": 5.02,
+            "ms_p95": 6.222,
+            "allocs": 5671
+          },
+          "bytes": {
+            "median": 10096,
+            "mean": 9996
+          },
+          "screens": "ffb984df0104c786",
+          "views": "9787f8c56d1b8850"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 3.064,
+              "ms_p95": 3.693,
+              "allocs": 5445
+            },
+            "ansi": {
+              "ms_median": 0.53,
+              "ms_p95": 0.702,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 1.491,
+              "ms_p95": 1.758,
+              "allocs": 182
+            }
+          },
+          "total": {
+            "ms_median": 5.087,
+            "ms_p95": 6.009,
+            "allocs": 5785
+          },
+          "bytes": {
+            "median": 11489,
+            "mean": 11455
+          },
+          "screens": "dafde5fa82f6c524",
+          "views": "249f6153d6c2e5a7"
+        }
+      },
+      "visual": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 2.578,
+              "ms_p95": 3.241,
+              "allocs": 4290
+            },
+            "ansi": {
+              "ms_median": 0.536,
+              "ms_p95": 0.654,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.004,
+              "ms_p95": 0.007,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 3.106,
+            "ms_p95": 3.879,
+            "allocs": 4448
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "c6825d2ffd251d7d",
+          "views": "1558b9a78dd2fa78"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 3.164,
+              "ms_p95": 4.303,
+              "allocs": 5325
+            },
+            "ansi": {
+              "ms_median": 0.549,
+              "ms_p95": 0.684,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 1.738,
+              "ms_p95": 2.089,
+              "allocs": 173
+            }
+          },
+          "total": {
+            "ms_median": 5.418,
+            "ms_p95": 6.594,
+            "allocs": 5653
+          },
+          "bytes": {
+            "median": 12138,
+            "mean": 12112
+          },
+          "screens": "542eed3b264ad59e",
+          "views": "32563ba94da9e440"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 4.11,
+              "ms_p95": 4.956,
+              "allocs": 10133
+            },
+            "ansi": {
+              "ms_median": 0.532,
+              "ms_p95": 0.703,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 2.187,
+              "ms_p95": 2.445,
+              "allocs": 192
+            }
+          },
+          "total": {
+            "ms_median": 6.889,
+            "ms_p95": 7.997,
+            "allocs": 10480
+          },
+          "bytes": {
+            "median": 14605,
+            "mean": 14563
+          },
+          "screens": "32585ca00548c428",
+          "views": "86fd9cbaf408e240"
+        }
+      }
+    },
+    "on": {
+      "dense": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 1.429,
+              "ms_p95": 2.399,
+              "allocs": 4377
+            },
+            "ansi": {
+              "ms_median": 0.298,
+              "ms_p95": 0.412,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.003,
+              "ms_p95": 0.005,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 1.731,
+            "ms_p95": 2.696,
+            "allocs": 4535
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "4f2a8baabeeb33ac",
+          "views": "a780f75bf2382188"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 1.78,
+              "ms_p95": 2.385,
+              "allocs": 5380
+            },
+            "ansi": {
+              "ms_median": 0.296,
+              "ms_p95": 0.438,
+              "allocs": 159
+            },
+            "output": {
+              "ms_median": 0.261,
+              "ms_p95": 0.407,
+              "allocs": 164
+            }
+          },
+          "total": {
+            "ms_median": 2.362,
+            "ms_p95": 2.991,
+            "allocs": 5704
+          },
+          "bytes": {
+            "median": 10096,
+            "mean": 9996
+          },
+          "screens": "ffb984df0104c786",
+          "views": "9787f8c56d1b8850"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 1.753,
+              "ms_p95": 2.395,
+              "allocs": 5474
+            },
+            "ansi": {
+              "ms_median": 0.296,
+              "ms_p95": 0.433,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.329,
+              "ms_p95": 0.52,
+              "allocs": 184
+            }
+          },
+          "total": {
+            "ms_median": 2.421,
+            "ms_p95": 3.285,
+            "allocs": 5816
+          },
+          "bytes": {
+            "median": 11489,
+            "mean": 11455
+          },
+          "screens": "dafde5fa82f6c524",
+          "views": "249f6153d6c2e5a7"
+        }
+      },
+      "visual": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 1.436,
+              "ms_p95": 2.016,
+              "allocs": 4298
+            },
+            "ansi": {
+              "ms_median": 0.319,
+              "ms_p95": 0.489,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.003,
+              "ms_p95": 0.006,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 1.762,
+            "ms_p95": 2.431,
+            "allocs": 4456
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "c6825d2ffd251d7d",
+          "views": "1558b9a78dd2fa78"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 1.701,
+              "ms_p95": 2.411,
+              "allocs": 5334
+            },
+            "ansi": {
+              "ms_median": 0.327,
+              "ms_p95": 0.455,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.497,
+              "ms_p95": 0.736,
+              "allocs": 174
+            }
+          },
+          "total": {
+            "ms_median": 2.582,
+            "ms_p95": 3.548,
+            "allocs": 5663
+          },
+          "bytes": {
+            "median": 12138,
+            "mean": 12112
+          },
+          "screens": "542eed3b264ad59e",
+          "views": "32563ba94da9e440"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 2.528,
+              "ms_p95": 4.063,
+              "allocs": 10141
+            },
+            "ansi": {
+              "ms_median": 0.33,
+              "ms_p95": 0.464,
+              "allocs": 155
+            },
+            "output": {
+              "ms_median": 0.697,
+              "ms_p95": 0.909,
+              "allocs": 193
+            }
+          },
+          "total": {
+            "ms_median": 3.608,
+            "ms_p95": 5.073,
+            "allocs": 10489
+          },
+          "bytes": {
+            "median": 14605,
+            "mean": 14563
+          },
+          "screens": "32585ca00548c428",
+          "views": "86fd9cbaf408e240"
+        }
+      }
+    }
+  }
+}

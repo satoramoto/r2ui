@@ -21,6 +21,9 @@ module Bubbletea
       without_renderer: false,
       # r2ui: wrap each frame in DEC 2026 synchronized output (not an upstream option).
       synchronized: false,
+      # r2ui: in the alt screen, write only the lines that changed since the last frame (not an
+      # upstream option).
+      line_diff: false,
     }.freeze
 
     def initialize(model, **options)
@@ -44,6 +47,14 @@ module Bubbletea
       @renderer_id = @program.create_renderer unless @options[:without_renderer]
       if @renderer_id && @options[:synchronized]
         R2UI::Compat::Tea.renderer(@renderer_id)&.synchronized = true
+      end
+      # r2ui: line diffing, the same way. setup_terminal entered the alt screen before the renderer
+      # existed, so upstream's renderer never learns it (it draws inline-style there); diffing
+      # needs to know, so tell it.
+      if @renderer_id && @options[:line_diff]
+        renderer = R2UI::Compat::Tea.renderer(@renderer_id)
+        renderer&.line_diff = true
+        @program.renderer_set_alt_screen(@renderer_id, true) if @in_alt_screen
       end
 
       update_terminal_size

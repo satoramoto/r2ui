@@ -16,8 +16,11 @@ module R2UI
 
     def [](id, key) = @series.fetch([id, key], [])
 
-    # Sum several series aligned at their newest value (for grouped lines).
+    # Sum several series aligned at their newest value (for grouped lines). For one id this is that
+    # series itself (not a copy): callers read it and must not change it.
     def sum(ids, key)
+      return self[ids.first, key] if ids.size == 1
+
       lists = ids.map { |id| self[id, key] }.reject(&:empty?)
       return [] if lists.empty?
 

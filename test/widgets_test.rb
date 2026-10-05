@@ -181,4 +181,181 @@ class WidgetsTest < Minitest::Test
     colour = nil
     refute_match(/35m╭/, app.frame(60, 10).ansi_lines.first, "nil keeps the default border")
   end
+
+  # --- exact table drawing ---
+
+  # Forwards to the real canvas and logs every write and fill the table makes.
+  class RecordingCanvas
+    attr_reader :log
+
+    def initialize(canvas)
+      @canvas = canvas
+      @log = []
+    end
+
+    def write(x, y, text, style = :plain, max: nil)
+      @log << "w #{x},#{y} #{style.inspect} max=#{max.inspect} |#{text}|"
+      @canvas.write(x, y, text, style, max:)
+    end
+
+    def fill(rect, char = " ", style = :plain)
+      @log << "f #{rect.x},#{rect.y},#{rect.width}x#{rect.height} #{style.inspect} |#{char}|"
+      @canvas.fill(rect, char, style)
+    end
+  end
+
+  # The table's writes and fills for one frame.
+  def table_log(width, height)
+    log = []
+    real_new = R2UI::Widgets::Table.method(:new)
+    recorder = lambda do |*args, **kwargs|
+      table = real_new.call(*args, **kwargs)
+      table.define_singleton_method(:draw) do |canvas, rect|
+        recording = RecordingCanvas.new(canvas)
+        super(recording, rect)
+        log.concat(recording.log)
+      end
+      table
+    end
+    R2UI::Widgets::Table.stub(:new, recorder) { app.frame(width, height) }
+    log
+  end
+
+  # Every string and style a wide table draws: heat-coloured cells from a style lambda, a percent
+  # column, braille and bar sparklines with a callable spark style, truncation, motion marks, the
+  # selection and a grouped label line.
+  def test_wide_table_draws_exact_strings_and_styles
+    proc_row = Data.define(:id, :name, :team, :cpu, :mem, :note)
+    data = [proc_row.new(id: 1, name: "a-very-long-process-name", team: "core", cpu: 85.0, mem: 10.0, note: "hot"),
+            proc_row.new(id: 2, name: "beta", team: "core", cpu: 40.0, mem: 30.0, note: "warm"),
+            proc_row.new(id: 3, name: "gamma", team: "web", cpu: 5.0, mem: 90.0, note: "")]
+    rows = -> { data }
+    heat = ->(v, _line) { R2UI::Widgets::Glyphs.heat(v / 100.0) if v.is_a?(Numeric) }
+    spark_heat = ->(values, _line) { R2UI::Widgets::Glyphs.heat((values.last || 0) / 100.0) }
+    R2UI.resource :proc do
+      source { rows.call }
+      key :id
+      group_by :team
+      index do
+        column :id, format: :id
+        column :name, width: 12
+        column :team
+        column :cpu, format: :percent, sparkline: :braille, sort: :desc, style: heat, spark_style: spark_heat
+        column :mem, format: :percent, sparkline: true, spark_width: 6
+        column :note
+      end
+    end
+    R2UI.dashboard { row { panel(:proc) { table motion: true } } }
+    refresh
+    lines(100, 8)
+    @t = 0.3
+    data = [data[0].with(cpu: 20.0), data[1].with(cpu: 60.0), data[2].with(cpu: 95.0, mem: 50.0),
+            proc_row.new(id: 4, name: "delta", team: "web", cpu: 33.3, mem: 0.0, note: "new")]
+    refresh
+    app.press(:down)
+    @t = 0.9
+    moving = table_log(100, 8)
+    @t = 1.6
+    faded = table_log(100, 8).grep(/max=nil/)
+    app.press("g")
+    grouped = table_log(100, 8)
+
+    assert_equal TABLE_LOG, [*moving, "--", *grouped, "--", *faded].join("\n")
+  end
+
+  def test_history_sum_of_one_series_and_of_several
+    history = R2UI::History.new(capacity: 4)
+    [1, 2, 3, 4, 5].each { |v| history.record(:a, :cpu, v) }
+    [10, 20, 30, 40].each { |v| history.record(:b, :cpu, v) }
+    assert_equal [2.0, 3.0, 4.0, 5.0], history.sum([:a], :cpu)
+    assert_equal [12.0, 23.0, 34.0, 45.0], history.sum(%i[a b], :cpu)
+    assert_equal [], history.sum([:none], :cpu)
+    assert_equal [], history.sum([], :cpu)
+    assert_equal [4.0, 6.0, 8.0, 10.0], history.sum(%i[a a], :cpu), "a repeated id counts twice"
+  end
+
+  TABLE_LOG = <<~LOG.chomp
+    w 2,1 :header max=8 |      Id|
+    w 11,1 :header max=12 |Name        |
+    w 24,1 :header max=22 |Team                  |
+    w 47,1 :header max=13 |         Cpu▼|
+    w 61,1 :header max=14 |           Mem|
+    w 76,1 :header max=22 |Note                  |
+    w 2,2 :plain max=8 |       3|
+    w 11,2 :plain max=12 |gamma       |
+    w 24,2 :plain max=22 |web                   |
+    w 47,2 "38;2;229;81;71" max=13 |⠀⠀⠀⠀⣸|
+    w 52,2 :plain max=8 | |
+    w 53,2 "38;2;229;81;71" max=7 |  95.0%|
+    w 61,2 :plain max=14 |    █▅|
+    w 67,2 :plain max=8 | |
+    w 68,2 :plain max=7 |  50.0%|
+    w 76,2 :plain max=22 |                      |
+    w 1,2 "38;2;217;119;87" max=nil |▴|
+    f 1,3,98x1 :selected | |
+    w 2,3 :selected max=8 |       2|
+    w 11,3 :selected max=12 |beta        |
+    w 24,3 :selected max=22 |core                  |
+    w 47,3 :selected max=13 |⠀⠀⠀⠀⣾|
+    w 52,3 :selected max=8 | |
+    w 53,3 :selected max=7 |  60.0%|
+    w 61,3 :selected max=14 |    ██|
+    w 67,3 :selected max=8 | |
+    w 68,3 :selected max=7 |  30.0%|
+    w 76,3 :selected max=22 |warm                  |
+    w 2,4 :plain max=8 |       4|
+    w 11,4 :plain max=12 |delta       |
+    w 24,4 :plain max=22 |web                   |
+    w 47,4 "38;2;183;168;39" max=13 |⠀⠀⠀⠀⢀|
+    w 52,4 :plain max=8 | |
+    w 53,4 "38;2;183;168;39" max=7 |  33.3%|
+    w 61,4 :plain max=14 |     ▁|
+    w 67,4 :plain max=8 | |
+    w 68,4 :plain max=7 |   0.0%|
+    w 76,4 :plain max=22 |new                   |
+    w 1,4 "38;2;217;119;87" max=nil |•|
+    w 2,5 :plain max=8 |       1|
+    w 11,5 :plain max=12 |a-very-long…|
+    w 24,5 :plain max=22 |core                  |
+    w 47,5 "38;2;149;171;60" max=13 |⠀⠀⠀⠀⣇|
+    w 52,5 :plain max=8 | |
+    w 53,5 "38;2;149;171;60" max=7 |  20.0%|
+    w 61,5 :plain max=14 |    ██|
+    w 67,5 :plain max=8 | |
+    w 68,5 :plain max=7 |  10.0%|
+    w 76,5 :plain max=22 |hot                   |
+    w 1,5 "38;2;217;119;87" max=nil |▾|
+    --
+    w 2,1 :header max=8 |      Id|
+    w 11,1 :header max=12 |Name        |
+    w 24,1 :header max=22 |Team                  |
+    w 47,1 :header max=13 |         Cpu▼|
+    w 61,1 :header max=14 |           Mem|
+    w 76,1 :header max=22 |Note                  |
+    f 1,2,98x1 :selected | |
+    w 2,2 :selected max=8 |      ×2|
+    w 11,2 :selected max=12 |            |
+    w 24,2 :selected max=22 |web|
+    w 47,2 :selected max=13 |⠀⠀⠀⠀⣸|
+    w 52,2 :selected max=8 | |
+    w 53,2 :selected max=7 | 128.3%|
+    w 61,2 :selected max=14 |    █▅|
+    w 67,2 :selected max=8 | |
+    w 68,2 :selected max=7 |  50.0%|
+    w 76,2 :selected max=22 |                      |
+    w 2,3 :plain max=8 |      ×2|
+    w 11,3 :plain max=12 |            |
+    w 24,3 :bold max=22 |core|
+    w 47,3 "38;2;229;110;50" max=13 |⠀⠀⠀⠀⣷|
+    w 52,3 :plain max=8 | |
+    w 53,3 "38;2;229;110;50" max=7 |  80.0%|
+    w 61,3 :plain max=14 |    ██|
+    w 67,3 :plain max=8 | |
+    w 68,3 :plain max=7 |  40.0%|
+    w 76,3 :plain max=22 |                      |
+    --
+    w 1,2 "38;2;155;103;86" max=nil |▴|
+    w 1,4 "38;2;171;107;86" max=nil |•|
+    w 1,5 "38;2;155;103;86" max=nil |▾|
+  LOG
 end

@@ -1,0 +1,380 @@
+{
+  "ruby": "ruby 3.4.3 (2025-04-14 revision d0b7e5b6a0) +PRISM [arm64-darwin24]",
+  "at": "2026-10-05T01:06:50Z",
+  "frames": 60,
+  "warmup": 30,
+  "modes": {
+    "off": {
+      "dense": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 4.6,
+              "ms_p95": 10.975,
+              "allocs": 17692
+            },
+            "ansi": {
+              "ms_median": 0.741,
+              "ms_p95": 1.74,
+              "allocs": 627
+            },
+            "output": {
+              "ms_median": 0.006,
+              "ms_p95": 0.01,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 5.456,
+            "ms_p95": 12.565,
+            "allocs": 18322
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "4f2a8baabeeb33ac",
+          "views": "a780f75bf2382188"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 6.315,
+              "ms_p95": 7.164,
+              "allocs": 27556
+            },
+            "ansi": {
+              "ms_median": 0.62,
+              "ms_p95": 1.11,
+              "allocs": 660
+            },
+            "output": {
+              "ms_median": 7.287,
+              "ms_p95": 7.888,
+              "allocs": 24308
+            }
+          },
+          "total": {
+            "ms_median": 14.325,
+            "ms_p95": 15.049,
+            "allocs": 52537
+          },
+          "bytes": {
+            "median": 14119,
+            "mean": 14112
+          },
+          "screens": "ffb984df0104c786",
+          "views": "9787f8c56d1b8850"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 6.611,
+              "ms_p95": 7.631,
+              "allocs": 27542
+            },
+            "ansi": {
+              "ms_median": 0.629,
+              "ms_p95": 0.983,
+              "allocs": 657
+            },
+            "output": {
+              "ms_median": 7.427,
+              "ms_p95": 8.583,
+              "allocs": 24329
+            }
+          },
+          "total": {
+            "ms_median": 14.582,
+            "ms_p95": 16.716,
+            "allocs": 52527
+          },
+          "bytes": {
+            "median": 14059,
+            "mean": 14057
+          },
+          "screens": "dafde5fa82f6c524",
+          "views": "249f6153d6c2e5a7"
+        }
+      },
+      "visual": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 7.784,
+              "ms_p95": 8.201,
+              "allocs": 37037
+            },
+            "ansi": {
+              "ms_median": 0.592,
+              "ms_p95": 0.706,
+              "allocs": 621
+            },
+            "output": {
+              "ms_median": 0.003,
+              "ms_p95": 0.005,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 8.39,
+            "ms_p95": 8.868,
+            "allocs": 37661
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "c6825d2ffd251d7d",
+          "views": "1558b9a78dd2fa78"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 9.691,
+              "ms_p95": 13.779,
+              "allocs": 42913
+            },
+            "ansi": {
+              "ms_median": 0.643,
+              "ms_p95": 0.809,
+              "allocs": 660
+            },
+            "output": {
+              "ms_median": 13.986,
+              "ms_p95": 17.068,
+              "allocs": 50537
+            }
+          },
+          "total": {
+            "ms_median": 24.374,
+            "ms_p95": 28.393,
+            "allocs": 94081
+          },
+          "bytes": {
+            "median": 16709,
+            "mean": 16695
+          },
+          "screens": "542eed3b264ad59e",
+          "views": "32563ba94da9e440"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 10.476,
+              "ms_p95": 12.567,
+              "allocs": 47437
+            },
+            "ansi": {
+              "ms_median": 0.626,
+              "ms_p95": 0.809,
+              "allocs": 653
+            },
+            "output": {
+              "ms_median": 13.544,
+              "ms_p95": 14.641,
+              "allocs": 50474
+            }
+          },
+          "total": {
+            "ms_median": 24.742,
+            "ms_p95": 28.898,
+            "allocs": 98578
+          },
+          "bytes": {
+            "median": 16609,
+            "mean": 16606
+          },
+          "screens": "32585ca00548c428",
+          "views": "86fd9cbaf408e240"
+        }
+      }
+    },
+    "on": {
+      "dense": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 2.55,
+              "ms_p95": 2.904,
+              "allocs": 17721
+            },
+            "ansi": {
+              "ms_median": 0.499,
+              "ms_p95": 0.667,
+              "allocs": 627
+            },
+            "output": {
+              "ms_median": 0.002,
+              "ms_p95": 0.006,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 3.057,
+            "ms_p95": 3.427,
+            "allocs": 18351
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "4f2a8baabeeb33ac",
+          "views": "a780f75bf2382188"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 3.933,
+              "ms_p95": 5.109,
+              "allocs": 27585
+            },
+            "ansi": {
+              "ms_median": 0.514,
+              "ms_p95": 0.622,
+              "allocs": 660
+            },
+            "output": {
+              "ms_median": 3.484,
+              "ms_p95": 3.943,
+              "allocs": 24308
+            }
+          },
+          "total": {
+            "ms_median": 7.959,
+            "ms_p95": 9.318,
+            "allocs": 52567
+          },
+          "bytes": {
+            "median": 14119,
+            "mean": 14112
+          },
+          "screens": "ffb984df0104c786",
+          "views": "9787f8c56d1b8850"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 4.287,
+              "ms_p95": 4.676,
+              "allocs": 27572
+            },
+            "ansi": {
+              "ms_median": 0.514,
+              "ms_p95": 0.566,
+              "allocs": 657
+            },
+            "output": {
+              "ms_median": 3.134,
+              "ms_p95": 3.378,
+              "allocs": 24329
+            }
+          },
+          "total": {
+            "ms_median": 7.935,
+            "ms_p95": 8.444,
+            "allocs": 52555
+          },
+          "bytes": {
+            "median": 14059,
+            "mean": 14057
+          },
+          "screens": "dafde5fa82f6c524",
+          "views": "249f6153d6c2e5a7"
+        }
+      },
+      "visual": {
+        "steady": {
+          "stages": {
+            "draw": {
+              "ms_median": 4.912,
+              "ms_p95": 5.471,
+              "allocs": 37045
+            },
+            "ansi": {
+              "ms_median": 0.55,
+              "ms_p95": 0.828,
+              "allocs": 621
+            },
+            "output": {
+              "ms_median": 0.003,
+              "ms_p95": 0.005,
+              "allocs": 3
+            }
+          },
+          "total": {
+            "ms_median": 5.497,
+            "ms_p95": 6.071,
+            "allocs": 37669
+          },
+          "bytes": {
+            "median": 0,
+            "mean": 0
+          },
+          "screens": "c6825d2ffd251d7d",
+          "views": "1558b9a78dd2fa78"
+        },
+        "animating": {
+          "stages": {
+            "draw": {
+              "ms_median": 5.703,
+              "ms_p95": 6.521,
+              "allocs": 42922
+            },
+            "ansi": {
+              "ms_median": 0.525,
+              "ms_p95": 0.669,
+              "allocs": 660
+            },
+            "output": {
+              "ms_median": 6.575,
+              "ms_p95": 7.3,
+              "allocs": 50537
+            }
+          },
+          "total": {
+            "ms_median": 12.711,
+            "ms_p95": 13.891,
+            "allocs": 94090
+          },
+          "bytes": {
+            "median": 16709,
+            "mean": 16695
+          },
+          "screens": "542eed3b264ad59e",
+          "views": "32563ba94da9e440"
+        },
+        "data_change": {
+          "stages": {
+            "draw": {
+              "ms_median": 6.689,
+              "ms_p95": 7.402,
+              "allocs": 47446
+            },
+            "ansi": {
+              "ms_median": 0.535,
+              "ms_p95": 0.661,
+              "allocs": 653
+            },
+            "output": {
+              "ms_median": 6.721,
+              "ms_p95": 7.524,
+              "allocs": 50474
+            }
+          },
+          "total": {
+            "ms_median": 13.889,
+            "ms_p95": 15.366,
+            "allocs": 98586
+          },
+          "bytes": {
+            "median": 16609,
+            "mean": 16606
+          },
+          "screens": "32585ca00548c428",
+          "views": "86fd9cbaf408e240"
+        }
+      }
+    }
+  }
+}

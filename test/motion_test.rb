@@ -14,6 +14,38 @@ class MotionTest < Minitest::Test
     yield
   end
 
+  # --- colour helpers (memoized; values must not change) ---
+
+  def test_rgb_parses_long_short_and_bare_hex_and_repeats_frozen
+    cases = { "#D97757" => [217, 119, 87], "#fff" => [255, 255, 255], "abcdef" => [171, 205, 239],
+              "#000" => [0, 0, 0], "#5faf5f" => [95, 175, 95] }
+    2.times do
+      cases.each do |hex, rgb|
+        assert_equal rgb, R2UI::Motion.rgb(hex), hex
+        assert_predicate R2UI::Motion.rgb(hex), :frozen?
+      end
+    end
+    hex = +"#010203"
+    assert_equal [1, 2, 3], R2UI::Motion.rgb(hex)
+    hex.replace("#040506")
+    assert_equal [4, 5, 6], R2UI::Motion.rgb(hex), "a string changed in place is a new key"
+  end
+
+  def test_mix_hex_sweep_matches_a_plain_rgb_lerp
+    pairs = [["#D97757", "#555555"], ["#5FAF5F", "#E5484D"], ["#000", "#fff"], ["#ffffff", "#000000"]]
+    pairs.each do |from, to|
+      a = R2UI::Motion.rgb(from)
+      b = R2UI::Motion.rgb(to)
+      (-5..105).each do |n|
+        t = n / 100.0
+        u = t.clamp(0.0, 1.0)
+        want = format("#%02x%02x%02x", *a.zip(b).map { |x, y| (x + ((y - x) * u)).round.clamp(0, 255) })
+        assert_equal want, R2UI::Motion.mix_hex(from, to, t), "#{from} -> #{to} at #{t}"
+      end
+    end
+    assert_equal "#808080", R2UI::Motion.mix_hex("#000000", "#ffffff", "0.5"), "t may be anything with to_f"
+  end
+
   def test_tween_starts_at_its_target_then_glides_and_settles
     assert_in_delta 10.0, at(0.0) { @motion.tween(:cpu, 10, duration: 1.0, ease: :linear) }
     refute @motion.active?, "nothing moves until the target changes"
