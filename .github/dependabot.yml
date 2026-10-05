@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Development gems only (r2ui has no runtime dependencies); no Gemfile.lock, so only releases
+  # outside a requirement get a PR.
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      # Pinned in the Gemfile to the versions r2ui reproduces; moving them is a deliberate change.
+      - dependency-name: bubbles
+      - dependency-name: bubbletea
+      - dependency-name: lipgloss
+      - dependency-name: harmonica
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
