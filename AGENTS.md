@@ -26,6 +26,7 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 | `bundle exec ruby -Itest -Ilib test/cli/ext/<file>_test.rb` | Targeted: one CLI story while working on it |
 | `ruby examples/cli/deployer.rb deploy api --env production --force` (and again piped through `\| cat`) | After changing CLI output; shows the terminal and the plain rendering |
 | `exe/r2ui --snapshot --width 140 --height 45 examples/agents.rb` | After changing drawing or the example; prints one real frame |
+| `bundle exec rake bench` | After changing drawing, Canvas, the compat renderer or ANSI width code: per-frame ms/allocations/bytes by stage vs `bench/results/baseline.json`, and whether the screens stayed the same (~80 s, run alone). `rake bench:profile` shows where the time goes. See `docs/performance.md` |
 | `bin/conformance check --ratchet [filter]` | After any change in `lib/r2ui/compat/`; fails if a case in `conformance/ratchet/` fails (CI runs it). `bin/conformance check <filter>` diffs any case against its golden; cases in `conformance/concessions/` are reported as conceded, not failed |
 | `bin/conformance record <filter>` | After adding or changing a case in `conformance/cases/`; needs the upstream gems installed. Case authors only; implementers never re-record. See `conformance/README.md` |
 
