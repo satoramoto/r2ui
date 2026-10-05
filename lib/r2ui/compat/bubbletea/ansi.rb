@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "strscan"
 require_relative "width_table"
 
 module R2UI
@@ -190,17 +191,32 @@ module R2UI
         end
 
         PLAIN = /[^\x20-\x7E]/n
+        PLAIN_UTF8 = /[^\x20-\x7E]/
+        GRAPHEME = /\X/m
         FFFD = "\u{FFFD}"
-        private_constant :PLAIN, :FFFD
+        # Bounded memo tables: codepoint => width for one-rune clusters and
+        # cluster bytes => width for longer ones (both repeat heavily).
+        CACHE_LIMIT = 4096
+        RUNE_WIDTHS = {} # rubocop:disable Style/MutableConstant
+        CLUSTER_WIDTHS = {} # rubocop:disable Style/MutableConstant
+        private_constant :PLAIN, :PLAIN_UTF8, :GRAPHEME, :FFFD, :CACHE_LIMIT, :RUNE_WIDTHS, :CLUSTER_WIDTHS
 
         module_function
 
         # x/ansi StringWidth: cells the string occupies; escape sequences
         # are zero-width.
         def string_width(str)
-          s = str.b
-          return 0 if s.empty?
-          return s.bytesize unless s.match?(PLAIN)
+          return 0 if str.empty?
+
+          s = utf8_view(str)
+          valid = s.valid_encoding?
+          if valid
+            return s.bytesize unless s.match?(PLAIN_UTF8)
+          else
+            s = s.b
+            return s.bytesize unless s.match?(PLAIN)
+          end
+          scanner = nil
 
           pstate = GROUND
           width = 0
@@ -210,7 +226,14 @@ module R2UI
             v = TABLE[(pstate << 8) | s.getbyte(i)]
             state = v & 15
             if state == UTF8
-              len, w = first_grapheme_cluster(s, i)
+              if valid
+                scanner ||= StringScanner.new(s)
+                scanner.pos = i
+                len = scanner.skip(GRAPHEME)
+                w = valid_cluster_width(s, i, len)
+              else
+                len, w = first_grapheme_cluster(s, i)
+              end
               width += w
               i += len
               pstate = GROUND
@@ -223,6 +246,46 @@ module R2UI
           width
         end
 
+        # The string's bytes read as UTF-8 (what Go's string is), copying
+        # only when its encoding says otherwise.
+        def utf8_view(str)
+          return str if str.encoding == Encoding::UTF_8 || str.ascii_only?
+
+          str.b.force_encoding(Encoding::UTF_8)
+        end
+
+        # Width of the cluster at byte i of valid UTF-8 `s`, `len` bytes
+        # long; i is a lead byte (0xC2..0xF4).
+        def valid_cluster_width(s, i, len)
+          lead = s.getbyte(i)
+          if lead < 0xE0
+            if len == 2
+              return rune_width(((lead & 0x1F) << 6) | (s.getbyte(i + 1) & 0x3F))
+            end
+          elsif lead < 0xF0
+            if len == 3
+              return rune_width(((lead & 0x0F) << 12) | ((s.getbyte(i + 1) & 0x3F) << 6) |
+                                (s.getbyte(i + 2) & 0x3F))
+            end
+          elsif len == 4
+            return rune_width(((lead & 0x07) << 18) | ((s.getbyte(i + 1) & 0x3F) << 12) |
+                              ((s.getbyte(i + 2) & 0x3F) << 6) | (s.getbyte(i + 3) & 0x3F))
+          end
+
+          cluster = s.byteslice(i, len)
+          CLUSTER_WIDTHS.fetch(cluster) do
+            CLUSTER_WIDTHS.clear if CLUSTER_WIDTHS.size >= CACHE_LIMIT
+            CLUSTER_WIDTHS[cluster] = cluster_width(cluster.codepoints)
+          end
+        end
+
+        def rune_width(cp)
+          RUNE_WIDTHS.fetch(cp) do
+            RUNE_WIDTHS.clear if RUNE_WIDTHS.size >= CACHE_LIMIT
+            RUNE_WIDTHS[cp] = WidthTable.width(cp)
+          end
+        end
+
         # x/ansi Truncate(s, length, ""): cut the string to at most `length`
         # cells, keeping every escape sequence (including those after the cut).
         def truncate(str, length, tail = "")
@@ -232,6 +295,8 @@ module R2UI
           return +"" if length.negative?
 
           b = str.b
+          u = utf8_view(str)
+          scanner = u.valid_encoding? ? StringScanner.new(u) : nil
           buf = +"".b
           tail = tail.b
           cur_width = 0
@@ -244,7 +309,13 @@ module R2UI
             v = TABLE[(pstate << 8) | byte]
             state = v & 15
             if state == UTF8
-              len, width = first_grapheme_cluster(b, i)
+              if scanner
+                scanner.pos = i
+                len = scanner.skip(GRAPHEME)
+                width = valid_cluster_width(u, i, len)
+              else
+                len, width = first_grapheme_cluster(b, i)
+              end
               cluster_start = i
               i += len
               next if ignoring
