@@ -3,9 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, develop, "release/**", "hotfix/**"]
-  # release.yml starts this on a new release/hotfix branch: its GITHUB_TOKEN push can't trigger runs.
-  workflow_dispatch:
+    branches: [main]
 
 jobs:
   test:

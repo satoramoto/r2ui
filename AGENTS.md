@@ -53,9 +53,7 @@ Reviewers flag only real bugs and these rules, never style:
 
 ## Releasing
 
-Git-flow: `develop` is the integration branch (feature PRs target it), `main` only holds released code, tags are `vX.Y.Z` on main. The owner releases from GitHub (Actions → Release → Run workflow); merging the release PR runs `.github/workflows/publish.yml`, which tags, publishes to RubyGems by trusted publishing and creates the GitHub Release. Agents never run these, create tags or publish. Add user-facing changes under `## Unreleased` in CHANGELOG.md. See [docs/releasing.md](docs/releasing.md).
-
-`bin/gem-push` (1Password-backed `gem push`, Touch ID) is the owner's manual fallback only.
+Work lands on `main` (there is no `develop` branch); add user-facing changes under `## Unreleased` in CHANGELOG.md. The owner releases by bumping `lib/r2ui/version.rb` and CHANGELOG.md on main and pushing a `vX.Y.Z` tag, which runs `.github/workflows/publish.yml` (RubyGems trusted publishing plus the GitHub Release); see [docs/releasing.md](docs/releasing.md). Agents never bump the version, tag or publish. `bin/gem-push` (1Password-backed `gem push`, Touch ID) is the owner's manual fallback only.
 
 ## Rules
 

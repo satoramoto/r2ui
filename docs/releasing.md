@@ -1,53 +1,65 @@
 # Releasing r2ui
 
-## Branches
+Everything happens on `main`; there are no release or develop branches. A release is a `vX.Y.Z` tag on a commit on main. Pushing the tag runs `.github/workflows/publish.yml`, which publishes the gem to RubyGems and creates the GitHub Release.
 
-r2ui uses git-flow:
+## Day to day
 
-- `develop` is the integration branch and the default branch. Feature and fix PRs target it.
-- `main` only ever holds released code. Every commit on main that changes the gem is a release, tagged `vX.Y.Z`.
-- `release/X.Y.Z` is cut from develop to prepare a release; it merges into main.
-- `hotfix/X.Y.Z` is cut from main to patch the latest release; it merges into main.
-- After every release, main is merged back into develop.
-
-CI (`ci.yml`, `conformance.yml`) runs on PRs and on pushes to main, develop, `release/**` and `hotfix/**`.
-
-User-facing changes go under `## Unreleased` at the top of CHANGELOG.md, in the PR that makes them.
+User-facing changes go under `## Unreleased` at the top of CHANGELOG.md, in the PR that makes them. CI (`ci.yml`, `conformance.yml`) runs on PRs and on pushes to main.
 
 ## Cut a release
 
-1. Actions → **Release** → Run workflow. Leave "Use workflow from" on `develop`, enter the version (for example `0.2.0`, no `v`) and pick `release`.
-2. The workflow (`.github/workflows/release.yml`) checks the version is `X.Y.Z`, newer than the latest release on RubyGems and the tags, not already tagged and not already in progress. It then creates `release/X.Y.Z` from develop, sets `lib/r2ui/version.rb`, moves the `## Unreleased` entries under `## X.Y.Z`, opens the PR "Release X.Y.Z" into main and starts CI and conformance on the branch.
-3. Review the PR. Push any last fixes to `release/X.Y.Z` (they reach develop through the back-merge).
-   The PR is opened with `GITHUB_TOKEN`, which doesn't trigger `pull_request` workflows, so the Release workflow dispatches CI and conformance itself. Their results show on the head commit (commit status / Actions tab), not as `pull_request` checks in the PR's checks list.
-4. Merge the PR with **Create a merge commit**. Don't squash or rebase: the main→develop back-merge relies on the release commits being ancestors of main. `.github/workflows/publish.yml` then:
-   - checks `version.rb` matches the branch and that RubyGems doesn't already have that version (if it does, it fails without publishing anything);
-   - tags the merge commit `vX.Y.Z`;
-   - builds the gem and pushes it to RubyGems with trusted publishing (no API key);
-   - creates the GitHub Release `vX.Y.Z` with the `.gem` attached and the changelog section as notes;
-   - merges main into develop, or opens a "Merge vX.Y.Z back into develop" PR when it can't push (a conflict, usually in CHANGELOG.md, or branch protection on develop).
-5. Expect the back-merge PR: develop usually has new `## Unreleased` entries, so CHANGELOG.md conflicts. Resolve it locally: check out develop, `git merge origin/main`, keep develop's `## Unreleased` section above main's `## X.Y.Z` section (dropping entries that moved into `## X.Y.Z`), commit and push to the PR's branch (or straight to develop), then merge the PR with a merge commit.
+1. On an up-to-date main, set the version in `lib/r2ui/version.rb` (for example `VERSION = "0.3.0"`).
+2. In CHANGELOG.md, rename `## Unreleased` to `## 0.3.0` and add a fresh, empty `## Unreleased` above it.
+3. Commit both on main (directly, or through a PR that you merge; the tag must point at a commit that is on main).
+4. Tag and push:
 
-## Cut a hotfix
+   ```sh
+   git tag v0.3.0 && git push origin main v0.3.0
+   ```
 
-1. Actions → **Release** → Run workflow, enter the patch version (for example `0.2.1`) and pick `hotfix`.
-2. The workflow creates `hotfix/0.2.1` from main with the version bumped and an empty `## 0.2.1` section, and opens a **draft** PR into main.
-3. Push the fix to `hotfix/0.2.1`, with its entry under `## 0.2.1` in CHANGELOG.md. Mark the PR ready and merge it with **Create a merge commit**; publishing runs as for a release. Publishing fails if the `## 0.2.1` section is empty.
+Publish (`.github/workflows/publish.yml`, run in the GitHub environment `release`) then:
+
+- checks the tag is `vX.Y.Z` and that `X.Y.Z` equals `R2UI::VERSION` in `lib/r2ui/version.rb` at the tagged commit;
+- checks the tagged commit is on main (an ancestor of `origin/main`);
+- checks RubyGems doesn't already have that version (if it does, or RubyGems answers with anything but "found" or "not found", it fails without publishing);
+- extracts the `## X.Y.Z` section of CHANGELOG.md as the release notes (fails if it's missing or empty);
+- runs `bundle exec rake test`;
+- builds `r2ui-X.Y.Z.gem` and pushes it to RubyGems with trusted publishing (a short-lived key from `rubygems/configure-rubygems-credentials`; no API key is stored);
+- creates the GitHub Release `vX.Y.Z` titled "r2ui X.Y.Z" with the `.gem` attached and the changelog section as notes.
 
 ## When something fails
 
-- Release fails before pushing anything: fix the cause and run it again.
-- Publish fails before "Push the gem to RubyGems": re-run the failed job; the tag step accepts a tag already on the same commit.
-- Publish fails after the gem is on RubyGems: re-running stops at the "already on RubyGems" check by design. Finish by hand: `gh release create vX.Y.Z r2ui-X.Y.Z.gem --verify-tag --notes-file <notes>` and merge main into develop.
+- **Fails before "Push the gem to RubyGems"** (a check, the tests, the build): nothing is published. If the cause is outside the tagged commit (RubyGems down, a flaky test), re-run the failed job. If the tagged commit itself is wrong, see "Wrong tag" below.
+- **Fails after the gem is on RubyGems** (usually "Create the GitHub Release"): re-running stops at the "already on RubyGems" check by design. Finish the GitHub Release by hand from a checkout of the tag:
+
+  ```sh
+  git checkout v0.3.0
+  gem fetch r2ui -v 0.3.0   # the exact r2ui-0.3.0.gem RubyGems serves
+  ruby -e 'v = "0.3.0"; print File.read("CHANGELOG.md")[/^## #{Regexp.escape(v)}[ \t]*\n(.*?)(?=^## |\z)/m, 1].strip, "\n"' > notes.md
+  gh release create v0.3.0 r2ui-0.3.0.gem --verify-tag --title "r2ui 0.3.0" --notes-file notes.md
+  ```
+- **Wrong tag** (wrong commit, version.rb or CHANGELOG not bumped), as long as the gem isn't on RubyGems yet: delete the tag, fix main, and tag again:
+
+  ```sh
+  git push origin :refs/tags/v0.3.0 && git tag -d v0.3.0
+  # fix and commit on main, then
+  git tag v0.3.0 && git push origin main v0.3.0
+  ```
+
+  Once a version is on RubyGems it's final: release the fix as the next patch version instead.
 
 ## One-time setup (owner)
 
-1. Create `develop` from main: `git push origin origin/main:refs/heads/develop`.
-2. Settings → General → Default branch: `develop`.
-3. Settings → Actions → General → Workflow permissions: allow GitHub Actions to create and approve pull requests (the Release workflow opens the PR, Publish may open the back-merge PR). Read and write permissions are not needed as the default; the workflows ask for them.
-4. On rubygems.org, r2ui → Trusted publishers → Create: GitHub Actions, repository owner `satoramoto`, repository name `r2ui`, workflow filename `publish.yml`, environment `release`. Publish runs in the GitHub environment `release`; GitHub creates it on first use, and you can add required reviewers to it to approve each publish.
-   Don't restrict the `release` environment's deployment branches to `main`: Publish runs on the PR-closed event, whose ref is `refs/pull/N/merge`.
-5. Retro-tag 0.1.0. Every file in the 0.1.0 gem on RubyGems matches commit `048270f` ("gem-push: don't mask op run output…"), the last commit before it was pushed: `git tag v0.1.0 048270f742265232a661100935fe25b4c9834f13 && git push origin v0.1.0`.
-6. Optional: protect `main` (require PRs and CI). Publish only pushes the tag and touches develop, so it works with main protected. If develop is protected against direct pushes, the back-merge arrives as a PR instead.
+1. On rubygems.org, r2ui → Trusted publishers → Create: GitHub Actions, repository owner `satoramoto`, repository name `r2ui`, workflow filename `publish.yml`, environment `release`. GitHub creates the `release` environment on the first publish run.
+2. Optional: Settings → Environments → `release` → add yourself as a required reviewer, so each publish waits for your approval. You can also limit its deployment refs to tags matching `v*.*.*`.
+3. Retro-tag 0.1.0. Every file in the 0.1.0 gem on RubyGems matches commit `048270f` ("gem-push: don't mask op run output…"), the last commit before it was pushed:
 
-`bin/gem-push` (1Password-backed `gem push`) stays as a manual fallback; with trusted publishing set up you shouldn't need it.
+   ```sh
+   git tag v0.1.0 048270f742265232a661100935fe25b4c9834f13 && git push origin v0.1.0
+   ```
+
+   This doesn't run Publish: a tag push runs the workflows in the tagged commit, and `048270f` has no `.github/workflows/`. (If it did run, it would stop at the "already on RubyGems" check without publishing.) Create its GitHub Release by hand if you want one, as in "When something fails".
+
+## Manual fallback
+
+`bin/gem-push` builds the gem and pushes it with a 1Password-backed API key (Touch ID). Use it only if trusted publishing is unavailable: bump and tag as above (Publish then fails at the trusted-publishing step, before pushing anything; or cancel it), run `bin/gem-push` from a checkout of the tag, then create the GitHub Release by hand with the `gh release create` command above.

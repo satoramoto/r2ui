@@ -6,9 +6,7 @@ name: Conformance
 on:
   pull_request:
   push:
-    branches: [main, develop, "release/**", "hotfix/**"]
-  # release.yml starts this on a new release/hotfix branch: its GITHUB_TOKEN push can't trigger runs.
-  workflow_dispatch:
+    branches: [main]
 
 env:
   UPSTREAM_GEMS: bubbletea:0.1.4 lipgloss:0.2.2 bubbles:0.1.1 harmonica:0.1.1

@@ -74,6 +74,44 @@ exe/r2ui --snapshot examples/agents.rb   # print one frame and exit
 
 `:text`, `:id`, `:integer`, `:number`, `:percent`, `:bytes`, `:bytes_per_sec`, `:ratio`, `:short_path`. The format decides display, alignment, how grouped lines aggregate (`:sum`, `:count` or a single shared value) and how search operands are parsed (`500M`, `5%`).
 
+## Extensions
+
+Everything a Bubble Tea program can do, a dashboard can declare: `on_key`, `state`, `every`/`after`/`async`, `emit`, `execute`, `println`, `inline` vs alt screen, `window_title`, `mouse`, `paste`, `on_resize`, `theme`, `view` and `screen` blocks, and bubbles components as panel keywords (`text_input`, `list`, `data_table`, `viewport`, `spinner`, `progress`, ...). Each is one file in `lib/r2ui/ext/` registered with `R2UI.extension`, the same hook you use to add your own. See [docs/dsl.md](docs/dsl.md).
+
+```ruby
+R2UI.dashboard do
+  state deploys: 0
+  on_key("d", help: "deploy") { state[:deploys] += 1; flash "deploying" }
+  row height: 3 do
+    panel(:status, resource: nil) { view { "#{state[:deploys]} deploys" } }
+  end
+end
+```
+
+## Views: motion, glyphs, columns
+
+For dense monitors: `R2UI::Motion` tweens, pulses and ages values while frames draw (and stops drawing when nothing moves); `R2UI::Widgets::Glyphs` draws braille charts, partial-block bars and heat colours as ANSI strings. Tables take `columns:` to pick and order columns and `motion: true` to mark moved rows; columns take `style:`, `priority:` and `sparkline: :braille`; panels take `border_style:`. Frame costs and how they're measured: [docs/performance.md](docs/performance.md).
+
+## CLI toolkit
+
+`require "r2ui/cli"` builds command-line tools that look like npm, pnpm or bun on a terminal and print plain, stable lines in a pipe or CI: a commands DSL with generated help and exit codes, task lists, spinners, progress bars, log levels, boxes, tables, trees, diffs, prompts (`confirm`, `ask`, `choose`, `filter`, ...), `--version`, env/config-file options, shell completion, and a command that opens a dashboard. See [docs/cli.md](docs/cli.md) and `examples/cli/deployer.rb`.
+
+```ruby
+require "r2ui/cli"
+
+R2UI.cli "deployer" do
+  command :deploy do
+    argument :app
+    run do
+      tasks do
+        step("Building") { build(args[:app]) }
+        step("Uploading") { upload }
+      end
+    end
+  end
+end.start
+```
+
 ## Drop-in for Bubble Tea
 
 r2ui also ships pure-Ruby versions of the Charm gems bubbletea 0.1.4 and lipgloss 0.2.2: no native extensions, nothing to compile. Require `r2ui/drop_in` before anything else, and existing programs, including ones built on bubbles 0.1.1, run unchanged:
