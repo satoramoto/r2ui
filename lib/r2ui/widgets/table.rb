@@ -3,37 +3,79 @@
 module R2UI
   module Widgets
     # The index table: header, sort marker, grouped/tree labels, inline sparklines, selection.
+    # With a `motion`, a 1-cell gutter on the left marks lines that moved (▴/▾) or are new (•).
     class Table
       SPARK_WIDTH = 10
+      BRAILLE_WIDTH = 5
       MIN_TEXT = 8
+      MARKS = { up: "▴", down: "▾", new: "•" }.freeze
+      MARK_SECONDS = { up: 1.5, down: 1.5, new: 2.0 }.freeze
+      MARK_FROM = "#D97757"
+      MARK_TO = "#555555"
 
-      # `spark` is called with (line, column) and returns that line's recent values.
-      def initialize(resource, lines, state:, focused:, label_key: nil, spark: nil)
+      # `spark` is called with (line, column) and returns that line's recent values. `motion` (an
+      # R2UI::Motion) turns on the gutter marks; `motion_key` tells tables sharing a Motion apart.
+      # `columns` (Column objects) draws only those, in that order; default all of the resource's.
+      def initialize(resource, lines, state:, focused:, label_key: nil, spark: nil, motion: nil, motion_key: nil,
+                     columns: nil)
         @resource = resource
+        @columns = columns || resource.columns
         @lines = lines
         @state = state
         @focused = focused
         @spark = spark
-        @label_key = label_key || resource.columns.find { |c| !c.numeric? && c.format != :id }&.key
+        @motion = motion
+        @motion_key = motion_key || state.object_id
+        label_key = nil if label_key && @columns.none? { |c| c.key == label_key }
+        @label_key = label_key || @columns.find { |c| !c.numeric? && c.format != :id }&.key
       end
 
       def draw(canvas, rect)
         return if rect.empty?
 
-        layout = widths(rect.width)
-        draw_header(canvas, rect, layout)
+        gutter = @motion ? 1 : 0
+        marks = @motion ? gutter_marks : {}
+        cols = rect.with(x: rect.x + gutter, width: rect.width - gutter)
+        layout = widths(cols.width)
+        draw_header(canvas, cols, layout)
         body = rect.with(y: rect.y + 1, height: rect.height - 1)
         @state.scroll_to_selection(body.height, @lines.size)
         @lines.drop(@state.offset).first(body.height).each_with_index do |line, i|
           index = @state.offset + i
           selected = @focused && index == @state.selected
           canvas.fill(body.with(y: body.y + i, height: 1), " ", :selected) if selected
-          draw_line(canvas, rect.x, body.y + i, line, layout, selected)
+          draw_line(canvas, cols.x, body.y + i, line, layout, selected)
+          mark = marks[line.id]
+          canvas.write(rect.x, body.y + i, mark[0], mark[1]) if mark
         end
         draw_footer(canvas, rect) if @lines.size > body.height
       end
 
       private
+
+      # {line id => [glyph, sgr]} for lines whose move/new mark is still fading. Keeps the motion
+      # active while any mark shows.
+      def gutter_marks
+        @state.track_positions(@lines)
+        hold = 0.0
+        marks = {}
+        @lines.each_with_index do |line, i|
+          elapsed = @motion.age([:r2ui_table, @motion_key, line.id], i)
+          kind = @state.marks[line.id]
+          next unless kind
+
+          left = MARK_SECONDS[kind] - elapsed
+          if left <= 0 || !@motion.enabled
+            @state.marks.delete(line.id)
+            next
+          end
+          hold = left if left > hold
+          colour = Motion.mix_hex(MARK_FROM, MARK_TO, elapsed / MARK_SECONDS[kind])
+          marks[line.id] = [MARKS[kind], Glyphs.fg(colour)]
+        end
+        @motion.hold(hold) if hold.positive?
+        marks
+      end
 
       def draw_header(canvas, rect, layout)
         sort_key, sort_dir = @state.sort
@@ -48,35 +90,62 @@ module R2UI
 
       def draw_line(canvas, x, y, line, layout, selected)
         layout.each do |col, w|
-          text, style = cell(line, col, w)
-          canvas.write(x, y, text, selected ? :selected : style, max: w)
+          at = x
+          cell(line, col, w).each do |text, style|
+            left = x + w - at
+            break if left <= 0
+
+            canvas.write(at, y, text, selected ? :selected : style, max: left)
+            at += text.length
+          end
           x += w + 1
         end
       end
 
+      # [[text, style], ...] segments filling the cell.
       def cell(line, col, width)
         if col.key == @label_key && (line.label || line.depth.positive? || line.expandable?)
           prefix, body, suffix = label_parts(line, col)
           body = fit(body, [width - prefix.length - suffix.length, 1].max, Format.truncate_from(col.format))
-          return [fit("#{prefix}#{body}#{suffix}", width, :right), line.label ? :bold : :plain]
+          return [[fit("#{prefix}#{body}#{suffix}", width, :right), line.label ? :bold : :plain]]
         end
 
         value = line.values[col.key]
         value = "×#{line.count}" if col.aggregate == :count && line.label
         text = value.is_a?(String) && col.aggregate == :count ? value : col.render(value)
-        if col.sparkline && @spark
-          text_w = width - SPARK_WIDTH - 1
-          text = "#{Sparkline.line(@spark.call(line, col), SPARK_WIDTH).rjust(SPARK_WIDTH)} #{align(text, text_w, col.align)}"
-          return [text, :plain]
-        end
-        [align(fit(text, width, Format.truncate_from(col.format)), width, col.align), style_for(col, value)]
+        return spark_cell(line, col, width, value, text) if col.sparkline && @spark
+
+        [[align(fit(text, width, Format.truncate_from(col.format)), width, col.align),
+          custom_style(col, value, line) || style_for(col, value)]]
       end
+
+      # The sparkline and the number, each in its own style.
+      def spark_cell(line, col, width, value, text)
+        values = @spark.call(line, col)
+        spark_w = spark_width(col)
+        if col.sparkline == :braille
+          # Fewer than 2 samples have no shape yet: baseline dots only, never a full column.
+          chart = Glyphs.braille_line(values.size < 2 ? values.map { 0 } : values, spark_w, max: col.spark_max)
+          default = :accent
+        else
+          chart = Sparkline.line(values, spark_w, max: col.spark_max).rjust(spark_w)
+          default = :plain
+        end
+        spark_style = col.spark_style.respond_to?(:call) ? col.spark_style.call(values, line) : col.spark_style
+        text_w = width - spark_w - 1
+        [[chart, spark_style || default], [" ", :plain],
+         [align(text, text_w, col.align), custom_style(col, value, line) || :plain]]
+      end
+
+      def custom_style(col, value, line) = col.style&.call(value, line)
+
+      def spark_width(col) = col.spark_width || (col.sparkline == :braille ? BRAILLE_WIDTH : SPARK_WIDTH)
 
       # [indent and tree marker, the value (truncated to fit), count suffix]
       def label_parts(line, col)
         if line.label
           body = Format.call(col.format, line.label)
-          counted = @resource.columns.any? { |c| c.aggregate == :count }
+          counted = @columns.any? { |c| c.aggregate == :count }
           ["", body.empty? ? "(none)" : body, counted ? "" : " ×#{line.count}"]
         else
           marker = if line.expandable? then line.collapsed ? "▸ " : "▾ " else "  " end
@@ -93,13 +162,13 @@ module R2UI
         end
       end
 
-      # Fixed-width columns get their width; text columns share the rest. Drops columns that don't fit.
+      # Fixed-width columns get their width; text columns share the rest. Drops columns that don't
+      # fit: the lowest priority first, the last declared among equals.
       def widths(total)
-        cols = @resource.columns
-        fixed = cols.to_h do |c|
+        fixed = @columns.to_h do |c|
           w = c.width || Format.default_width(c.format)
           w &&= [w, c.label.length + 1].max
-          w += SPARK_WIDTH + 1 if w && c.sparkline
+          w += spark_width(c) + 1 if w && c.sparkline
           [c, w]
         end
         loop do
@@ -109,7 +178,7 @@ module R2UI
           break if flexible.zero? ? spare >= 0 : spare >= flexible * MIN_TEXT
           break if fixed.size == 1
 
-          fixed.delete(fixed.keys.last)
+          fixed.delete(fixed.keys.reverse.min_by { |c| c.priority || 0 })
         end
         flexible = fixed.count { |_, w| w.nil? }
         spare = total - fixed.values.compact.sum - (fixed.size - 1)

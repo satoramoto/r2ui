@@ -9,13 +9,20 @@ module R2UI
     include Bubbletea::Model
 
     FLASH_SECONDS = 3
-    # Runner options; extensions change them with `program_options`.
-    PROGRAM_OPTIONS = { alt_screen: true, fps: 20 }.freeze
+    # Runner options; extensions change them with `program_options`. `synchronized` wraps each
+    # frame in DEC 2026 synchronized output, so terminals paint it at once.
+    PROGRAM_OPTIONS = { alt_screen: true, fps: 20, synchronized: true }.freeze
+    # Seconds after which a frame is due even if nothing changed (clocks, ages, "3s ago" texts).
+    IDLE_FRAME = 1.0
+    # How often `view` forgets motion keys nothing evaluates any more.
+    SWEEP_SECONDS = 1.0
     # Where the focused component takes keys among the `on` handlers: those with priority >= 50 run
     # before it, the rest after.
     COMPONENT_PRIORITY = 50
 
     attr_reader :registry, :dashboard, :feeds, :focus, :state, :width, :height, :components
+    # The app's animation state (R2UI::Motion): tweens, pulses and ages evaluated while drawing.
+    attr_reader :motion
 
     def initialize(registry, name = nil)
       @registry = registry
@@ -26,7 +33,8 @@ module R2UI
         [p, p.table && p.resource && PanelState.new(registry.resource(p.resource), p.table)]
       end
       @focus = @dashboard.panels.find(&:table) || @dashboard.panels.first
-      @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item))
+      @motion = Motion.new
+      @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item), motion: @motion)
       @mode = :normal
       @zoomed = false
       @state = {}
@@ -34,6 +42,11 @@ module R2UI
       @components = []
       @width = 80
       @height = 24
+      @changed = true # an init/update ran since the last view
+      @viewed_at = nil
+      @viewed_versions = {}
+      @viewed_flash = false
+      @swept_at = nil
       setup = Context.new(self)
       Extensions.hooks(:setup).each { |h| setup.call(h.block) }
     end
@@ -56,6 +69,7 @@ module R2UI
       start_components(ctx)
       Extensions.hooks(:init).each { |h| ctx.call(h.block) }
       after_update(ctx)
+      @changed = true
       [self, ctx.commands]
     end
 
@@ -64,10 +78,24 @@ module R2UI
       dispatch(ctx, message)
       sync_component_focus(ctx) if @components_started
       after_update(ctx)
+      @changed = true
       [self, ctx.commands]
     end
 
+    # Whether the next frame slot should draw: an init/update ran or a feed has new data since the
+    # last `view`, something animates, a flash shows (or vanished since), or IDLE_FRAME passed.
+    # The runner asks this every frame slot, so it allocates nothing.
+    def frame_due?
+      return true if @changed || @viewed_at.nil?
+      return true if @feeds.any? { |name, feed| feed.version != @viewed_versions[name] }
+      return true if @motion.active?
+      return true if @viewed_flash || flash_showing?
+
+      @motion.now - @viewed_at > IDLE_FRAME
+    end
+
     def view
+      seen_view
       width, height = frame_size
       ctx = Context.new(self)
       ctx.width = width
@@ -188,6 +216,22 @@ module R2UI
 
     def after_update(ctx) = Extensions.hooks(:after_update).each { |h| ctx.call(h.block) }
 
+    # Records what this view draws, for frame_due?, and sweeps stale motion keys once a second.
+    def seen_view
+      now = @motion.now
+      @changed = false
+      @viewed_at = now
+      @feeds.each { |name, feed| @viewed_versions[name] = feed.version }
+      @flash = nil if @flash && !flash_showing?
+      @viewed_flash = !@flash.nil?
+      return if @swept_at && now - @swept_at < SWEEP_SECONDS
+
+      @swept_at = now
+      @motion.sweep!
+    end
+
+    def flash_showing? = @flash ? Time.now - @flash_at < FLASH_SECONDS : false
+
     def handled?(ctx, hooks, message) = hooks.any? { |h| h.match?(message) && ctx.handle(h.block, message) }
 
     def core_key(ctx, key)
@@ -291,7 +335,7 @@ module R2UI
       when :search then "/#{state_for_focus.search}▏"
       when Array then "#{@mode[1].label} #{@mode[2].size} #{@mode[2].size == 1 ? "row" : "rows"}? y/n"
       else
-        return @flash if @flash && Time.now - @flash_at < FLASH_SECONDS
+        return @flash if flash_showing?
 
         Extensions.hooks(:status).each do |h|
           text = ctx.call(h.block)

@@ -133,7 +133,14 @@ class ExtensionTest < Minitest::Test
     assert_match(/all good/, status)
     assert_match(/r refresh  tab panel/, status)
     assert_match(/\e\[0;31m╭/, app.frame(120, 4).ansi_lines.first)
-    assert_equal({ alt_screen: true, fps: 20, mouse_cell_motion: true }, app.program_options)
+    assert_equal({ alt_screen: true, fps: 20, synchronized: true, mouse_cell_motion: true }, app.program_options)
+  end
+
+  def test_program_options_override_the_frame_rate_and_keep_synchronized_output
+    extension(:test_fps) { program_options { { fps: 30 } } }
+    R2UI.dashboard { row { panel(:p, resource: nil) { view { "" } } } }
+
+    assert_equal({ alt_screen: true, fps: 30, synchronized: true }, app.program_options)
   end
 
   def test_setup_seeds_state_and_view_override_replaces_the_dashboard

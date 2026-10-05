@@ -73,4 +73,71 @@ class AppTest < Minitest::Test
     assert_equal [12], @killed
     assert_match(/Kill: 1 done/, text)
   end
+
+  # --- frame_due?: the runner draws a frame slot only when this says so ---
+
+  def clocked_app
+    @t = 0.0
+    R2UI::App.new(R2UI.registry).tap { |a| a.motion.clock = -> { @t } }
+  end
+
+  def test_frame_is_due_only_after_a_change
+    a = clocked_app
+    assert a.frame_due?, "nothing drawn yet"
+    a.view
+    refute a.frame_due?, "fresh app, just drawn"
+
+    a.press("j")
+    assert a.frame_due?, "an update ran"
+    a.view
+    refute a.frame_due?
+
+    a.init
+    assert a.frame_due?, "init counts as an update"
+    a.stop
+    a.view
+
+    a.feeds[:process].refresh!
+    assert a.frame_due?, "a feed has new data"
+    a.view
+    refute a.frame_due?
+
+    @t = R2UI::App::IDLE_FRAME + 0.01
+    assert a.frame_due?, "idle for longer than IDLE_FRAME"
+    a.view
+    refute a.frame_due?
+  end
+
+  def test_frame_is_due_while_motion_is_active_or_a_flash_shows
+    a = clocked_app
+    a.view
+    a.motion.hold(0.5)
+    assert a.frame_due?, "motion active"
+    a.view
+    @t = 0.5 + R2UI::Motion::GRACE + 0.1
+    a.view
+    refute a.frame_due?, "the hold ended"
+
+    a.flash("saved")
+    a.view
+    assert a.frame_due?, "the flash is showing"
+    a.instance_variable_set(:@flash_at, Time.now - R2UI::App::FLASH_SECONDS - 1)
+    assert a.frame_due?, "the flash expired since the last view"
+    a.view
+    refute a.frame_due?
+  end
+
+  def test_view_sweeps_stale_motion_keys_at_most_once_a_second
+    a = clocked_app
+    a.motion.tween(:a, 1)
+    a.motion.tween(:b, 1)
+    @t = 29.5
+    a.view
+    @t = 30.2
+    a.view
+    assert_in_delta 1.0, a.motion.tween(:a, 5), 1e-9, "not swept: within a second of the last sweep"
+    @t = 30.6
+    a.view
+    assert_in_delta 5.0, a.motion.tween(:b, 5), 1e-9, "swept: unseen for 30 s"
+  end
 end

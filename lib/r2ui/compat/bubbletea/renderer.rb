@@ -8,9 +8,16 @@ module R2UI
       # Port of the bubbletea 0.1.4 gem's Go renderer (go/renderer.go):
       # redraws the whole view in place, line by line, erasing what each line
       # leaves behind. Writes each frame with one write followed by a flush.
+      #
+      # r2ui addition: with `synchronized` on, each frame is wrapped in DEC mode 2026 (synchronized
+      # output), so the terminal paints it at once. Off by default, as upstream.
       class Renderer
-        def initialize(output)
+        SYNC_BEGIN = "\e[?2026h"
+        SYNC_END = "\e[?2026l"
+
+        def initialize(output, synchronized: false)
           @output = output
+          @synchronized = synchronized ? true : false
           @mutex = Mutex.new
           @last_render = "".b
           @last_lines = []
@@ -33,6 +40,10 @@ module R2UI
           @mutex.synchronize { @alt_screen = enabled ? true : false }
         end
 
+        def synchronized=(enabled)
+          @mutex.synchronize { @synchronized = enabled ? true : false }
+        end
+
         def render(view)
           view = c_string(view)
 
@@ -43,6 +54,7 @@ module R2UI
             new_lines = new_lines.last(@height) if @height.positive? && new_lines.length > @height
 
             buffer = +"".b
+            buffer << SYNC_BEGIN if @synchronized
             buffer << ANSI::CURSOR_HOME_POSITION if @alt_screen
             if !@alt_screen && @lines_rendered > 1
               buffer << cursor_up(@lines_rendered - 1)
@@ -64,6 +76,7 @@ module R2UI
               buffer << cursor_up(@lines_rendered - new_lines.length) unless @alt_screen
             end
             buffer << "\r" unless @alt_screen
+            buffer << SYNC_END if @synchronized
 
             emit(buffer)
 
