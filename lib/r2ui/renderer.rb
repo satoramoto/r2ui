@@ -17,9 +17,12 @@ module R2UI
     # `draw_item` draws items the core doesn't know (extension items): called with
     # (panel, item, width, height), it returns a String, or nil if no extension draws that item.
     # `motion` (an R2UI::Motion) animates tables declared with `motion: true`.
-    def initialize(registry, feeds, states, draw_item: nil, motion: nil)
+    # `feed_for` (panel, resource) => what that panel draws from (rows, error, history, series_id);
+    # by default the resource's feed in `feeds`.
+    def initialize(registry, feeds, states, draw_item: nil, motion: nil, feed_for: nil)
       @registry = registry
       @feeds = feeds
+      @feed_for = feed_for || ->(_panel, resource) { @feeds.fetch(resource.name) }
       @states = states
       @draw_item = draw_item
       @motion = motion
@@ -82,7 +85,7 @@ module R2UI
     def draw_panel(canvas, rect, panel, focused)
       @rects[panel] = rect
       resource = panel.resource && @registry.resource(panel.resource)
-      feed = resource && @feeds.fetch(resource.name)
+      feed = resource && @feed_for.call(panel, resource)
       state = @states[panel]
       inner = Widgets::Box.draw(canvas, rect, title: panel_title(panel, resource), focused:,
                                               tabs: state ? state.scope_tabs : [], style: border_style(panel))

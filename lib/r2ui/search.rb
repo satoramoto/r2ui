@@ -7,10 +7,40 @@ module R2UI
   #   cwd~starseed   substring match on one column
   class Search
     TERM = /\A(?<field>\w+)(?<op>>=|<=|!=|>|<|=|~)(?<operand>.+)\z/
+    OPS = { ">" => :>, "<" => :<, ">=" => :>=, "<=" => :<=, "=" => :==, "!=" => :!=, "~" => :contains }.freeze
+
+    # One parsed search term, plain data (server-side sources get these as Request#terms).
+    #   text    the term as typed ("cpu>5")
+    #   op      :match (free text), :contains (`~`), or a comparison: :>, :<, :>=, :<=, :==, :!=
+    #   field   the column key compared, or nil for free text
+    #   fields  the attributes the term looks at: the `filter` attributes (or the text columns) for
+    #           free text, [field] otherwise
+    #   value   free text and `~`: the text as typed; comparisons: the operand parsed by the
+    #           column's format (nil when it doesn't parse; such a term matches nothing)
+    Term = Data.define(:text, :op, :field, :fields, :value) do
+      def free_text? = op == :match
+    end
+
+    # The terms of `text` for `resource`.
+    def self.terms(resource, text)
+      text.to_s.split.map do |term|
+        m = TERM.match(term)
+        column = m && resource.column(m[:field].to_sym)
+        next Term.new(text: term, op: :match, field: nil, fields: free_text_keys(resource), value: term) unless column
+
+        op = OPS.fetch(m[:op])
+        value = op == :contains ? m[:operand] : Format.parse(column.format, m[:operand])
+        Term.new(text: term, op:, field: column.key, fields: [column.key], value:)
+      end
+    end
+
+    def self.free_text_keys(resource)
+      resource.searchable.any? ? resource.searchable : resource.columns.reject(&:numeric?).map(&:key)
+    end
 
     def initialize(resource, text)
       @resource = resource
-      @predicates = text.to_s.split.map { |term| predicate(term) }
+      @predicates = Search.terms(resource, text).map { |term| predicate(term) }
     end
 
     def call(rows) = @predicates.empty? ? rows : rows.select { |row| @predicates.all? { |p| p.call(row) } }
@@ -18,43 +48,29 @@ module R2UI
     private
 
     def predicate(term)
-      m = TERM.match(term)
-      column = m && @resource.column(m[:field].to_sym)
-      return free_text(term) unless column
+      return free_text(term) if term.free_text?
 
-      compare(column, m[:op], m[:operand])
+      compare(@resource.column(term.field), term.op, term.value)
     end
 
     def free_text(term)
-      needle = term.downcase
-      keys = @resource.searchable.any? ? @resource.searchable : text_columns
-      readers = keys.map { |k| @resource.column(k)&.method(:read) || ->(row) { Value.fetch(row, k) } }
+      needle = term.value.downcase
+      readers = term.fields.map { |k| @resource.column(k)&.method(:read) || ->(row) { Value.fetch(row, k) } }
       ->(row) { readers.any? { |read| read.call(row).to_s.downcase.include?(needle) } }
     end
 
-    def compare(column, op, operand)
-      return ->(row) { column.read(row).to_s.downcase.include?(operand.downcase) } if op == "~"
-
-      target = Format.parse(column.format, operand)
+    def compare(column, op, target)
+      return ->(row) { column.read(row).to_s.downcase.include?(target.downcase) } if op == :contains
       return ->(_) { false } if target.nil?
 
+      target = target.downcase if target.is_a?(String)
       lambda do |row|
         value = column.read(row)
         value = value.to_s.downcase if target.is_a?(String)
-        target = target.downcase if target.is_a?(String)
-        case op
-        when ">" then value > target
-        when "<" then value < target
-        when ">=" then value >= target
-        when "<=" then value <= target
-        when "=" then value == target
-        when "!=" then value != target
-        end
+        value.public_send(op, target)
       rescue ArgumentError, NoMethodError
         false
       end
     end
-
-    def text_columns = @resource.columns.reject(&:numeric?).map(&:key)
   end
 end
