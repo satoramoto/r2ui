@@ -22,7 +22,10 @@ module DiskInv
 
   module_function
 
-  def scanner = @scanner ||= Scanner.new(ROOT).start
+  SCANNER_LOCK = Mutex.new
+
+  # Exactly one scanner, whichever thread (feed or update) asks first.
+  def scanner = @scanner || SCANNER_LOCK.synchronize { @scanner ||= Scanner.new(ROOT).start }
   def index = scanner.snapshot.index
   def panel(app, name) = app.dashboard.panels.find { |p| p.name == name }
 
@@ -116,6 +119,8 @@ module DiskInv
   def legend(width, height)
     snap = scanner.snapshot
     idx = snap.index
+    return "Can't scan #{scanner.root}: #{snap.error}"[0, width] if snap.error
+
     head = "#{snap.done ? "" : "Scanning… "}#{R2UI::Format.bytes(idx.size(scanner.root))} in " \
            "#{idx.files(scanner.root)} files"
     zoom = zoom_root == scanner.root ? nil : "zoom: …#{zoom_root.delete_prefix(scanner.root)}"

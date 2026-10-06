@@ -172,21 +172,26 @@ module DiskInv
           min = a if a < min
           j += 1
         end
+        # The last row and the last rectangle in each take whatever is left, so float error can't
+        # leave a gap of unfilled cells along the parent's edge.
+        last = j == kids.size
         if w >= h # a column on the left
-          cw = sum / h
+          cw = last ? w : sum / h
           oy = y
           (i...j).each do |k|
-            place(kids[k], x, oy, cw, areas[k] / cw)
-            oy += areas[k] / cw
+            kh = k == j - 1 ? y + h - oy : areas[k] / cw
+            place(kids[k], x, oy, cw, kh)
+            oy += kh
           end
           x += cw
           w -= cw
         else # a row along the top
-          rh = sum / w
+          rh = last ? h : sum / w
           ox = x
           (i...j).each do |k|
-            place(kids[k], ox, y, areas[k] / rh, rh)
-            ox += areas[k] / rh
+            kw = k == j - 1 ? x + w - ox : areas[k] / rh
+            place(kids[k], ox, y, kw, rh)
+            ox += kw
           end
           y += rh
           h -= rh
@@ -230,7 +235,11 @@ module DiskInv
     def label(node, chars, fg)
       return if node.w < 8 || node.h < 2
 
-      text = node.entry.name[0, node.w - 1]
+      # One char per cell: control characters (escape sequences) and wide or zero-width ones become "?".
+      text = node.entry.name.dup.force_encoding(Encoding::UTF_8).scrub("?").each_char.map do |c|
+        cp = c.ord
+        cp < 0x20 || (0x7f..0x9f).cover?(cp) || R2UI::Canvas.cell_width(cp) != 1 ? "?" : c
+      end.join[0, node.w - 1]
       dark = "38;2;20;20;20"
       text.each_char.with_index do |c, i|
         chars[node.y][node.x + i] = c

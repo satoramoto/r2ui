@@ -14,14 +14,15 @@ module DiskInv
   # Symlinks are skipped and the walk stays on the root's volume, like Disk Inventory X.
   class Scanner
     PUBLISH = 0.25
-    Snapshot = Data.define(:rows, :index, :done, :seconds, :errors)
+    Snapshot = Data.define(:rows, :index, :done, :seconds, :errors, :error)
 
     attr_reader :root
 
     def initialize(root)
       @root = File.expand_path(root)
       @lock = Mutex.new
-      @snapshot = Snapshot.new(rows: [].freeze, index: Index.new([]), done: false, seconds: 0.0, errors: 0)
+      @snapshot = Snapshot.new(rows: [].freeze, index: Index.new([]), done: false, seconds: 0.0, errors: 0,
+                               error: nil)
       @wait = PUBLISH
     end
 
@@ -32,8 +33,19 @@ module DiskInv
       self
     end
 
-    # Scans in the calling thread (tests, snapshots).
+    # Scans in the calling thread (tests, snapshots). If the root itself can't be read, publishes a
+    # done snapshot carrying the error.
     def scan
+      walk
+    rescue SystemCallError => e
+      snap = Snapshot.new(rows: [].freeze, index: Index.new([]), done: true, seconds: 0.0, errors: 1,
+                          error: e.message)
+      @lock.synchronize { @snapshot = snap }
+    end
+
+    private
+
+    def walk
       started = clock
       published = started
       rows = [entry(@root, nil, File.basename(@root), 0, dir: true)]
@@ -75,8 +87,6 @@ module DiskInv
       publish(rows, true, clock - started, errors)
     end
 
-    private
-
     def entry(path, parent, name, size, dir:)
       Entry.new(path:, parent:, name:, size:, files: dir ? 0 : 1, kind: dir ? nil : DiskInv.kind(name), dir:)
     end
@@ -84,7 +94,7 @@ module DiskInv
     def publish(rows, done, seconds, errors)
       began = clock
       rows = rows.dup.freeze
-      snap = Snapshot.new(rows:, index: Index.new(rows), done:, seconds:, errors:)
+      snap = Snapshot.new(rows:, index: Index.new(rows), done:, seconds:, errors:, error: nil)
       @wait = [PUBLISH, (clock - began) * 4].max
       @lock.synchronize { @snapshot = snap }
     end

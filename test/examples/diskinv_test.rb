@@ -51,9 +51,35 @@ class DiskInvTest < Minitest::Test
     10.times { |y| 40.times { |x| counts[map.at(x, y)&.name] += 1 } }
 
     assert_equal 400, counts.values.sum
+    assert_equal 0, counts[nil], "every cell is filled"
     assert_in_delta 240, counts["big.mov"], 20
     assert_in_delta 80, counts["a.rb"], 20
     refute counts.key?("c.rb"), "empty files take no space"
+  end
+
+  def test_scanning_a_missing_folder_gives_a_done_snapshot_with_an_error
+    scanner = DiskInv::Scanner.new(File.join(@dir, "missing"))
+    scanner.scan
+    snap = scanner.snapshot
+
+    assert snap.done
+    assert_match(/No such file/, snap.error)
+  end
+
+  def test_treemap_labels_never_write_escapes_or_wide_characters
+    write("\e[31mred", 5000)
+    write("日本.txt", 5000)
+    scanner = DiskInv::Scanner.new(@dir)
+    scanner.scan
+    lines = DiskInv::Treemap.new(DiskInv::Index.new(scanner.snapshot.rows), @dir, 60, 12).lines
+
+    lines.each do |l|
+      plain = l.gsub(/\e\[[0-9;]*m/, "")
+      refute_includes plain, "\e"
+      assert_equal 60, R2UI::Compat::Tea::ANSI.string_width(plain)
+      assert_equal 60, plain.length
+    end
+    assert(lines.any? { |l| l.include?("?[31mred") })
   end
 
   def test_treemap_outlines_the_selection_or_the_folder_it_is_drawn_in
