@@ -2,6 +2,8 @@
 
 require "test_helper"
 require "stringio"
+require "open3"
+require "rbconfig"
 require "rails/command"
 
 module ActiveR2UI
@@ -37,12 +39,24 @@ module ActiveR2UI
     end
 
     # Without the Railtie, eager loading would expect app/tui/orders.rb to define `Orders`.
+    # Runs in a fresh process: Zeitwerk eager-loads only once, so an earlier boot in this process
+    # would make an in-process eager_load! a no-op whatever the Railtie does.
     def test_eager_loading_skips_app_tui
-      File.write(File.join(ROOT, "app", "tui", "orders.rb"), "ActiveR2UI.register(Order) { limit 1 }\n")
-      Rails.application.eager_load!
-      refute ActiveR2UI.registered?(Order)
-    ensure
-      File.delete(File.join(ROOT, "app", "tui", "orders.rb"))
+      script = <<~RUBY
+        require "test_helper"
+        File.write(File.join(ROOT, "app", "tui", "orders.rb"), "ActiveR2UI.register(Order) { limit 1 }\\n")
+        begin
+          Rails.autoloaders.main.reload # Zeitwerk lists app/tui at setup, before orders.rb existed
+          Rails.application.eager_load!
+          puts "registered=\#{ActiveR2UI.registered?(Order)}"
+        rescue Exception => e
+          puts "error=\#{e.class}: \#{e.message}"
+        end
+      RUBY
+      dir = File.expand_path("..", __dir__)
+      out, status = Open3.capture2e(RbConfig.ruby, "-I#{dir}/test", "-I#{dir}/lib", "-e", script, chdir: dir)
+      assert status.success?, out
+      assert_includes out, "registered=false"
     end
 
     def test_production_is_read_only_unless_writes_are_allowed

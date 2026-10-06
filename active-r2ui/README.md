@@ -1,6 +1,6 @@
 # active-r2ui
 
-[r2ui](../README.md) dashboards for Rails apps. Add the gem and `bin/rails tui` browses every ActiveRecord model in your terminal, with no configuration. `ActiveR2UI.register` customises a model with r2ui's resource DSL, with Rails defaults filled in.
+[r2ui](https://github.com/satoramoto/r2ui#readme) dashboards for Rails apps. Add the gem and `bin/rails tui` browses every ActiveRecord model in your terminal, with no configuration. `ActiveR2UI.register` customises a model with r2ui's resource DSL, with Rails defaults filled in.
 
 Rails 7.1+ (railties and activerecord); r2ui itself stays Rails-free.
 
@@ -68,6 +68,8 @@ Each fetch runs on r2ui's feed thread inside `Rails.application.executor.wrap` a
 ### Production
 
 When `Rails.env.production?`, every action (the blockless ones and yours) is refused with "read-only in production" unless the command was started with `--allow-writes`. Fetches only read. `ActiveR2UI.read_only = true` turns this on anywhere.
+
+The guard covers only actions declared in `ActiveR2UI.register` blocks. Actions in plain `R2UI.resource` definitions and custom key handlers in `app/tui` are not guarded; check `ActiveR2UI.read_only?` in them yourself.
 
 ## Limitations (phase 1)
 
