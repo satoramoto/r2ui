@@ -4,6 +4,8 @@ Add entries under `## Unreleased`. To cut a release, the owner renames that head
 
 ## Unreleased
 
+- **active-r2ui** (new gem in `active-r2ui/`): `bin/rails tui` browses every ActiveRecord model of a Rails 7.1+ app (model list, enter opens a model, `--snapshot` prints a frame). `ActiveR2UI.register Order do ... end` in `app/tui/` customises a model with the resource DSL and Rails defaults: inferred columns and formats, newest-first relation with a `limit`, text search, blockless named scopes and model-method actions. Fetches and actions run in the Rails executor. Actions are refused in production without `--allow-writes`. See active-r2ui/README.md.
+
 ## 0.2.0
 
 ### Upgrading from 0.1.0
