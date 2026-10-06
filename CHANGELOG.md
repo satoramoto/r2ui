@@ -4,6 +4,8 @@ Add entries under `## Unreleased`. To cut a release, the owner renames that head
 
 ## Unreleased
 
+- `examples/diskinv.rb`: a Disk Inventory X clone (folder tree with subtree totals, a squarified treemap coloured by file kind, a kinds legend; click the treemap to select, `+`/`-` to zoom). Run `ruby examples/diskinv.rb [FOLDER]`.
+
 ## 0.2.0
 
 ### Upgrading from 0.1.0
