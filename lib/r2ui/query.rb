@@ -10,6 +10,7 @@ module R2UI
   end
 
   # Turns raw rows into table lines: scope → search → group or tree → sort. Pure, so it is easy to test.
+  # For a server-side resource (DSL::Resource#server?) the source did scope, search and sort already.
   class Query
     def initialize(resource, rows, scope: nil, grouping: nil, search: nil, sort: nil, collapsed: Set.new)
       @resource = resource
@@ -19,11 +20,14 @@ module R2UI
       @search = search
       @sort_key, @sort_dir = sort || resource.default_sort
       @collapsed = collapsed
+      # Server-side rows come back scoped, searched and sorted: only scope blocks run here, and
+      # lines (or groups, or tree siblings) keep the source's order.
+      @sort_key = nil if resource.server?
     end
 
     def lines
       rows = @scope ? @scope.call(@rows) : @rows
-      rows = Search.new(@resource, @search).call(rows)
+      rows = Search.new(@resource, @search).call(rows) unless @resource.server?
       return sort(rows.map { |row| line_for(row) }) unless @grouping
 
       @grouping.tree? ? tree(rows) : groups(rows)

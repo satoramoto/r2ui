@@ -29,13 +29,15 @@ module R2UI
       @registry = registry
       @dashboard = registry.screen(name)
       resources = @dashboard.panels.filter_map(&:resource).uniq.map { |r| registry.resource(r) }
-      @feeds = resources.to_h { |r| [r.name, Feed.new(r)] }
+      @feeds = resources.to_h { |r| [r.name, Feed.for(r)] }
       @states = @dashboard.panels.to_h do |p|
         [p, p.table && p.resource && PanelState.new(registry.resource(p.resource), p.table)]
       end
       @focus = @dashboard.panels.find(&:table) || @dashboard.panels.first
       @motion = Motion.new
-      @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item), motion: @motion)
+      @requests = {}
+      @renderer = Renderer.new(registry, @feeds, @states, draw_item: method(:draw_item), motion: @motion,
+                                                          feed_for: method(:panel_feed))
       @mode = :normal
       @zoomed = false
       @state = {}
@@ -50,6 +52,7 @@ module R2UI
       @swept_at = nil
       setup = Context.new(self)
       Extensions.hooks(:setup).each { |h| setup.call(h.block) }
+      sync_requests
     end
 
     # Runs on the terminal until quit. Feeds stop on every exit path.
@@ -65,11 +68,13 @@ module R2UI
 
     def init
       ctx = Context.new(self)
+      sync_requests
       @feeds.each_value(&:start) unless @started
       @started = true
       start_components(ctx)
       Extensions.hooks(:init).each { |h| ctx.call(h.block) }
       after_update(ctx)
+      sync_requests(ctx)
       @changed = true
       [self, ctx.commands]
     end
@@ -79,6 +84,7 @@ module R2UI
       dispatch(ctx, message)
       sync_component_focus(ctx) if @components_started
       after_update(ctx)
+      sync_requests(ctx)
       @changed = true
       [self, ctx.commands]
     end
@@ -163,6 +169,17 @@ module R2UI
     # The lines a table panel showed in the last frame (Query::Line objects).
     def panel_lines(panel) = @renderer.lines.fetch(panel, [])
 
+    # The R2UI::Request a panel of a server-side resource fetches with now (nil for other panels).
+    # While "/" is open on the focused panel it keeps the last committed search: typing doesn't
+    # refetch, enter (or esc) does.
+    def panel_request(panel) = @requests[panel]
+
+    # What `panel` draws from: its resource's feed, or for a server-side resource a view of the
+    # panel's own request.
+    def panel_feed(panel, resource = @registry.resource(panel.resource))
+      @feeds.fetch(resource.name).view(@requests[panel], panel)
+    end
+
     # Status-bar hints as [key, label] pairs: extensions' first, then the core's.
     def hint_pairs(ctx = Context.new(self))
       Extensions.hooks(:hints).flat_map { |h| ctx.call(h.block) || [] } + Renderer::HINT_PAIRS
@@ -216,6 +233,41 @@ module R2UI
     end
 
     def after_update(ctx) = Extensions.hooks(:after_update).each { |h| ctx.call(h.block) }
+
+    # Server-side resources: works out each panel's Request and tells its feed which ones are
+    # wanted (the focused panel's first). Requests no panel showed before are fetched at once, by a
+    # background command on `ctx` (without one, the feed's next refresh fetches them).
+    def sync_requests(ctx = nil)
+      wanted = Hash.new { |h, k| h[k] = [] }
+      [@focus, *@dashboard.panels].uniq.each do |panel|
+        next unless panel&.resource
+
+        feed = @feeds.fetch(@registry.resource(panel.resource).name)
+        next unless feed.is_a?(ServerFeed)
+
+        wanted[feed] << (@requests[panel] = request_for(panel, feed.resource))
+      end
+      wanted.each do |feed, requests|
+        feed.want(requests).each { |request| ctx&.command(fetch_command(feed, request)) }
+      end
+    end
+
+    def request_for(panel, resource)
+      state = @states[panel]
+      return @requests[panel] || Request.for(resource) unless state
+
+      typing = @mode == :search && panel == @focus && @requests[panel]
+      Request.for(resource, scope: state.scope, search: typing ? @requests[panel].search : state.search,
+                            sort: state.sort)
+    end
+
+    # Fetches one request in the background; delivers no message (the frame reads the feed).
+    def fetch_command(feed, request)
+      proc do
+        feed.fetch(request)
+        nil
+      end
+    end
 
     # Records what this view draws, for frame_due?, and sweeps stale motion keys once a second.
     def seen_view

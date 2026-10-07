@@ -16,7 +16,7 @@ module R2UI
     # A resource definition. Built by Resource::Builder from the block given to R2UI.resource.
     class Resource
       attr_reader :name, :title, :source, :interval, :key, :parent_key, :scopes, :groupings, :columns,
-                  :searchable, :actions
+                  :searchable, :actions, :limit
 
       def self.build(name, &block)
         resource = new(name)
@@ -50,8 +50,13 @@ module R2UI
         col ? [col.key, col.sort] : nil
       end
 
-      def fetch
-        rows = source.call
+      # Server-side fetch: the `source` block takes an argument (an R2UI::Request) and returns the
+      # rows already scoped, searched, sorted and limited.
+      def server? = !source.arity.zero?
+
+      # Calls the source: with a request when it is server-side (the default view if none given).
+      def fetch(request = nil)
+        rows = server? ? source.call(request || Request.for(self)) : source.call
         rows.respond_to?(:to_ary) ? rows.to_ary : [rows]
       end
 
@@ -59,6 +64,9 @@ module R2UI
 
       def validate!
         raise Error, "resource #{name} needs a `source { ... }` block" unless source
+        if limit && !server?
+          raise Error, "resource #{name}: `limit` needs a server-side source (`source { |request| ... }`)"
+        end
         if groupings.any?(&:tree?) && !(key && parent_key)
           raise Error, "resource #{name}: tree grouping needs `key :id_attr, parent: :parent_attr`"
         end
@@ -72,7 +80,13 @@ module R2UI
 
         def title(text) = set(:title, text)
 
+        # `source { rows }` fetches everything and r2ui scopes, searches and sorts in memory.
+        # `source { |request| rows }` is server-side: it gets an R2UI::Request (scope, search,
+        # terms, sort, limit) and returns just those rows, in order.
         def source(&block) = set(:source, block)
+
+        # Server-side sources: the most rows one request asks for (Request#limit).
+        def limit(count) = set(:limit, Integer(count))
 
         # `every:` takes seconds, or anything with #to_f (an ActiveSupport::Duration).
         def refresh(every:) = set(:interval, every.to_f)
@@ -83,6 +97,8 @@ module R2UI
           set(:parent_key, parent)
         end
 
+        # With a server-side source, a scope without a block is applied by the source (it gets the
+        # name as Request#scope); a block still filters the returned rows in memory.
         def scope(name, label: nil, default: false, &filter)
           @r.scopes << Scope.new(name:, label: label || humanize(name), default:, filter:)
         end

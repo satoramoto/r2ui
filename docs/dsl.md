@@ -47,6 +47,59 @@ Resource feeds still fetch in their own threads; the runner redraws at `fps` and
 latest rows. Panels can have no resource (`panel :clock, resource: nil do ... end`) and then hold
 only extension items.
 
+## Server-side fetch
+
+A resource whose `source` block takes an argument is **server-side**: instead of fetching every
+row and letting r2ui scope, search and sort them in memory, the source gets an `R2UI::Request`
+(plain data, `lib/r2ui/request.rb`) and returns just the rows for it, already scoped, searched,
+sorted and limited. This keeps big tables (a database with a million rows) correct and fast: scope
+"pending" finds every pending row, not the pending ones among the newest 500. It is plain Ruby;
+the Rails layer (`active-r2ui`) builds its relation-backed sources on it.
+
+```ruby
+R2UI.resource :order do
+  source { |request| Orders.query(request) }   # an argument: server-side
+  limit 500                                    # Request#limit; only for server-side sources
+  key :id
+  scope :all, default: true                    # no block: the source applies it (Request#scope)
+  scope :pending
+  scope(:big) { |o| o.total > 100 }            # a block: still filters the returned rows in memory
+  group_by :status                             # grouping and trees run on the returned rows
+  index do
+    column :id, format: :id
+    column :customer
+    column :total, format: :number, sort: :desc
+  end
+  filter :customer                             # free-text terms list these as Term#fields
+end
+```
+
+| `Request` | |
+|---|---|
+| `resource` | the resource name |
+| `scope` | the panel's selected scope name (Symbol), nil if the resource has none |
+| `search` | the committed `/` text, stripped (`""` for none) |
+| `terms` | `search` parsed into `Search::Term`s: `text` (as typed), `op` (`:match` free text, `:contains` for `col~x`, or `:>`, `:<`, `:>=`, `:<=`, `:==`, `:!=`), `field` (nil for free text), `fields` (the `filter` attributes, or the text columns, for free text; `[field]` otherwise), `value` (the text, or the operand parsed by the column's format: `mem>=500M` gives a byte count; nil if it doesn't parse, which should match nothing) |
+| `sort`, `sort_key`, `sort_dir` | `[column_key, :asc \| :desc]` from `s`/`S` or the column's `sort:`, or nil |
+| `limit` | the resource's `limit`, or nil |
+
+How it runs:
+
+- Each table panel has a request from its own scope, search and sort (`app.panel_request(panel)`);
+  other panels of the resource use the defaults. Requests compare by value: panels showing the
+  same view share one fetch, panels that differ get their own (`ServerFeed`, one per resource,
+  `app.feeds[name]`). `feed.rows` / `feed.error` are the focused panel's request's.
+- When a panel's request changes (`[`/`]`, `s`/`S`, `/text⏎`, esc), `update` returns a background
+  command that fetches it at once; every wanted request is also refetched on the `refresh every:`
+  interval and by `refresh`. While `/` is open, typing doesn't fetch; enter (or esc) does.
+- Until the new request answers, the panel keeps the rows it showed. A response counts only while
+  its request is still wanted and only if no later-started fetch of the same request has landed,
+  so a slow fetch for an old search never replaces newer rows.
+- `Query` doesn't search or sort these rows and applies only scope blocks: lines, groups and tree
+  siblings keep the source's order. Selection, grouping (`g`), folding and actions work as before.
+- A fetch that raises shows `Class: message` in the panel, as for any source.
+- Zero-argument sources (`source { rows }`) are unchanged.
+
 ## The extension point
 
 `R2UI.extension(name) { ... }` (`lib/r2ui/extension.rb`). Files in `lib/r2ui/ext/*.rb` load
