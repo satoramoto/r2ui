@@ -92,21 +92,30 @@ module DiskInv
     @zoom = zoom_root.parent
   end
 
+  TREEMAP_LOCK = Mutex.new
+
   # The treemap is laid out once per scan generation, zoom and size; each frame only outlines the
-  # selection.
+  # selection. Locked: the renderer calls this, and so does the mouse extension (on the update
+  # thread) when it measures the panel.
   def treemap_view(app, width, height)
-    snap = scanner.snapshot
-    key = [snap.generation, zoom_root.object_id, width, height]
-    if key != @treemap_key
-      @children ||= Children.new
-      @treemap = Treemap.new(zoom_root, width, height, colors: snap.colors, children: @children,
-                                                       generation: snap.generation)
-      @treemap_key = key
-      @treemap_lines = nil
-    end
     sel = selected(app)
-    @treemap_lines = [sel, @treemap.lines(sel).join("\n")] unless @treemap_lines&.first.equal?(sel)
-    @treemap_lines.last
+    TREEMAP_LOCK.synchronize do
+      snap = scanner.snapshot
+      key = [snap.generation, zoom_root.object_id, width, height]
+      if key != @treemap_key
+        @children ||= Children.new
+        @treemap = Treemap.new(zoom_root, width, height, colors: snap.colors, children: @children,
+                                                         generation: snap.generation)
+        @treemap_key = key
+        @treemap_lines = nil
+      end
+      cached = @treemap_lines
+      return cached.last if cached && cached.first.equal?(sel)
+
+      text = @treemap.lines(sel).join("\n")
+      @treemap_lines = [sel, text]
+      text
+    end
   end
 
   # A click on the treemap selects that file in the tree, unfolding its folders; a right-click
@@ -114,7 +123,7 @@ module DiskInv
   def click(ctx, msg)
     app = ctx.app
     rect = app.panel_rects[panel(app, :treemap)]&.inner
-    node = rect && @treemap&.at(msg.x - rect.x, msg.y - rect.y) or return
+    node = rect && TREEMAP_LOCK.synchronize { @treemap&.at(msg.x - rect.x, msg.y - rect.y) } or return
     select(ctx, node)
     show_in_finder(node) if msg.button == RIGHT_BUTTON
   end

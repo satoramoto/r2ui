@@ -112,4 +112,19 @@ class DiskInvTest < Minitest::Test
     assert_equal "┏", plain[rect[1]][rect[0]]
     refute_includes map.lines.join, "┏", "nothing selected, no outline"
   end
+
+  # The first frame comes before the tree has a line to select.
+  def test_the_dashboard_draws_before_anything_is_selected
+    R2UI.reset!
+    ENV["DISKINV_ROOT"] = @dir
+    load File.expand_path("../../examples/diskinv.rb", __dir__) unless defined?(DiskInv::ROOT)
+    app = R2UI::App.new(R2UI.registry)
+
+    assert_nil DiskInv.selected(app)
+    assert_match(/Treemap/, app.frame(100, 30).plain_lines.join("\n"))
+    assert_match(/Treemap/, app.frame(100, 30).plain_lines.join("\n"), "and again from the cache")
+  ensure
+    ENV.delete("DISKINV_ROOT")
+    R2UI.reset!
+  end
 end
