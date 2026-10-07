@@ -49,8 +49,12 @@ module DiskInv
     SIZES = ENV["DISKINV_SIZES"] == "logical" ? :logical : :disk
     # `cloud_*`: files whose content isn't on this disk (online-only Google Drive, iCloud and
     # Dropbox placeholders): they report a size but have no blocks allocated.
-    Snapshot = Data.define(:root, :generation, :kinds, :colors, :cloud_files, :cloud_bytes, :done, :seconds,
-                           :errors, :error)
+    # macOS stores tiny files compressed in their metadata, so they also report 0 blocks; only
+    # zero-block files bigger than this count as cloud placeholders.
+    CLOUD_MIN = 4096
+    # `sizes`: the scanner's size mode (:disk or :logical).
+    Snapshot = Data.define(:root, :generation, :kinds, :colors, :cloud_files, :cloud_bytes, :sizes, :done,
+                           :seconds, :errors, :error)
 
     attr_reader :root
 
@@ -198,7 +202,7 @@ module DiskInv
             @dirs << child
             pending << [@dirs.size - 1, File.join(dir_path, name)]
           else
-            if on_disk.zero? && logical.positive? # a placeholder: its content is in the cloud
+            if on_disk.zero? && logical > CLOUD_MIN # a placeholder: its content is in the cloud
               @cloud[0] += 1
               @cloud[1] += logical
             end
@@ -243,7 +247,7 @@ module DiskInv
         Kind.new(name:, bytes:, files:, color: PALETTE.fetch(i, OTHER))
       end
       Snapshot.new(root: @root, generation: @generation, kinds:, colors: kinds.to_h { |k| [k.name, k.color] },
-                   cloud_files: @cloud[0], cloud_bytes: @cloud[1], done:, seconds:, errors:, error:)
+                   cloud_files: @cloud[0], cloud_bytes: @cloud[1], sizes: @sizes, done:, seconds:, errors:, error:)
     end
 
     def clock = Process.clock_gettime(Process::CLOCK_MONOTONIC)

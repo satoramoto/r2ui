@@ -74,6 +74,18 @@ class DiskInvTest < Minitest::Test
     assert_equal [1, 50_000_000], [disk.cloud_files, disk.cloud_bytes]
     assert_equal 50_010_000, logical.root.size
     assert_equal [1, 50_000_000], [logical.cloud_files, logical.cloud_bytes]
+    assert_equal %i[disk logical], [disk.sizes, logical.sizes]
+  end
+
+  # macOS compresses tiny files into their metadata, so they report 0 blocks too; they aren't cloud files.
+  def test_small_zero_block_files_are_not_cloud_only
+    path = File.join(@dir, "tiny.dat")
+    File.open(path, "w") { |f| f.truncate(DiskInv::Scanner::CLOUD_MIN) }
+    skip "this file system allocates blocks for sparse files" unless File.lstat(path).blocks.zero?
+
+    snap = scan(sizes: :disk)
+
+    assert_equal [0, 0], [snap.cloud_files, snap.cloud_bytes]
   end
 
   def test_scanning_a_missing_folder_gives_a_done_snapshot_with_an_error

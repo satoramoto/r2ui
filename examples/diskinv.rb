@@ -160,7 +160,7 @@ module DiskInv
     zoom = zoom_root.equal?(root) ? nil : "zoom: …#{zoom_root.path.delete_prefix(root.path)}"
     cloud = if snap.cloud_files.positive?
               "#{snap.cloud_files} cloud-only files (#{R2UI::Format.bytes(snap.cloud_bytes)}) " \
-                "#{Scanner::SIZES == :disk ? "not counted" : "counted"}"
+                "#{snap.sizes == :disk ? "not counted" : "counted"}"
             end
     lines = [head, cloud, zoom].compact.map { |l| l[0, width] }
     snap.kinds.first([height - lines.size, 0].max).each do |k|
