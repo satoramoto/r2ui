@@ -1,29 +1,64 @@
 # frozen_string_literal: true
 
-require_relative "treemap"
+require "etc"
 
 module DiskInv
-  # One file or folder. Folders have size 0 and files 0 of their own; the tree sums their subtree.
-  Entry = Data.define(:path, :parent, :name, :size, :files, :kind, :dir) do
+  # One file or folder in the scanned tree. Folders hold their whole subtree's size and file count,
+  # kept up to date while the scan runs. Equality and hash are identity: a node is a place in the
+  # tree, and hashing its members would walk its parent chain.
+  Node = Struct.new(:name, :parent, :dir, :size, :files, :kind, :children) do
     def dir? = dir
+    def hash = object_id.hash
+    def ==(other) = equal?(other)
+    alias_method :eql?, :==
+
+    # The root's name is its full path, so a path is the names from the root down.
+    def path = @path ||= parent ? File.join(parent.path, name) : name
+
+    # The folder and its ancestors up to the root, outermost first.
+    def ancestors
+      chain = []
+      node = self
+      chain.unshift(node) while (node = node.parent)
+      chain
+    end
+
+    def inspect = "#<DiskInv::Node #{path}>"
   end
 
-  # Walks a folder in a background thread and publishes a snapshot of what it has found so far,
-  # indexed, so the dashboard fills in while it scans. Indexing a big tree takes a while, so
-  # snapshots come at most every PUBLISH seconds and the scan keeps at least 80% of the time.
-  # Symlinks are skipped and the walk stays on the root's volume, like Disk Inventory X.
+  # Kinds by total size, with the treemap colour of each.
+  Kind = Data.define(:name, :bytes, :files, :color)
+
+  # Disk Inventory X-like hues, given to kinds by total size; the rest are grey.
+  PALETTE = [
+    [70, 130, 220], [220, 70, 70], [80, 180, 80], [230, 180, 40], [170, 90, 200], [50, 190, 190],
+    [240, 130, 50], [200, 90, 150], [140, 160, 60], [110, 110, 220], [180, 120, 80], [90, 160, 130]
+  ].freeze
+  OTHER = [120, 120, 120].freeze
+  FOLDER = [85, 85, 85].freeze
+
+  # Walks a folder with a pool of Ractors (each lists and lstats whole folders in parallel; plain
+  # threads would share one lock) and builds the tree on the scanner's own thread as their results
+  # come back. Readers see the live tree; `snapshot` adds the kinds and a generation that changes
+  # every PUBLISH seconds while the scan runs, for caches. Symlinks are skipped and the walk stays
+  # on the root's volume, like Disk Inventory X.
   class Scanner
     PUBLISH = 0.25
-    Snapshot = Data.define(:rows, :index, :done, :seconds, :errors, :error)
+    BATCH = 32 # folders per message to a walker
+    WORKERS = Integer(ENV.fetch("DISKINV_WORKERS", [Etc.nprocessors, 8].min))
+    Snapshot = Data.define(:root, :generation, :kinds, :colors, :done, :seconds, :errors, :error)
 
     attr_reader :root
 
-    def initialize(root)
-      @root = File.expand_path(root)
+    # `workers`: how many Ractors walk the disk; 0 walks on the scanner's thread alone.
+    def initialize(root, workers: WORKERS)
+      @workers = workers
+      @path = File.expand_path(root)
+      @root = Node.new(@path, nil, true, 0, 0, nil, [])
       @lock = Mutex.new
-      @snapshot = Snapshot.new(rows: [].freeze, index: Index.new([]), done: false, seconds: 0.0, errors: 0,
-                               error: nil)
-      @wait = PUBLISH
+      @kinds = Hash.new { |h, k| h[k] = [0, 0] }
+      @generation = 0
+      @snapshot = snap(false, 0.0, 0, nil)
     end
 
     def snapshot = @lock.synchronize { @snapshot }
@@ -33,70 +68,165 @@ module DiskInv
       self
     end
 
-    # Scans in the calling thread (tests, snapshots). If the root itself can't be read, publishes a
-    # done snapshot carrying the error.
+    # Scans in the calling thread (tests, snapshots). If the root can't be read, publishes a done
+    # snapshot carrying the error.
     def scan
-      walk
+      started = clock
+      device = File.lstat(@path).dev
+      errors = @workers.positive? ? walk_parallel(device, started) : walk_inline(device, started)
+      publish(true, clock - started, errors)
     rescue SystemCallError => e
-      snap = Snapshot.new(rows: [].freeze, index: Index.new([]), done: true, seconds: 0.0, errors: 1,
-                          error: e.message)
-      @lock.synchronize { @snapshot = snap }
+      publish(true, 0.0, 1, e.message)
+    end
+
+    # Lists folders: for each [id, path], [id, path, [name, size, dir?, ...]] (nil if unreadable).
+    # Runs inside the walkers, so it touches nothing but its arguments.
+    def self.list(work, device)
+      work.map do |id, dir|
+        flat = []
+        begin
+          Dir.each_child(dir) do |name|
+            st = File.lstat(File.join(dir, name))
+            if st.file? then flat.push(name, st.size, false)
+            elsif st.directory? && st.dev == device then flat.push(name, 0, true)
+            end
+          rescue SystemCallError
+            next
+          end
+          [id, dir, flat]
+        rescue SystemCallError
+          [id, dir, nil]
+        end
+      end
     end
 
     private
 
-    def walk
-      started = clock
-      published = started
-      rows = [entry(@root, nil, File.basename(@root), 0, dir: true)]
+    def walk_inline(device, started)
+      @dirs = [@root]
+      pending = [[0, @path]]
       errors = 0
-      device = File.lstat(@root).dev
-      pending = [@root]
+      published = started
       until pending.empty?
-        dir = pending.pop
-        begin
-          children = Dir.children(dir)
-        rescue SystemCallError
+        errors += add(Scanner.list([pending.pop], device), pending)
+        published = maybe_publish(published, started, errors)
+      end
+      errors
+    end
+
+    def walk_parallel(device, started)
+      Warning[:experimental] = false # Ractor's "experimental" notice would land on the dashboard
+      @dirs = [@root]
+      pending = [[0, @path]]
+      inbox, workers = start_workers(device)
+      inflight = Array.new(workers.size, 0)
+      errors = 0
+      published = started
+      loop do
+        workers.each_index do |i|
+          while inflight[i] < 2 && !pending.empty?
+            workers[i].send(pending.pop(BATCH))
+            inflight[i] += 1
+          end
+        end
+        break if inflight.sum.zero?
+
+        i, results = inbox.call
+        inflight[i] -= 1
+        errors += add(results, pending)
+        published = maybe_publish(published, started, errors)
+      end
+      errors
+    ensure
+      workers&.each { |w| w.send(:stop) }
+    end
+
+    # Ractor::Port on Ruby 3.5+, Ractor.yield/select before it.
+    def start_workers(device)
+      count = @workers
+      if defined?(Ractor::Port)
+        port = Ractor::Port.new
+        workers = Array.new(count) do |i|
+          Ractor.new(port, i, device) do |out, me, dev|
+            while (work = Ractor.receive) != :stop
+              out << [me, DiskInv::Scanner.list(work, dev)]
+            end
+          end
+        end
+        [-> { port.receive }, workers]
+      else
+        workers = Array.new(count) do |i|
+          Ractor.new(i, device) do |me, dev|
+            while (work = Ractor.receive) != :stop
+              Ractor.yield [me, DiskInv::Scanner.list(work, dev)]
+            end
+          end
+        end
+        [-> { Ractor.select(*workers).last }, workers]
+      end
+    end
+
+    # Adds listed folders' contents to the tree and their subfolders to `pending`. Returns how many
+    # folders couldn't be read.
+    def add(results, pending)
+      errors = 0
+      results.each do |id, dir_path, flat|
+        dir = @dirs[id]
+        if flat.nil?
           errors += 1
           next
         end
-        children.each do |name|
-          path = File.join(dir, name)
-          stat = begin
-            File.lstat(path)
-          rescue SystemCallError
-            errors += 1
-            next
-          end
-          next if stat.symlink?
 
-          if stat.directory?
-            next unless stat.dev == device
-
-            rows << entry(path, dir, name, 0, dir: true)
-            pending << path
-          elsif stat.file?
-            rows << entry(path, dir, name, stat.size, dir: false)
+        bytes = 0
+        files = 0
+        kids = dir.children
+        flat.each_slice(3) do |name, size, is_dir|
+          if is_dir
+            child = Node.new(name, dir, true, 0, 0, nil, [])
+            @dirs << child
+            pending << [@dirs.size - 1, File.join(dir_path, name)]
+          else
+            kind = -DiskInv.kind(name)
+            child = Node.new(name, dir, false, size, 1, kind, nil)
+            totals = @kinds[kind]
+            totals[0] += size
+            totals[1] += 1
+            bytes += size
+            files += 1
           end
+          kids << child
         end
-        if clock - published > @wait
-          publish(rows, false, clock - started, errors)
-          published = clock
+        node = dir
+        while node
+          node.size += bytes
+          node.files += files
+          node = node.parent
         end
       end
-      publish(rows, true, clock - started, errors)
+      errors
     end
 
-    def entry(path, parent, name, size, dir:)
-      Entry.new(path:, parent:, name:, size:, files: dir ? 0 : 1, kind: dir ? nil : DiskInv.kind(name), dir:)
+    def maybe_publish(published, started, errors)
+      now = clock
+      return published if now - published < PUBLISH
+
+      publish(false, now - started, errors)
+      now
     end
 
-    def publish(rows, done, seconds, errors)
-      began = clock
-      rows = rows.dup.freeze
-      snap = Snapshot.new(rows:, index: Index.new(rows), done:, seconds:, errors:, error: nil)
-      @wait = [PUBLISH, (clock - began) * 4].max
-      @lock.synchronize { @snapshot = snap }
+    def publish(done, seconds, errors, error = nil)
+      @dirs = nil if done
+      @generation += 1
+      s = snap(done, seconds, errors, error)
+      @lock.synchronize { @snapshot = s }
+    end
+
+    def snap(done, seconds, errors, error)
+      kinds = @kinds.sort_by { |_, (bytes, _)| -bytes }.each_with_index.map do |(name, (bytes, files)), i|
+        Kind.new(name:, bytes:, files:, color: PALETTE.fetch(i, OTHER))
+      end
+      Snapshot.new(root: @root, generation: @generation, kinds:, colors: kinds.to_h { |k| [k.name, k.color] },
+                   done:, seconds:, errors:, error:)
     end
 
     def clock = Process.clock_gettime(Process::CLOCK_MONOTONIC)
@@ -106,5 +236,19 @@ module DiskInv
   def self.kind(name)
     ext = File.extname(name)
     ext.empty? || ext == name ? "(none)" : ext.delete_prefix(".").downcase
+  end
+
+  # A folder's children with something in them, largest first. Sorting a big folder is costly, so
+  # each reader keeps a cache per scan generation.
+  class Children
+    def initialize = @cache = {}.compare_by_identity
+
+    def of(node, generation)
+      return [] unless node.dir?
+
+      @cache.clear if generation != @generation
+      @generation = generation
+      @cache[node] ||= node.children.select { |k| k.size.positive? }.sort_by! { |k| -k.size }
+    end
   end
 end

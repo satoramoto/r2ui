@@ -6,8 +6,9 @@
 #   exe/r2ui --snapshot --width 140 --height 45 examples/diskinv.rb
 #
 # The tree fills in while the scan runs. Selecting a line outlines it in the treemap; clicking the
-# treemap selects that file in the tree. + zooms the treemap into the selected folder, - zooms out,
-# o reveals the selection in Finder. Search (/) looks through the lines the tree has unfolded.
+# treemap selects that file in the tree. + zooms the treemap into the selected folder, - zooms out.
+# o shows the selection in Finder (so does a right-click on the treemap); O opens it (a folder in
+# Finder, a file in its app). Search (/) looks through the lines the tree has unfolded.
 
 require_relative "../lib/r2ui"
 require "set"
@@ -16,9 +17,10 @@ require_relative "diskinv/treemap"
 
 module DiskInv
   ROOT = File.expand_path(($PROGRAM_NAME == __FILE__ && ARGV.first) || ENV["DISKINV_ROOT"] || Dir.pwd)
+  RIGHT_BUTTON = 2 # the terminal's SGR button number, which Bubbletea 0.1.4 passes through
 
   # A tree line: a file, or a folder with its whole subtree's size and file count.
-  Line = Data.define(:path, :parent, :name, :size, :files, :kind)
+  Line = Data.define(:path, :parent, :name, :size, :files, :kind, :node)
 
   module_function
 
@@ -26,106 +28,125 @@ module DiskInv
 
   # Exactly one scanner, whichever thread (feed or update) asks first.
   def scanner = @scanner || SCANNER_LOCK.synchronize { @scanner ||= Scanner.new(ROOT).start }
-  def index = scanner.snapshot.index
   def panel(app, name) = app.dashboard.panels.find { |p| p.name == name }
 
   # The tree's rows. A big scan has far too many rows to hand the table every frame, so it gets
   # the unfolded folders' contents only, plus one level more so folded folders can unfold at once.
   # Built on the update thread by `sync`; before that (a snapshot), with everything folded.
-  def rows = @rows || visible(index, Set.new, Set.new)
+  def rows = @rows || visible(scanner.root, Set.new, Set.new)
 
-  def visible(idx, collapsed, seen)
-    root = idx[scanner.root] or return []
-    lines = [line(idx, root)]
-    open = [root.path]
+  def visible(root, collapsed, seen)
+    lines = [line(root)]
+    open = [root]
     while (dir = open.pop)
-      idx.children(dir).each do |entry|
-        lines << line(idx, entry)
-        next unless entry.dir? && !idx.children(entry.path).empty?
+      dir.children.each do |node|
+        lines << line(node)
+        next unless node.dir? && !node.children.empty?
 
-        collapsed << entry.path if seen.add?(entry.path) # new folders start folded
-        if collapsed.include?(entry.path)
-          idx.children(entry.path).each { |kid| lines << line(idx, kid) }
+        collapsed << node.path if seen.add?(node.path) # new folders start folded
+        if collapsed.include?(node.path)
+          node.children.each { |kid| lines << line(kid) }
         else
-          open << entry.path
+          open << node
         end
       end
     end
     lines
   end
 
-  def line(idx, entry)
-    Line.new(path: entry.path, parent: entry.parent, name: entry.name, size: idx.size(entry.path),
-             files: idx.files(entry.path), kind: entry.kind)
+  def line(node)
+    Line.new(path: node.path, parent: node.parent&.path, name: File.basename(node.name), size: node.size, files: node.files,
+             kind: node.kind, node:)
   end
 
   # Runs on a timer: rebuilds the rows when the scan publishes or a folder (un)folds.
   def sync(ctx)
     snap = scanner.snapshot
     collapsed = ctx.app.panel_state(panel(ctx.app, :file)).collapsed
-    key = [snap.index, collapsed.hash]
-    return if key == @synced
+    return if [snap.generation, collapsed.hash] == @synced
 
     @seen ||= Set.new
-    @rows = visible(snap.index, collapsed, @seen).freeze
-    @synced = [snap.index, collapsed.hash]
+    @rows = visible(snap.root, collapsed, @seen).freeze
+    @synced = [snap.generation, collapsed.hash]
     ctx.refresh(:file)
     return unless snap.done && !@announced
 
     @announced = true
-    ctx.flash "Scanned #{snap.rows.size} items in #{snap.seconds.round(1)}s"
+    ctx.flash "Scanned #{snap.root.files} files in #{snap.seconds.round(1)}s"
   end
 
-  # The entry on the tree's selected line.
+  # The node on the tree's selected line.
   def selected(app)
     tree = panel(app, :file)
-    app.panel_lines(tree)[app.panel_state(tree).selected]&.rows&.first
+    app.panel_lines(tree)[app.panel_state(tree).selected]&.rows&.first&.node
   end
 
-  def zoom_root = @zoom && index[@zoom] ? @zoom : scanner.root
+  def zoom_root = @zoom || scanner.root
 
   def zoom_in(app)
-    entry = selected(app) or return
-    @zoom = index[entry.path]&.dir? ? entry.path : entry.parent
+    node = selected(app) or return
+    @zoom = node.dir? ? node : node.parent
   end
 
   def zoom_out
-    @zoom = index[zoom_root]&.parent if zoom_root != scanner.root
+    @zoom = zoom_root.parent
   end
 
+  # The treemap is laid out once per scan generation, zoom and size; each frame only outlines the
+  # selection.
   def treemap_view(app, width, height)
-    @treemap = Treemap.new(index, zoom_root, width, height)
-    @treemap.lines(selected(app)&.path).join("\n")
+    snap = scanner.snapshot
+    key = [snap.generation, zoom_root.object_id, width, height]
+    if key != @treemap_key
+      @children ||= Children.new
+      @treemap = Treemap.new(zoom_root, width, height, colors: snap.colors, children: @children,
+                                                       generation: snap.generation)
+      @treemap_key = key
+      @treemap_lines = nil
+    end
+    sel = selected(app)
+    @treemap_lines = [sel, @treemap.lines(sel).join("\n")] unless @treemap_lines&.first.equal?(sel)
+    @treemap_lines.last
   end
 
-  # A click on the treemap selects that file in the tree, unfolding its folders.
+  # A click on the treemap selects that file in the tree, unfolding its folders; a right-click
+  # also shows it in Finder.
   def click(ctx, msg)
     app = ctx.app
     rect = app.panel_rects[panel(app, :treemap)]&.inner
-    entry = rect && @treemap&.at(msg.x - rect.x, msg.y - rect.y) or return
-    tree = panel(app, :file)
-    state = app.panel_state(tree)
-    (@seen ||= Set.new).merge(index.ancestors(entry.path)) # so sync doesn't fold them as new
-    index.ancestors(entry.path).each { |path| state.collapsed.delete(path) }
+    node = rect && @treemap&.at(msg.x - rect.x, msg.y - rect.y) or return
+    select(ctx, node)
+    show_in_finder(node) if msg.button == RIGHT_BUTTON
+  end
+
+  def select(ctx, node)
+    app = ctx.app
+    state = app.panel_state(panel(app, :file))
+    folders = node.ancestors.map(&:path)
+    (@seen ||= Set.new).merge(folders) # so sync doesn't fold them as new
+    folders.each { |path| state.collapsed.delete(path) }
     sync(ctx)
     lines = R2UI::Query.new(R2UI.registry.resource(:file), @rows, scope: state.scope, grouping: state.grouping,
                                                                    search: state.search, sort: state.sort,
                                                                    collapsed: state.collapsed).lines
-    at = lines.index { |l| l.id == entry.path }
+    at = lines.index { |l| l.id == node.path }
     state.move(at - state.selected, lines.size) if at
   end
+
+  def show_in_finder(node) = node && run_open("-R", node.path)
+  def open_node(node) = node && run_open(node.path)
+  def run_open(*args) = Process.detach(spawn("open", *args, %i[out err] => File::NULL))
 
   # Totals, then the kinds by total size, each with its treemap colour.
   def legend(width, height)
     snap = scanner.snapshot
-    idx = snap.index
-    return "Can't scan #{scanner.root}: #{snap.error}"[0, width] if snap.error
+    return "Can't scan #{scanner.root.path}: #{snap.error}"[0, width] if snap.error
 
-    head = "#{snap.done ? "" : "Scanning… "}#{R2UI::Format.bytes(idx.size(scanner.root))} in " \
-           "#{idx.files(scanner.root)} files"
-    zoom = zoom_root == scanner.root ? nil : "zoom: …#{zoom_root.delete_prefix(scanner.root)}"
+    root = snap.root
+    head = "#{snap.done ? "" : "Scanning… "}#{R2UI::Format.bytes(root.size)} in #{root.files} files"
+    zoom = zoom_root.equal?(root) ? nil : "zoom: …#{zoom_root.path.delete_prefix(root.path)}"
     lines = [head, zoom].compact.map { |l| l[0, width] }
-    idx.kinds.first([height - lines.size, 0].max).each do |k|
+    snap.kinds.first([height - lines.size, 0].max).each do |k|
       swatch = "\e[48;2;#{k.color.join(";")}m  \e[0m"
       name = k.name[0, [width - 22, 4].max].ljust([width - 21, 4].max)
       lines << "#{swatch} #{name}#{R2UI::Format.bytes(k.bytes).rjust(8)} #{k.files.to_s.rjust(8)}"
@@ -160,10 +181,8 @@ R2UI.dashboard do
   on_click { |msg, panel| DiskInv.click(self, msg) if panel&.name == :treemap }
   on_key("+", "=", help: "zoom in") { DiskInv.zoom_in(app) }
   on_key("-", help: "zoom out") { DiskInv.zoom_out }
-  on_key("o", help: "reveal") do
-    entry = DiskInv.selected(app)
-    system("open", "-R", entry.path) if entry
-  end
+  on_key("o", help: "show in Finder") { DiskInv.show_in_finder(DiskInv.selected(app)) }
+  on_key("O", help: "open") { DiskInv.open_node(DiskInv.selected(app)) }
 
   row height: 16 do
     panel :file, span: 3, title: "Files" do
@@ -175,7 +194,7 @@ R2UI.dashboard do
   end
 
   row do
-    panel :treemap, resource: nil do
+    panel :treemap, resource: nil, title: "Treemap (click: select · right-click: show in Finder)" do
       view { DiskInv.treemap_view(app, width, height) }
     end
   end
