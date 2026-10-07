@@ -46,13 +46,21 @@ module DiskInv
     PUBLISH = 0.25
     BATCH = 32 # folders per message to a walker
     WORKERS = Integer(ENV.fetch("DISKINV_WORKERS", [Etc.nprocessors, 8].min))
-    Snapshot = Data.define(:root, :generation, :kinds, :colors, :done, :seconds, :errors, :error)
+    SIZES = ENV["DISKINV_SIZES"] == "logical" ? :logical : :disk
+    # `cloud_*`: files whose content isn't on this disk (online-only Google Drive, iCloud and
+    # Dropbox placeholders): they report a size but have no blocks allocated.
+    Snapshot = Data.define(:root, :generation, :kinds, :colors, :cloud_files, :cloud_bytes, :done, :seconds,
+                           :errors, :error)
 
     attr_reader :root
 
     # `workers`: how many Ractors walk the disk; 0 walks on the scanner's thread alone.
-    def initialize(root, workers: WORKERS)
+    # `sizes`: :disk counts the space a file takes on disk (its allocated blocks, as `du` does), so
+    # online-only cloud files count as nothing; :logical counts the size each file reports.
+    def initialize(root, workers: WORKERS, sizes: SIZES)
       @workers = workers
+      @sizes = sizes
+      @cloud = [0, 0]
       @path = File.expand_path(root)
       @root = Node.new(@path, nil, true, 0, 0, nil, [])
       @lock = Mutex.new
@@ -79,16 +87,16 @@ module DiskInv
       publish(true, 0.0, 1, e.message)
     end
 
-    # Lists folders: for each [id, path], [id, path, [name, size, dir?, ...]] (nil if unreadable).
-    # Runs inside the walkers, so it touches nothing but its arguments.
+    # Lists folders: for each [id, path], [id, path, [name, bytes on disk, bytes, dir?, ...]] (nil if
+    # unreadable). Runs inside the walkers, so it touches nothing but its arguments.
     def self.list(work, device)
       work.map do |id, dir|
         flat = []
         begin
           Dir.each_child(dir) do |name|
             st = File.lstat(File.join(dir, name))
-            if st.file? then flat.push(name, st.size, false)
-            elsif st.directory? && st.dev == device then flat.push(name, 0, true)
+            if st.file? then flat.push(name, st.blocks * 512, st.size, false)
+            elsif st.directory? && st.dev == device then flat.push(name, 0, 0, true)
             end
           rescue SystemCallError
             next
@@ -184,12 +192,17 @@ module DiskInv
         bytes = 0
         files = 0
         kids = dir.children
-        flat.each_slice(3) do |name, size, is_dir|
+        flat.each_slice(4) do |name, on_disk, logical, is_dir|
           if is_dir
             child = Node.new(name, dir, true, 0, 0, nil, [])
             @dirs << child
             pending << [@dirs.size - 1, File.join(dir_path, name)]
           else
+            if on_disk.zero? && logical.positive? # a placeholder: its content is in the cloud
+              @cloud[0] += 1
+              @cloud[1] += logical
+            end
+            size = @sizes == :disk ? on_disk : logical
             kind = -DiskInv.kind(name)
             child = Node.new(name, dir, false, size, 1, kind, nil)
             totals = @kinds[kind]
@@ -230,7 +243,7 @@ module DiskInv
         Kind.new(name:, bytes:, files:, color: PALETTE.fetch(i, OTHER))
       end
       Snapshot.new(root: @root, generation: @generation, kinds:, colors: kinds.to_h { |k| [k.name, k.color] },
-                   done:, seconds:, errors:, error:)
+                   cloud_files: @cloud[0], cloud_bytes: @cloud[1], done:, seconds:, errors:, error:)
     end
 
     def clock = Process.clock_gettime(Process::CLOCK_MONOTONIC)

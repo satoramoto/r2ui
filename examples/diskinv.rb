@@ -9,6 +9,10 @@
 # treemap selects that file in the tree. + zooms the treemap into the selected folder, - zooms out.
 # o shows the selection in Finder (so does a right-click on the treemap); O opens it (a folder in
 # Finder, a file in its app). Search (/) looks through the lines the tree has unfolded.
+#
+# Sizes are space on disk (allocated blocks, as `du` shows), so online-only Google Drive, iCloud and
+# Dropbox files count as nothing; the Kinds panel says how many there are. DISKINV_SIZES=logical
+# counts the size each file reports instead.
 
 require_relative "../lib/r2ui"
 require "set"
@@ -154,7 +158,11 @@ module DiskInv
     root = snap.root
     head = "#{snap.done ? "" : "Scanning… "}#{R2UI::Format.bytes(root.size)} in #{root.files} files"
     zoom = zoom_root.equal?(root) ? nil : "zoom: …#{zoom_root.path.delete_prefix(root.path)}"
-    lines = [head, zoom].compact.map { |l| l[0, width] }
+    cloud = if snap.cloud_files.positive?
+              "#{snap.cloud_files} cloud-only files (#{R2UI::Format.bytes(snap.cloud_bytes)}) " \
+                "#{Scanner::SIZES == :disk ? "not counted" : "counted"}"
+            end
+    lines = [head, cloud, zoom].compact.map { |l| l[0, width] }
     snap.kinds.first([height - lines.size, 0].max).each do |k|
       swatch = "\e[48;2;#{k.color.join(";")}m  \e[0m"
       name = k.name[0, [width - 22, 4].max].ljust([width - 21, 4].max)
