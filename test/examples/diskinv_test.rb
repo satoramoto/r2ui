@@ -27,8 +27,9 @@ class DiskInvTest < Minitest::Test
     File.write(path, "x" * bytes)
   end
 
-  def scan(dir = @dir, workers: 2)
-    scanner = DiskInv::Scanner.new(dir, workers:)
+  # Logical sizes by default, so the numbers don't depend on the file system's block size.
+  def scan(dir = @dir, workers: 2, sizes: :logical)
+    scanner = DiskInv::Scanner.new(dir, workers:, sizes:)
     scanner.scan
     scanner.snapshot
   end
@@ -58,6 +59,33 @@ class DiskInvTest < Minitest::Test
     assert_equal %w[mov rb txt], @snap.kinds.map(&:name)
     assert_equal [3000, 3], [@snap.kinds[1].bytes, @snap.kinds[1].files]
     assert_equal [root, find(root, "src"), find(root, "src/deep")], find(root, "src/deep/c.rb").ancestors
+  end
+
+  # A sparse file reports a size with no blocks allocated, like an online-only cloud file.
+  def test_disk_sizes_count_cloud_only_files_as_nothing
+    File.open(File.join(@dir, "drive.mov"), "w") { |f| f.truncate(50_000_000) }
+    skip "this file system allocates blocks for sparse files" unless File.lstat(File.join(@dir, "drive.mov")).blocks.zero?
+
+    disk = scan(sizes: :disk)
+    logical = scan
+
+    assert_equal 0, find(disk.root, "drive.mov").size
+    assert_operator disk.root.size, :<, 1_000_000, "the real files only, rounded up to blocks"
+    assert_equal [1, 50_000_000], [disk.cloud_files, disk.cloud_bytes]
+    assert_equal 50_010_000, logical.root.size
+    assert_equal [1, 50_000_000], [logical.cloud_files, logical.cloud_bytes]
+    assert_equal %i[disk logical], [disk.sizes, logical.sizes]
+  end
+
+  # macOS compresses tiny files into their metadata, so they report 0 blocks too; they aren't cloud files.
+  def test_small_zero_block_files_are_not_cloud_only
+    path = File.join(@dir, "tiny.dat")
+    File.open(path, "w") { |f| f.truncate(DiskInv::Scanner::CLOUD_MIN) }
+    skip "this file system allocates blocks for sparse files" unless File.lstat(path).blocks.zero?
+
+    snap = scan(sizes: :disk)
+
+    assert_equal [0, 0], [snap.cloud_files, snap.cloud_bytes]
   end
 
   def test_scanning_a_missing_folder_gives_a_done_snapshot_with_an_error
