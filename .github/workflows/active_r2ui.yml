@@ -1,0 +1,29 @@
+name: active-r2ui
+
+on:
+  pull_request:
+    paths:
+      - "active-r2ui/**"
+      - "lib/**"
+      - ".github/workflows/active_r2ui.yml"
+  push:
+    branches: [main]
+    paths:
+      - "active-r2ui/**"
+      - "lib/**"
+      - ".github/workflows/active_r2ui.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: active-r2ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+          working-directory: active-r2ui
+      - run: bundle exec rake test

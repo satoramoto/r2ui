@@ -4,6 +4,7 @@ Add entries under `## Unreleased`. To cut a release, the owner renames that head
 
 ## Unreleased
 
+- **active-r2ui** (new gem in `active-r2ui/`): `bin/rails tui` browses every ActiveRecord model of a Rails 7.1+ app (model list, enter opens a model, `--snapshot` prints a frame). `ActiveR2UI.register Order do ... end` in `app/tui/` customises a model with the resource DSL and Rails defaults: inferred columns and formats, newest-first relation with a `limit`, text search, blockless named scopes and model-method actions. Fetches and actions run in the Rails executor. Actions are refused in production without `--allow-writes`. See active-r2ui/README.md.
 - `examples/diskinv.rb`: a Disk Inventory X clone (folder tree with subtree totals, a squarified treemap coloured by file kind, a kinds legend; click the treemap to select, `+`/`-` to zoom, `o` or right-click to show in Finder, `O` to open). Parallel Ractor scan: about 8 s for 900k files. Run `ruby examples/diskinv.rb [FOLDER]`.
 
 ## 0.2.0

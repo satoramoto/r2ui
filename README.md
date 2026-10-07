@@ -153,6 +153,6 @@ bubbles itself is still installed as a gem (`gem install bubbles`); bubbletea an
 
 Open PRs against `develop`; `main` holds released code only. Releases and hotfixes are cut from GitHub Actions; see [docs/releasing.md](docs/releasing.md).
 
-## Next: active_tui
+## Rails: active-r2ui
 
-A Rails engine on top of the same DSL: `ActiveTui.register Order do ... end` reads columns, scopes and associations from the model, `source` defaults to the relation, and actions become model methods. This gem stays Rails-free.
+A second gem in this repo, [`active-r2ui`](active-r2ui/README.md), puts the same DSL on Rails. Add it, and `bin/rails tui` browses every ActiveRecord model with no configuration. `ActiveR2UI.register Order do ... end` customises a model: columns are inferred from the table, `source` defaults to the relation, blockless scopes and actions call the model's scopes and methods, and actions are read-only in production unless allowed. This gem stays Rails-free.
