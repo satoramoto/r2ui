@@ -141,18 +141,49 @@ class DiskInvTest < Minitest::Test
     refute_includes map.lines.join, "┏", "nothing selected, no outline"
   end
 
+  # The example loads once per process (it defines constants); its registry is kept here, since
+  # other tests reset R2UI's.
+  def self.example_registry
+    @example_registry ||= begin
+      R2UI.reset!
+      ENV["DISKINV_ROOT"] = Dir.mktmpdir
+      load File.expand_path("../../examples/diskinv.rb", __dir__)
+      R2UI.registry
+    ensure
+      ENV.delete("DISKINV_ROOT")
+      R2UI.reset!
+    end
+  end
+
   # The first frame comes before the tree has a line to select.
   def test_the_dashboard_draws_before_anything_is_selected
-    R2UI.reset!
-    ENV["DISKINV_ROOT"] = @dir
-    load File.expand_path("../../examples/diskinv.rb", __dir__) unless defined?(DiskInv::ROOT)
-    app = R2UI::App.new(R2UI.registry)
+    app = R2UI::App.new(self.class.example_registry)
 
     assert_nil DiskInv.selected(app)
     assert_match(/Treemap/, app.frame(100, 30).plain_lines.join("\n"))
     assert_match(/Treemap/, app.frame(100, 30).plain_lines.join("\n"), "and again from the cache")
-  ensure
-    ENV.delete("DISKINV_ROOT")
-    R2UI.reset!
+  end
+
+  def test_legend_lines_fit_a_narrow_panel
+    self.class.example_registry
+    kinds = [DiskInv::Kind.new(name: "plist", bytes: 27 * 2**20, files: 12_345, color: [1, 2, 3]),
+             DiskInv::Kind.new(name: "(none)", bytes: 7 * 2**20, files: 3, color: [4, 5, 6])]
+    plain = ->(lines) { lines.map { |l| l.gsub(/\e\[[0-9;]*m/, "") } }
+
+    fits = plain.(DiskInv.kind_lines(kinds, 20))
+    assert_equal ["   plist   27M 12345", "   (none) 7.0M     3"], fits, "the count fits beside a 6-cell name"
+
+    narrow = plain.(DiskInv.kind_lines(kinds, 16))
+    assert(narrow.all? { |l| l.length <= 16 }, narrow.inspect)
+    refute_match(/12345/, narrow.join, "no room for the count")
+    assert_match(/plist/, narrow.first)
+
+    wide = plain.(DiskInv.kind_lines(kinds, 40))
+    assert(wide.all? { |l| l.length <= 40 })
+    assert_match(/plist .* 12345\z/, wide.first)
+
+    cloud = "2770 cloud-only files (180G) not counted"
+    assert_equal ["2770 cloud-only files", "(180G) not counted"], DiskInv.wrap(cloud, 21)
+    assert_equal [cloud], DiskInv.wrap(cloud, 80)
   end
 end
