@@ -162,13 +162,41 @@ module DiskInv
               "#{snap.cloud_files} cloud-only files (#{R2UI::Format.bytes(snap.cloud_bytes)}) " \
                 "#{snap.sizes == :disk ? "not counted" : "counted"}"
             end
-    lines = [head, cloud, zoom].compact.map { |l| l[0, width] }
-    snap.kinds.first([height - lines.size, 0].max).each do |k|
+    lines = [head, cloud, zoom].compact.flat_map { |l| wrap(l, width) }
+    kinds = snap.kinds.first([height - lines.size, 0].max)
+    lines.concat(kind_lines(kinds, width)).join("\n")
+  end
+
+  KIND_NAME = 4 # the fewest cells a kind's name gets
+
+  # Swatch, name, size and file count. The count is dropped when the panel is too narrow for it,
+  # and names get what's left.
+  def kind_lines(kinds, width)
+    sizes = kinds.map { |k| R2UI::Format.bytes(k.bytes) }
+    size_w = sizes.map(&:length).max.to_i
+    files_w = kinds.map { |k| k.files.to_s.length }.max.to_i
+    fixed = 3 + 1 + size_w # swatch and a space; a space and the size
+    show_files = width - fixed - 1 - files_w >= KIND_NAME + 2
+    name_w = [width - fixed - (show_files ? 1 + files_w : 0), KIND_NAME].max
+    kinds.zip(sizes).map do |k, size|
+      name = k.name.length > name_w ? "#{k.name[0, name_w - 1]}…" : k.name.ljust(name_w)
       swatch = "\e[48;2;#{k.color.join(";")}m  \e[0m"
-      name = k.name[0, [width - 22, 4].max].ljust([width - 21, 4].max)
-      lines << "#{swatch} #{name}#{R2UI::Format.bytes(k.bytes).rjust(8)} #{k.files.to_s.rjust(8)}"
+      "#{swatch} #{name} #{size.rjust(size_w)}#{show_files ? " #{k.files.to_s.rjust(files_w)}" : ""}"
     end
-    lines.join("\n")
+  end
+
+  # Splits text into lines of at most `width` cells, at spaces where it can.
+  def wrap(text, width)
+    return [text] if width <= 0 || text.length <= width
+
+    text.split(" ").each_with_object([+""]) do |word, out|
+      word.scan(/.{1,#{width}}/).each do |part|
+        if out.last.empty? then out.last << part
+        elsif out.last.length + 1 + part.length <= width then out.last << " " << part
+        else out << part.dup
+        end
+      end
+    end
   end
 end
 
