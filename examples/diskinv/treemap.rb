@@ -22,7 +22,7 @@ module DiskInv
       @boxes = []
       @by_node = {}.compare_by_identity
       @cells = Array.new([height, 0].max) { Array.new([width, 0].max) }
-      return if width <= 0 || height <= 0 || root.size.zero?
+      return if width <= 0 || height <= 0 || total(root, @children.of(root, generation)).zero?
 
       place(root, 0.0, 0.0, width.to_f, height * ASPECT)
       @base = render_base
@@ -76,13 +76,18 @@ module DiskInv
       return if cw <= 0 || ch <= 0
 
       kids = cw < 2 || ch < 2 ? [] : @children.of(node, @generation)
+      kids = [] if total(node, kids).zero?
       box = Box.new(node:, x: cx, y: cy, w: cw, h: ch, leaf: kids.empty?, style: style(node, @boxes.size.odd?))
       @boxes << box
       @by_node[node] = box
       return cover(box) if box.leaf
 
-      squarify(node, kids, x, y, w, h, node.size.to_f)
+      squarify(node, kids, x, y, w, h, total(node, kids).to_f)
     end
+
+    # Mid-scan a folder's own size can lag its children's (a file's size lands before its
+    # ancestors' are bumped), so lay out by whichever is larger.
+    def total(node, kids) = [node.size, kids.sum(&:size)].max
 
     def cover(box)
       box.h.times { |dy| row = @cells[box.y + dy]; box.w.times { |dx| row[box.x + dx] = box } }

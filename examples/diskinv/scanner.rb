@@ -75,7 +75,7 @@ module DiskInv
       device = File.lstat(@path).dev
       errors = @workers.positive? ? walk_parallel(device, started) : walk_inline(device, started)
       publish(true, clock - started, errors)
-    rescue SystemCallError => e
+    rescue StandardError => e
       publish(true, 0.0, 1, e.message)
     end
 
@@ -138,7 +138,11 @@ module DiskInv
       end
       errors
     ensure
-      workers&.each { |w| w.send(:stop) }
+      workers&.each do |w|
+        w.send(:stop)
+      rescue StandardError
+        nil # a dead worker can't take :stop; the rest still must
+      end
     end
 
     # Ractor::Port on Ruby 3.5+, Ractor.yield/select before it.

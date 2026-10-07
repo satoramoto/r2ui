@@ -78,6 +78,14 @@ class DiskInvTest < Minitest::Test
     refute counts.key?("c.rb"), "empty files take no space"
   end
 
+  def test_treemap_lays_out_a_folder_whose_size_lags_its_children_mid_scan
+    root = DiskInv::Node.new("/r", nil, true, 0, 0, nil, [])
+    root.children << DiskInv::Node.new("f.txt", root, false, 500, 1, "Text", nil)
+    map = DiskInv::Treemap.new(root, 20, 6)
+
+    assert(6.times.all? { |y| 20.times.all? { |x| map.at(x, y) } }, "every cell is filled")
+  end
+
   def test_treemap_labels_never_write_escapes_or_wide_characters
     write("\e[31mred", 5000)
     write("日本.txt", 5000)
