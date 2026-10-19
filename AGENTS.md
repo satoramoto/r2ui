@@ -16,10 +16,12 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 
 ## Tests
 
+Ruby has no compile step, so a change runs only the one targeted test file that covers it (the rows marked "Targeted"). Full suites, the conformance ratchet and the bench run in a test pass (when asked, or before a PR) and on CI. Tests are written to a spec as their own step, not alongside each change.
+
 | Command | When |
 |---|---|
-| `bundle exec rake test` | After any change in `lib/` or `conformance/lib/` (~15 s: the compat and harness tests drive real ptys) |
-| `bundle exec ruby -Itest -Ilib test/query_test.rb` | Targeted: one file |
+| `bundle exec rake test` | The full suite: in a test pass and on CI, after changes in `lib/` or `conformance/lib/` (~15 s: the compat and harness tests drive real ptys); not after each change |
+| `bundle exec ruby -Itest -Ilib test/query_test.rb` | Targeted: one file, after a change |
 | `bundle exec ruby -Itest -Ilib test/ext/<file>_test.rb` | Targeted: one DSL extension while working on it |
 | `bundle exec ruby -Itest -Ilib test/compat/bubbletea/<file>_test.rb` | Targeted: one compat test file while working in `lib/r2ui/compat/` |
 | `bundle exec ruby -Itest -Ilib test/conformance/harness_test.rb` | Targeted: the harness (`vt_test.rb` for the decoder) while working in `conformance/lib/` |
@@ -27,10 +29,10 @@ ActiveAdmin-style DSL for terminal dashboards, in plain Ruby (no runtime depende
 | `bundle exec ruby -Itest -Ilib test/cli/ext/<file>_test.rb` | Targeted: one CLI story while working on it |
 | `ruby examples/cli/deployer.rb deploy api --env production --force` (and again piped through `\| cat`) | After changing CLI output; shows the terminal and the plain rendering |
 | `exe/r2ui --snapshot --width 140 --height 45 examples/agents.rb` | After changing drawing or the example; prints one real frame |
-| `cd active-r2ui && bundle exec rake test` | After any change in `active-r2ui/` or `lib/` (~1 s: a minimal Rails app on a temporary sqlite file). CI: `.github/workflows/active_r2ui.yml` |
+| `cd active-r2ui && bundle exec rake test` | active-r2ui's suite: in a test pass and on CI, after changes in `active-r2ui/` or `lib/` (~1 s: a minimal Rails app on a temporary sqlite file). CI: `.github/workflows/active_r2ui.yml` |
 | `RUBYLIB="<repo>/active-r2ui/lib:<repo>/lib" bin/rails tui --snapshot` (and `bin/rails tui <model> --snapshot`) in a Rails app | After changing active-r2ui's drawing or defaults: one real frame from a real app. Run it in a scratch copy of the app (no `node_modules`, `tmp`, `log`), never in the app's own checkout, and delete the copy afterwards |
-| `bundle exec rake bench` | After changing drawing, Canvas, the compat renderer or ANSI width code: per-frame ms/allocations/bytes by stage vs `bench/results/baseline.json`, and whether the screens stayed the same (~80 s, run alone). `rake bench:profile` shows where the time goes. See `docs/performance.md` |
-| `bin/conformance check --ratchet [filter]` | After any change in `lib/r2ui/compat/`; fails if a case in `conformance/ratchet/` fails (CI runs it). `bin/conformance check <filter>` diffs any case against its golden; cases in `conformance/concessions/` are reported as conceded, not failed |
+| `bundle exec rake bench` | In a test pass, after changing drawing, Canvas, the compat renderer or ANSI width code: per-frame ms/allocations/bytes by stage vs `bench/results/baseline.json`, and whether the screens stayed the same (~80 s, run alone). `rake bench:profile` shows where the time goes. See `docs/performance.md` |
+| `bin/conformance check --ratchet [filter]` | In a test pass, after changes in `lib/r2ui/compat/`; fails if a case in `conformance/ratchet/` fails (CI runs it). `bin/conformance check <filter>` diffs any case against its golden; cases in `conformance/concessions/` are reported as conceded, not failed |
 | `bin/conformance record <filter>` | After adding or changing a case in `conformance/cases/`; needs the upstream gems installed. Case authors only; implementers never re-record. See `conformance/README.md` |
 
 The interactive mode needs a terminal; tests drive it through `App#press` and `App#frame` instead.
@@ -56,7 +58,7 @@ Reviewers flag only real bugs and these rules, never style:
 
 ## Releasing
 
-Work lands on `main` (there is no `develop` branch); add user-facing changes under `## Unreleased` in CHANGELOG.md. The owner releases by bumping `lib/r2ui/version.rb` and CHANGELOG.md on main and pushing a `vX.Y.Z` tag, which runs `.github/workflows/publish.yml` (RubyGems trusted publishing plus the GitHub Release); see [docs/releasing.md](docs/releasing.md). Agents never bump the version, tag or publish. `bin/gem-push` (1Password-backed `gem push`, Touch ID) is the owner's manual fallback only.
+Work lands on `main` (there is no `develop` branch); add user-facing changes under `## Unreleased` in CHANGELOG.md once per PR (one entry for the PR, not one per change). The owner releases by bumping `lib/r2ui/version.rb` and CHANGELOG.md on main and pushing a `vX.Y.Z` tag, which runs `.github/workflows/publish.yml` (RubyGems trusted publishing plus the GitHub Release); see [docs/releasing.md](docs/releasing.md). Agents never bump the version, tag or publish. `bin/gem-push` (1Password-backed `gem push`, Touch ID) is the owner's manual fallback only.
 
 ## Rules
 
