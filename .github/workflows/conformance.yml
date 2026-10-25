@@ -16,7 +16,7 @@ jobs:
     name: r2ui passes the ratchet
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
@@ -30,7 +30,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: git fetch --no-tags --depth=1 origin "$BASE_SHA"
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -52,7 +52,7 @@ jobs:
     name: goldens match the upstream gems
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
